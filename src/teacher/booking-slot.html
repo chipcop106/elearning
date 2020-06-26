@@ -1,0 +1,473 @@
+@@include('./../head.html')
+
+<body>
+
+    @@include('./../header.html')
+    <div class="content content-fixed">
+        <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0 dashboard-page">
+            <div class="book__container mg-t-15">
+                <div class="d-xl-flex align-items-center justify-content-between mg-b-30">
+                    <h4 class="mg-b-0 gradient-heading"><i class="fas fa-address-card"></i> BOOKING SCHEDULE</h4>
+                </div>
+                <div class="tab-navigation">
+                    <ul class="list-tab" id="js-list-tab">
+                        <li class="tab-item">
+                            <a href="javascript:;" class="tab-link active" data-index="0">BOOK SCHEDULE</a>
+                        </li>
+                        <li class="tab-item">
+                            <a href="javascript:;" class="tab-link " data-index="1">OPERATION LOG</a>
+                        </li>
+                        <li class="tab-item">
+                            <a href="javascript:;" class="tab-link " data-index="2">BOOKING REQUEST</a>
+                        </li>
+
+
+                    </ul>
+                </div>
+                <div class="tab-navigation-content">
+                    <div class="swiper-container" id="js-teacher__info">
+                        <div class="teacher__info-wrap swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="slide-tab-content">
+                                    <div class="book__calendar">
+                                        <div id="js-book-calendar" class="fc fc-unthemed fc-ltr" height="500"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="slide-tab-content">
+                                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Asperiores minima
+                                        nesciunt unde exercitationem vitae quibusdam reiciendis rerum necessitatibus
+                                        ipsa aliquam praesentium totam modi tempore, illum sint vero eius aperiam
+                                        cumque.</p>
+                                    <div class="table-responsive">
+                                        <table class="table table-light">
+                                            <thead>
+                                                <tr>
+                                                    <th>Operation time</th>
+                                                    <th class="tx-center">Operator</th>
+                                                    <th>Schedule time</th>
+                                                    <th class="tx-center">Slot type</th>
+                                                    <th class="tx-center">Previous status</th>
+                                                    <th class="tx-center">Updated status</th>
+                                                    <th class="tx-center">Operation type</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>20/10/2020 10:30:00 AM</td>
+                                                    <td class="tx-center">Teacher</td>
+                                                    <td>20/10/2020 10:30:00 AM</td>
+                                                    <td class="tx-center">Courses</td>
+                                                    <td class="tx-center"><span class="badge badge-danger">Closed</span>
+                                                    </td>
+                                                    <td class="tx-center"><span class="badge badge-success">Open</span>
+                                                    </td>
+                                                    <td class="tx-center">Open</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>20/10/2020 10:30:00 AM</td>
+                                                    <td class="tx-center">Teacher</td>
+                                                    <td>20/10/2020 10:30:00 AM</td>
+                                                    <td class="tx-center">Courses</td>
+                                                    <td class="tx-center"><span class="badge badge-danger">Closed</span>
+                                                    </td>
+                                                    <td class="tx-center"><span class="badge badge-success">Open</span>
+                                                    </td>
+                                                    <td class="tx-center">Open</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>20/10/2020 10:30:00 AM</td>
+                                                    <td class="tx-center">Teacher</td>
+                                                    <td>20/10/2020 10:30:00 AM</td>
+                                                    <td class="tx-center">Courses</td>
+                                                    <td class="tx-center"><span class="badge badge-danger">Closed</span>
+                                                    </td>
+                                                    <td class="tx-center"><span class="badge badge-success">Open</span>
+                                                    </td>
+                                                    <td class="tx-center">Open</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>20/10/2020 10:30:00 AM</td>
+                                                    <td class="tx-center">Teacher</td>
+                                                    <td>20/10/2020 10:30:00 AM</td>
+                                                    <td class="tx-center">Courses</td>
+                                                    <td class="tx-center"><span class="badge badge-danger">Closed</span>
+                                                    </td>
+                                                    <td class="tx-center"><span class="badge badge-success">Open</span>
+                                                    </td>
+                                                    <td class="tx-center">Open</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>20/10/2020 10:30:00 AM</td>
+                                                    <td class="tx-center">Teacher</td>
+                                                    <td>20/10/2020 10:30:00 AM</td>
+                                                    <td class="tx-center">Courses</td>
+                                                    <td class="tx-center"><span class="badge badge-danger">Closed</span>
+                                                    </td>
+                                                    <td class="tx-center"><span class="badge badge-success">Open</span>
+                                                    </td>
+                                                    <td class="tx-center">Open</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <nav aria-label="Page navigation" class="mg-t-15">
+                                        <ul class="pagination mg-b-0 justify-content-end">
+                                            <li class="page-item disabled"><a class="page-link page-link-icon"
+                                                    href="#"><i data-feather="chevron-left"></i></a></li>
+                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item"><a class="page-link page-link-icon" href="#"><i
+                                                        data-feather="chevron-right"></i></a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="slide-tab-content">
+                                    
+                                    <div class="course-horizental booked-list-teacher">
+                                        <div class="empty-error tx-center mg-y-30 bg-white">
+                                            <img src="../../assets/img/no-booking.svg" alt="image"
+                                                class="wd-200 mg-b-15">
+                                            <p class=" tx-danger tx-medium">You don't have any book lesson with student</p>
+                                        </div>
+                                        <div class="fb-summary-container pd-x-20-f pd-b-0-f pd-t-20-f ">
+                                            <form action="" method="get" class="st-date">
+                                                <div class="row">
+                                                    <div class="col-12 col-md-3 form-group">
+                                                       <select name="" id="" class="form-control">
+                                                           <option value="" selected>Course name</option>
+                                                           <option value="">IELTS 8.0 Professional</option>
+                                                       </select>
+                                                    </div>
+                                                    <div class="col-12 col-sm-6 col-md-3 form-group">
+                                                        <input type="text" name="start-day " class="form-control datetimepicker"
+                                                            placeholder="From date">
+                                                    </div>
+                                                    <div class="col-12 col-sm-6 col-md-3 form-group">
+                                                        <input type="text" name="end-day" class="form-control datetimepicker"
+                                                            placeholder="To date">
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <button class="btn btn-info btn-block"><i class="fa fa-search mg-r-5"></i> Search</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="list-wrap ">
+                                            <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="cr-item lesson-info">
+                                                    <div class="media-body  mg-l-20 pos-relative">
+                                                        <h5 class="mg-b-10 ">
+                                                            <span class="badge badge-warning">LESSON 6</span>
+                                                            <a href="lesson-detail.html" class="course-name tx-bold">IELST -
+                                                                Professional</a>
+                                                                <span class="tx-gray-400 tx-normal valign-middle">with</span>
+                                                                <a href="../account/profile.html" class="course-teacher tx-16 tx-info tx-medium valign-middle d-inline-block tx-nowrap">Nguyễn Hồng Thúy Vân</a>
+                                                        </h5>
+                                                        <div class="course-information tx-14">
+                                                            <span class="mg-r-15 tx-gray-600 tx-medium"><i
+                                                                    class="fa fa-calendar  tx-info mg-r-5"></i> Monday,
+                                                                24/06/2020</span>
+                                                            <span class="mg-r-15 tx-gray-600 tx-medium"><i
+                                                                    class="fa fa-clock  tx-info mg-r-5"></i> Start: 10:30
+                                                                AM</span>
+                                                            <span class="mg-r-15 tx-gray-600 tx-medium"><i
+                                                                    class="fa fa-clock  tx-info mg-r-5"></i> End: 11:00
+                                                                AM</span>
+                                                        </div>
+                                                        <div class="course-note mg-t-15">
+                                                            <h6 class="mg-b-3">Student notes:</h6>
+                                                            <p class="tx-14 mg-b-0">Prepare speaking topic</p>
+                                                        </div>
+                                                        <div class="course-docs mg-t-15">
+                                                            <h6 class="mg-b-3">Documents:</h6>
+                                                            <div class="docs-lists">
+                                                                <a href="#" class="file-doc"><i
+                                                                        class="fa fa-file mg-r-3"></i> <span
+                                                                        class="file-name">ReadingSpeaking</span><span
+                                                                        class="file-ext">.doc</span></a>
+                                                                <a href="#" class="file-doc"><i
+                                                                        class="fa fa-file mg-r-3"></i> <span
+                                                                        class="file-name">File name with long
+                                                                        title</span><span class="file-ext">.doc</span></a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="course-actions">
+                                                            <div class="action-left">
+                                                             
+                                                                <a href="#js-md-required" class="btn btn-sm btn-success"
+                                                                    data-toggle="modal"><i class="fas fa-edit mg-r-5"></i>
+                                                                    Note for students </a>
+                                                            </div>
+                                                            <div class="action-right">
+                                                                <span class="tx-danger">Unavailable to cancel</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="cr-item lesson-info ">
+                                                    <div class="media-body  mg-l-20 pos-relative">
+                                                        <h5 class="mg-b-10 ">
+                                                            <span class="badge badge-warning">LESSON 7</span>
+                                                            <a href="lesson-detail.html" class="course-name tx-bold">IELST -
+                                                                Professional</a>
+                                                                <span class="tx-gray-400 tx-normal valign-middle">with</span>
+                                                                <a href="../account/profile.html" class="course-teacher tx-16 tx-info tx-medium valign-middle d-inline-block tx-nowrap">Trương Văn Lam</a>
+                                                        </h5>
+                                                        <div class="course-information tx-14">
+                                                            <span class="mg-r-15 tx-gray-600 tx-medium"><i
+                                                                    class="fa fa-calendar  tx-info mg-r-5"></i> Monday,
+                                                                24/06/2020</span>
+                                                            <span class="mg-r-15 tx-gray-600 tx-medium"><i
+                                                                    class="fa fa-clock  tx-info mg-r-5"></i> Start: 10:30
+                                                                AM</span>
+                                                            <span class="mg-r-15 tx-gray-600 tx-medium"><i
+                                                                    class="fa fa-clock  tx-info mg-r-5"></i> End: 11:00
+                                                                AM</span>
+                                                        </div>
+                                                        <div class="course-note mg-t-15">
+                                                            <h6 class="mg-b-3">Student notes:</h6>
+                                                            <p class="tx-14 mg-b-0">Prepare speaking topic</p>
+                                                        </div>
+                                                        <div class="course-docs mg-t-15">
+                                                            <h6 class="mg-b-3">Documents:</h6>
+                                                            <div class="docs-lists">
+                                                                <a href="#" class="file-doc"><i
+                                                                        class="fa fa-file mg-r-3"></i> <span
+                                                                        class="file-name">ReadingSpeaking</span><span
+                                                                        class="file-ext">.doc</span></a>
+                                                                <a href="#" class="file-doc"><i
+                                                                        class="fa fa-file mg-r-3"></i> <span
+                                                                        class="file-name">File name with long
+                                                                        title</span><span class="file-ext">.doc</span></a>
+                                                            </div>
+    
+    
+                                                        </div>
+                                                        <div class="course-actions">
+                                                            <div class="action-left">
+                                                             
+                                                                <a href="#js-md-required" class="btn btn-sm btn-success"
+                                                                    data-toggle="modal"><i class="fas fa-edit mg-r-5"></i>
+                                                                    Note for students </a>
+                                                            </div>
+                                                            <div class="action-right">
+                                                                <a href="https://skype.com"
+                                                                    class="btn btn-sm btn-outline-danger" target="_blank"
+                                                                    rel="noopener" data-toggle="tooltip"
+                                                                    title="You can only cancel this lesson before start for 30 minutes !!"
+                                                                    data-placement="top"><i data-feather="x"></i> Cancel
+                                                                    lesson</a>
+                                                            </div>
+    
+                                                        </div>
+    
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="cr-item lesson-info ">
+                                                    <div class="media-body  mg-l-20 pos-relative">
+                                                        <h5 class="mg-b-10 ">
+                                                            <span class="badge badge-warning">LESSON 7</span>
+                                                            <a href="lesson-detail.html" class="course-name tx-bold">IELST -
+                                                                Professional</a>
+                                                                <span class="tx-gray-400 tx-normal valign-middle">with</span>
+                                                                <a href="../account/profile.html" class="course-teacher tx-16 tx-info tx-medium valign-middle d-inline-block tx-nowrap">Trương Văn Lam</a>
+                                                        </h5>
+                                                        <div class="course-information tx-14">
+                                                            <span class="mg-r-15 tx-gray-600 tx-medium"><i
+                                                                    class="fa fa-calendar  tx-info mg-r-5"></i> Monday,
+                                                                24/06/2020</span>
+                                                            <span class="mg-r-15 tx-gray-600 tx-medium"><i
+                                                                    class="fa fa-clock  tx-info mg-r-5"></i> Start: 10:30
+                                                                AM</span>
+                                                            <span class="mg-r-15 tx-gray-600 tx-medium"><i
+                                                                    class="fa fa-clock  tx-info mg-r-5"></i> End: 11:00
+                                                                AM</span>
+                                                        </div>
+                                                        <div class="course-note mg-t-15">
+                                                            <h6 class="mg-b-3">Student notes:</h6>
+                                                            <p class="tx-14 mg-b-0">Prepare speaking topic</p>
+                                                        </div>
+                                                        <div class="course-docs mg-t-15">
+                                                            <h6 class="mg-b-3">Documents:</h6>
+                                                            <div class="docs-lists">
+                                                                <a href="#" class="file-doc"><i
+                                                                        class="fa fa-file mg-r-3"></i> <span
+                                                                        class="file-name">ReadingSpeaking</span><span
+                                                                        class="file-ext">.doc</span></a>
+                                                                <a href="#" class="file-doc"><i
+                                                                        class="fa fa-file mg-r-3"></i> <span
+                                                                        class="file-name">File name with long
+                                                                        title</span><span class="file-ext">.doc</span></a>
+                                                            </div>
+    
+    
+                                                        </div>
+                                                        <div class="course-actions">
+                                                            <div class="action-left">
+                                                             
+                                                                <a href="#js-md-required" class="btn btn-sm btn-success"
+                                                                    data-toggle="modal"><i class="fas fa-edit mg-r-5"></i>
+                                                                    Note for students </a>
+                                                            </div>
+                                                            <div class="action-right">
+                                                                <a href="https://skype.com"
+                                                                    class="btn btn-sm btn-outline-danger" target="_blank"
+                                                                    rel="noopener" data-toggle="tooltip"
+                                                                    title="You can only cancel this lesson before start for 30 minutes !!"
+                                                                    data-placement="top"><i data-feather="x"></i> Cancel
+                                                                    lesson</a>
+                                                            </div>
+    
+                                                        </div>
+    
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="cr-item lesson-info ">
+                                                    <div class="media-body  mg-l-20 pos-relative">
+                                                        <h5 class="mg-b-10 ">
+                                                            <span class="badge badge-warning">LESSON 7</span>
+                                                            <a href="lesson-detail.html" class="course-name tx-bold">IELST -
+                                                                Professional for Beginner Student</a>
+                                                                <span class="tx-gray-400 tx-normal valign-middle">with</span>
+                                                                <a href="../account/profile.html" class="course-teacher tx-16 tx-info tx-medium valign-middle d-inline-block tx-nowrap">Trương Văn Lam</a>
+                                                        </h5>
+                                                        <div class="course-information tx-14">
+                                                            <span class="mg-r-15 tx-gray-600 tx-medium"><i
+                                                                    class="fa fa-calendar  tx-info mg-r-5"></i> Monday,
+                                                                24/06/2020</span>
+                                                            <span class="mg-r-15 tx-gray-600 tx-medium"><i
+                                                                    class="fa fa-clock  tx-info mg-r-5"></i> Start: 10:30
+                                                                AM</span>
+                                                            <span class="mg-r-15 tx-gray-600 tx-medium"><i
+                                                                    class="fa fa-clock  tx-info mg-r-5"></i> End: 11:00
+                                                                AM</span>
+                                                        </div>
+                                                        <div class="course-note mg-t-15">
+                                                            <h6 class="mg-b-3">Student notes:</h6>
+                                                            <p class="tx-14 mg-b-0">Prepare speaking topic</p>
+                                                        </div>
+                                                        <div class="course-docs mg-t-15">
+                                                            <h6 class="mg-b-3">Documents:</h6>
+                                                            <div class="docs-lists">
+                                                                <a href="#" class="file-doc"><i
+                                                                        class="fa fa-file mg-r-3"></i> <span
+                                                                        class="file-name">ReadingSpeaking</span><span
+                                                                        class="file-ext">.doc</span></a>
+                                                                <a href="#" class="file-doc"><i
+                                                                        class="fa fa-file mg-r-3"></i> <span
+                                                                        class="file-name">File name with long
+                                                                        title</span><span class="file-ext">.doc</span></a>
+                                                            </div>
+    
+    
+                                                        </div>
+                                                        <div class="course-actions">
+                                                            <div class="action-left">
+                                                             
+                                                                <a href="#js-md-required" class="btn btn-sm btn-success"
+                                                                    data-toggle="modal"><i class="fas fa-edit mg-r-5"></i>
+                                                                    Note for students </a>
+                                                            </div>
+                                                            <div class="action-right">
+                                                                <a href="https://skype.com"
+                                                                    class="btn btn-sm btn-outline-danger" target="_blank"
+                                                                    rel="noopener" data-toggle="tooltip"
+                                                                    title="You can only cancel this lesson before start for 30 minutes !!"
+                                                                    data-placement="top"><i data-feather="x"></i> Cancel
+                                                                    lesson</a>
+                                                            </div>
+    
+                                                        </div>
+    
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- Modal cancel -->
+    <div class="modal fade effect-scale" id="md-active-slot" tabindex="-1" role="dialog" aria-labelledby="active-slot"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newCampaignTitle">Set available for this !!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Date: <span id="js-date-time" class="tx-medium"></span></p>
+                    <p>Start time: <span id="js-start-time" class="tx-medium"></span></p>
+                    <p>End time: <span id="js-end-time" class="tx-medium"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Open slot</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @@include('./../footer.html')
+    <link rel="stylesheet" href="../../assets/js/fullcalendar-5.0.0-beta.4/lib/main.min.css">
+    <script src="../../lib/moment/min/moment.min.js"></script>
+    <script src="../../assets/js/fullcalendar-5.0.0-beta.4/lib/main.min.js"></script>
+    <script src='../../assets/js/fullcalendar-5.0.0-beta.4/lib/locales/vi.js'></script>
+
+    <script src='../../assets/js/booking-schedule.js'></script>
+
+    <script>
+        $(document).ready(function () {
+            const teacherInfoSwiper = new Swiper('.swiper-container', {
+                loop: false,
+                freeModeMomentum: false,
+                preventInteractionOnTransition: true,
+                simulateTouch: false,
+                autoHeight: true,
+            })
+
+            const listTab = document.getElementById('js-list-tab');
+            const tabLinks = listTab.querySelectorAll('.tab-link');
+            const swapTab = (e) => {
+                e.preventDefault();
+                const element = e.target;
+                const indexSlide = element.dataset?.index ?? 0;
+                teacherInfoSwiper.slideTo(indexSlide, 500, false);
+                [...tabLinks].map(link => link === element ? link.classList.add('active') : link.classList.remove('active'));
+            }
+            [...tabLinks].map(link => {
+                link.addEventListener('click', swapTab);
+            });
+
+
+        });
+    </script>
+</body>
+
+</html>
