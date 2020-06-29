@@ -30,7 +30,6 @@ const reducer = (prevState, { type, payload }) => {
 }
 const StudentForm = () => {
     const [state, dispatch] = React.useReducer(reducer, initialState);
-
     const handleChange = (e) => {
         const target = e.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;

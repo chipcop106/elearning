@@ -8,10 +8,10 @@ const initialState = {
   search: "",
 }
 const BookingLesson = () => {
-  const handleChange (e) => {
+  const handleChange = (e) => {
     console.log(e.target)
   }
-  React.useEffect(()=>{
+  React.useEffect(() => {
     $('#div-nationality input').on('change', handleChange.bind(this))
   });
 
