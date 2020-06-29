@@ -1,1 +1,75 @@
-<!doctype html><html class="loading" lang="en" data-textdirection="ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui"><meta name="description" content=""><meta name="keywords" content=""><meta name="author" content=""><title>Zim demo new layout</title><link rel="apple-touch-icon" href="../../assets/images/favicon/apple-touch-icon-152x152.png"><link rel="shortcut icon" type="image/x-icon" href="../../assets/img/favicon-zim.jpg"><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"><link href="../../lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet"><link href="../../lib/ionicons/dist/css/ionicons.min.css" rel="stylesheet"><link href="../../lib/flatpickr/dist/flatpickr.min.css" rel="stylesheet"><link href="../../lib/select2/dist/css/select2.min.css" rel="stylesheet"><link href="../../lib/animate.css/animate.min.css" rel="stylesheet"><link href="../../lib/flag-icon-css/css/flag-icon.min.css" rel="stylesheet"><link rel="stylesheet" href="../../assets/js/swiper/css/swiper.min.css"><link rel="stylesheet" href="../../assets/css/dashforge.css?v=1.3"><link rel="stylesheet" href="../../assets/css/custom.css?v=1.4"><link rel="stylesheet" href="../../assets/css/csscustom.css"><script src="../../lib/jquery/dist/jquery.min.js"></script><link href="../css/teacherProfile.css?b21db1d29ec291648bf7" rel="stylesheet"></head><body><div id="header"></div><div class="content content-fixed"><div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0"><div id="react-teacher-form"></div></div></div><div id="footer"></div><script src="../../lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script><script src="../../lib/feather-icons/dist/feather.min.js"></script><script src="../../lib/moment/min/moment.min.js"></script><script src="../../lib/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script><script src="../../lib/flatpickr/dist/flatpickr.min.js"></script><script src="../../lib/select2/dist/js/select2.min.js"></script><script src="../../assets/js/dashforge.js"></script><script src="../../assets/js/swiper/js/swiper.min.js"></script><script src="../../assets/js/custom.js"></script><script>$(document).ready((function(){$(".js-select2").select2({closeOnSelect:!1,placeholder:"What kind of teaching experience do you have?",allowHtml:!1,allowClear:!0})}))</script><script src="../js/teacherProfile.js?b21db1d29ec291648bf7"></script><script src="../js/Header.js"></script><script src="../js/Footer.js"></script></body></html>
+Html Webpack Plugin:
+<pre>
+  Error: html-webpack-plugin could not minify the generated output.
+  In production mode the html minifcation is enabled by default.
+  If you are not generating a valid html output please disable it manually.
+  You can do so by adding the following setting to your HtmlWebpackPlugin config:
+  |
+  |    minify: false
+  |
+  See https://github.com/jantimon/html-webpack-plugin#options for details.
+  For parser dedicated bugs please create an issue here:
+  https://danielruf.github.io/html-minifier-terser/
+  Parse Error: <<<<<<< HEAD:src/head.html
+        <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+      <script src="../../lib/react/umd/react.development.js" ></script>
+      <script src="../../lib/react-dom/umd/react-dom.development.js" ></script>
+      <script src="../../assets/js/utils.js" ></script>
+      <script src="../../lib/jquery/dist/jquery.min.js"></script>
+  =======
+  >>>>>>> d2678174fa145f9900fba1af41252e7d3d70f09e:src/teacher/teacherProfile.html
+      <!-- Fomik -->
+      <script src="../../lib/jquery/dist/jquery.min.js"></script>
+      <!-- some additional css here -->
+    <link href="../css/teacherProfile.css?c15d472efc87689f1f2a" rel="stylesheet"></head>
+    <!-- END: Head-->
+  <body>
+      <div id="header"></div>
+      <div class="content content-fixed">
+          <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0 ">
+              <div id="react-teacher-form"></div>
+          </div>
+      </div>
+      <div id="footer"></div>
+  <script src="../../lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../lib/feather-icons/dist/feather.min.js"></script>
+  <script src="../../lib/moment/min/moment.min.js"></script>
+  <script src="../../lib/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
+  <script src="../../lib/flatpickr/dist/flatpickr.min.js"></script>
+  <script src="../../lib/select2/dist/js/select2.min.js"></script>
+  <script src="../../assets/js/dashforge.js"></script>
+  <script src="../../assets/js/swiper/js/swiper.min.js"></script>
+  <script src="../../assets/js/custom.js"></script>
+      <script>
+          $(document).ready(function () {
+              $(".js-select2").select2({
+                  closeOnSelect: false,
+                  placeholder: "What kind of teaching experience do you have?",
+                  allowHtml: false,
+                  allowClear: true,
+                  // tags: true // создает новые опции на лету
+              });
+           });
+      </script>
+  <script src="../js/teacherProfile.js?c15d472efc87689f1f2a"></script><script src="../js/Header.js"></script><script src="../js/Footer.js"></sc  ript></body>
+  </html>
+  
+  - htmlparser.js:244 new HTMLParser
+    [elearningreact]/[html-minifier-terser]/src/htmlparser.js:244:13
+  
+  - htmlminifier.js:993 minify
+    [elearningreact]/[html-minifier-terser]/src/htmlminifier.js:993:3
+  
+  - htmlminifier.js:1354 Object.exports.minify
+    [elearningreact]/[html-minifier-terser]/src/htmlminifier.js:1354:16
+  
+  - index.js:993 HtmlWebpackPlugin.minifyHtml
+    [elearningreact]/[html-webpack-plugin]/index.js:993:46
+  
+  - index.js:422 HtmlWebpackPlugin.postProcessHtml
+    [elearningreact]/[html-webpack-plugin]/index.js:422:40
+  
+  - index.js:247 
+    [elearningreact]/[html-webpack-plugin]/index.js:247:25
+  
+</pre>

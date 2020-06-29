@@ -5,6 +5,7 @@ module.exports = {
   entry: {
     'Header': componentEnrtryPrefix + '/Header.js',
     'teacherProfile': componentEnrtryPrefix + 'TeacherProfile/teacherProfile.js',
+    'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/studentDashboard.js',
     'custom': './src/scss/custom.scss',
   },
   output: {
