@@ -1,0 +1,15 @@
+{
+    "allowJs": true,
+    "compilerOptions": {
+      "target": "es6",
+      "module": "commonjs",
+      "allowSyntheticDefaultImports": true,
+      "baseUrl": "./",
+      "paths": {
+        "~src/*": ["src/*"],
+        "~assets/*": ["assets/*"],
+        "~components/*": ["src/js/components/*"]
+      }
+    },
+    "exclude": ["node_modules", "**/node_modules/*"]
+  }
