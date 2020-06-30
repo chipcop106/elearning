@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+  <!-- BEGIN: Head-->
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <title>Zim demo new layout</title>
+    <link rel="apple-touch-icon" href="../../assets/images/favicon/apple-touch-icon-152x152.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/img/favicon-zim.jpg">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- vendor css -->
+    <link href="../../lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="../../lib/ionicons/dist/css/ionicons.min.css" rel="stylesheet">
+    <link href="../../lib/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+    <link href="../../lib/select2/dist/css/select2.min.css" rel="stylesheet">
+    <link href="../../lib/animate.css/animate.min.css" rel="stylesheet">
+    <link href="../../lib/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/js/swiper/css/swiper.min.css">
+    <!-- Mona CSS -->
+    <link rel="stylesheet" href="../../assets/css/dashforge.css?v=1.3">
+    <link rel="stylesheet" href="../../assets/css/custom.css?v=1.4">
+    <link rel="stylesheet" href="../../assets/css/csscustom.css">
+
+      <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+    <script src="../../lib/react/umd/react.development.js" ></script>
+    <script src="../../lib/react-dom/umd/react-dom.development.js" ></script>
+    <script src="../../assets/js/utils.js" ></script>
+    <script src="../../lib/jquery/dist/jquery.min.js"></script>
+    <!-- Fomik -->
+
+
+    <!-- some additional css here -->
+  </head>
+  <!-- END: Head-->
+
+<body>
+    <style>
+        .tab-body label {
+            font-weight: 600
+        }
+
+        .tab-footer {
+            display: block;
+            text-align: center;
+        }
+
+        li.nav-item {
+            flex-grow: 1
+        }
+
+        .subscription-info {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .subscription-info dt {
+            font-weight: 600;
+            padding-right: 10px;
+            text-align: right;
+            display: inline-block;
+            float: left;
+            width: 50%;
+        }
+
+        .subscription-info dd {
+            display: inline-block;
+            float: left;
+            width: 50%;
+        }
+
+        .subcription-title {
+            margin-bottom: 30px;
+        }
+    </style>
+    <div id="header"></div>
+    <div class="content content-fixed">
+      <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0 dashboard-page">
+        <div class="media d-block d-lg-flex">
+          <div class="profile-sidebar pd-lg-r-25">
+            <div class="user__infomation d-flex d-lg-block flex-wrap">
+              <div class="col-sm-12 col-md-6 col-lg-12 mg-b-20">
+                <div class="avatar avatar-xxl avatar-online"><img src="../../assets/img/teacher.jpg"
+                  class="rounded-circle" alt=""></div>
+                  <h5 class="mg-b-2 tx-spacing--1 mg-t-15">Trần Lê Phương Quyên</h5>
+                </div><!-- col -->
+                <div class="col-sm-12 col-md-6 col-lg-12  ">
+                  <label
+                  class="tx-sans tx-10 tx-semibold tx-uppercase tx-color-01 tx-spacing-1 mg-b-15">Contact Information</label>
+                  <ul class="list-unstyled profile-info-list mg-b-10">
+                    <li><i data-feather="home"></i><span class="">Gia Lai</span></li>
+                    <li><i data-feather="phone"></i><a href="tel:0987654321">0987654321</a></li>
+                    <li><i data-feather="mail"></i><a href="mailto:example@gmail.com">example@gmail.com</a>
+                    </li>
+                  </ul>
+                </div><!-- col -->
+                <div class="col-sm-12 col-md-6 col-lg-12 mg-t-20 mg-sm-t-0 mg-lg-t-25">
+                  <div class="d-flex mg-b-25">
+                    <a class="btn btn-xs btn-primary flex-fill mg-r-2 bg-orange tx-white"
+                    href="book-lesson.html">Book a Lesson</a>
+                  </div>
+                </div>
+              </div><!-- row -->
+              <div class="user__navigation">
+                <div class="col-sm-6 col-md-5 col-lg-12 mg-t-20">
+                  <label
+                  class="tx-sans tx-10 tx-semibold tx-uppercase tx-color-01 tx-spacing-1 mg-b-15">Navigation</label>
+                  <ul class="list-unstyled profile-info-list course mg-b-10">
+                    <li><i data-feather="user"></i><a href="profile.html">My Page</a></li>
+                    <li><i data-feather="aperture"></i><a href="index.html">DashBoard</a></li>
+                    <li><i data-feather="bell"></i><a href="notification.html">Notification</a></li>
+                    <li><i data-feather="calendar"></i><a href="booked-lesson.html">Booked Lessons</a></li>
+                    <li><i data-feather="calendar"></i><a href="lesson-history.html">Lesson History</a></li>
+                    <li><i data-feather="message-circle"></i><a href="feedback.html">FeedBack</a></li>
+                    <li><i data-feather="message-square"></i><a href="faq.html">FAQ</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div><!-- profile-sidebar -->
+            <div class="media-body mg-t-30 mg-lg-t-0 pd-lg-x-10 body__content">
+              <div class="d-xl-flex align-items-center justify-content-between mg-b-30">
+                <h4 class="mg-b-0 gradient-heading"><i class="fas fa-address-card"></i> MY ACCOUNT</h4>
+              </div>
+              <div class="teacher__detail__wrap card-box">
+                <div class="teacher__detail">
+                  <div class="teacher-body">
+                    <div class="tab-navigation">
+                      <ul class="list-tab" id="js-list-tab">
+                        <li class="tab-item">
+                          <a href="javascript:;" class="tab-link active" data-index="0">ACCOUNT INFO</a>
+                        </li>
+                        <li class="tab-item">
+                          <a href="javascript:;" class="tab-link " data-index="1">PURCHASED COURSE</a>
+                        </li>
+                        <li class="tab-item">
+                          <a href="javascript:;" class="tab-link " data-index="2">PAYMENT HISTORY</a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="tab-navigation-content">
+                      <div class="swiper-container" id="js-teacher__info">
+                        <div class="teacher__info-wrap swiper-wrapper">
+                          <div class="swiper-slide">
+                            <div class="slide-tab-content">
+                              <div class="content-block">
+                                <div class="introduce-content mg-b-30">
+                                  <h5 class="sub-title"><i class="fas fa-user"></i> Account
+                                  </h5>
+                                  <div id="react-student-form"></div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="swiper-slide">
+                            <div class="slide-tab-content">
+                              <div class="purchased-tab pd-x-15">
+                                <div class="subcription-title lh-base">
+                                  <h5>Purchased course</h5>
+                                  <ul class="mg-0">
+                                    <li>You can make a schedule for the duration of the course</li>
+                                    <li>You are only allowed to cancel the class schedule 30 minutes in advance</li>
+                                    <li>After the course expires, you will not be allowed to schedule more classes</li>
+                                  </ul>
+                                  <a href="#" class="mg-t-15 d-block tx-primary"><i
+                                    class="fa fa-info-circle mg-r-5"></i> For more information, see our FAQ</a>
+                                  </div>
+                                  <div class="fb-summary-container">
+                                    <div class="fb-summary pd-t-0-f bd-t-0-f">
+                                      <div class="fb-type">
+                                        <div class="fb-radio">
+                                          <label>
+                                            <input type="radio" name="fbType"
+                                            group="feedback" checked>
+                                            <span>All Course <span
+                                              class="number">32</span></span>
+                                            </label>
+                                          </div>
+                                        </div>
+                                        <div class="fb-type">
+                                          <div class="fb-radio">
+                                            <label>
+                                              <input type="radio" name="fbType"
+                                              group="feedback">
+                                              <span>On Going <span
+                                                class="number">22</span></span>
+                                              </label>
+                                            </div>
+                                          </div>
+                                          <div class="fb-type">
+                                            <div class="fb-radio">
+                                              <label>
+                                                <input type="radio" name="fbType"
+                                                group="feedback">
+                                                <span>Finished <span
+                                                  class="number">10</span></span>
+                                                </label>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="course-horizental mg-t-20">
+                                          <ul class="list-wrap">
+                                            <li class="cr-item lesson-info">
+                                              <div class="media">
+                                                <div class="teacher-information">
+                                                  <a class="teacher-avatar" href="#">
+                                                    <img src="../../assets/img/interface-2.jpg"
+                                                    class="teacher-image" alt="">
+                                                  </a>
+                                                </div>
+                                                <div class="media-body  mg-l-20 pos-relative">
+                                                  <h5 class="mg-b-10 ">
+                                                    <span class="badge badge-warning">On Going</span>
+                                                    <a href="lesson-detail.html"
+                                                    class="course-name tx-semibold">IELST - Professional</a>
+                                                  </h5>
+                                                  <div class="course-information tx-14">
+                                                    <span
+                                                    class="mg-r-5 tx-gray-900 tx-medium">Expiry Date:</span>
+                                                    <span class="mg-r-15 tx-gray-600 tx-medium"><i class="fa fa-clock  tx-info mg-r-5"></i>Start: 20/04/2020</span>
+                                                    <span class="mg-r-15 tx-gray-600 tx-medium"><i class="fa fa-clock  tx-info mg-r-5"></i>End: 20/12/2020</span>
+                                                  </div>
+                                                  <div class="course-note mg-t-5 d-flex flex-wrap align-items-center">
+                                                    <h6 class="mg-r-5 mg-b-0">Course material:</h6>
+                                                    <p class="tx-14 mg-b-0 tx-gray-600 tx-medium">ITLEST 8.0 EASY</p>
+                                                  </div>
+                                                  <div
+                                                  class="set-result pd-10 bg-light mg-t-15 rounded-5">
+                                                  <div class="d-flex flex-wrap">
+                                                    <div
+                                                    class="lesson-sum wd-50p mg-b-5">
+                                                    <span class="icon"><i
+                                                      class="fa fa-book"></i>
+                                                    Total Lessons:</span>
+                                                    <span
+                                                    class="score tx-bold">20</span>
+                                                  </div>
+                                                  <div
+                                                  class="lesson-sum wd-50p mg-b-5">
+                                                  <span class="icon"><i
+                                                    class="fa fa-book-open"></i>
+                                                  Incoming Lessons:</span>
+                                                  <span
+                                                  class="score tx-bold">20</span>
+                                                </div>
+                                                <div
+                                                class="lesson-sum wd-50p mg-b-5">
+                                                <span class="icon"><i
+                                                  class="fas fa-book-open"></i>
+                                                Completed Lessons:</span>
+                                                <span
+                                                class="score tx-bold">30</span>
+                                              </div>
+                                              <div
+                                              class="lesson-sum wd-50p mg-b-5">
+                                              <span class="icon"><i
+                                                class="fas fa-sign-out-alt"></i>
+                                              Cancellation/Absences:</span>
+                                              <span
+                                              class="score tx-bold">15</span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="course-actions">
+                                          <div class="action-left">
+                                            <a href="book-lesson.html"
+                                            class="btn btn-sm btn-primary mg-r-10"
+                                            target="_blank"
+                                            rel="noopener"><i
+                                            class="fa fa-book mg-r-5"></i>
+                                          Book lessons</a>
+                                        </div>
+                                        <div class="action-right">
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </li>
+                                <li class="cr-item lesson-info">
+                                  <div class="media">
+                                    <div class="teacher-information">
+                                      <a class="teacher-avatar" href="#">
+                                        <img src="../../assets/img/interface-2.jpg"
+                                        class="teacher-image" alt="">
+                                      </a>
+                                    </div>
+                                    <div class="media-body  mg-l-20 pos-relative">
+                                      <h5 class="mg-b-10 ">
+                                        <span
+                                        class="badge badge-success">Finished
+                                      </span>
+                                      <a href="lesson-detail.html"
+                                      class="course-name tx-semibold">IELST - Professional</a>
+                                    </h5>
+                                    <div class="course-information tx-14">
+                                      <span
+                                      class="mg-r-5 tx-gray-900 tx-medium">Expiry Date:</span>
+                                      <span
+                                      class="mg-r-15 tx-gray-600 tx-medium"><i
+                                      class="fa fa-clock  tx-info mg-r-5"></i>
+                                    Start: 20/04/2020</span>
+                                    <span
+                                    class="mg-r-15 tx-gray-600 tx-medium"><i
+                                    class="fa fa-clock  tx-info mg-r-5"></i>
+                                  End: 20/12/2020</span>
+                                </div>
+                                <div
+                                class="course-note mg-t-5 d-flex flex-wrap align-items-center">
+                                <h6 class="mg-r-5 mg-b-0">Course material:</h6>
+                                <p class="tx-14 mg-b-0 tx-gray-600 tx-medium">ITLEST 8.0 EASY</p>
+                              </div>
+                              <div
+                              class="set-result pd-10 bg-light mg-t-15 rounded-5">
+                              <div class="d-flex flex-wrap">
+                                <div
+                                class="lesson-sum wd-50p mg-b-5">
+                                <span class="icon"><i class="fa fa-book"></i>Total Lessons:</span>
+                                <span class="score tx-bold">20</span>
+                              </div>
+                              <div
+                              class="lesson-sum wd-50p mg-b-5">
+                              <span class="icon"><i class="fa fa-book-open"></i>Incoming Lessons:</span>
+                              <span class="score tx-bold">20</span>
+                            </div>
+                            <div
+                            class="lesson-sum wd-50p mg-b-5">
+                            <span class="icon"><i class="fas fa-book-open"></i>Completed Lessons:</span>
+                            <span class="score tx-bold">30</span>
+                          </div>
+                          <div class="lesson-sum wd-50p mg-b-5">
+                            <span class="icon"><i class="fas fa-sign-out-alt"></i>Cancellation/Absences:</span>
+                            <span class="score tx-bold">15</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="course-actions">
+                        <div class="action-left">
+                          <a href="#"
+                          class="btn btn-sm btn-warning mg-r-10"
+                          target="_blank"
+                          rel="noopener"><i
+                          class="fas fa-vote-yea mg-r-5"></i>
+                        Overview lesson</span></a>
+                      </div>
+                      <div class="action-right">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <nav aria-label="Page navigation" class="mg-t-15">
+            <ul class="pagination mg-b-0 justify-content-end">
+              <li class="page-item disabled"><a
+                class="page-link page-link-icon" href="#"><i
+                data-feather="chevron-left"></i></a></li>
+                <li class="page-item active"><a class="page-link"
+                  href="#">1</a></li>
+                  <li class="page-item"><a class="page-link"
+                    href="#">2</a></li>
+                    <li class="page-item"><a class="page-link"
+                      href="#">3</a></li>
+                      <li class="page-item"><a
+                        class="page-link page-link-icon" href="#"><i
+                        data-feather="chevron-right"></i></a></li>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="slide-tab-content">
+                  <div class="payment-tab">
+                    <div class="subcription-title">
+                      <div
+                      class="d-flex align-items-center justify-content-between mg-b-15">
+                      <div class="payment wd-sm-50p wd-100p">
+                        <div class="list-subscription">
+                          <dl class="subscription-info ">
+                            <dt class="">Payment method</dt>
+                            <dd class="">
+                              <span><i class="fa fa-visa"></i> VISA</span>
+                            </dd>
+                          </dl>
+                          <dl class="subscription-info ">
+                            <dt class="">Name</dt>
+                            <dd class="">
+                              <span>TRUONG VAN LAM </span>
+                            </dd>
+                          </dl>
+                          <dl class="subscription-info ">
+                            <dt class="">Date Expired</dt>
+                            <dd class="">
+                              <span>06/2022</span>
+                            </dd>
+                          </dl>
+                          <dl class="subscription-info ">
+                            <dt class="">Card number:</dt>
+                            <dd class="">
+                              <span>XXXX-XXXX-XXXX-XXXX</span>
+                            </dd>
+                          </dl>
+                        </div>
+                      </div>
+                      <div class="code wd-sm-50p wd-100p">
+                        <div
+                        class="reference-code card pd-15 wd-300 mg-x-auto">
+                        <dl class="subscription-info ">
+                          <dt class="">Referrence code:</dt>
+                          <dd class="">
+                            <span>MONA08438943</span>
+                          </dd>
+                        </dl>
+                        <dl class="subscription-info ">
+                          <dt class="">Promotion code:</dt>
+                          <dd class="">
+                            <span>MONA08438943</span>
+                          </dd>
+                        </dl>
+                      </div>
+                    </div>
+                  </div>
+                  <ul style="margin:0">
+                    <li>Long term plans will be expired on next payment
+                    date.</li>
+                    <li>For recurring plans, you can book a class after the
+                      payment date only if payment has been successfully
+                      tendered. Recurring payments are made at 12 PM on
+                      the payment date. (Lessons booked in advance will
+                    not be cancelled.)</li>
+                    <li>You can check payment history for the past year
+                    only.</li>
+                    <li>Please contact <strong>Customer Support
+                    (support@mona.media.com)</strong> for more
+                  information. </li>
+                </ul>
+                <div class="tx-center mg-y-15">
+                  <a href="javascript:;"
+                  class="btn btn-primary rounded-pill"><i
+                  class="fas fa-edit mg-r-5"></i> Credit card</a>
+                </div>
+              </div>
+              <div class="table-tiket">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Course Name</th>
+                        <th>Amount</th>
+                        <th>Method</th>
+                        <th>Payment Date</th>
+                        <th>Expiration Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>IELST 8.0 Professional</td>
+                        <td>99.5 USD</td>
+                        <td>VISA</td>
+                        <td>2020-04-29</td>
+                        <td>2020-05-29</td>
+                      </tr>
+                      <tr>
+                        <td>IELST 8.0 Professional</td>
+                        <td>99.5 USD</td>
+                        <td>VISA</td>
+                        <td>2020-04-29</td>
+                        <td>2020-05-29</td>
+                      </tr>
+                      <tr>
+                        <td>IELST 8.0 Professional</td>
+                        <td>99.5 USD</td>
+                        <td>VISA</td>
+                        <td>2020-04-29</td>
+                        <td>2020-05-29</td>
+                      </tr>
+                      <tr>
+                        <td>IELST 8.0 Professional</td>
+                        <td>99.5 USD</td>
+                        <td>VISA</td>
+                        <td>2020-04-29</td>
+                        <td>2020-05-29</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <nav aria-label="Page navigation" class="mg-t-15">
+                  <ul class="pagination mg-b-0 justify-content-center">
+                    <li class="page-item disabled"><a
+                      class="page-link page-link-icon" href="#"><i
+                      data-feather="chevron-left"></i></a>
+                    </li>
+                    <li class="page-item active"><a class="page-link"
+                      href="#">1</a></li>
+                      <li class="page-item"><a class="page-link"
+                        href="#">2</a></li>
+                        <li class="page-item"><a class="page-link"
+                          href="#">3</a></li>
+                          <li class="page-item"><a
+                            class="page-link page-link-icon" href="#"><i
+                            data-feather="chevron-right"></i></a>
+                          </li>
+                        </ul>
+                      </nav>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div><!-- media-body -->
+  </div>
+  </div>
+  </div>
+    <a href="javascript:;" id="scroll-to-top"><i class="material-icons">keyboard_arrow_up</i></a>
+<footer class="footer">
+  <div>
+    <span>&copy; <span id="js-current-year"></span></span>
+    <span>
+Công ty Mona Media. GPKD: 123456. ĐT: 1900 000. ĐC: 373/226 Lý Thường Kiệt, P8, Q. Tân Bình, HCM</a></span>
+  </div>
+  <div>
+    <nav class="nav">
+      <a href="https://mona.media" class="nav-link">Terms of use</a>
+      <a href="https://mona.media" class="nav-link">Privacy Policy</a>
+      <a href="https://mona.media" class="nav-link">License</a>
+    </nav>
+  </div>
+</footer>
+
+<script type="text/javascript">
+  document.getElementById('js-current-year').textContent = (new Date).getFullYear();
+</script>
+<script src="../../lib/jquery/dist/jquery.min.js"></script>
+<script src="../../lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../../lib/feather-icons/dist/feather.min.js"></script>
+<script src="../../lib/moment/min/moment.min.js"></script>
+<script src="../../lib/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
+<script src="../../lib/flatpickr/dist/flatpickr.min.js"></script>
+<script src="../../lib/select2/dist/js/select2.min.js"></script>
+<script src="../../assets/js/dashforge.js"></script>
+<script src="../../assets/js/swiper/js/swiper.min.js"></script>
+<script src="../../assets/js/custom.js"></script>
+
+
+
+    <script>
+        $(document).ready(function () {
+            const teacherInfoSwiper = new Swiper('.swiper-container', {
+                loop: false,
+                freeModeMomentum: false,
+                preventInteractionOnTransition: true,
+                simulateTouch: false,
+                autoHeight: true,
+            })
+
+            const listTab = document.getElementById('js-list-tab');
+            const tabLinks = listTab.querySelectorAll('.tab-link');
+            const swapTab = (e) => {
+                e.preventDefault();
+                const element = e.target;
+                const indexSlide = element.dataset?.index ?? 0;
+                teacherInfoSwiper.slideTo(indexSlide, 500, false);
+                [...tabLinks].map(link => link === element ? link.classList.add('active') : link.classList.remove('active'));
+            }
+            [...tabLinks].map(link => {
+                link.addEventListener('click', swapTab);
+            });
+
+            $(".js-select2").select2({
+                closeOnSelect: false,
+                placeholder: "Learning target",
+                allowHtml: true,
+                allowClear: true,
+                tags: true // создает новые опции на лету
+              });
+  });
+</script>
+</body>
+</html>

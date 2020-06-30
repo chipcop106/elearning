@@ -35,4 +35,4 @@ const ProfileSidebar = () => {
     )
 }
 const domContainer = document.getElementById('js-component-profilesidebar');
-ReactDOM.render(<Header />, domContainer);
+ReactDOM.render(<ProfileSidebar />, domContainer);

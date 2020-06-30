@@ -1,0 +1,16 @@
+.rating-stars {
+    position: relative;
+    display: inline-block;
+    .empty-stars {
+    color: #e1e1e1;
+    white-space: nowrap;
+    }
+    .filled-stars {
+    color: #fd7e14;
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    }
+}

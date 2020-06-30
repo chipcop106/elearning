@@ -4,8 +4,12 @@ const componentEnrtryPrefix = './src/js/components/';
 module.exports = {
   entry: {
     'Header': componentEnrtryPrefix + '/Header.js',
+    'Footer': componentEnrtryPrefix + '/Footer.js',
     'teacherProfile': componentEnrtryPrefix + 'TeacherProfile/teacherProfile.js',
     'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/studentDashboard.js',
+    'bookingLesson': componentEnrtryPrefix + 'StudentBooking/bookingLesson.js',
+    'studentProfile': componentEnrtryPrefix + 'StudentProfile/studentProfile.js',
+    'lessonHistory': componentEnrtryPrefix + 'LessonHistory/lessonHistory.js',
     'custom': './src/scss/custom.scss',
   },
   output: {
