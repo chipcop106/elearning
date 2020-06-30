@@ -81,46 +81,8 @@
     <div class="content content-fixed">
       <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0 dashboard-page">
         <div class="media d-block d-lg-flex">
-          <div class="profile-sidebar pd-lg-r-25">
-            <div class="user__infomation d-flex d-lg-block flex-wrap">
-              <div class="col-sm-12 col-md-6 col-lg-12 mg-b-20">
-                <div class="avatar avatar-xxl avatar-online"><img src="../../assets/img/teacher.jpg"
-                  class="rounded-circle" alt=""></div>
-                  <h5 class="mg-b-2 tx-spacing--1 mg-t-15">Trần Lê Phương Quyên</h5>
-                </div><!-- col -->
-                <div class="col-sm-12 col-md-6 col-lg-12  ">
-                  <label
-                  class="tx-sans tx-10 tx-semibold tx-uppercase tx-color-01 tx-spacing-1 mg-b-15">Contact Information</label>
-                  <ul class="list-unstyled profile-info-list mg-b-10">
-                    <li><i data-feather="home"></i><span class="">Gia Lai</span></li>
-                    <li><i data-feather="phone"></i><a href="tel:0987654321">0987654321</a></li>
-                    <li><i data-feather="mail"></i><a href="mailto:example@gmail.com">example@gmail.com</a>
-                    </li>
-                  </ul>
-                </div><!-- col -->
-                <div class="col-sm-12 col-md-6 col-lg-12 mg-t-20 mg-sm-t-0 mg-lg-t-25">
-                  <div class="d-flex mg-b-25">
-                    <a class="btn btn-xs btn-primary flex-fill mg-r-2 bg-orange tx-white"
-                    href="book-lesson.html">Book a Lesson</a>
-                  </div>
-                </div>
-              </div><!-- row -->
-              <div class="user__navigation">
-                <div class="col-sm-6 col-md-5 col-lg-12 mg-t-20">
-                  <label
-                  class="tx-sans tx-10 tx-semibold tx-uppercase tx-color-01 tx-spacing-1 mg-b-15">Navigation</label>
-                  <ul class="list-unstyled profile-info-list course mg-b-10">
-                    <li><i data-feather="user"></i><a href="profile.html">My Page</a></li>
-                    <li><i data-feather="aperture"></i><a href="index.html">DashBoard</a></li>
-                    <li><i data-feather="bell"></i><a href="notification.html">Notification</a></li>
-                    <li><i data-feather="calendar"></i><a href="booked-lesson.html">Booked Lessons</a></li>
-                    <li><i data-feather="calendar"></i><a href="lesson-history.html">Lesson History</a></li>
-                    <li><i data-feather="message-circle"></i><a href="feedback.html">FeedBack</a></li>
-                    <li><i data-feather="message-square"></i><a href="faq.html">FAQ</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div><!-- profile-sidebar -->
+          <div id="js-component-profilesidebar"></div>
+         <!-- profile-sidebar -->
             <div class="media-body mg-t-30 mg-lg-t-0 pd-lg-x-10 body__content">
               <div class="d-xl-flex align-items-center justify-content-between mg-b-30">
                 <h4 class="mg-b-0 gradient-heading"><i class="fas fa-address-card"></i> MY ACCOUNT</h4>
@@ -521,25 +483,7 @@
   </div>
   </div>
   </div>
-    <a href="javascript:;" id="scroll-to-top"><i class="material-icons">keyboard_arrow_up</i></a>
-<footer class="footer">
-  <div>
-    <span>&copy; <span id="js-current-year"></span></span>
-    <span>
-Công ty Mona Media. GPKD: 123456. ĐT: 1900 000. ĐC: 373/226 Lý Thường Kiệt, P8, Q. Tân Bình, HCM</a></span>
-  </div>
-  <div>
-    <nav class="nav">
-      <a href="https://mona.media" class="nav-link">Terms of use</a>
-      <a href="https://mona.media" class="nav-link">Privacy Policy</a>
-      <a href="https://mona.media" class="nav-link">License</a>
-    </nav>
-  </div>
-</footer>
-
-<script type="text/javascript">
-  document.getElementById('js-current-year').textContent = (new Date).getFullYear();
-</script>
+  <div id="footer"></div>
 <script src="../../lib/jquery/dist/jquery.min.js"></script>
 <script src="../../lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../../lib/feather-icons/dist/feather.min.js"></script>
@@ -550,9 +494,6 @@ Công ty Mona Media. GPKD: 123456. ĐT: 1900 000. ĐC: 373/226 Lý Thường Ki�
 <script src="../../assets/js/dashforge.js"></script>
 <script src="../../assets/js/swiper/js/swiper.min.js"></script>
 <script src="../../assets/js/custom.js"></script>
-
-
-
     <script>
         $(document).ready(function () {
             const teacherInfoSwiper = new Swiper('.swiper-container', {

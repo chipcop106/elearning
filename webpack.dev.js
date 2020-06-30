@@ -54,6 +54,6 @@ module.exports = merge(common,{
   watch: true,
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackTagsPlugin({ tags: ['../js/Header.js','../js/Footer.js'], append: true,  usePublicPath: false }),
+    new HtmlWebpackTagsPlugin({ tags: ['../js/Header.js','../js/Footer.js','../js/ProfileSidebar.js'], append: true,  usePublicPath: false }),
   ].concat(teacherHTML).concat(accountHTML)
 });

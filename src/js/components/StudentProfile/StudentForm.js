@@ -115,7 +115,7 @@ return (
     <p className="mg-b-0 tx-medium">Language:</p>
     </div>
     <div className="form-group col-sm-9">
-    <select name="language" id=""
+    <select name="language"
     value={state.language}
     className="form-control" onChange={handleChange}>
     <option value="1">Vietnamese</option>

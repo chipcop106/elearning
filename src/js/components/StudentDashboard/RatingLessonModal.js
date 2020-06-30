@@ -1,11 +1,21 @@
-const RatingLessonModal = ({ handleChange, course, state }) => {
+const RatingLessonModal = ({ course }) => {
+
     const onHandleChange = (e) => {
-        handleChange(e)
+        const target = e.target;
+        const value = target.type === 'checkbox' ?
+            target.checked :
+            (target.getAttribute("name") === 'ratingStars' ?
+                parseInt(target.getAttribute('for').split('-')[1]) :
+                target.value);
+
+        const key = target.getAttribute("name");
+        course[key] = value;
     }
+
     const onSubmitRating = () => {
-        console.log(state.ratingCourse);
+        console.log(course);
     }
-    return (
+    return(
         <div className="modal effect-scale" tabIndex="-1" role="dialog" id="js-md-rate">
             <div className="modal-dialog modal-dialog-centered" role="document">
                 <div className="modal-content">
