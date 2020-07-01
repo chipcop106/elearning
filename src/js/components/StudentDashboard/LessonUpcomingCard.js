@@ -1,7 +1,7 @@
 import { convertTime } from "../../utils.js";
 import { convertDay } from "../../utils.js";
 
-const LessonUpcoming = ({ onHandleChooseRequireCourse, item }) => {
+const LessonUpcomingCard = ({ onHandleChooseRequireCourse, item }) => {
 
   const handleChooseRequireCourse = (item) => {
     onHandleChooseRequireCourse(item)
@@ -68,4 +68,4 @@ const LessonUpcoming = ({ onHandleChooseRequireCourse, item }) => {
   )
 }
 
-export default LessonUpcoming;
+export default LessonUpcomingCard;

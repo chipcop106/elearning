@@ -1,9 +1,9 @@
 import { convertTime } from "../../utils.js";
 import { convertDay } from "../../utils.js";
 
-import styles from '~components/StudentDashboard/LessonHistory.module.scss';
+import styles from '~components/StudentDashboard/LessonHistoryCard.module.scss';
 
-const LessonHistory = ({ onHandleChooseRatingCourse, item }) => {
+const LessonHistoryCard = ({ onHandleChooseRatingCourse, item }) => {
   const handleChooseRatingCourse = (item) => {
     onHandleChooseRatingCourse(item)
   }
@@ -80,4 +80,4 @@ const LessonHistory = ({ onHandleChooseRatingCourse, item }) => {
   )
 }
 
-export default LessonHistory;
+export default LessonHistoryCard;

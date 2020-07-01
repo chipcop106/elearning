@@ -1,5 +1,5 @@
-import LessonHistory from "./LessonHistory"
-import LessonUpcoming from "./LessonUpcoming"
+import LessonHistoryCard from "./LessonHistoryCard"
+import LessonUpcomingCard from "./LessonUpcomingCard"
 
 import RatingLessonModal from "./RatingLessonModal"
 import RequireLessonModal from "./RequireLessonModal"
@@ -135,7 +135,7 @@ const Dashboard = () => {
                   <ul className="list-wrap">
                     {
                       state.upcomingLesson.map((item, index) => {
-                        return <LessonUpcoming
+                        return <LessonUpcomingCard
                           key={index}
                           onHandleChooseRequireCourse={handleChooseRequireCourse}
                           item={item} />
@@ -153,7 +153,7 @@ const Dashboard = () => {
                   <ul className="list-wrap">
                     {
                       state.lessonHistory.map((item, index) => {
-                        return <LessonHistory
+                        return <LessonHistoryCard
                           key={index}
                           onHandleChooseRatingCourse={handleChooseRatingCourse}
                           item={item} />

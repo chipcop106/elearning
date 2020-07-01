@@ -8,11 +8,11 @@ module.exports = {
     'ProfileSidebar': componentEnrtryPrefix + '/ProfileSidebar.js',
     
     'teacherProfile': componentEnrtryPrefix + 'TeacherProfile/teacherProfile.js',
-    'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/studentDashboard.js',
-    'bookingLesson': componentEnrtryPrefix + 'StudentBooking/bookingLesson.js',
-    'studentProfile': componentEnrtryPrefix + 'StudentProfile/studentProfile.js',
-    'lessonHistory': componentEnrtryPrefix + 'LessonHistory/lessonHistory.js',
-    'bookedLesson': componentEnrtryPrefix + 'BookedLesson/bookedLesson.js',
+    'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/StudentDashboard.js',
+    'bookingLesson': componentEnrtryPrefix + 'StudentBooking/BookingLesson.js',
+    'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js',
+    'lessonHistory': componentEnrtryPrefix + 'LessonHistory/LessonHistory.js',
+    'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js',
     'custom': './src/scss/custom.scss',
   },
   output: {

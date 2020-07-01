@@ -2,8 +2,8 @@ import { convertDay } from '../../utils'
 import { convertTime } from '../../utils'
 import RatingLessonModal from '../StudentDashBoard/RatingLessonModal'
 import RequireLessonModal from '../StudentDashboard/RequireLessonModal'
-import LessonHistory from "../StudentDashBoard/LessonHistory";
-import LessonUpcoming from "../StudentDashBoard/LessonUpcoming";
+import LessonHistoryCard from "../StudentDashBoard/LessonHistoryCard";
+import LessonUpcomingCard from "../StudentDashBoard/LessonUpcomingCard";
 
 import styles from '~components/BookedLesson/bookedLesson.module.scss'
 
@@ -108,7 +108,7 @@ const BookedLesson = () => {
       <ul className="list-wrap">
         {
           state.upcomingLesson.map((item, index) => {
-            return <LessonUpcoming
+            return <LessonUpcomingCard
                     key={index}
                     onHandleChooseRequireCourse={handleChooseRequireCourse}
                     item={item} />
@@ -116,7 +116,7 @@ const BookedLesson = () => {
         }
         {
           state.lessonHistory.map((item, index) => {
-            return <LessonHistory
+            return <LessonHistoryCard
                     key={index}
                     onHandleChooseRatingCourse={handleChooseRatingCourse}
                     item={item} />
