@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <title>Zim demo new layout</title>
+  <link rel="apple-touch-icon" href="../../assets/images/favicon/apple-touch-icon-152x152.png">
+  <link rel="shortcut icon" type="image/x-icon" href="../../assets/img/favicon-zim.jpg">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- vendor css -->
+  <link href="../../lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="../../lib/ionicons/dist/css/ionicons.min.css" rel="stylesheet">
+  <link href="../../lib/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+  <link href="../../lib/select2/dist/css/select2.min.css" rel="stylesheet">
+  <link href="../../lib/animate.css/animate.min.css" rel="stylesheet">
+  <link href="../../lib/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/js/swiper/css/swiper.min.css">
+  <!-- Mona CSS -->
+  <link rel="stylesheet" href="../../assets/css/dashforge.css?v=1.3">
+  <link rel="stylesheet" href="../../assets/css/custom.css?v=1.4">
+  <link rel="stylesheet" href="../../assets/css/csscustom.css">
+
+  <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+  <script src="../../lib/react/umd/react.development.js"></script>
+  <script src="../../lib/react-dom/umd/react-dom.development.js"></script>
+  <script src="../../assets/js/utils.js"></script>
+  <script src="../../lib/jquery/dist/jquery.min.js"></script>
+  <!-- Fomik -->
+  <!-- some additional css here -->
+</head>
+<!-- END: Head-->
+
+<body>
+  <div id="header"></div>
+  <div class="content content-fixed">
+    <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0 dashboard-page">
+      <div class="media d-block d-lg-flex">
+        <div id="js-component-profilesidebar"></div>
+        <!-- profile-sidebar -->
+        <div class="media-body mg-t-30 mg-lg-t-0 pd-lg-x-10 body__content">
+          <div class="d-xl-flex align-items-center justify-content-between mg-b-30">
+            <h4 class="mg-b-0 gradient-heading"><i class="fas fa-address-card"></i>TEACHER INFORMATION</h4>
+          </div>
+          <div id="react-teacher-detail"></div>
+          <!-- media-body -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal book schedule -->
+    <div class="modal fade effect-scale" id="md-book-schedule" tabindex="-1" role="dialog" aria-labelledby="active-slot"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="newCampaignTitle">Tên khóa học</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Date: <span id="js-date-time" class="tx-medium"></span></p>
+            <p>Start time: <span id="js-start-time" class="tx-medium"></span></p>
+            <p>End time: <span id="js-end-time" class="tx-medium"></span></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="book-schedule-confirm" data-dismiss="modal">Book</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal Set available -->
+    <div class="modal fade effect-scale" id="md-active-slot" tabindex="-1" role="dialog" aria-labelledby="active-slot"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="newCampaignTitle">Set available for this !!</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Date: <span id="js-date-time" class="tx-medium"></span></p>
+            <p>Start time: <span id="js-start-time" class="tx-medium"></span></p>
+            <p>End time: <span id="js-end-time" class="tx-medium"></span></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Open slot</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal Video -->
+    <div class="modal fade effect-scale" id="js-video-modal" tabindex="-1" role="dialog"
+      aria-labelledby="videoModalTitle" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content bg-transparent bd-0">
+          <div class="modal-body pos-relative ">
+            <button type="button" class="close tx-white op-9 tx-24" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <!-- 16:9 aspect ratio -->
+            <div class="embed-responsive embed-responsive-16by9 mg-t-30">
+              <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/mJzpX_YrC10" frameborder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="footer"></div>
+  <link rel="stylesheet" href="../../assets/js/fullcalendar-5.0.0-beta.4/lib/main.min.css">
+  <script src="../../assets/js/fullcalendar-5.0.0-beta.4/lib/main.min.js"></script>
+  <script src='../assets/js/fullcalendar-5.0.0-beta.4/lib/locales/vi.js'></script>
+
+  <script>
+    $(document).ready(function () {
+      const teacherInfoSwiper = new Swiper('.swiper-container', {
+        loop: false,
+        freeModeMomentum: false,
+        preventInteractionOnTransition: true,
+        simulateTouch: false,
+        autoHeight: true,
+      })
+
+      const listTab = document.getElementById('js-list-tab');
+      const tabLinks = listTab.querySelectorAll('.tab-link');
+      const swapTab = (e) => {
+        e.preventDefault();
+        const element = e.target;
+        const indexSlide = element.dataset?.index ?? 0;
+        teacherInfoSwiper.slideTo(indexSlide, 500, false);
+        [...tabLinks].map(link => link === element ? link.classList.add('active') : link.classList.remove('active'));
+      }
+      [...tabLinks].map(link => {
+        link.addEventListener('click', swapTab);
+      });
+
+      let $videoSrc;
+      let $videoModal = $('#js-video-modal');
+      let $iframe = $videoModal.find('iframe');
+      $('#video-teacher').click(function () {
+        $videoSrc = $(this).attr('data-src');
+        $iframe.attr('src', $videoSrc);
+        $videoModal.modal('show');
+      });
+
+      $videoModal.on('hide.bs.modal', function (e) {
+        // a poor man's stop video
+        $iframe.attr('src', $videoSrc);
+      })
+    });
+  </script>
+
+  <script>
+
+  </script>
+  <script src="../../lib/jquery/dist/jquery.min.js"></script>
+  <script src="../../lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../lib/feather-icons/dist/feather.min.js"></script>
+  <script src="../../lib/moment/min/moment.min.js"></script>
+  <script src="../../lib/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
+  <script src="../../lib/flatpickr/dist/flatpickr.min.js"></script>
+  <script src="../../lib/select2/dist/js/select2.min.js"></script>
+  <script src="../../assets/js/dashforge.js"></script>
+  <script src="../../assets/js/swiper/js/swiper.min.js"></script>
+  <script src="../../assets/js/custom.js"></script>
+</body>
+
+</html>

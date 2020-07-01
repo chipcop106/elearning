@@ -10,7 +10,7 @@ const LessonUpcomingCard = ({ onHandleChooseRequireCourse, item }) => {
     <li className="cr-item lesson-info">
       <div className="media">
         <div className="teacher-information">
-          <a className="teacher-avatar" href="#">
+          <a className="teacher-avatar" href={"#"}>
             <img src={item.images} className="teacher-image" alt="" />
             <p className="course-teacher tx-14 tx-gray-800 tx-normal mg-b-0 tx-center mg-t-5 d-block">
               {item.teacher}</p>
@@ -38,7 +38,7 @@ const LessonUpcomingCard = ({ onHandleChooseRequireCourse, item }) => {
             <div className="docs-lists">
               {
                 item.document.map((doc, index) => {
-                  return <a key={index} href="#" className="file-doc"><i className="fa fa-file mg-r-3"></i>
+                  return <a key={index} href={"#"} className="file-doc"><i className="fa fa-file mg-r-3"></i>
                     <span className="file-name">{doc.split('.')[0]}</span>
                     <span className="file-ext">{`.${doc.split('.')[1]}`}</span>
                   </a>

@@ -147,7 +147,7 @@ const Dashboard = () => {
               <div className="lesson mg-t-45 animated fadeInUp am-animation-delay-2">
                 <div className="d-xl-flex align-items-center justify-content-between ">
                   <h4 className="mg-b-0 gradient-heading"><i className="fas fa-file"></i>LESSON HISTORY</h4>
-                  <a href="#" className="link">View all history</a>
+                  <a href={"#"} className="link">View all history</a>
                 </div>
                 <div className="course-horizental mg-t-20">
                   <ul className="list-wrap">

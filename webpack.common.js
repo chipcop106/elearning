@@ -13,6 +13,7 @@ module.exports = {
     'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js',
     'lessonHistory': componentEnrtryPrefix + 'LessonHistory/LessonHistory.js',
     'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js',
+    'teacherDetail': componentEnrtryPrefix + 'TeacherDetail/TeacherDetail.js',
     'custom': './src/scss/custom.scss',
   },
   output: {

@@ -35,7 +35,6 @@ function generateHtmlPlugins(templateDir, sub) {
           removeEmptyAttributes: true,
           removeStyleLinkTypeAttributes: true,
           keepClosingSlash: true,
-          minifyJS: true,
           minifyCSS: true,
           minifyURLs: true,
       },

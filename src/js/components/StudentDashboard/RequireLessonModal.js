@@ -33,7 +33,7 @@ const RequireLessonModal = ({ course }) => {
               <div className="cr-item lesson-info">
                 <div className="media">
                   <div className="teacher-information">
-                    <a className="teacher-avatar" href="#">
+                    <a className="teacher-avatar" href={"#"}>
                       <img src={course.course && course.course.images} className="teacher-image" alt="" />
                       <p className="course-teacher tx-14 tx-gray-800 tx-normal mg-b-0 tx-center mg-t-5 d-block">
                         {course.course && course.course.teacher}</p>
@@ -61,7 +61,7 @@ const RequireLessonModal = ({ course }) => {
                       <div className="docs-lists">
                         {
                           course.course && course.course.document.map((doc, index) => {
-                            return <a key={index} href="#" className="file-doc"><i className="fa fa-file mg-r-3"></i>
+                            return <a key={index} href={"#"} className="file-doc"><i className="fa fa-file mg-r-3"></i>
                               <span className="file-name">{doc.split('.')[0]}</span>
                               <span className="file-ext">{`.${doc.split('.')[1]}`}</span>
                             </a>

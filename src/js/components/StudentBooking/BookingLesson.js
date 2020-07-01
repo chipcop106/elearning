@@ -242,7 +242,7 @@ const BookingLesson = () => {
             <div className="right col-md-10">
               <div className="form-row">
                 <div className="col-sm-6 col-md-4 item">
-                  <a href="javascript:;" className="form-control nationality" name="txt-full-name">Nation</a>
+                  <a href={"#"} className="form-control nationality" name="txt-full-name">Nation</a>
                 </div>
                 <div className="col-sm-6 col-md-4  item">
                   <select type="text" className="form-control " name="gender" onChange={handleChange}
@@ -300,7 +300,7 @@ const BookingLesson = () => {
                   <input className="form-control" name="searchText" type="text" placeholder="..." onChange={handleChange}/>
                 </div>
                 <div className="col-sm-4 item">
-                  <a href="javascript:;" className="btn btn-primary btn-block"
+                  <a href={"#"} className="btn btn-primary btn-block"
                     onClick={onSearch}>Search</a>
                 </div>
               </div>
