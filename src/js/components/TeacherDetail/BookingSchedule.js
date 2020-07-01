@@ -270,7 +270,6 @@ eventClassNames: function (args) {
 eventContent: function (args) {
   let templateEl = document.createElement("div");
   const { event, isPast, isStart } = args;
-  console.log(args)
   const {
     bookInfo,
     eventType,

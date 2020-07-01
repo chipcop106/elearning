@@ -99,17 +99,12 @@ const initialState = {
 const TeacherDetail = () => {
   const [state, setState] = React.useState(initialState)
   const onHandleBookSchedule = (id, student) => {
-    console.log(id)
-    console.log(state)
     let index = state.schedule.findIndex(x => x.id === id)
     const newSchedule = [...state.schedule]
     
     newSchedule[index].status = "booked";
     newSchedule[index].student = student;
 
-    newSchedule.map(item=>{
-      console.log(item.courseName, item.status)
-    })
     setState({...state, schedule: newSchedule})
   }
 

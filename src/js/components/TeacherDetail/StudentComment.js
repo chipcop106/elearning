@@ -1,8 +1,57 @@
-const initialState = ""
+import StudentCommentItem from "./StudentCommentItem"
+
+const initialState = {
+  list: [{
+    name: "Henry",
+    avatar: "bg-status2.jpg",
+    content: `Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+    Error earum molestias consequatur, iusto accusantium minima est saepe
+    porro id odit nam, numquam voluptates quis repudiandae veniam. Provident
+    illum et voluptate. Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+    Quaerat aliquam magni impedit vitae sit expedita totam labore neque, dolores
+    eos veritatis? Qui nisi, ipsa nostrum nulla labore esse dicta. Aspernatur.`,
+    time: "10:30",
+    date: "20/09/2019",
+  }, {
+    name: "John",
+    avatar: "bg-status2.jpg",
+    content: `Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+    Error earum molestias consequatur, iusto accusantium minima est saepe
+    porro id odit nam, numquam voluptates quis repudiandae veniam. Provident
+    illum et voluptate. Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+    Quaerat aliquam magni impedit vitae sit expedita totam labore neque, dolores
+    eos veritatis? Qui nisi, ipsa nostrum nulla labore esse dicta. Aspernatur.`,
+    time: "10:30",
+    date: "20/09/2019",
+  }, {
+    name: "Steven",
+    avatar: "bg-status2.jpg",
+    content: `Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+    Error earum molestias consequatur, iusto accusantium minima est saepe
+    porro id odit nam, numquam voluptates quis repudiandae veniam. Provident
+    illum et voluptate. Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+    Quaerat aliquam magni impedit vitae sit expedita totam labore neque, dolores
+    eos veritatis? Qui nisi, ipsa nostrum nulla labore esse dicta. Aspernatur.`,
+    time: "10:30",
+    date: "20/09/2019",
+  }, {
+    name: "Kim",
+    avatar: "bg-status2.jpg",
+    content: `Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+    Error earum molestias consequatur, iusto accusantium minima est saepe
+    porro id odit nam, numquam voluptates quis repudiandae veniam. Provident
+    illum et voluptate. Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+    Quaerat aliquam magni impedit vitae sit expedita totam labore neque, dolores
+    eos veritatis? Qui nisi, ipsa nostrum nulla labore esse dicta. Aspernatur.`,
+    time: "10:30",
+    date: "20/09/2019",
+  }],
+  comment: "",
+}
 const StudentComment = () => {
   const [state, setState] = React.useState(initialState);
   const handleChange = (e) => {
-      setState(e.target.value)
+    setState({...state, comment:e.target.value})
   }
   const onSubmit = (e) => {
     e.preventDefault()
@@ -22,114 +71,19 @@ const StudentComment = () => {
             className="btn btn-light btn-cancel-form">Cancel</a>
         </div>
       </div>
-      <h6 className="mg-b-15">10 student has comment for this teacher:
-                            </h6>
+      <h6 className="mg-b-15">{state.list.length} student has comment for this teacher:</h6>
       <div className="comment__wrapper">
-        <div className="tc-comment">
-          <img src="../../assets/img/bg-status2.jpg" alt="avatar "
-            className="avatar avatar rounded-circle" />
-          <div className="tc-content">
-            <div className="box">
-              <p className="teacher-name">Kelly Clarkson</p>
-              <p className="mg-b-0">Lorem ipsum dolor sit, amet
-                                      consectetur adipisicing elit. <br />Error
-                                      earum molestias consequatur, iusto
-                                      accusantium minima est saepe porro id odit
-                                      nam, numquam voluptates quis repudiandae
-                                      veniam. Provident illum et voluptate. Lorem
-                                      ipsum dolor sit, amet consectetur
-                                      adipisicing elit. Quaerat aliquam magni
-                                      impedit vitae sit expedita totam labore
-                                      neque, dolores eos veritatis? Qui nisi, ipsa
-                                      nostrum nulla labore esse dicta. Aspernatur.
-                                    </p>
-            </div>
-            <div className="meta">
-              <div className="date">Comment at 10:30 AM | 20/10/2020</div>
-            </div>
-            <a href={"#"} className="edit-box"><i
-              className="fa fa-edit"></i></a>
-          </div>
-        </div>
-        <div className="tc-comment">
-          <img src="../../assets/img/bg-status2.jpg" alt="avatar "
-            className="avatar avatar rounded-circle" />
-          <div className="tc-content">
-
-            <div className="box">
-              <p className="teacher-name">Kelly Clarkson</p>
-              <p className="mg-b-0">Lorem ipsum dolor sit, amet
-                                        consectetur adipisicing elit. <br />Error
-                                        earum molestias consequatur, iusto
-                                        accusantium minima est saepe porro id odit
-                                        nam, numquam voluptates quis repudiandae
-                                        veniam. Provident illum et voluptate. Lorem
-                                        ipsum dolor sit, amet consectetur
-                                        adipisicing elit. Quaerat aliquam magni
-                                        impedit vitae sit expedita totam labore
-                                        neque, dolores eos veritatis? Qui nisi, ipsa
-                                        nostrum nulla labore esse dicta. Aspernatur.
-                                      </p>
-            </div>
-            <div className="meta">
-              <div className="date">Comment at 10:30 AM | 20/10/2020</div>
-            </div>
-            <a href={"#"} className="edit-box"><i
-              className="fa fa-edit"></i></a>
-          </div>
-        </div>
-        <div className="tc-comment">
-          <img src="../../assets/img/bg-status2.jpg" alt="avatar "
-            className="avatar avatar rounded-circle" />
-          <div className="tc-content">
-            <div className="box">
-              <p className="teacher-name">Kelly Clarkson</p>
-              <p className="mg-b-0">Lorem ipsum dolor sit, amet
-                                          consectetur adipisicing elit. <br />Error
-                                          earum molestias consequatur, iusto
-                                          accusantium minima est saepe porro id odit
-                                          nam, numquam voluptates quis repudiandae
-                                          veniam. Provident illum et voluptate. Lorem
-                                          ipsum dolor sit, amet consectetur
-                                          adipisicing elit. Quaerat aliquam magni
-                                          impedit vitae sit expedita totam labore
-                                          neque, dolores eos veritatis? Qui nisi, ipsa
-                                          nostrum nulla labore esse dicta. Aspernatur.
-                                        </p>
-            </div>
-            <div className="meta">
-              <div className="date">Comment at 10:30 AM | 20/10/2020</div>
-            </div>
-            <a href={"#"} className="edit-box"><i
-              className="fa fa-edit"></i></a>
-          </div>
-        </div>
-        <div className="tc-comment">
-          <img src="../../assets/img/bg-status2.jpg" alt="avatar "
-            className="avatar avatar rounded-circle" />
-          <div className="tc-content">
-            <div className="box">
-              <p className="teacher-name">Kelly Clarkson</p>
-              <p className="mg-b-0">Lorem ipsum dolor sit, amet
-                                            consectetur adipisicing elit. <br />Error
-                                            earum molestias consequatur, iusto
-                                            accusantium minima est saepe porro id odit
-                                            nam, numquam voluptates quis repudiandae
-                                            veniam. Provident illum et voluptate. Lorem
-                                            ipsum dolor sit, amet consectetur
-                                            adipisicing elit. Quaerat aliquam magni
-                                            impedit vitae sit expedita totam labore
-                                            neque, dolores eos veritatis? Qui nisi, ipsa
-                                            nostrum nulla labore esse dicta. Aspernatur.
-                                          </p>
-            </div>
-            <div className="meta">
-              <div className="date">Comment at 10:30 AM | 20/10/2020</div>
-            </div>
-            <a href={"#"} className="edit-box"><i
-              className="fa fa-edit"></i></a>
-          </div>
-        </div>
+        {
+          state.list.map((item, index)=>{
+            return <StudentCommentItem
+                    key={index}
+                    name={item.name}
+                    avatar={item.avatar}
+                    content={item.content}
+                    date={item.date}
+                    time={item.time}/>
+          })
+        }
       </div>
       <nav aria-label="Page navigation" className="mg-t-15">
         <ul className="pagination mg-b-0 justify-content-end">
