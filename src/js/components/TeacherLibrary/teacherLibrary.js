@@ -59,7 +59,7 @@ const categories = [
     },
     {
         id: 5,
-        title: 'IELTs'
+        title: 'IELTS'
     }
 ]
 
@@ -111,7 +111,7 @@ const TeacherLibrary = () => {
                 {/*/right*/}
                 <div className="mg-y-30 filter-category">
                     <div className="list-button py-2 mt-2 mb-2">
-                        {!!categories && categories.length > 0 && categories.map(cat => <a className="btn btn-primary mg-x-10" href="#">{cat.title}</a>)}
+                        {!!categories && categories.length > 0 && categories.map(cat => <a key={`${cat.title}`} className="btn btn-primary mg-x-10" href="#">{cat.title}</a>)}
                     </div>
                 </div>
                 {/*foundation*/}
@@ -120,7 +120,7 @@ const TeacherLibrary = () => {
                 <DocumentSlider listItems={TeachingCirriculum} slideTitle='Kids Courses' titleIcon="fa-baby" />
                 <DocumentSlider listItems={TeachingCirriculum} slideTitle='Teens Courses' titleIcon="fa-child" />
                 <DocumentSlider listItems={TeachingCirriculum} slideTitle='Free Talks' titleIcon="fa-microphone" />
-                <DocumentSlider listItems={TeachingCirriculum} slideTitle='IELTs' />
+                <DocumentSlider listItems={TeachingCirriculum} slideTitle='IELTS' />
                 {/*foundation copy*/}
             </div>
 

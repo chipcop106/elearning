@@ -13,6 +13,7 @@ module.exports = {
     'teacherSupport': componentEnrtryPrefix + 'TeacherSupport/teacherSupport.js',
     'teacherReport': componentEnrtryPrefix + 'TeacherReport/teacherReport.js',
     'teacherPayment': componentEnrtryPrefix + 'TeacherPayment/teacherPayment.js',
+    'teacherFeedback': componentEnrtryPrefix + 'TeacherFeedback/teacherFeedback.js',
     'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/studentDashboard.js',
     // 'DocumentSlider': componentEnrtryPrefix + 'TeacherLibrary/DocumentSlider.js',
     'custom': './src/scss/custom.scss',

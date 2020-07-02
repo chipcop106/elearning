@@ -110,13 +110,13 @@ const TeacherHome = () => {
                             </div>
                             <div className="row mg-t-30">
                                 <div className="col-12 col-md-4">
-                                    <SituationBlock link="#" linkTitle="Manage slot" title="Open" value="4500" unit="slots" imageUrl={'../../assets/img/slot-open.png'} />
+                                    <SituationBlock link={`teacherBooking.html`} linkTitle="Manage slot" title="Open" value="4500" unit="slots" imageUrl={'../../assets/img/slot-open.png'} />
                                 </div>
                                 <div className="col-12 col-md-4">
-                                    <SituationBlock link="#" linkTitle="Manage slot" title="Booked" value="4500" unit="slots" imageUrl={'../../assets/img/slot-booked.png'} />
+                                    <SituationBlock link={`teacherBooking.html`} linkTitle="Manage slot" title="Booked" value="4500" unit="slots" imageUrl={'../../assets/img/slot-booked.png'} />
                                 </div>
                                 <div className="col-12 col-md-4">
-                                    <SituationBlock link="#" linkTitle="View feedback" title="Missing" value="4500" unit="Feedback" imageUrl={'../../assets/img/missing-feedback.png'} />
+                                    <SituationBlock link={`teacherClassRooms.html`} linkTitle="View feedback" title="Missing" value="4500" unit="Feedback" imageUrl={'../../assets/img/missing-feedback.png'} />
                                 </div>
 
 

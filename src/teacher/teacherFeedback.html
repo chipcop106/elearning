@@ -38,7 +38,7 @@
 
   <div class="content content-fixed">
     <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
-        <div id="react-teacher-support"></div>
+        <div id="react-teacher-feedback"></div>
     </div>
   </div>
   <div id="footer"></div>
@@ -52,7 +52,21 @@
   <script src="../../assets/js/swiper/js/swiper.min.js"></script>
   <script src="../../assets/js/custom.js"></script>
 
-
+  <script>
+    $(document).ready(function () {
+      function toggleShowForm(e) {
+        e.preventDefault();
+        let $commentBox = $(this).closest('.fb-info').find('.reply-box');
+        let $replyBtn = $commentBox.closest('.fb-info').find('.btn-reply');
+        let $cancelBtn = $commentBox.closest('.fb-info').find('.btn-cancel-form');
+        $commentBox.stop().slideToggle();
+        !$(this).hasClass('btn-reply') ? $replyBtn.fadeIn() : $replyBtn.fadeOut();
+        // !$btn.hasClass('btn-cancel-form') && $btn.stop().fadeToggle();
+      }
+      $('body').on('click', '.btn-reply', toggleShowForm);
+      $('body').on('click', '.btn-cancel-form', toggleShowForm);
+    });
+  </script>
 
 </body>
 

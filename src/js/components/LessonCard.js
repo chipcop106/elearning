@@ -41,11 +41,11 @@ const LessonCard = (
                         ) : (
                             <span className="badge badge-warning  mg-r-10 pd-x-10 pd-y-5 tx-12">{lessonStatus}</span>
                         )}
-                        <a href="lesson-detail.html" className="course-name tx-bold">{courseName}</a>
+                        <a href={`../account/lessonDetail.html`} className="course-name tx-bold">{courseName}</a>
                         {!!studentName && (
                             <>
                             <span className="tx-gray-400 tx-normal valign-middle mg-x-10">with</span>
-                            <a href={`../account/profile.html`} className="course-teacher tx-16 tx-info tx-medium valign-middle d-inline-block tx-nowrap">{studentName}</a>
+                            <a href={`../account/studentProfile.html`} className="course-teacher tx-16 tx-info tx-medium valign-middle d-inline-block tx-nowrap">{studentName}</a>
                             </>
                         )}
                        
@@ -121,7 +121,7 @@ const LessonCard = (
                         </div>
                         <div className="action-right">
                             {lessonStatus !== 'finished' && ( !!cancellable ? (
-                                <a href="https://skype.com" className="btn btn-sm btn-outline-danger" target="_blank" rel="noopener" data-toggle="tooltip" title="You can only cancel this lesson before start for 30 minutes !!" data-placement="top"><i data-feather="x"></i> Cancel lesson</a>
+                                <a href={`#`} className="btn btn-sm btn-outline-danger" data-toggle="tooltip" title="You can only cancel this lesson before start for 30 minutes !!" data-placement="top"><i data-feather="x"></i> Cancel lesson</a>
                             ) : (
                                     <span className="tx-danger">Unavailable to cancel</span>
                                 ))}
