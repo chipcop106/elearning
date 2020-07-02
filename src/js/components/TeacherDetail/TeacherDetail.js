@@ -6,7 +6,8 @@ import { nationMapToFlag, randomId } from '../../utils'
 const initialState = {
   name: "Huỳnh Thị Lan Anh",
   image: "https://theamericanschool.edu.vn/wp-content/uploads/2020/01/Ms-Hong-Nguyen-Vietnamese.jpg",
-  nation: "Vietnam",
+  nation: "U.S.",
+  video: "https://www.youtube.com/embed/mJzpX_YrC10",
   desc: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus sunt delectus itaque veritatis quidem tempora, nesciunt excepturi dolores impedit consectetur cumque natus! Debitis unde repellat incidunt aut molestiae, possimus accusamus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam quisquam debitis dolor veniam non saepe voluptas consectetur culpa sequi illum, doloribus in minima officia ut id deleniti consequuntur ipsum corporis?",
   introduce: `While I have no soccer skills, I once played in a fairly competitive adult soccer league with my then-teenage stepson. I was terrible, but I played because he asked me to. (When your kids get older and ask you to do something with them, the first time you say no might be the last time you get asked.) I was trying to match the drollness of my "Wow" when my stepson stepped in, half-smile on his lips and full twinkle in his eyes, and rescued me by saying, "Come on, we need to get ready." Was Louis cocky? Certainly, but only on the surface. His $400 cleats, carbon fiber shin guards, and "I'm the king of the business world" introduction was an unconscious effort to protect his ego. His introduction said, "Hey, I might not turn out to be good at soccer, but out there in the real world, where it really matters, I am the Man." As we took the field before a game, a guy on the other team strutted over, probably picking me out because I was clearly the oldest player on the field. (There's a delightful sentence to write.)`,
   experience: [
@@ -37,35 +38,35 @@ const initialState = {
   }],
   schedule: [{
     id: randomId(),
-    day:"02/7/2020",
+    day:"03/7/2020",
     courseName: "English For Today",
     timeStart: "12:30",
     timeEnd: "13:00",
     status: "available",
-  },{
+  } ,{
     id: randomId(),
-    day:"02/7/2020",
+    day:"03/7/2020",
     courseName: "English For Today",
     timeStart: "13:30",
     timeEnd: "14:00",
     status: "available",
   },{
     id: randomId(),
-    day:"02/7/2020",
+    day:"03/7/2020",
     courseName: "English For Today",
     timeStart: "08:00",
     timeEnd: "08:30",
     status: "available",
   },{
     id: randomId(),
-    day:"02/7/2020",
+    day:"03/7/2020",
     courseName: "English For Today",
     timeStart: "20:30",
     timeEnd: "21:00",
     status: "available",
   },{
     id: randomId(),
-    day:"02/7/2020",
+    day:"03/7/2020",
     courseName: "TOEIC Basic",
     timeStart: "22:30",
     timeEnd: "23:00",
@@ -73,24 +74,32 @@ const initialState = {
     student: "Hoàng Văn Thái"
   },{
     id: randomId(),
-    day:"03/7/2020",
+    day:"04/7/2020",
     courseName: "Grammar",
     timeStart: "12:30",
     timeEnd: "13:00",
     status: "available",
   },{
     id: randomId(),
-    day:"03/7/2020",
+    day:"04/7/2020",
     courseName: "TOEIC Advanced",
     timeStart: "15:30",
     timeEnd: "16:00",
     status: "available",
   },{
     id: randomId(),
-    day:"04/7/2020",
+    day:"03/7/2020",
     courseName: "IELTS 6.0",
-    timeStart: "14:30",
-    timeEnd: "15:00",
+    timeStart: "09:30",
+    timeEnd: "10:00",
+    status: "booked",
+    student: "asdasd"
+  },{
+    id: randomId(),
+    day:"03/7/2020",
+    courseName: "IELTS 6.0",
+    timeStart: "10:30",
+    timeEnd: "11:00",
     status: "booked",
     student: "asdasd"
   }],
@@ -98,12 +107,23 @@ const initialState = {
 
 const TeacherDetail = () => {
   const [state, setState] = React.useState(initialState)
+
   const onHandleBookSchedule = (id, student) => {
     let index = state.schedule.findIndex(x => x.id === id)
     const newSchedule = [...state.schedule]
     
     newSchedule[index].status = "booked";
     newSchedule[index].student = student;
+
+    setState({...state, schedule: newSchedule})
+  }
+
+  const onHandleCancelSchedule = (id) => {
+    let index = state.schedule.findIndex(x => x.id === id)
+    const newSchedule = [...state.schedule]
+
+    newSchedule[index].status = "available";
+    delete newSchedule[index]["student"];
 
     setState({...state, schedule: newSchedule})
   }
@@ -125,7 +145,7 @@ const TeacherDetail = () => {
               </div>
             </div>
             <div className="teacher-summary">
-              <a href="#js-video-modal" data-src="https://www.youtube.com/embed/mJzpX_YrC10"
+              <a href="#js-video-modal" data-src={state.video}
                 className="tx-primary" id="video-teacher"><i className="fas fa-play-circle "></i>
                 Xem video giới thiệu</a>
               <p className="mg-b-0 mg-t-10">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus sunt delectus itaque veritatis quidem tempora, nesciunt excepturi dolores impedit consectetur cumque natus! Debitis unde repellat incidunt aut molestiae, possimus accusamus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam quisquam debitis dolor veniam non saepe voluptas consectetur culpa sequi illum, doloribus in minima officia ut id deleniti consequuntur ipsum corporis?</p>
@@ -161,7 +181,8 @@ const TeacherDetail = () => {
                   <div className="slide-tab-content">
                     <BookingSchedule 
                         schedule={state.schedule}
-                        handleBookSchedule={onHandleBookSchedule}/>
+                        handleBookSchedule={onHandleBookSchedule}
+                        handleCancelSchedule={onHandleCancelSchedule}/>
                   </div>
                 </div>
                 <div className="swiper-slide">

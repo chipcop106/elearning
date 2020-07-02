@@ -35,13 +35,16 @@ export const convertTime = (time) => {
 
 export const nationMapToFlag = (nation) => {
     let map = {
+        ca: "Canada",
         my: "Malaysia",
         vn: "Vietnam",
         us: "U.S.",
         jp: "Japan",
-        pl: "Philippines",
+        kr: "South Korea",
+        ph: "Philippines",
         bg: "Bangladesh",
         id: "India",
+        th: "Thailand",
     }
     let result;
     for (const [key, value] of Object.entries(map)) {
