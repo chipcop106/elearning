@@ -1,3 +1,5 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
 import StudentComment from "./StudentComment"
 import BookingSchedule from "./BookingSchedule"
 import TeacherInformation from "./TeacherInformation"

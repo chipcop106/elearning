@@ -1,3 +1,6 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 let initialState = {
     studentCode: "107",
     fullName: "Nguyen Van Thai",
