@@ -89,14 +89,15 @@ const Header = () => {
                 <div className="container">
                     <a  id="js-burger-menu" className="burger-menu-bottom"><i data-feather="menu" /></a>
                     <ul className="hd-menu-list" data-title="Mona Media">
-                        <li className="menu-link "><a  className="link-icon active">My page</a></li>
-                        <li className="menu-link"><a  className="link-icon">Library</a></li>
-                        <li className="menu-link"><a  className="link-icon">Schedule</a></li>
-                        <li className="menu-link"><a  className="link-icon">Dayoff</a></li>
-                        <li className="menu-link"><a  className="link-icon">Salary</a></li>
-                        <li className="menu-link"><a  className="link-icon">History Transaction</a></li>
-                        <li className="menu-link"><a  className="link-icon">Notification</a></li>
-                        <li className="menu-link"><a  className="link-icon">Feedback</a></li>
+                        <li className="menu-link "><a  href={`teacherHome.html`} className="link-icon active">Home</a></li>
+                        <li className="menu-link"><a  href={`teacherLibrary.html`} className="link-icon">Library</a></li>
+                        <li className="menu-link"><a  href={`teacherBooking.html`} className="link-icon">Booking</a></li>
+                        <li className="menu-link"><a  href={`teacherClassRooms.html`} className="link-icon">Classrooms</a></li>
+                        <li className="menu-link"><a  href={`teacherReport.html`} className="link-icon">Monthly Statistics</a></li>
+                        <li className="menu-link"><a  href={`teacherPayment.html`} className="link-icon">Payment</a></li>
+                        <li className="menu-link"><a  href={`teacherFeedback.html`} className="link-icon">Feedback</a></li>
+                        <li className="menu-link"><a  href={`teacherSupport.html`} className="link-icon">Support</a></li>
+                       
                     </ul>
                     <div className="menu-overlay" />
                 </div>
