@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom'
 
 const BlogDetail = () => {
   return (
-    <div className="media-body mg-t-30 mg-lg-t-0 pd-lg-x-10">
+    <React.Fragment>
       {/* <!-- Breadcrumb --> */}
       <nav aria-label="breadcrumb">
         <ol className="breadcrumb breadcrumb-style1 mg-b-30">
-          <li className="breadcrumb-item tx-primary"><a href={"#"}><i className="fas fa-bell mg-r-5"></i> Notification</a></li>
+          <li className="breadcrumb-item tx-primary"><a href="notification.html"><i className="fas fa-bell mg-r-5"></i> Notification</a></li>
           <li className="breadcrumb-item active" aria-current="page">Chương Trình “Giúp Bạn Học Ngay, Nhận Quà Liền Tay”</li>
         </ol>
       </nav>
@@ -46,7 +46,7 @@ const BlogDetail = () => {
           </article>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   )
 }
 

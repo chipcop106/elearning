@@ -6,6 +6,8 @@ import RatingLessonModal from '../StudentDashBoard/RatingLessonModal'
 import RequireLessonModal from '../StudentDashboard/RequireLessonModal'
 import LessonHistoryCard from "../StudentDashBoard/LessonHistoryCard"
 import LessonUpcomingCard from "../StudentDashBoard/LessonUpcomingCard"
+import CancelBookingLessonModal from "../CancelBookingLessonModal"
+import SkeletonCard from "../SkeletonCard"
 
 import styles from '~components/BookedLesson/bookedLesson.module.scss'
 
@@ -66,6 +68,12 @@ let initialState = {
     note: "Note for teacher",
   }
 }
+const initialCancelLesson = {
+  name:"",
+  day: "",
+  start: "",
+  end: "",
+}
 
 const reducer = (prevState, { type, payload }) => {
   switch (type) {
@@ -94,6 +102,9 @@ const reducer = (prevState, { type, payload }) => {
 
 const BookedLesson = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
+  const [stateCancelLesson, setStateCancelLesson] = React.useState(initialCancelLesson);
+
+  const [loading, setLoading] = React.useState(false);
 
   const handleChooseRatingCourse = (item) => {
     let key = "course"
@@ -105,14 +116,33 @@ const BookedLesson = () => {
     let value = item
     dispatch({ type: "CHOOSE_REQUIRE_COURSE", payload: { key, value } })
   }
+  const handleCancelBooking = (item) => {
+    setStateCancelLesson({...stateCancelLesson,
+      name:item.courseName,
+      day:item.date,
+      start:item.startTime,
+      end:item.endTime})
+    $("#md-cancel-schedule").modal("show")
+  }
+
+  React.useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <React.Fragment>
-      <ul className="list-wrap">
+     {loading && <SkeletonCard />}
+     { !loading && <ul className="list-wrap">
         {
-          state.upcomingLesson.map((item, index) => {
+         state.upcomingLesson.map((item, index) => {
             return <LessonUpcomingCard
                     key={index}
                     onHandleChooseRequireCourse={handleChooseRequireCourse}
+                    onHandleCancelBooking={handleCancelBooking}
                     item={item} />
           })
         }
@@ -125,8 +155,15 @@ const BookedLesson = () => {
           })
         }
       </ul>
+    }
+      
       <RatingLessonModal course={state.ratingCourse} />
       <RequireLessonModal course={state.requireCourse} />
+       <CancelBookingLessonModal
+          name={stateCancelLesson.name}
+          day={stateCancelLesson.day}
+          start={stateCancelLesson.start}
+          end={stateCancelLesson.end} />
     </React.Fragment>
   )
 }

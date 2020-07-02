@@ -5,7 +5,7 @@ import StudentComment from "../TeacherDetail/StudentComment"
 
 const LessonDetail = () => {
   return (
-    <div className="media-body mg-t-30 mg-lg-t-0 pd-lg-x-10 body__content">
+    <React.Fragment>
       <div className="row">
         <div className="col-md-6 col-sm-12">
           {/* <!--thông tin buổi học--> */}
@@ -211,7 +211,7 @@ const LessonDetail = () => {
         </div>{/* <!-- media-body --> */}
       </div>
       <StudentComment/>
-    </div>
+      </React.Fragment>
   )
 }
 

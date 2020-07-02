@@ -12,7 +12,7 @@ const LessonHistoryCard = ({ onHandleChooseRatingCourse, item }) => {
     <li className="cr-item lesson-info">
       <div className="media">
         <div className="teacher-information">
-          <a className="teacher-avatar" href={"#"}>
+          <a className="teacher-avatar" href="teacherDetail.html">
             <img src={item.images} className="teacher-image" alt="" />
             <p className="course-teacher tx-14 tx-gray-800 tx-normal mg-b-0 tx-center mg-t-5 d-block">
               {item.teacher}

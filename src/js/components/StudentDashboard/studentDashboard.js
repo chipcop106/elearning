@@ -6,7 +6,7 @@ import LessonUpcomingCard from "./LessonUpcomingCard"
 
 import RatingLessonModal from "./RatingLessonModal"
 import RequireLessonModal from "./RequireLessonModal"
-
+import CancelBookingLessonModal from "../CancelBookingLessonModal"
 import { randomId } from "../../utils.js"
 
 let initialState = {
@@ -67,6 +67,13 @@ let initialState = {
   }
 }
 
+const initialCancelLesson = {
+  name:"",
+  day: "",
+  start: "",
+  end: "",
+}
+
 const reducer = (prevState, { type, payload }) => {
   switch (type) {
     case "CHOOSE_RATING_COURSE": {
@@ -94,6 +101,7 @@ const reducer = (prevState, { type, payload }) => {
 
 const Dashboard = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
+   const [stateCancelLesson, setStateCancelLesson] = React.useState(initialCancelLesson);
 
   const handleChooseRatingCourse = (item) => {
     let key = "course"
@@ -104,6 +112,15 @@ const Dashboard = () => {
     let key = "course"
     let value = item
     dispatch({ type: "CHOOSE_REQUIRE_COURSE", payload: { key, value } })
+  }
+
+  const handleCancelBooking = (item) => {
+    setStateCancelLesson({...stateCancelLesson,
+      name:item.courseName,
+      day:item.date,
+      start:item.startTime,
+      end:item.endTime})
+    $("#md-cancel-schedule").modal("show")
   }
 
   return (
@@ -140,6 +157,7 @@ const Dashboard = () => {
                         return <LessonUpcomingCard
                           key={index}
                           onHandleChooseRequireCourse={handleChooseRequireCourse}
+                          onHandleCancelBooking={handleCancelBooking}
                           item={item} />
                       })
                     }
@@ -166,6 +184,11 @@ const Dashboard = () => {
               </div>
               <RatingLessonModal course={state.ratingCourse} />
               <RequireLessonModal course={state.requireCourse} />
+              <CancelBookingLessonModal
+                name={stateCancelLesson.name}
+                day={stateCancelLesson.day}
+                start={stateCancelLesson.start}
+                end={stateCancelLesson.end} />
             </div>
           </div>
         </div>

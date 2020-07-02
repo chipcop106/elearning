@@ -3,20 +3,8 @@ import ReactDOM from 'react-dom';
 
 const Faq = () => {
 
-  const handleAccordion = (e) => {
-    e.target.classList.toggle("collapsed")
-    let target = $(e.target).attr("data-target")
-    $(`${target}`).toggle("300");
-  }
-  React.useEffect(() => {
-    $("#accordion button").on("click", handleAccordion.bind(this))
-    return () => {
-      $("#accordion button").off("click", handleAccordion.bind(this))
-    }
-  }, [])
-
   return (
-    <div className="media-body mg-t-30 mg-lg-t-0 pd-lg-x-10">
+      <React.Fragment>
       <div className="faq-image tx-center">
         <img src="../../assets/img/faq.svg" alt="faq" className="wd-300" />
       </div>
@@ -72,7 +60,7 @@ const Faq = () => {
           </div>
         </div>
       </div>
-    </div>
+      </React.Fragment>
   )
 }
 

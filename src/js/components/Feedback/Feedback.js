@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 const Feedback = () => {
   return (
-    <div className="media-body mg-t-30 mg-lg-t-0 pd-lg-x-10 body__content">
+    <React.Fragment>
       <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
         <h4 className="mg-b-0 gradient-heading"><i className="fas fa-comment-dots"></i> FEEDBACK</h4>
       </div>
@@ -235,7 +235,7 @@ const Feedback = () => {
             data-feather="chevron-right"></i></a></li>
         </ul>
       </nav>
-    </div>
+    </React.Fragment>
   )
 }
 

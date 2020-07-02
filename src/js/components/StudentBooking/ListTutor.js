@@ -1,44 +1,325 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import BookingLessonModal from "../BookingLessonModal";
 import { nationMapToFlag } from '../../utils'
 import styles from '~components/StudentBooking/ListTutor.module.scss';
 
 const initialState = [{
 	name: "Cherrylen",
-	gender: "1",
-	images: "https://image.engoo.com/teacher/7144/m2037.jpg",
+	gender: "0",
+	image: "https://image.engoo.com/teacher/7144/m2037.jpg",
 	rating: 90,
 	nation: "U.S.",
-	availableTime: ["13:00", "14:00"],
-	notAvailableTime: ["10:00", "06:00"],
-}, {
-	name: "Jerry",
-	gender: "0",
-	images: "https://image.engoo.com/teacher/7144/m2037.jpg",
-	rating: 70,
-	nation: "Malaysia",
-	availableTime: ["18:00", "08:00"],
-	notAvailableTime: ["10:00", "12:00"],
-}, {
-	name: "Jenny",
+	schedule: [{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "English For Today",
+    timeStart: "12:30",
+    timeEnd: "13:00",
+    status: "available",
+  } ,{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "English For Today",
+    timeStart: "13:30",
+    timeEnd: "14:00",
+    status: "available",
+  },{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "English For Today",
+    timeStart: "08:00",
+    timeEnd: "08:30",
+    status: "available",
+  },{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "English For Today",
+    timeStart: "20:30",
+    timeEnd: "21:00",
+    status: "available",
+  },{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "TOEIC Basic",
+    timeStart: "22:30",
+    timeEnd: "23:00",
+    status: "booked",
+    student: "Hoàng Văn Thái"
+  },{
+    id: randomId(),
+    day:"04/07/2020",
+    courseName: "Grammar",
+    timeStart: "12:30",
+    timeEnd: "13:00",
+    status: "available",
+  },{
+    id: randomId(),
+    day:"04/07/2020",
+    courseName: "TOEIC Advanced",
+    timeStart: "15:30",
+    timeEnd: "16:00",
+    status: "available",
+  },{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "IELTS 6.0",
+    timeStart: "09:30",
+    timeEnd: "10:00",
+    status: "booked",
+    student: "Hoàng Văn Thái"
+  },{
+    id: randomId(),
+    day:"02/07/2020",
+    courseName: "IELTS 6.0",
+    timeStart: "11:00",
+    timeEnd: "11:30",
+    status: "booked",
+    student: "Hoàng Văn Thái"
+  }],
+},{
+	name: "Karen",
 	gender: "1",
-	images: "https://image.engoo.com/teacher/7144/m2037.jpg",
-	rating: 80,
+	image: "https://image.engoo.com/teacher/7144/m2037.jpg",
+	rating: 90,
+	nation: "Canada",
+	schedule: [{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "English For Today",
+    timeStart: "12:30",
+    timeEnd: "13:00",
+    status: "available",
+  } ,{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "English For Today",
+    timeStart: "13:30",
+    timeEnd: "14:00",
+    status: "available",
+  },{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "English For Today",
+    timeStart: "08:00",
+    timeEnd: "08:30",
+    status: "available",
+  },{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "English For Today",
+    timeStart: "20:30",
+    timeEnd: "21:00",
+    status: "available",
+  },{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "TOEIC Basic",
+    timeStart: "22:30",
+    timeEnd: "23:00",
+    status: "booked",
+    student: "Hoàng Văn Thái"
+  },{
+    id: randomId(),
+    day:"04/07/2020",
+    courseName: "Grammar",
+    timeStart: "12:30",
+    timeEnd: "13:00",
+    status: "available",
+  },{
+    id: randomId(),
+    day:"04/07/2020",
+    courseName: "TOEIC Advanced",
+    timeStart: "15:30",
+    timeEnd: "16:00",
+    status: "available",
+  },{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "IELTS 6.0",
+    timeStart: "09:30",
+    timeEnd: "10:00",
+    status: "booked",
+    student: "Hoàng Văn Thái"
+  },{
+    id: randomId(),
+    day:"02/07/2020",
+    courseName: "IELTS 6.0",
+    timeStart: "11:00",
+    timeEnd: "11:30",
+    status: "booked",
+    student: "Hoàng Văn Thái"
+  }],
+},{
+	name: "Kim",
+	gender: "1",
+	image: "https://image.engoo.com/teacher/7144/m2037.jpg",
+	rating: 90,
 	nation: "Vietnam",
-	availableTime: ["13:00", "17:00", "07:00"],
-	notAvailableTime: ["16:00", "06:00"],
-}, {
+	schedule: [{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "English For Today",
+    timeStart: "12:30",
+    timeEnd: "13:00",
+    status: "available",
+  } ,{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "English For Today",
+    timeStart: "13:30",
+    timeEnd: "14:00",
+    status: "available",
+  },{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "English For Today",
+    timeStart: "08:00",
+    timeEnd: "08:30",
+    status: "available",
+  },{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "English For Today",
+    timeStart: "20:30",
+    timeEnd: "21:00",
+    status: "available",
+  },{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "TOEIC Basic",
+    timeStart: "22:30",
+    timeEnd: "23:00",
+    status: "booked",
+    student: "Hoàng Văn Thái"
+  },{
+    id: randomId(),
+    day:"04/07/2020",
+    courseName: "Grammar",
+    timeStart: "12:30",
+    timeEnd: "13:00",
+    status: "available",
+  },{
+    id: randomId(),
+    day:"04/07/2020",
+    courseName: "TOEIC Advanced",
+    timeStart: "15:30",
+    timeEnd: "16:00",
+    status: "available",
+  },{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "IELTS 6.0",
+    timeStart: "09:30",
+    timeEnd: "10:00",
+    status: "booked",
+    student: "Hoàng Văn Thái"
+  },{
+    id: randomId(),
+    day:"02/07/2020",
+    courseName: "IELTS 6.0",
+    timeStart: "11:00",
+    timeEnd: "11:30",
+    status: "booked",
+    student: "Hoàng Văn Thái"
+  }],
+},{
 	name: "John",
 	gender: "0",
-	images: "https://image.engoo.com/teacher/7144/m2037.jpg",
+	image: "https://image.engoo.com/teacher/7144/m2037.jpg",
 	rating: 90,
-	nation: "Japan",
-	availableTime: ["08:00", "10:00"],
-	notAvailableTime: ["13:00", "15:00"],
+	nation: "Malaysia",
+	schedule: [{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "English For Today",
+    timeStart: "12:30",
+    timeEnd: "13:00",
+    status: "available",
+  } ,{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "English For Today",
+    timeStart: "13:30",
+    timeEnd: "14:00",
+    status: "available",
+  },{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "English For Today",
+    timeStart: "08:00",
+    timeEnd: "08:30",
+    status: "available",
+  },{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "English For Today",
+    timeStart: "20:30",
+    timeEnd: "21:00",
+    status: "available",
+  },{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "TOEIC Basic",
+    timeStart: "22:30",
+    timeEnd: "23:00",
+    status: "booked",
+    student: "Hoàng Văn Thái"
+  },{
+    id: randomId(),
+    day:"04/07/2020",
+    courseName: "Grammar",
+    timeStart: "12:30",
+    timeEnd: "13:00",
+    status: "available",
+  },{
+    id: randomId(),
+    day:"04/07/2020",
+    courseName: "TOEIC Advanced",
+    timeStart: "15:30",
+    timeEnd: "16:00",
+    status: "available",
+  },{
+    id: randomId(),
+    day:"03/07/2020",
+    courseName: "IELTS 6.0",
+    timeStart: "09:30",
+    timeEnd: "10:00",
+    status: "booked",
+    student: "Hoàng Văn Thái"
+  },{
+    id: randomId(),
+    day:"02/07/2020",
+    courseName: "IELTS 6.0",
+    timeStart: "11:00",
+    timeEnd: "11:30",
+    status: "booked",
+    student: "Hoàng Văn Thái"
+  }],
 }]
+
+const initialBookingModal = {
+	name: "",
+	day: "",
+	start: "",
+	end: ""
+}
 
 const ListTutor = ({ searchInput }) => {
 	const [state, setState] = React.useState(initialState);
+	const [stateBookingModal, setStateBookingModal] = React.useState(initialBookingModal);
+
+	const handleBook = (id, courseName, day, start, end) => {
+		$("#md-book-schedule").attr("data-id", id);
+		setStateBookingModal({...stateBookingModal,
+			name:courseName,
+			day,
+			start,
+			end
+		})
+		$("#md-book-schedule").modal("show");
+	}
+
 	let learnTime = []
 	let min = Math.min(
 		parseInt(searchInput.startTime.split(":")[0]),
@@ -48,10 +329,15 @@ const ListTutor = ({ searchInput }) => {
 		parseInt(searchInput.startTime.split(":")[0]),
 		parseInt(searchInput.endTime.split(":")[0])
 	)
+
 	for (let i = min; i <= max; i++)
 	{
 		learnTime.push(`${i<10?'0'+i:i}:00`)
+		if(i!==max)
+			learnTime.push(`${i<10?'0'+i:i}:30`)
 	}
+
+
 	React.useEffect(() => {
 		$('#display-schedule').on('change', function () {
 			if ($('#display-schedule').prop('checked') === true) {
@@ -63,6 +349,7 @@ const ListTutor = ({ searchInput }) => {
 		$('.nationality').click(function () {
 			$('#div-nationality').modal();
 		});
+		
 	}, []);
 
 	let filteredState = state
@@ -101,8 +388,7 @@ const ListTutor = ({ searchInput }) => {
 											<div className="totor-detail">
 												<a href="teacherDetail.html" className="tutor-wrap">
 													<span className="tutor-avatar">
-														<img src="https://image.engoo.com/teacher/7144/m2037.jpg"
-															alt="" />
+														<img src={item.image} alt="" />
 													</span>
 													<div className="tutor-infomation pd-5">
 														<div className="tutor-info">
@@ -133,16 +419,28 @@ const ListTutor = ({ searchInput }) => {
 													<ul className="ul-schedule">
 														{
 															learnTime.map((time, index) => {
-																const className = item.availableTime.includes(time) ? "available" :
-																	item.notAvailableTime.includes(time) ? "registed" : ""
+																let filterTime = item.schedule.filter(x=>{
+																	return x.day === searchInput.date
+																}).filter(x=>{
+																	return x.timeStart === time
+																})
+																console.log(filterTime)
+																const className = !(filterTime.length) ? "" :
+																	filterTime[0] && filterTime[0].status === "available" ? "available" : "registed"
 																return (
 																	<li className={className} key={index}>
 																		<span className="time">{time}</span>
 																		<span className="status">
 																			{
-																				item.availableTime.includes(time) ?
-																					<button className="open-lessionwish">Book now</button> :
-																					item.notAvailableTime.includes(time) ? "Booked" : ""
+																				filterTime[0] && filterTime[0].status === "available" ?
+																					<button className="open-lessionwish" onClick={()=>handleBook(
+																						filterTime[0].id,
+																						filterTime[0].courseName,
+																						filterTime[0].day,
+																						filterTime[0].timeStart,
+																						filterTime[0].timeEnd)
+																				}>Book now</button> :
+																					filterTime[0] && filterTime[0].status === "booked" ? "Booked" : ""
 																			}
 																		</span>
 																	</li>
@@ -160,7 +458,13 @@ const ListTutor = ({ searchInput }) => {
 					</div>
 				</div>
 			</div>
-		</div >
+			<BookingLessonModal
+				style={{color:"#000",textAlign:"left"}}
+				name={stateBookingModal.name}
+				day={stateBookingModal.day}
+				start={stateBookingModal.start}
+				end={stateBookingModal.end}/>
+		</div>
 	)
 }
 

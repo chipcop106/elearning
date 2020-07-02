@@ -2,16 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { convertTime, convertDay } from "../../utils.js";
 
-const LessonUpcomingCard = ({ onHandleChooseRequireCourse, item }) => {
+const LessonUpcomingCard = ({ onHandleChooseRequireCourse, onHandleCancelBooking, item }) => {
 
   const handleChooseRequireCourse = (item) => {
     onHandleChooseRequireCourse(item)
+  }
+
+  const handleCancelBooking = (e, item) => {
+    e.preventDefault()
+    onHandleCancelBooking(item)
   }
   return (
     <li className="cr-item lesson-info">
       <div className="media">
         <div className="teacher-information">
-          <a className="teacher-avatar" href={"#"}>
+          <a className="teacher-avatar" href="teacherDetail.html">
             <img src={item.images} className="teacher-image" alt="" />
             <p className="course-teacher tx-14 tx-gray-800 tx-normal mg-b-0 tx-center mg-t-5 d-block">
               {item.teacher}</p>
@@ -56,9 +61,10 @@ const LessonUpcomingCard = ({ onHandleChooseRequireCourse, item }) => {
                 <i className="fas fa-edit mg-r-5"></i> Checking lesson booking </a>
             </div>
             <div className="action-right">
-              <a href="https://skype.com" className="btn btn-sm btn-outline-danger" target="_blank"
+              <a href={"#"} className="btn btn-sm btn-outline-danger"
                 rel="noopener" data-toggle="tooltip"
                 title="You can only cancel this lesson before start for 30 minutes !!"
+                onClick={(e)=>handleCancelBooking(e, item)}
                 data-placement="top"><i data-feather="x"></i> Cancel lesson</a>
               {/* <span className="tx-danger">Unavailable to cancel</span> */}
             </div>

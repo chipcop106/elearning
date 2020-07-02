@@ -31,7 +31,7 @@ const initialState = [{
 const Notification = () => {
   const [state, setState] = React.useState(initialState)
   return (
-    <div className="media-body mg-t-30 mg-lg-t-0 pd-lg-x-10">
+    <React.Fragment>
       <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
         <h4 className="mg-b-0 gradient-heading"><i className="fas fa-bell" /> NOTIFICATION</h4>
       </div>
@@ -62,8 +62,8 @@ const Notification = () => {
           </ul>
         </nav>
       </div>
-    </div>
-  )
+      </React.Fragment>
+      )
 }
 
 ReactDOM.render(<Notification />, document.getElementById('react-notification'));
