@@ -1,3 +1,6 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 const StudentCommentItem = ({ name, avatar, content, date, time }) => {
   return (
     <div className="tc-comment">
