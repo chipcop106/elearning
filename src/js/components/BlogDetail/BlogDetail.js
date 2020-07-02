@@ -1,3 +1,6 @@
+import React from 'react'
+import ReactDOM from 'react-dom'
+
 const BlogDetail = () => {
   return (
     <div className="media-body mg-t-30 mg-lg-t-0 pd-lg-x-10">

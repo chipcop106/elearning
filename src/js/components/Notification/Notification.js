@@ -1,4 +1,7 @@
-import NotificationItem from './NotificationItem'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import NotificationItem from './NotificationItem';
+
 const initialState = [{
   title: "Chương Trình “Giúp Bạn Học Ngay, Nhận Quà Liền Tay",
   thumnail: "https://www.campusfrance.org/sites/default/files/parrainage.jpg",

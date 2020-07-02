@@ -1,4 +1,7 @@
 
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 const NotificationItem = ({ title, thumnail, author, time, content }) => {
     return (
         <div className="card card-event">

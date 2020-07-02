@@ -1,8 +1,11 @@
+import React from 'react'
+import ReactDOM from 'react-dom'
+
 import { randomId } from '../../utils'
 import RatingLessonModal from '../StudentDashBoard/RatingLessonModal'
 import RequireLessonModal from '../StudentDashboard/RequireLessonModal'
-import LessonHistoryCard from "../StudentDashBoard/LessonHistoryCard";
-import LessonUpcomingCard from "../StudentDashBoard/LessonUpcomingCard";
+import LessonHistoryCard from "../StudentDashBoard/LessonHistoryCard"
+import LessonUpcomingCard from "../StudentDashBoard/LessonUpcomingCard"
 
 import styles from '~components/BookedLesson/bookedLesson.module.scss'
 
