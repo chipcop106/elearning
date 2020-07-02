@@ -1,7 +1,7 @@
 let initialState = {
     studentCode: "107",
     fullName: "Nguyen Van Thai",
-    phone: "0909080809",
+    phone: "0111222333",
     email: "example@gmail.com",
     dateOfBirth: "01/09/1999",
     sex: "1",
@@ -30,6 +30,7 @@ const reducer = (prevState, { type, payload }) => {
 }
 const StudentForm = () => {
     const [state, dispatch] = React.useReducer(reducer, initialState);
+
     const handleChange = (e) => {
         const target = e.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -48,13 +49,6 @@ const StudentForm = () => {
         dispatch({ type: "STATE_CHANGE", payload: { key, value } })
     }
 
-    const datePicker = (e) => {
-        const target = e.target;
-        const value = target.value;
-        const key = target.getAttribute("name");
-        dispatch({ type: "STATE_CHANGE", payload: { key, value } })
-    }
-
     const onSubmit = (e) => {
         e.preventDefault()
         console.log(state)
@@ -62,16 +56,16 @@ const StudentForm = () => {
         for (const [key, value] of Object.entries(state)) {
            if(!value.length) invalidArray.push(key)
        }
-   if(invalidArray) alert(`Vui lòng điền đầy đủ thông tin: [${invalidArray}]`)
+   if(invalidArray.length > 0) alert(`Vui lòng điền đầy đủ thông tin: [${invalidArray}]`)
 }
 
 React.useEffect(() => {
     $(".js-select2").on('change', handleSelect2.bind(this));
-    $(".datetimepicker").on('change', datePicker.bind(this));
+    $(".datetimepicker").on('change', handleChange.bind(this));
 
     return () => {
         $(".js-select2").off('change', handleSelect2.bind(this));
-        $(".datetimepicker").off('change', datePicker.bind(this));
+        $(".datetimepicker").off('change', handleChange.bind(this));
     }
 }, [])
 return (
@@ -121,7 +115,7 @@ return (
     <p className="mg-b-0 tx-medium">Language:</p>
     </div>
     <div className="form-group col-sm-9">
-    <select name="language" id=""
+    <select name="language"
     value={state.language}
     className="form-control" onChange={handleChange}>
     <option value="1">Vietnamese</option>
@@ -266,7 +260,7 @@ return (
     <div className="form-group col-sm-9">
     <input type="password"
     className="form-control" placeholder="" name="newPassword"
-    defaultValue={state.newPassword} onChange={handleChange} />
+    defaultValue={state.newPassword} required onChange={handleChange} />
     </div>
     </div>
     </div>
@@ -278,5 +272,4 @@ return (
     </form>
     )
 }
-const domContainer = document.getElementById('react-student-form');
-ReactDOM.render(<StudentForm />, domContainer);
+export default StudentForm;
