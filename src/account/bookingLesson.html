@@ -314,6 +314,15 @@
   <script src="../../assets/js/swiper/js/swiper.min.js"></script>
   <script src="../../assets/js/custom.js"></script>
   <script>
+    $(document).ready(function () {
+    $(".js-select2").select2({
+                closeOnSelect: false,
+                placeholder: "Select program",
+                allowHtml: true,
+                allowClear: true,
+                tags: true // создает новые опции на лету
+              });
+            })
     function showlist() {
       $('#list-tutor').css({
         "display": "block"
