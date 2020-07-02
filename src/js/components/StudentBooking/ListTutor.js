@@ -1,3 +1,5 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
 import { nationMapToFlag } from '../../utils'
 import styles from '~components/StudentBooking/ListTutor.module.scss';
 
@@ -97,7 +99,7 @@ const ListTutor = ({ searchInput }) => {
 									return (
 										<li className="tutor" key={index}>
 											<div className="totor-detail">
-												<a href="teacher-detail.html" className="tutor-wrap">
+												<a href="teacherDetail.html" className="tutor-wrap">
 													<span className="tutor-avatar">
 														<img src="https://image.engoo.com/teacher/7144/m2037.jpg"
 															alt="" />
