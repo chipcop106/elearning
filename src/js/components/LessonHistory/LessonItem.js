@@ -36,9 +36,9 @@ const LessonItem = () => {
               <i className="fas fa-long-arrow-alt-right mg-x-2"></i>
               <span>{item.endTime} {convertTime(item.endTime)}</span>
             </td>
-            <td><a href="teacher-detail.html">{item.teacher}</a></td>
+            <td><a href="teacherDetail.html">{item.teacher}</a></td>
             <td><span className="tx-success">Checked</span></td>
-            <td><a href="lesson-detail.html" className="btn btn-primary">Detail</a></td>
+            <td><a href="lessonDetail.html" className="btn btn-primary">Detail</a></td>
           </tr>
         )
       })
