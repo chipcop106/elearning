@@ -1,3 +1,6 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 const SideMenu = () => {
     return (
         <ul className="list-unstyled profile-info-list course mg-b-10">

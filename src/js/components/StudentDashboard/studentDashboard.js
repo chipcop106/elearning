@@ -1,3 +1,6 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 import LessonHistoryCard from "./LessonHistoryCard"
 import LessonUpcomingCard from "./LessonUpcomingCard"
 

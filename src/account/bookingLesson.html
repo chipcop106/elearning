@@ -27,8 +27,6 @@
   <link rel="stylesheet" href="../../assets/css/csscustom.css">
 
   <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
-  <script src="../../lib/react/umd/react.development.js"></script>
-  <script src="../../lib/react-dom/umd/react-dom.development.js"></script>
   <script src="../../assets/js/utils.js"></script>
   <script src="../../lib/jquery/dist/jquery.min.js"></script>
   <!-- Fomik -->
@@ -316,6 +314,15 @@
   <script src="../../assets/js/swiper/js/swiper.min.js"></script>
   <script src="../../assets/js/custom.js"></script>
   <script>
+    $(document).ready(function () {
+    $(".js-select2").select2({
+                closeOnSelect: false,
+                placeholder: "Select program",
+                allowHtml: true,
+                allowClear: true,
+                tags: true // создает новые опции на лету
+              });
+            })
     function showlist() {
       $('#list-tutor').css({
         "display": "block"

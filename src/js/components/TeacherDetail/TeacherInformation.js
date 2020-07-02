@@ -1,3 +1,6 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 const TeacherInformation = ({ introduce, experience, certificate }) => {
   return (
     <React.Fragment>
