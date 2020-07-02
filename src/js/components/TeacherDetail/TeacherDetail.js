@@ -96,10 +96,10 @@ const initialState = {
     student: "asdasd"
   },{
     id: randomId(),
-    day:"03/7/2020",
+    day:"02/7/2020",
     courseName: "IELTS 6.0",
-    timeStart: "10:30",
-    timeEnd: "11:00",
+    timeStart: "11:00",
+    timeEnd: "11:30",
     status: "booked",
     student: "asdasd"
   }],

@@ -35,29 +35,16 @@ const BookingSchedule = ({ schedule, handleBookSchedule, handleCancelSchedule })
       })
     }
 
-    eventList.push({
-      id: randomId(),
-      title: "Empty slot",
-      courseName: "Course Name",
-      start: new Date(moment(`04/7/2020 09:30`, "DD/MM/YYYY hh:mm")),
-      end: new Date(moment(`04/7/2020 10:00`, "DD/MM/YYYY hh:mm")),
-      eventType: 1, // 0 : Bình thường || 1 : Hot
-      bookStatus: false,
-      bookInfo: null,
-      available: false,
-      isEmptySlot: true,
-    })
-
     Date.prototype.addHours = function (h) {
       this.setTime(this.getTime() + h * 60 * 60 * 1000);
       return this;
     };
 
     const getDifferentMinBetweenTime = (startDate, endDate) => {
-      const oneMinutes = 1000 * 60 * 60;
+      const oneMinutes = 1000 * 60;
       const startTime = startDate.getTime();
       const endTime = endDate.getTime();
-      const diffTime = endTime - startTime;
+      const diffTime = endTime - startTime + (startDate.getTimezoneOffset()*60*1000);
       return Math.round(diffTime / oneMinutes);
     };
 
@@ -101,20 +88,6 @@ const BookingSchedule = ({ schedule, handleBookSchedule, handleCancelSchedule })
       const m = date.getMonth() + 1;
       const y = date.getFullYear();
 
-      const randomId = () => {
-        let dt = new Date().getTime();
-        const uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
-          /[xy]/g,
-          (c) => {
-            const r = (dt + Math.random() * 16) % 16 | 0;
-            dt = Math.floor(dt / 16);
-            return (c == "x" ? r : (r & 0x3) | 0x8).toString(16);
-          }
-        );
-        return uuid;
-      };
-
-      const pad = (n) => (n >= 10 ? n : "0" + n);
       //const createEventSlots
 
       const calendarEl = document.getElementById("js-book-calendar");
@@ -168,23 +141,12 @@ const BookingSchedule = ({ schedule, handleBookSchedule, handleCancelSchedule })
       }
 
       const eventClick = (args) => {
-       /*  const element = args.el;
+       /*  Handle when click on cell
+       const element = args.el;
         if ([...element.classList].includes("available-slot") &&
           !([...element.classList].includes("empty-slot") || [...element.classList].includes("fc-event-past"))
         ) {
           const { start, end } = args.event;
-
-          const modalConfirm = document.getElementById("md-book-schedule");
-          const nameEl = modalConfirm.querySelector("#newCampaignTitle");
-          const dateEl = modalConfirm.querySelector("#js-date-time");
-          const startEl = modalConfirm.querySelector("#js-start-time");
-          const endEl = modalConfirm.querySelector("#js-end-time");
-
-          nameEl.textContent = args.event._def.extendedProps.courseName
-          dateEl.textContent = moment(start).format("DD/MM/YYYY");
-          startEl.textContent = moment(start).format("HH:mm A");
-          endEl.textContent = moment(end).format("HH:mm A");
-          $("#md-book-schedule").modal("show");
         }
         return; */
       };
@@ -284,10 +246,7 @@ const BookingSchedule = ({ schedule, handleBookSchedule, handleCancelSchedule })
             timeStart,
             timeEnd
           } = event.extendedProps;
-          let milisecondsTilStart = Date.parse(args.event._instance.range.start) - Date.parse(new Date())
-          milisecondsTilStart -= 7 * 60 * 60 * 1000 /* Convert to indochina time */
-          let minutesTilStart = milisecondsTilStart / 60000
-          console.log("còn lại phút", minutesTilStart)
+          let minutesTilStart = getDifferentMinBetweenTime(new Date(), args.event._instance.range.start)
           const html = `
   ${
             !isEmptySlot
