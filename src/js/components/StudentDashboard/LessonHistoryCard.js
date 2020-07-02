@@ -1,5 +1,6 @@
-import { convertTime } from "../../utils.js";
-import { convertDay } from "../../utils.js";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { convertTime, convertDay } from "../../utils.js";
 
 import styles from '~components/StudentDashboard/LessonHistoryCard.module.scss';
 
@@ -21,7 +22,7 @@ const LessonHistoryCard = ({ onHandleChooseRatingCourse, item }) => {
         <div className="media-body  mg-l-20 pos-relative">
           <h5 className="mg-b-10">
             <span className="badge badge-success">Finished</span>{' '}
-            <a href="lesson-detail.html" className="course-name tx-bold">
+            <a href="lessonDetail.html" className="course-name tx-bold">
               {item.courseName}
             </a>
           </h5>
@@ -69,7 +70,7 @@ const LessonHistoryCard = ({ onHandleChooseRatingCourse, item }) => {
           </div>
           <div className="course-actions">
             <div className="action-left">
-              <a href="lesson-detail.html" className="btn btn-sm btn-warning mg-r-10" target="_blank"
+              <a href="lessonDetail.html" className="btn btn-sm btn-warning mg-r-10" target="_blank"
                 rel="noopener">
                 <i className="fas fa-vote-yea mg-r-5"></i> <span>Detail lesson</span></a>
             </div>

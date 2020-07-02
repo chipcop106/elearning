@@ -1,5 +1,6 @@
-import { convertTime } from "../../utils.js";
-import { convertDay } from "../../utils.js";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { convertTime, convertDay } from "../../utils.js";
 
 const LessonUpcomingCard = ({ onHandleChooseRequireCourse, item }) => {
 
@@ -19,7 +20,7 @@ const LessonUpcomingCard = ({ onHandleChooseRequireCourse, item }) => {
         <div className="media-body  mg-l-20 pos-relative">
           <h5 className="mg-b-10 ">
             <span className="badge badge-warning">Incoming</span>{' '}
-            <a href="lesson-detail.html" className="course-name tx-bold">{item.courseName}</a>
+            <a href="lessonDetail.html" className="course-name tx-bold">{item.courseName}</a>
           </h5>
           <div className="course-information tx-14">
             <span className="mg-r-15 tx-gray-600 tx-medium"><i className="fa fa-calendar  tx-info mg-r-5"></i>

@@ -1,3 +1,6 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 const Feedback = () => {
   return (
     <div className="media-body mg-t-30 mg-lg-t-0 pd-lg-x-10 body__content">

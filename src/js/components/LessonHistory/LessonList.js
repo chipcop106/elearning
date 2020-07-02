@@ -1,4 +1,7 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
 import LessonItem from './LessonItem'
+
 const LessonList = () => {
     return (
         <div className="table-responsive">
