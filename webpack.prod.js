@@ -68,8 +68,8 @@ module.exports = merge(common,{
   plugins: [
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].css',
-    }),
-    new HtmlWebpackTagsPlugin({ tags: ['../js/Header.js','../js/Footer.js'], append: true,  usePublicPath: false }),
+      filename: 'css/[name].css'
+  }),
+  new HtmlWebpackTagsPlugin({ tags: ['../js/Header.js','../js/Footer.js','../js/ProfileSidebar.js'], append: true,  usePublicPath: false }),
   ].concat(teacherHTML).concat(accountHTML)
 });

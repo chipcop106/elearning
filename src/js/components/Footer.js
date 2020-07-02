@@ -6,7 +6,7 @@ const Footer = () => {
     return (
         <React.Fragment>
 
-  <a  id="scroll-to-top"><i className="material-icons">keyboard_arrow_up</i></a>
+  <a href={"#"} id="scroll-to-top"><i className="material-icons">keyboard_arrow_up</i></a>
   <footer className="footer">
     <div>
       <span>© <span id="js-current-year" /></span>
