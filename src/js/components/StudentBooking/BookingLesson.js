@@ -5,13 +5,14 @@ import ListTutor from './ListTutor';
 const initialState = {
   nation: "",
   gender: "",
-  program: ["Children","Youth","Basic","Advanced","Speaking", "Pronounce","Other"],
+  program: ["Children", "Youth", "Basic", "Advanced", "Speaking", "Pronounce", "Other"],
   selectedProgram: ["Children"],
   date: "",
   startTime: "06:00",
   endTime: "23:00",
   searchText: "",
 }
+
 const reducer = (prevState, { type, payload }) => {
   switch (type) {
     case "STATE_CHANGE": {
@@ -24,20 +25,19 @@ const reducer = (prevState, { type, payload }) => {
       break;
   }
 }
+
 const BookingLesson = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   const handleSelect2 = (e) => {
-    console.log("change")
     const target = e.target;
     const value = [];
     [...target.children].map(option => {
-        if (option.selected) value.push(option.value);
+      if (option.selected) value.push(option.value);
     });
-    console.log(value)
     const key = target.getAttribute("name");
     dispatch({ type: "STATE_CHANGE", payload: { key, value } })
-}
+  }
 
   const handleChange = (e) => {
     const target = e.target;
@@ -67,6 +67,7 @@ const BookingLesson = () => {
     e.preventDefault();
     console.log(state)
   }
+
   const initCalendar = () => {
     'use strict';
     const dateString = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thusday', 'Friday', 'Saturday'];
@@ -193,6 +194,7 @@ const BookingLesson = () => {
       maxTime: "23:00",
     });
   }
+  
   React.useEffect(() => {
     initCalendar();
     $(".js-select2").on('change', handleSelect2.bind(this));
