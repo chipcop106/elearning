@@ -141,8 +141,7 @@ const BookingSchedule = ({ schedule, handleBookSchedule, handleCancelSchedule })
       }
 
       const eventClick = (args) => {
-       /*  Handle when click on cell
-       const element = args.el;
+       /*  Handle when click on cell const element = args.el;
         if ([...element.classList].includes("available-slot") &&
           !([...element.classList].includes("empty-slot") || [...element.classList].includes("fc-event-past"))
         ) {
