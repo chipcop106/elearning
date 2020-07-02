@@ -14,6 +14,11 @@ module.exports = {
     'lessonHistory': componentEnrtryPrefix + 'LessonHistory/LessonHistory.js',
     'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js',
     'teacherDetail': componentEnrtryPrefix + 'TeacherDetail/TeacherDetail.js',
+    'blogDetail': componentEnrtryPrefix + 'BlogDetail/BlogDetail.js',
+    'faq': componentEnrtryPrefix + 'Faq/Faq.js',
+    'feedback': componentEnrtryPrefix + 'Feedback/Feedback.js',
+    'lessonDetail': componentEnrtryPrefix + 'LessonDetail/LessonDetail.js',
+    'notification': componentEnrtryPrefix + 'Notification/Notification.js',
     'custom': './src/scss/custom.scss',
   },
   output: {

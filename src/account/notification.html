@@ -26,11 +26,10 @@
     <link rel="stylesheet" href="../../assets/css/csscustom.css">
 
       <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
-    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-    <script src="../../react/cjs/react.development.js" ></script>
-    <script src="../../react-dom/cjs/react-dom.development.js" ></script>
+    <script src="../../lib/react/umd/react.development.js" ></script>
+    <script src="../../lib/react-dom/umd/react-dom.development.js" ></script>
     <script src="../../assets/js/utils.js" ></script>
+    <script src="../../lib/jquery/dist/jquery.min.js"></script>
     <!-- Fomik -->
     <!-- some additional css here -->
   </head>
@@ -42,112 +41,8 @@
       <div class="media d-block d-lg-flex">
         <div id="js-component-profilesidebar"></div>
         <!-- profile-sidebar -->
-        <div class="media-body mg-t-30 mg-lg-t-0 pd-lg-x-10">
-          <div class="d-xl-flex align-items-center justify-content-between mg-b-30">
-            <h4 class="mg-b-0 gradient-heading"><i class="fas fa-bell"></i> NOTIFICATION</h4>
-          </div>
-          <div class="blog__wrapper">
-            <div class="row row-sm mg-b-25 blog-list">
-              <div class="col-md-6 col-lg-4 mg-t-20">
-                <div class="card card-event">
-                  <img src="https://www.campusfrance.org/sites/default/files/parrainage.jpg"
-                  class="card-img-top" alt="">
-                  <div class="card-body tx-13">
-                    <h5><a href="blog-detail.html" class="tx-16">Chương Trình “Giúp Bạn Học Ngay, Nhận Quà Liền Tay” </a></h5>
-                    <p class="meta mg-t-5">
-                      <a href="#" class="author">Trường Minh</a>
-                      <span class="tx-12 tx-color-03">20/04/2019 10:30AM</span>
-                    </p>
-                    <p class="mg-b-0 mg-t-10">Activate a modal without writing JavaScript. Set
-                    data-toggle="modal" on a controller element, like a button... </p>
-                  </div><!-- card-body -->
-                </div><!-- card -->
-              </div><!-- col -->
-              <div class="col-md-6 col-lg-4 mg-t-20">
-                <div class="card card-event">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiQ07Ml_fNnG2tLKYTV0Z6uUp-wnpsMyPDWkj5gNBPJtFOyW-eGQ"
-                  class="card-img-top" alt="">
-                  <div class="card-body tx-13">
-                    <h5><a href="" class="tx-16">Chương Trình “Giúp Bạn Học Ngay, Nhận Quà Liền Tay”</a></h5>
-                    <p class="meta mg-t-5">
-                      <a href="#" class="author">Hương Lan</a>
-                      <span class="tx-12 tx-color-03">20/04/2019 10:30AM</span>
-                    </p>
-                    <p class="mg-b-0 mg-t-10">Activate a modal without writing JavaScript. Set
-                    data-toggle="modal" on a controller element, like a button... </p>
-                  </div><!-- card-body -->
-                </div><!-- card -->
-              </div><!-- col -->
-              <div class="col-md-6 col-lg-4 mg-t-20">
-                <div class="card card-event">
-                  <img src="https://channel.mediacdn.vn/2020/6/11/photo-1-15918699567111808674202.jpg"
-                  class="card-img-top" alt="">
-                  <div class="card-body tx-13">
-                    <h5><a href="blog-detail.html" class="tx-16">Vị ngon của biển – Combo “xịn sò”, giá khỏi lo tại Texas Chicken</a></h5>
-                    <p class="meta mg-t-5">
-                      <a href="#" class="author">Trường Minh</a>
-                      <span class="tx-12 tx-color-03">20/04/2019 10:30AM</span>
-                    </p>
-                    <p class="mg-b-0 mg-t-10">Activate a modal without writing JavaScript. Set data-toggle="modal" on a controller element, like a button... </p>
-                  </div><!-- card-body -->
-                </div><!-- card -->
-              </div><!-- col -->
-              <div class="col-md-6 col-lg-4 mg-t-20">
-                <div class="card card-event">
-                  <img src="https://channel.mediacdn.vn/2020/6/11/photo-1-15918699567111808674202.jpg"
-                  class="card-img-top" alt="">
-                  <div class="card-body tx-13">
-                    <h5><a href="blog-detail.html" class="tx-16">Vị ngon của biển – Combo “xịn sò”, giá khỏi lo tại Texas Chicken</a></h5>
-                    <p class="meta mg-t-5">
-                      <a href="#" class="author">Trường Minh</a>
-                      <span class="tx-12 tx-color-03">20/04/2019 10:30AM</span>
-                    </p>
-                    <p class="mg-b-0 mg-t-10">Activate a modal without writing JavaScript. Set data-toggle="modal" on a controller element, like a button... </p>
-                  </div><!-- card-body -->
-                </div><!-- card -->
-              </div><!-- col -->
-              <div class="col-md-6 col-lg-4 mg-t-20">
-                <div class="card card-event">
-                  <img src="https://channel.mediacdn.vn/2020/6/11/photo-1-15918699567111808674202.jpg"
-                  class="card-img-top" alt="">
-                  <div class="card-body tx-13">
-                    <h5><a href="blog-detail.html" class="tx-16">Vị ngon của biển – Combo “xịn sò”, giá khỏi lo tại Texas Chicken</a></h5>
-                    <p class="meta mg-t-5">
-                      <a href="#" class="author">Trường Minh</a>
-                      <span class="tx-12 tx-color-03">20/04/2019 10:30AM</span>
-                    </p>
-                    <p class="mg-b-0 mg-t-10">Activate a modal without writing JavaScript. Set data-toggle="modal" on a controller element, like a button... </p>
-                  </div><!-- card-body -->
-                </div><!-- card -->
-              </div><!-- col -->
-              <div class="col-md-6 col-lg-4 mg-t-20">
-                <div class="card card-event">
-                  <img src="https://channel.mediacdn.vn/2020/6/11/photo-1-15918697652771643308939.jpg"
-                  class="card-img-top" alt="">
-                  <div class="card-body tx-13">
-                    <h5><a href="" class="tx-16">Tiếp cảm hứng cho từng khoảnh khắc cuộc sống với Heineken® 0.0</a></h5>
-                    <p class="meta mg-t-5">
-                      <a href="#" class="author">Hương Lan</a>
-                      <span class="tx-12 tx-color-03">20/04/2019 10:30AM</span>
-                    </p>
-                    <p class="mg-b-0 mg-t-10">Activate a modal without writing JavaScript. Set data-toggle="modal" on a controller element, like a button... </p>
-                  </div><!-- card-body -->
-                </div><!-- card -->
-              </div><!-- col -->
-            </div>
-            <nav aria-label="Page navigation" class="mg-t-15">
-              <ul class="pagination mg-b-0 justify-content-center">
-                <li class="page-item disabled"><a class="page-link page-link-icon" href="#"><i
-                  data-feather="chevron-left"></i></a></li>
-                  <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link page-link-icon" href="#"><i
-                    data-feather="chevron-right"></i></a></li>
-                  </ul>
-                </nav>
-              </div>
-            </div><!-- media-body -->
+        <div id="react-notification"></div>
+       <!-- media-body -->
           </div>
         </div>
       </div>

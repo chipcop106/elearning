@@ -65,12 +65,10 @@ module.exports = merge(common,{
   },
   watch: true,
   plugins: [
-    new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: ['dist/css','dist/js'],
-    }), 
+    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: 'css/[name].css'
   }),
-  new HtmlWebpackTagsPlugin({ tags: ['../js/Header.js','../js/Footer.js'], append: true,  usePublicPath: false }),
+  new HtmlWebpackTagsPlugin({ tags: ['../js/Header.js','../js/Footer.js','../js/ProfileSidebar.js'], append: true,  usePublicPath: false }),
   ].concat(teacherHTML).concat(accountHTML)
 });

@@ -26,8 +26,8 @@
     <link rel="stylesheet" href="../../assets/css/csscustom.css">
 
       <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
-    <script src="../../lib/react/umd/react.development.js" ></script>
-    <script src="../../lib/react-dom/umd/react-dom.development.js" ></script>
+      <script src="../../lib/react/umd/react.development.js" ></script>
+      <script src="../../lib/react-dom/umd/react-dom.development.js" ></script>
     <script src="../../assets/js/utils.js" ></script>
     <script src="../../lib/jquery/dist/jquery.min.js"></script>
 
@@ -36,32 +36,22 @@
   </head>
   <!-- END: Head-->
 <body>
-  <div id="header"></div>  
+  <div id="header"></div>
   <div class="content content-fixed">
     <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0 dashboard-page">
       <div class="media d-block d-lg-flex">
-        <div id="js-component-profilesidebar"></div>
-        <!-- profile-sidebar -->
-        <div id="react-feedback"></div>
-         <!-- media-body -->
-            </div>
-          </div>
-        </div>
-       <div id="footer"></div>
-        <script>
-          $(document).ready(function(){
-            function toggleShowForm(e){
-              e.preventDefault();
-              let $commentBox = $(this).closest('.fb-info').find('.reply-box');
-              let $replyBtn = $commentBox.closest('.fb-info').find('.btn-reply');
-              let $cancelBtn = $commentBox.closest('.fb-info').find('.btn-cancel-form');
-              $commentBox.stop().slideToggle();
-              !$(this).hasClass('btn-reply') ? $replyBtn.fadeIn() : $replyBtn.fadeOut();
-           // !$btn.hasClass('btn-cancel-form') && $btn.stop().fadeToggle();
-         }
-         $('body').on('click', '.btn-reply',toggleShowForm);
-         $('body').on('click', '.btn-cancel-form', toggleShowForm);
-       });
-     </script>
-   </body>
-   </html>
+       <div id="js-component-profilesidebar"></div><!-- profile-sidebar -->
+       <div id="react-blog-detail"></div>
+       <!-- media-body -->
+    </div>
+  </div>
+</div>
+<div id="footer"></div>
+<script>
+  $(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>
+</body>
+
+</html>
