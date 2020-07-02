@@ -1,117 +1,3 @@
-<<<<<<< HEAD
-@@include('./../head.html')
-<body>
-  <style>
-    .tab-body label {
-      font-weight: 600
-    }
-    .tab-footer {
-      display: block;
-      text-align: center;
-    }
-    li.nav-item {
-      flex-grow: 1
-    }
-    .subscription-info {
-      margin: 0;
-      display: flex;
-      justify-content: center;
-    }
-    .subscription-info dt {
-      font-weight: 600;
-      padding-right: 10px;
-      text-align: right;
-      display: inline-block;
-      float: left;
-      width: 50%;
-    }
-    .subscription-info dd {
-      display: inline-block;
-      float: left;
-      width: 50%;
-    }
-    .subcription-title {
-      margin-bottom: 30px;
-    }
-  </style>
-  @@include('./../header.html')
-  <div class="content content-fixed">
-    <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0 dashboard-page">
-      <div class="media d-block d-lg-flex">
-        <div class="profile-sidebar pd-lg-r-25">
-          <div class="user__infomation d-flex d-lg-block flex-wrap">
-            <div class="col-sm-12 col-md-6 col-lg-12 mg-b-20">
-              <div class="avatar avatar-xxl avatar-online"><img src="../../assets/img/teacher.jpg"
-                class="rounded-circle" alt=""></div>
-                <h5 class="mg-b-2 tx-spacing--1 mg-t-15">Trần Lê Phương Quyên</h5>
-              </div><!-- col -->
-              <div class="col-sm-12 col-md-6 col-lg-12  ">
-                <label
-                class="tx-sans tx-10 tx-semibold tx-uppercase tx-color-01 tx-spacing-1 mg-b-15">Contact Information</label>
-                <ul class="list-unstyled profile-info-list mg-b-10">
-                  <li><i data-feather="home"></i><span class="">Gia Lai</span></li>
-                  <li><i data-feather="phone"></i><a href="tel:0987654321">0987654321</a></li>
-                  <li><i data-feather="mail"></i><a href="mailto:example@gmail.com">example@gmail.com</a>
-                  </li>
-                </ul>
-              </div><!-- col -->
-              <div class="col-sm-12 col-md-6 col-lg-12 mg-t-20 mg-sm-t-0 mg-lg-t-25">
-                <div class="d-flex mg-b-25">
-                  <a class="btn btn-xs btn-primary flex-fill mg-r-2 bg-orange tx-white"
-                  href="book-lesson.html">Book a Lesson</a>
-                </div>
-              </div>
-            </div><!-- row -->
-            <div class="user__navigation">
-              <div class="col-sm-6 col-md-5 col-lg-12 mg-t-20">
-                <label
-                class="tx-sans tx-10 tx-semibold tx-uppercase tx-color-01 tx-spacing-1 mg-b-15">Navigation</label>
-                <ul class="list-unstyled profile-info-list course mg-b-10">
-                  <li><i data-feather="user"></i><a href="profile.html">My Page</a></li>
-                  <li><i data-feather="aperture"></i><a href="index.html">DashBoard</a></li>
-                  <li><i data-feather="bell"></i><a href="notification.html">Notification</a></li>
-                  <li><i data-feather="calendar"></i><a href="booked-lesson.html">Booked Lessons</a></li>
-                  <li><i data-feather="calendar"></i><a href="lesson-history.html">Lesson History</a></li>
-                  <li><i data-feather="message-circle"></i><a href="feedback.html">FeedBack</a></li>
-                  <li><i data-feather="message-square"></i><a href="faq.html">FAQ</a></li>
-                </ul>
-              </div>
-            </div>
-          </div><!-- profile-sidebar -->
-          <div class="media-body mg-t-30 mg-lg-t-0 pd-lg-x-10 body__content">
-            <div class="d-xl-flex align-items-center justify-content-between mg-b-30">
-              <h4 class="mg-b-0 gradient-heading"><i class="fas fa-address-card"></i> MY ACCOUNT</h4>
-            </div>
-            <div class="teacher__detail__wrap card-box">
-              <div class="teacher__detail">
-                <div class="teacher-body">
-                  <div class="tab-navigation">
-                    <ul class="list-tab" id="js-list-tab">
-                      <li class="tab-item">
-                        <a href="javascript:;" class="tab-link active" data-index="0">ACCOUNT INFO</a>
-                      </li>
-                      <li class="tab-item">
-                        <a href="javascript:;" class="tab-link " data-index="1">PURCHASED COURSE</a>
-                      </li>
-                      <li class="tab-item">
-                        <a href="javascript:;" class="tab-link " data-index="2">PAYMENT HISTORY</a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="tab-navigation-content">
-                    <div class="swiper-container" id="js-teacher__info">
-                      <div class="teacher__info-wrap swiper-wrapper">
-                        <div class="swiper-slide">
-                          <div class="slide-tab-content">
-                            <div class="content-block">
-                              <div class="introduce-content mg-b-30">
-                                <h5 class="sub-title"><i class="fas fa-user"></i> Account
-                                </h5>
-                                <div id="react-student-form"></div>
-                                <script
-                                src="../../components/StudentProfile/StudentForm.js"></script>
-                              </div>
-=======
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
   <!-- BEGIN: Head-->
@@ -220,7 +106,6 @@
                                 <a class="btn btn-xs btn-primary flex-fill mg-r-2 bg-orange tx-white"
                                     href="book-lesson.html">Book a
                                     Lession</a>
->>>>>>> d2678174fa145f9900fba1af41252e7d3d70f09e
                             </div>
                           </div>
                         </div>
@@ -584,43 +469,6 @@
         </div>
       </div>
     </div>
-<<<<<<< HEAD
-  </div>
-</div>
-</div><!-- media-body -->
-</div>
-</div>
-</div>
-@@include('./../footer.html')
-<script>
-  $(document).ready(function () {
-    const teacherInfoSwiper = new Swiper('.swiper-container', {
-      loop: false,
-      freeModeMomentum: false,
-      preventInteractionOnTransition: true,
-      simulateTouch: false,
-      autoHeight: true,
-    })
-
-    const listTab = document.getElementById('js-list-tab');
-    const tabLinks = listTab.querySelectorAll('.tab-link');
-    const swapTab = (e) => {
-      e.preventDefault();
-      const element = e.target;
-      const indexSlide = element.dataset?.index ?? 0;
-      teacherInfoSwiper.slideTo(indexSlide, 500, false);
-      [...tabLinks].map(link => link === element ? link.classList.add('active') : link.classList.remove('active'));
-    }
-    [...tabLinks].map(link => {
-      link.addEventListener('click', swapTab);
-    });
-
-    $(".js-select2").select2({
-      closeOnSelect: false,
-      placeholder: "Learning target",
-      allowHtml: true,
-      allowClear: true,
-=======
     <a href="javascript:;" id="scroll-to-top"><i class="material-icons">keyboard_arrow_up</i></a>
 <footer class="footer">
   <div>
@@ -681,7 +529,6 @@ Công ty Mona Media. GPKD: 123456. ĐT: 1900 000. ĐC: 373/226 Lý Thường Ki�
                 placeholder: "Learning target",
                 allowHtml: true,
                 allowClear: true,
->>>>>>> d2678174fa145f9900fba1af41252e7d3d70f09e
                 tags: true // создает новые опции на лету
               });
   });

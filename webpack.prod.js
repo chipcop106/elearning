@@ -35,7 +35,6 @@ function generateHtmlPlugins(templateDir, sub) {
           removeEmptyAttributes: true,
           removeStyleLinkTypeAttributes: true,
           keepClosingSlash: true,
-          minifyJS: true,
           minifyCSS: true,
           minifyURLs: true,
       },
@@ -66,9 +65,7 @@ module.exports = merge(common,{
   },
   watch: true,
   plugins: [
-    new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: ['dist/css','dist/js'],
-    }), 
+    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: 'css/[name].css'
   }),

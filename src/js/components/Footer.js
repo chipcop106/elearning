@@ -1,9 +1,12 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 const Footer = () => {
 
     return (
         <React.Fragment>
 
-  <a href="javascript:;" id="scroll-to-top"><i className="material-icons">keyboard_arrow_up</i></a>
+  <a  id="scroll-to-top"><i className="material-icons">keyboard_arrow_up</i></a>
   <footer className="footer">
     <div>
       <span>© <span id="js-current-year" /></span>

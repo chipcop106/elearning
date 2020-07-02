@@ -1,3 +1,5 @@
+let calendar;
+
 Date.prototype.addHours = function (h) {
     this.setTime(this.getTime() + h * 60 * 60 * 1000);
     return this;
@@ -140,7 +142,7 @@ $(document).ready(function () {
     };
     
 
-    const calendar = new FullCalendar.Calendar(calendarEl, {
+    calendar = new FullCalendar.Calendar(calendarEl, {
         height: 500,
         expandRows: true,
         slotMinTime: "01:00",
@@ -300,12 +302,25 @@ $(document).ready(function () {
             {
                 id: randomId(),
                 title: "Event Booked",
-                start: new Date(moment(`${pad(d-1)}/${m}/2020 10:30`, "DD/MM/YYYY hh:mm")),
-                end: new Date(moment(`${pad(d-1)}/${m}/2020 11:00`, "DD/MM/YYYY hh:mm")),
+                start: new Date(moment(`${pad(d-1)}/${m}/2020 12:30`, "DD/MM/YYYY hh:mm")),
+                end: new Date(moment(`${pad(d-1)}/${m}/2020 13:00`, "DD/MM/YYYY hh:mm")),
                 eventType: 0, // 0 : Bình thường || 1 : Hot
                 bookStatus: true,
                 bookInfo: {
-                    name: "Trương Văn Lam",
+                    name: "Huynh van Banh",
+                },
+                available: false,
+                isEmptySlot: false,
+            },
+            {
+                id: randomId(),
+                title: "Event Booked",
+                start: new Date(moment(`${pad(d)}/${m}/2020 08:30`, "DD/MM/YYYY hh:mm")),
+                end: new Date(moment(`${pad(d)}/${m}/2020 09:00`, "DD/MM/YYYY hh:mm")),
+                eventType: 0, // 0 : Bình thường || 1 : Hot
+                bookStatus: true,
+                bookInfo: {
+                    name: "Huynh van Banh",
                 },
                 available: false,
                 isEmptySlot: false,
@@ -420,3 +435,4 @@ $(document).ready(function () {
         value ? nonBookedEvents.hide() : nonBookedEvents.show();
     }
 });
+
