@@ -1,5 +1,4 @@
-import { convertTime } from "../../utils.js";
-import { convertDay } from "../../utils.js";
+import { convertTime, convertDay } from "../../utils.js";
 
 const LessonUpcomingCard = ({ onHandleChooseRequireCourse, item }) => {
 

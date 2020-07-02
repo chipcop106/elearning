@@ -1,5 +1,4 @@
-import { convertDay } from '../../utils'
-import { convertTime } from '../../utils'
+import { randomId } from '../../utils'
 import RatingLessonModal from '../StudentDashBoard/RatingLessonModal'
 import RequireLessonModal from '../StudentDashboard/RequireLessonModal'
 import LessonHistoryCard from "../StudentDashBoard/LessonHistoryCard";
@@ -9,7 +8,7 @@ import styles from '~components/BookedLesson/bookedLesson.module.scss'
 
 let initialState = {
   upcomingLesson: [{
-    courseId: "10",
+    courseId: randomId(),
     teacher: "Hoàng Thị Uyên Phương",
     images: "https://image.engoo.com/teacher/15867/p2872.jpg",
     courseName: "IELST - Professional",
@@ -20,7 +19,7 @@ let initialState = {
     document: ["ReadingSpeaking.doc", "Listening.doc"],
     skype: "http://skype.com/abc",
   }, {
-    courseId: "11",
+    courseId: randomId(),
     teacher: "Hoàng Văn Thái",
     images: "https://images.unsplash.com/photo-1593087989983-e887d642a19c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
     courseName: "IELST - Beginner",
@@ -32,7 +31,7 @@ let initialState = {
     skype: "http://skype.com/abc",
   }],
   lessonHistory: [{
-    courseId: "1",
+    courseId: randomId(),
     teacher: "Hoàng Thị Uyên Phương",
     images: "https://image.engoo.com/teacher/15867/p2872.jpg",
     courseName: "IELST - Professional",
@@ -42,7 +41,7 @@ let initialState = {
     note: "Student have a good speaking skill",
     ratingCourse: "90",
   }, {
-    courseId: "2",
+    courseId: randomId(),
     teacher: "Hoàng Văn Thái",
     images: "https://images.unsplash.com/photo-1593087989983-e887d642a19c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
     courseName: "IELST - Beginner",

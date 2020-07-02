@@ -1,8 +1,7 @@
-import { convertTime } from "../../utils.js";
-import { convertDay } from "../../utils.js";
+import { convertTime, randomId } from "../../utils.js";
 
 const initialState = [{
-  courseId: "1",
+  courseId: randomId(),
   teacher: "Hoàng Thị Uyên Phương",
   images: "https://image.engoo.com/teacher/15867/p2872.jpg",
   courseName: "IELST - Professional",
@@ -12,7 +11,7 @@ const initialState = [{
   note: "Student have a good speaking skill",
   ratingCourse: "90",
 }, {
-  courseId: "2",
+  courseId: randomId(),
   teacher: "Hoàng Văn Thái",
   images: "https://images.unsplash.com/photo-1593087989983-e887d642a19c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
   courseName: "IELST - Beginner",
