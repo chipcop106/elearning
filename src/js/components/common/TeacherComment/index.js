@@ -1,3 +1,1 @@
-import TeacherComment from './TeacherComment';
-
-export default TeacherComment;
+export default from './TeacherComment';
