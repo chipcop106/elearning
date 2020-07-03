@@ -7,7 +7,7 @@ import RequireLessonModal from '../StudentDashboard/RequireLessonModal'
 import LessonHistoryCard from "../StudentDashBoard/LessonHistoryCard"
 import LessonUpcomingCard from "../StudentDashBoard/LessonUpcomingCard"
 import CancelBookingLessonModal from "../CancelBookingLessonModal"
-import SkeletonCard from "../SkeletonCard"
+import SkeletonLessonCard from "../common/Skeleton/SkeletonLessonCard"
 
 import styles from '~components/BookedLesson/bookedLesson.module.scss'
 
@@ -135,11 +135,10 @@ const BookedLesson = () => {
 
   return (
     <React.Fragment>
-     {loading && <SkeletonCard />}
-     { !loading && <ul className="list-wrap">
+     <ul className="list-wrap">
         {
          state.upcomingLesson.map((item, index) => {
-            return <LessonUpcomingCard
+            return loading?<SkeletonLessonCard key={index}/>:<LessonUpcomingCard
                     key={index}
                     onHandleChooseRequireCourse={handleChooseRequireCourse}
                     onHandleCancelBooking={handleCancelBooking}
@@ -148,14 +147,13 @@ const BookedLesson = () => {
         }
         {
           state.lessonHistory.map((item, index) => {
-            return <LessonHistoryCard
+            return loading?<SkeletonLessonCard key={index}/>:<LessonHistoryCard
                     key={index}
                     onHandleChooseRatingCourse={handleChooseRatingCourse}
                     item={item} />
           })
         }
       </ul>
-    }
       
       <RatingLessonModal course={state.ratingCourse} />
       <RequireLessonModal course={state.requireCourse} />

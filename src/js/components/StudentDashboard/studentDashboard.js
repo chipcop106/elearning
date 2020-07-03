@@ -7,6 +7,9 @@ import LessonUpcomingCard from "./LessonUpcomingCard"
 import RatingLessonModal from "./RatingLessonModal"
 import RequireLessonModal from "./RequireLessonModal"
 import CancelBookingLessonModal from "../CancelBookingLessonModal"
+
+import SkeletonLessonCard from '../common/Skeleton/SkeletonLessonCard';
+
 import { randomId } from "../../utils.js"
 
 let initialState = {
@@ -102,6 +105,7 @@ const reducer = (prevState, { type, payload }) => {
 const Dashboard = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
    const [stateCancelLesson, setStateCancelLesson] = React.useState(initialCancelLesson);
+   const [loading, setLoading] = React.useState(false)
 
   const handleChooseRatingCourse = (item) => {
     let key = "course"
@@ -122,6 +126,15 @@ const Dashboard = () => {
       end:item.endTime})
     $("#md-cancel-schedule").modal("show")
   }
+
+  React.useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <React.Fragment>
@@ -153,7 +166,7 @@ const Dashboard = () => {
                 <div className="course-horizental mg-t-20">
                   <ul className="list-wrap">
                     {
-                      state.upcomingLesson.map((item, index) => {
+                      loading?<SkeletonLessonCard/>:state.upcomingLesson.map((item, index) => {
                         return <LessonUpcomingCard
                           key={index}
                           onHandleChooseRequireCourse={handleChooseRequireCourse}
@@ -172,7 +185,7 @@ const Dashboard = () => {
                 <div className="course-horizental mg-t-20">
                   <ul className="list-wrap">
                     {
-                      state.lessonHistory.map((item, index) => {
+                      loading?<SkeletonLessonCard/>:state.lessonHistory.map((item, index) => {
                         return <LessonHistoryCard
                           key={index}
                           onHandleChooseRatingCourse={handleChooseRatingCourse}

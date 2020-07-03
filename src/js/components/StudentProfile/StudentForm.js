@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 
 let initialState = {
     studentCode: "107",
-    fullName: "Nguyen Van Thai",
+    fullName: "Nguyen Văn Thái",
+    avatar: "student.png",
+    hometown: "Gia Lai",
     phone: "0111222333",
     email: "example@gmail.com",
     dateOfBirth: "01/09/1999",

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import NotificationItem from './NotificationItem';
+import SkeletonNotification from "../common/Skeleton/SkeletonNotification";
 
 const initialState = [{
   title: "Chương Trình “Giúp Bạn Học Ngay, Nhận Quà Liền Tay",
@@ -30,6 +31,16 @@ const initialState = [{
 
 const Notification = () => {
   const [state, setState] = React.useState(initialState)
+  const [loading, setLoading] = React.useState(false)
+  React.useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
+
   return (
     <React.Fragment>
       <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
@@ -41,12 +52,15 @@ const Notification = () => {
               state.map((item, index)=>{
                 return (
                   <div className="col-md-6 col-lg-4 mg-t-20" key={index}>
-                    <NotificationItem
-                      title={item.title}
-                      thumnail={item.thumnail}
-                      author={item.author}
-                      time={item.time}
-                      content={item.content}/>
+                    {
+                      loading?<SkeletonNotification/>:
+                      <NotificationItem
+                          title={item.title}
+                          thumnail={item.thumnail}
+                          author={item.author}
+                          time={item.time}
+                          content={item.content}/>
+                    }
                     </div>
                 )
               })

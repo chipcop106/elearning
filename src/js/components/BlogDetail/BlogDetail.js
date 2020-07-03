@@ -1,17 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import SkeletonBlogCard from "../common/Skeleton/SkeletonBlogCard"
 
 const BlogDetail = () => {
+  const [loading, setLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <React.Fragment>
-      {/* <!-- Breadcrumb --> */}
-      <nav aria-label="breadcrumb">
-        <ol className="breadcrumb breadcrumb-style1 mg-b-30">
-          <li className="breadcrumb-item tx-primary"><a href="notification.html"><i className="fas fa-bell mg-r-5"></i> Notification</a></li>
-          <li className="breadcrumb-item active" aria-current="page">Chương Trình “Giúp Bạn Học Ngay, Nhận Quà Liền Tay”</li>
-        </ol>
-      </nav>
-      {/* <!-- End breadcrumb --> */}
+    loading?<SkeletonBlogCard/>:<React.Fragment>
       <div className="content-blog bd-0-f">
         <div className="post-detail-cover">
           <img src="https://www.campusfrance.org/sites/default/files/parrainage.jpg" alt="banner" className="banner-img" />

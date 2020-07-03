@@ -1,7 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import SkeletonFeedback from "../common/Skeleton/SkeletonFeedback";
 
 const Feedback = () => {
+  const [loading, setLoading] = React.useState(false)
+
+  React.useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <React.Fragment>
       <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
@@ -46,7 +57,9 @@ const Feedback = () => {
             </div>
           </div>
         </div>
-        <div className="fb-list">
+        {
+          loading?<SkeletonFeedback/>:(
+            <div className="fb-list">
           <div className="fb-item">
             <div className="fb-avatar">
               <img src="../../assets/img/teacher.jpg" alt="avatar" className="avatar" />
@@ -223,6 +236,8 @@ const Feedback = () => {
             </div>
           </div>
         </div>
+          )
+        }
       </div>
       <nav aria-label="Page navigation" className="mg-t-10">
         <ul className="pagination mg-b-0 justify-content-end">

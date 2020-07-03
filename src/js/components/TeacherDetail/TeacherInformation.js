@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import SkeletonLessonCard from "../common/Skeleton/SkeletonLessonCard"
+
 const TeacherInformation = ({ introduce, experience, certificate }) => {
   return (
     <React.Fragment>

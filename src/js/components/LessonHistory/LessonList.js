@@ -1,10 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import LessonItem from './LessonItem'
-
+import SkeletonLessonHistoryCard from "../common/Skeleton/SkeletonLessonHistoryCard"
 const LessonList = () => {
-    return (
-        <div className="table-responsive">
+    const [loading, setLoading] = React.useState(false);
+    React.useEffect(() => {
+        setLoading(true);
+        const timer = setTimeout(() => {
+          setLoading(false);
+        }, 5000);
+        return () => clearTimeout(timer);
+      }, []);
+
+    return loading? <SkeletonLessonHistoryCard/>:(
+    <div className="table-responsive">
             <table className="table">
                 <thead className="thead-light">
                     <tr>
