@@ -4,9 +4,9 @@
       "target": "es6",
       "module": "commonjs",
       "allowSyntheticDefaultImports": true,
-      "baseUrl": "./",
+      "baseUrl": ".",
       "paths": {
-        "~src/*": ["src/*"],
+        "~/*": ["src/*"],
         "~assets/*": ["assets/*"],
         "~components/*": ["src/js/components/*"]
       }

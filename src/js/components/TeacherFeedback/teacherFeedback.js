@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {randomId} from '../../utils';
+import TeacherComment from '../Common/TeacherComment';
+
 import styles from '../TeacherFeedback/teacherFeedback.module.scss';
 
 const initialState = {
@@ -10,7 +12,7 @@ const initialState = {
             id:randomId(),
             stName: 'Truong Van Lam',
             stAvatar: 'https://i.pinimg.com/236x/aa/84/88/aa8488c0bdc927ac836586c004c7cb12.jpg',
-            stFeedback: 'Hello my world',
+            stFeedback: '',
             lessonTime: '12/06/2020 10:30AM (Vietnam Time)',
             lessonName: 'Lesson 6: ReactJS application',
             rating: '3',
@@ -77,85 +79,55 @@ const initialState = {
     ]
 }
 
-const TeacherComment = ({id, teacherName, teacherAvatar, dateTime, commentContent, handleUpdateComment}) => {
-    const [content, setContent] = React.useState(commentContent);
-    const [editContent, setEditContent] = React.useState(content);
-    const [editComment, setEditComment] = React.useState(false);
 
-    const contentRef = React.createRef();
-    const editBoxRef = React.createRef();
-    
-    const toggleBox = () => {
-        if(editComment){
-            contentRef.current.style.display = 'none';
-            editBoxRef.current.style.display = 'block';
-        }else{
-            editBoxRef.current.style.display = 'none';
-            contentRef.current.style.display = 'block';
-        }
+
+
+const FeedbackRow = ({stName, stAvatar,stFeedback, lessonTime, lessonName, teacherComments, rating, handleUpdateComment, addComment}) => {
+    const [content, setContent] = React.useState('');
+    const [isEditing, setIsEditing] = React.useState(false);
+    const [showReplyBtn, setShowReplyBtn] = React.useState(true);
+    const [showReplyForm, setShowReplyForm] = React.useState(false);
+
+    const replyRef = React.createRef();
+    const commentBoxRef = React.createRef();
+
+    const toggleReply = () =>{
+        setShowReplyBtn(!isEditing);
+        setShowReplyForm(isEditing);
     }
 
-    const _showEditBox = () => {
-        setEditContent(content);
-        setEditComment(true);
+    const _showReply = (event) =>{
+        event.preventDefault();
+        setContent('');
+        setIsEditing(true);
     }
 
-    const _hideEditBox = () => {
-        setEditContent(content);
-        setEditComment(false);
-       
-    }
-
-    const _saveEditComment = () => {
-        setContent(editContent);
-        handleUpdateComment(id, editContent);
-        setEditComment(false);
+    const _hideReply = (event) =>{
+        event.preventDefault();
+        setContent('');
+        setIsEditing(false);
     }
 
     const _onChange = (event) => {
         event.preventDefault();
-        setEditContent(event.target.value);
+        setContent(event.target.value);
     }
 
-    React.useEffect(() => {
-        toggleBox();
-    }, [editComment])
+    const _onSubmit = (event) => {
+        event.preventDefault();
+        addComment(content);
+        setContent('');
+        setIsEditing(false)
+    }
 
-    return (
-        <>
-        <div className="tc-comment">
-            <img src={teacherAvatar} alt="avatar " className="avatar avatar rounded-circle object-fit" />
-            <div className="tc-content"  ref={contentRef}>
-                <div className="box">
-                    <p className="teacher-name">{teacherName}</p>
-                    <p className="mg-b-0">{content}</p>
-                 
-                </div>
-                <div className="meta">
-                    <div className="date">Comment at 10:30 AM | 20/10/2020</div>
-                </div>
-                <span type="button" className="edit-box" onClick={_showEditBox}><i className="fa fa-edit" /></span>
-            </div>
-            <div className="edit-form flex-grow-1 mg-l-10 rounded-10 bd-1 bd-primary" ref={editBoxRef}>
-                <textarea className="form-control" rows="5" onChange={_onChange} value={editContent}/>
-                <div className="mg-t-10">
-                    <button type="button" className="btn btn-primary mg-r-10 btn-sm" onClick={_saveEditComment}><i className="fa fa-save mg-r-5"></i> Save</button>
-                    <button type="button" className="btn btn-secondary btn-sm" onClick={_hideEditBox}><i className="fa fa-times mg-r-5"></i> Cancel</button>
-                </div>
-            </div>
-        </div>
-        </>
-    )
-}
-
-
-
-const FeedbackRow = ({stName, stAvatar,stFeedback, lessonTime, lessonName, teacherComments, rating, handleUpdateComment}) => {
+    React.useEffect(() =>{
+        toggleReply();
+    }, [isEditing])
 
     return (
         <div className="fb-item">
             <div className="fb-avatar">
-                <img src="../../assets/img/teacher.jpg" alt="avatar" className="avatar" />
+                <img src={stAvatar} alt="avatar" className="avatar" />
             </div>
             <div className="fb-info">
                 <div className="name-rating">
@@ -171,7 +143,8 @@ const FeedbackRow = ({stName, stAvatar,stFeedback, lessonTime, lessonName, teach
                     </div>
                 </div>
                 <div className="feedback-comment">
-                    <p className="tx-gray-500 tx-bold">The student didn't leave any feedback for this class</p>
+                    {!!stFeedback && stFeedback !== '' ? <p>{stFeedback}</p> : <p className="tx-danger tx-medium">The student didn't leave any feedback for this class</p>}
+                   
                 </div>
                 <div className="metas">
                     <div className="meta">
@@ -181,18 +154,26 @@ const FeedbackRow = ({stName, stAvatar,stFeedback, lessonTime, lessonName, teach
                        <span>{lessonName}</span>
                     </div>
                 </div>
-                <div className="reply-box">
-                    <div className="form-group cmt-box">
-                        <textarea rows={5} className="form-control" defaultValue={""} />
+                {showReplyForm && (
+                    <div className="reply-box" ref={commentBoxRef}>
+                        <div className="form-group cmt-box">
+                            <textarea rows={5} className="form-control" value={content} onChange={_onChange} />
+                        </div>
+                        <div className="cmt-action">
+                            <a href={`#`} className="btn btn-primary mg-r-10" onClick={_onSubmit}>Submit</a>
+                            <a href={`#`} className="btn btn-light btn-cancel-form" onClick={_hideReply}>Cancel</a>
+                        </div>
                     </div>
-                    <div className="cmt-action">
-                        <a href={`#`} className="btn btn-primary mg-r-10">Submit</a>
-                        <a href={`#`} className="btn btn-light btn-cancel-form">Cancel</a>
-                    </div>
+                )}
+             
+                {showReplyBtn && (
+                <div className="actions" ref={replyRef}>
+                    <a href={`#`} className="btn btn-sm btn-outline-twitter btn-icon btn-reply" onClick={_showReply}><i className="fas fa-reply" /> Reply</a>
                 </div>
-                <div className="actions">
-                    <a href={`#`} className="btn btn-sm btn-outline-twitter btn-icon btn-reply"><i className="fas fa-reply" /> Reply</a>
-                </div>
+                )
+                    
+                }
+                
                 <div className="tc-comment-wrap">
                     <h6 className="mg-b-15">The teacher had commented on this feedback:</h6>
                     {!!teacherComments && teacherComments.length > 0 && teacherComments.map(comment => <TeacherComment 
@@ -226,6 +207,11 @@ const TeacherFeedback = () => {
     const handleUpdateComment = (id, content) =>{
         console.log({id, content});
     }
+
+    const addComment = () =>{
+
+    }
+
     return (
         <div>
             <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
@@ -291,6 +277,7 @@ const TeacherFeedback = () => {
                         teacherComments={fb.teacherComments}
                         rating={fb.rating}
                         handleUpdateComment={handleUpdateComment}
+                        addComment={addComment}
                     />)}
                    
                 </div>
