@@ -72,10 +72,10 @@ const initialState = {
     status: "available",
   }, {
     id: randomId(),
-    day: "02/7/2020",
+    day: "04/7/2020",
     courseName: "TOEIC Basic",
-    timeStart: "21:00",
-    timeEnd: "21:30",
+    timeStart: "01:30",
+    timeEnd: "02:00",
     status: "booked",
     student: "Hoàng Văn Thái"
   }, {
@@ -112,15 +112,17 @@ const initialState = {
 }
 
 const initialCancelLesson = {
+  id: "",
   name: "",
-  day: "",
+  date: "",
   start: "",
   end: "",
 }
 
 const initialBookLesson = {
+  id: "",
   name: "",
-  day: "",
+  date: "",
   start: "",
   end: "",
 }
@@ -136,38 +138,38 @@ const TeacherDetail = () => {
     setLoading(true);
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 5000);
+    }, 2000);
     return () => clearTimeout(timer);
   }, []);
 
 
-  const onHandleBookSchedule = (name, day, start, end) => {
+  const onHandleBookLesson = (id, name, date, start, end) => {
     setStateBookLesson({
       ...stateBookLesson,
+      id,
       name,
-      day,
+      date,
       start,
       end
     })
-    $("#md-book-schedule").modal("show")
   }
 
-  const onHandleCancelSchedule = (name, day, start, end) => {
+  const onHandleCancelLesson = (id, name, date, start, end) => {
     setStateCancelLesson({
       ...stateCancelLesson,
+      id,
       name,
-      day,
+      date,
       start,
       end
     })
-    $("#md-cancel-schedule").modal("show")
   }
 
   return (
     <div className="teacher__detail__wrap card-box">
       <div className="teacher__detail">
         {
-          loading ? <SkeletonLessonCard /> : (
+          loading ? <SkeletonLessonCard /> :
             <div className="teacher-header">
               <div className="teacher-avatar">
                 <img src={state.image} alt="avatar" />
@@ -188,7 +190,6 @@ const TeacherDetail = () => {
                 </div>
               </div>
             </div>
-          )
         }
         <div className="teacher-body">
           <div className="tab-navigation">
@@ -219,8 +220,8 @@ const TeacherDetail = () => {
                   <div className="slide-tab-content">
                     <BookingSchedule
                       schedule={state.schedule}
-                      handleBookSchedule={onHandleBookSchedule}
-                      handleCancelSchedule={onHandleCancelSchedule} />
+                      handleBookLesson={onHandleBookLesson}
+                      handleCancelLesson={onHandleCancelLesson} />
                   </div>
                 </div>
                 <div className="swiper-slide">
@@ -234,13 +235,15 @@ const TeacherDetail = () => {
         </div>
       </div>
       <CancelBookingLessonModal
+        id={stateCancelLesson.id}
         name={stateCancelLesson.name}
-        day={stateCancelLesson.day}
+        date={stateCancelLesson.date}
         start={stateCancelLesson.start}
         end={stateCancelLesson.end} />
       <BookingLessonModal
+        id={stateBookLesson.id}
         name={stateBookLesson.name}
-        day={stateBookLesson.day}
+        date={stateBookLesson.date}
         start={stateBookLesson.start}
         end={stateBookLesson.end} />
     </div>

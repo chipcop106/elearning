@@ -9,12 +9,11 @@ const Faq = () => {
     setLoading(true);
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 5000);
+    }, 2000);
     return () => clearTimeout(timer);
   }, []);
 
-  return (
-      <React.Fragment>
+  return <React.Fragment>
       <div className="faq-image tx-center">
         <img src="../../assets/img/faq.svg" alt="faq" className="wd-300" />
       </div>
@@ -23,7 +22,7 @@ const Faq = () => {
           <h4 className="mg-b-0 gradient-heading"><i className="fas fa-comment-alt"></i> Frequently Asked Questions</h4>
         </div>
         {
-          loading?<SkeletonFaq/>:(
+          loading?<SkeletonFaq/>:
             <div id="accordion">
           <div className="card">
             <div className="card-header" id="headingOne">
@@ -71,11 +70,9 @@ const Faq = () => {
             </div>
           </div>
         </div>
-          )
         }
       </div>
       </React.Fragment>
-  )
 }
 
 ReactDOM.render(<Faq />, document.getElementById('react-faq'));

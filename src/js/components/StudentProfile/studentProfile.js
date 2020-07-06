@@ -38,43 +38,6 @@ const StudentProfile = () => {
             <div className="swiper-slide">
               <div className="slide-tab-content">
                 <div className="purchased-tab pd-x-15">
-                  <div className="subcription-title lh-base">
-                    <h5>Purchased course</h5>
-                    <ul className="mg-0">
-                      <li>You can make a schedule for the duration of the course</li>
-                      <li>You are only allowed to cancel the class schedule 30 minutes in advance</li>
-                      <li>After the course expires, you will not be allowed to schedule more classes</li>
-                    </ul>
-                    <a href="#" className="mg-t-15 d-block tx-primary"><i className="fa fa-info-circle mg-r-5" /> For more information, see our FAQ</a>
-                  </div>
-                  <div className="fb-summary-container">
-                    <div className="fb-summary pd-t-0-f bd-t-0-f">
-                      <div className="fb-type">
-                        <div className="fb-radio">
-                          <label>
-                            <input type="radio" name="fbType" group="feedback" defaultChecked />
-                            <span>All Course <span className="number">32</span></span>
-                          </label>
-                        </div>
-                      </div>
-                      <div className="fb-type">
-                        <div className="fb-radio">
-                          <label>
-                            <input type="radio" name="fbType" group="feedback" />
-                            <span>On Going <span className="number">22</span></span>
-                          </label>
-                        </div>
-                      </div>
-                      <div className="fb-type">
-                        <div className="fb-radio">
-                          <label>
-                            <input type="radio" name="fbType" group="feedback" />
-                            <span>Finished <span className="number">10</span></span>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                   <PurchasedCourseList />
                 </div>
               </div>

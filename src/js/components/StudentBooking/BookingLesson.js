@@ -12,6 +12,15 @@ const initialState = {
   endTime: "23:00",
   searchText: "",
 }
+const initialSearchInput = {
+  nation: "",
+  gender: "",
+  selectedProgram: ["Children"],
+  date: "",
+  startTime: "06:00",
+  endTime: "23:00",
+  searchText: "",
+}
 
 const reducer = (prevState, { type, payload }) => {
   switch (type) {
@@ -28,7 +37,7 @@ const reducer = (prevState, { type, payload }) => {
 
 const BookingLesson = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
-
+  const [searchInput, setSearchInput] = React.useState(initialSearchInput);
   const handleSelect2 = (e) => {
     const target = e.target;
     const value = [];
@@ -65,7 +74,7 @@ const BookingLesson = () => {
 
   const onSearch = (e) => {
     e.preventDefault();
-    console.log(state)
+    setSearchInput({...state})
   }
 
   const initCalendar = () => {
@@ -248,9 +257,9 @@ const BookingLesson = () => {
                     name="selectedProgram"
                     value={state.selectedProgram}
                     onClick={handleSelect2}>
-                    {!!state.program && state.program.length > 0 ? (
-                      state.program.map((item, index) => <option key={index} value={item}>{item}</option>)) :
-                      (<option value="">Loading option... </option>)}
+                    {!!state.program && state.program.length > 0 && state.program.map((item, index) =>
+                      <option key={index} value={item}>{item}</option>)
+                    }
                   </select>
                 </div>
               </div>
@@ -298,7 +307,7 @@ const BookingLesson = () => {
           </div>
         </div>
       </div>
-      <ListTutor searchInput={state} />
+      <ListTutor searchInput={searchInput} />
     </React.Fragment>
   )
 }

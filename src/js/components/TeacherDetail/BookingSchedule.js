@@ -4,14 +4,14 @@ import styles from '~components/TeacherDetail/BookingSchedule.module.scss';
 
 let calendar;
 
-const BookingSchedule = ({ schedule, handleBookSchedule, handleCancelSchedule }) => {
+const BookingSchedule = ({ schedule, handleBookLesson, handleCancelLesson }) => {
 
-  const bookSchedule = (name, day, start, end) => {
-    handleBookSchedule(name, day, start, end)
+  const bookLesson = (id, name, date, start, end) => {
+    handleBookLesson(id, name, date, start, end)
   }
 
-  const cancelSchedule = (name, day, start, end) => {
-    handleCancelSchedule(name, day, start, end)
+  const cancelLesson = (id, name, date, start, end) => {
+    handleCancelLesson(id, name, date, start, end)
   }
 
   const calendarInit = () => {
@@ -264,6 +264,8 @@ const BookingSchedule = ({ schedule, handleBookSchedule, handleCancelSchedule })
       ${minutesTilStart < 30 && minutesTilStart > 0
                   ? `
         <a href="javascript:;" class="fix-btn cancel-schedule"
+        data-toggle="modal"
+        data-target="#md-cancel-schedule"
         data-id="${event.id}"
         data-start="${event.start}"
         data-end="${event.end}">Cancel</a>
@@ -273,9 +275,11 @@ const BookingSchedule = ({ schedule, handleBookSchedule, handleCancelSchedule })
     ${
               available && (minutesTilStart > 30 || minutesTilStart < 0)
                 ? `<a href="javascript:;" class="fix-btn book-schedule"
-        data-id="${event.id}"
-        data-start="${event.start}"
-        data-end="${event.end}"}>Book</a>`
+                 data-toggle="modal"
+                 data-target="#md-book-schedule"
+                data-id="${event.id}"
+                data-start="${event.start}"
+                data-end="${event.end}"}>Book</a>`
                 : ""
               }
     </div>
@@ -324,25 +328,23 @@ const BookingSchedule = ({ schedule, handleBookSchedule, handleCancelSchedule })
       $('body').on('click', '.book-schedule', function (e) {
         e.preventDefault();
         const id = this.getAttribute('data-id');
-        $("#md-book-schedule").attr("data-id", id);
         let index = schedule.findIndex(x => x.id === id)
         const name = schedule[index].courseName;
-        const day =  moment(this.getAttribute('data-start')).format("DD/MM/YYYY");
+        const date =  moment(this.getAttribute('data-start')).format("DD/MM/YYYY");
         const start = moment(this.getAttribute('data-start')).format("HH:mm A");
         const end = moment(this.getAttribute('data-end')).format("HH:mm A");
-        bookSchedule(name, day, start, end);
+        bookLesson(id, name, date, start, end);
       });
 
       $('body').on('click', '.cancel-schedule', function (e) {
         e.preventDefault();
         const id = this.getAttribute('data-id');
-        $("#md-cancel-schedule").attr("data-id", id);
         let index = schedule.findIndex(x => x.id === id)
         const name = schedule[index].courseName;
-        const day =  moment(this.getAttribute('data-start')).format("DD/MM/YYYY");
+        const date =  moment(this.getAttribute('data-start')).format("DD/MM/YYYY");
         const start = moment(this.getAttribute('data-start')).format("HH:mm A");
         const end = moment(this.getAttribute('data-end')).format("HH:mm A");
-        cancelSchedule(name, day, start, end);
+        cancelLesson(id, name, date, start, end);
       });
 
       $toggleCheckbox = $('#student-toggle-checkbox');

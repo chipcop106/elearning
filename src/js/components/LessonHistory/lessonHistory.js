@@ -40,8 +40,7 @@ const LessonHistory = () => {
     $(".datetimepicker").on('change', handleChange.bind(this));
   }, []);
   
-  return (
-    <React.Fragment>
+  return <React.Fragment>
     <div className="fb-summary-container pd-x-20-f pd-b-0-f pd-t-20-f ">
       <form action="" method="get" className="st-date" onSubmit={onSubmit}>
         <div className="row">
@@ -67,7 +66,6 @@ const LessonHistory = () => {
     </div>
     <LessonList/>
     </React.Fragment>
-  )
 }
 
 ReactDOM.render(<LessonHistory />, document.getElementById('react-lesson-history'));

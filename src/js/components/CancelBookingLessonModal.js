@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const CancelBookingLessonModal = ({name, day, start, end, style}) => {
-  return (
-    <div style={style} className="modal fade effect-scale" id="md-cancel-schedule" tabIndex="-1" role="dialog" aria-labelledby="active-slot"
+const CancelBookingLessonModal = ({id, name, date, start, end, style}) => {
+  const onSubmitCancelLesson = () => {
+    console.log(id)
+  }
+  return <div style={style} className="modal fade effect-scale" id="md-cancel-schedule" tabIndex="-1" role="dialog" aria-labelledby="active-slot"
       aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered modal-sm" role="document">
         <div className="modal-content">
@@ -14,18 +16,17 @@ const CancelBookingLessonModal = ({name, day, start, end, style}) => {
             </button>
           </div>
           <div className="modal-body">
-            <p>Date: <span id="js-date-time" className="tx-medium">{day}</span></p>
+            <p>Date: <span id="js-date-time" className="tx-medium">{date}</span></p>
             <p>Start time: <span id="js-start-time" className="tx-medium">{start}</span></p>
             <p>End time: <span id="js-end-time" className="tx-medium">{end}</span></p>
-            <p>Are you sure to cancel this course?</p>
+            <p>Are you sure to cancel this lesson?</p>
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" data-dismiss="modal">No</button>
-            <button type="button" className="btn btn-primary" id="cancel-schedule-confirm" data-dismiss="modal">Yes</button>
+            <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={onSubmitCancelLesson}>Yes</button>
           </div>
         </div>
       </div>
     </div>
-  )
 }
 export default CancelBookingLessonModal;

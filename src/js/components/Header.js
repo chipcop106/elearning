@@ -107,4 +107,5 @@ const Header = () => {
 }
 
 const domContainer = document.getElementById('header');
+if(domContainer)
 ReactDOM.render(<Header />, domContainer);

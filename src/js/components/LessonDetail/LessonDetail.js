@@ -11,14 +11,13 @@ const LessonDetail = () => {
     setLoading(true);
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 5000);
+    }, 2000);
     return () => clearTimeout(timer);
   }, []);
 
-  return (
-    <React.Fragment>
+  return <React.Fragment>
       {
-      loading?<SkeletonLessonDetail/>:(
+      loading?<SkeletonLessonDetail/>:
         <React.Fragment>
         <div className="row">
         <div className="col-md-6 col-sm-12">
@@ -225,11 +224,9 @@ const LessonDetail = () => {
         </div>{/* <!-- media-body --> */}
       </div>
       </React.Fragment>
-      )
     }
       <StudentComment/>
       </React.Fragment>
-  )
 }
 
 ReactDOM.render(<LessonDetail />, document.getElementById('react-lesson-detail'));
