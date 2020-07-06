@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import StudentForm from './StudentForm';
+import FormikForm from './StudentForm';
 import PurchasedCourseList from './PurchasedCourseList';
 
 const StudentProfile = () => {
@@ -30,7 +30,7 @@ const StudentProfile = () => {
                   <div className="introduce-content mg-b-30">
                     <h5 className="sub-title"><i className="fas fa-user" /> Account
                     </h5>
-                    <StudentForm />
+                    <FormikForm />
                     </div>
                 </div>
               </div>
