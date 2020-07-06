@@ -359,8 +359,46 @@ const BookingSchedule = ({ schedule, handleBookLesson, handleCancelLesson }) => 
     });
   }
 
+  const swiperInit = () => {
+    const teacherInfoSwiper = new Swiper('.swiper-container', {
+      loop: false,
+      freeModeMomentum: false,
+      preventInteractionOnTransition: true,
+      simulateTouch: false,
+      autoHeight: true,
+    })
+  
+    const listTab = document.getElementById('js-list-tab');
+    const tabLinks = listTab.querySelectorAll('.tab-link');
+    const swapTab = (e) => {
+      e.preventDefault();
+      const element = e.target;
+      const indexSlide = element.dataset?.index ?? 0;
+      teacherInfoSwiper.slideTo(indexSlide, 500, false);
+      [...tabLinks].map(link => link === element ? link.classList.add('active') : link.classList.remove('active'));
+    }
+    [...tabLinks].map(link => {
+      link.addEventListener('click', swapTab);
+    });
+  
+    let $videoSrc;
+    let $videoModal = $('#js-video-modal');
+    let $iframe = $videoModal.find('iframe');
+    $('#video-teacher').click(function () {
+      $videoSrc = $(this).attr('data-src');
+      $iframe.attr('src', $videoSrc);
+      $videoModal.modal('show');
+    });
+  
+    $videoModal.on('hide.bs.modal', function (e) {
+      // a poor man's stop video
+      $iframe.attr('src', $videoSrc);
+    })
+  }
+
   React.useEffect(() => {
     calendarInit();
+    swiperInit();
   }, [schedule])
 
   return (
