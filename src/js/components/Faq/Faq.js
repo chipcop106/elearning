@@ -1,22 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import SkeletonFaq from "../common/Skeleton/SkeletonFaq";
 
 const Faq = () => {
+  const [loading, setLoading] = React.useState(false);
 
-  const handleAccordion = (e) => {
-    e.target.classList.toggle("collapsed")
-    let target = $(e.target).attr("data-target")
-    $(`${target}`).toggle("300");
-  }
   React.useEffect(() => {
-    $("#accordion button").on("click", handleAccordion.bind(this))
-    return () => {
-      $("#accordion button").off("click", handleAccordion.bind(this))
-    }
-  }, [])
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
-  return (
-    <div className="media-body mg-t-30 mg-lg-t-0 pd-lg-x-10">
+  return <React.Fragment>
       <div className="faq-image tx-center">
         <img src="../../assets/img/faq.svg" alt="faq" className="wd-300" />
       </div>
@@ -24,7 +21,9 @@ const Faq = () => {
         <div className="d-xl-flex align-items-center justify-content-between mg-b-15 mg-t-30">
           <h4 className="mg-b-0 gradient-heading"><i className="fas fa-comment-alt"></i> Frequently Asked Questions</h4>
         </div>
-        <div id="accordion">
+        {
+          loading?<SkeletonFaq/>:
+            <div id="accordion">
           <div className="card">
             <div className="card-header" id="headingOne">
               <h5 className="mb-0">
@@ -71,9 +70,9 @@ const Faq = () => {
             </div>
           </div>
         </div>
+        }
       </div>
-    </div>
-  )
+      </React.Fragment>
 }
 
 ReactDOM.render(<Faq />, document.getElementById('react-faq'));

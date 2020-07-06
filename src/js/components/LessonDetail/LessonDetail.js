@@ -1,12 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import SkeletonLessonDetail from "../common/Skeleton/SkeletonLessonDetail";
 
 import StudentComment from "../TeacherDetail/StudentComment"
 
 const LessonDetail = () => {
-  return (
-    <div className="media-body mg-t-30 mg-lg-t-0 pd-lg-x-10 body__content">
-      <div className="row">
+  const [loading, setLoading] = React.useState(false)
+
+  React.useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return <React.Fragment>
+      {
+      loading?<SkeletonLessonDetail/>:
+        <React.Fragment>
+        <div className="row">
         <div className="col-md-6 col-sm-12">
           {/* <!--thông tin buổi học--> */}
           <div className="st-thontinbuoihoc">
@@ -210,9 +223,10 @@ const LessonDetail = () => {
           {/* <!--/Đánh giá chung--> */}
         </div>{/* <!-- media-body --> */}
       </div>
+      </React.Fragment>
+    }
       <StudentComment/>
-    </div>
-  )
+      </React.Fragment>
 }
 
 ReactDOM.render(<LessonDetail />, document.getElementById('react-lesson-detail'));

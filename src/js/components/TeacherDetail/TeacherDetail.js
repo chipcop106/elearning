@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import StudentComment from "./StudentComment"
 import BookingSchedule from "./BookingSchedule"
 import TeacherInformation from "./TeacherInformation"
+import CancelBookingLessonModal from "../CancelBookingLessonModal"
+import BookingLessonModal from "../BookingLessonModal"
+import SkeletonLessonCard from "../common/Skeleton/SkeletonLessonCard"
+
 import { nationMapToFlag, randomId } from '../../utils'
 
 const initialState = {
@@ -18,12 +22,12 @@ const initialState = {
       toTime: "02/2019",
       position: "Tutor Teacher",
       desc: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus doloremque voluptatem eius eveniet quae, iste et, harum, commodi ad voluptates blanditiis vero a? Delectus, provident! Quos ea amet aperiam quisquam!`,
-    },{
+    }, {
       fromTime: "12/2018",
       toTime: "02/2019",
       position: "Tutor Teacher",
       desc: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus doloremque voluptatem eius eveniet quae, iste et, harum, commodi ad voluptates blanditiis vero a? Delectus, provident! Quos ea amet aperiam quisquam!`,
-    },{
+    }, {
       fromTime: "12/2018",
       toTime: "02/2019",
       position: "Tutor Teacher",
@@ -33,127 +37,160 @@ const initialState = {
     time: "12/2018",
     course: "IELST 8.0 Certificate",
     desc: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus doloremque voluptatem eius eveniet quae, iste et, harum, commodi ad voluptates blanditiis vero a? Delectus, provident! Quos ea amet aperiam quisquam!`,
-  },{
+  }, {
     time: "02/2019",
     course: "Bachelor Certificate Information Of Technologies",
     desc: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus doloremque voluptatem eius eveniet quae, iste et, harum, commodi ad voluptates blanditiis vero a? Delectus, provident! Quos ea amet aperiam quisquam!`,
   }],
   schedule: [{
     id: randomId(),
-    day:"03/7/2020",
+    day: "03/7/2020",
     courseName: "English For Today",
     timeStart: "12:30",
     timeEnd: "13:00",
     status: "available",
-  } ,{
+  }, {
     id: randomId(),
-    day:"03/7/2020",
+    day: "03/7/2020",
     courseName: "English For Today",
     timeStart: "13:30",
     timeEnd: "14:00",
     status: "available",
-  },{
+  }, {
     id: randomId(),
-    day:"03/7/2020",
+    day: "03/7/2020",
     courseName: "English For Today",
     timeStart: "08:00",
     timeEnd: "08:30",
     status: "available",
-  },{
+  }, {
     id: randomId(),
-    day:"03/7/2020",
+    day: "03/7/2020",
     courseName: "English For Today",
     timeStart: "20:30",
     timeEnd: "21:00",
     status: "available",
-  },{
+  }, {
     id: randomId(),
-    day:"03/7/2020",
+    day: "04/7/2020",
     courseName: "TOEIC Basic",
-    timeStart: "22:30",
-    timeEnd: "23:00",
+    timeStart: "01:30",
+    timeEnd: "02:00",
     status: "booked",
     student: "Hoàng Văn Thái"
-  },{
+  }, {
     id: randomId(),
-    day:"04/7/2020",
+    day: "04/7/2020",
     courseName: "Grammar",
     timeStart: "12:30",
     timeEnd: "13:00",
     status: "available",
-  },{
+  }, {
     id: randomId(),
-    day:"04/7/2020",
+    day: "04/7/2020",
     courseName: "TOEIC Advanced",
     timeStart: "15:30",
     timeEnd: "16:00",
     status: "available",
-  },{
+  }, {
     id: randomId(),
-    day:"03/7/2020",
+    day: "03/7/2020",
     courseName: "IELTS 6.0",
     timeStart: "09:30",
     timeEnd: "10:00",
     status: "booked",
-    student: "asdasd"
-  },{
+    student: "Hoàng Văn Thái"
+  }, {
     id: randomId(),
-    day:"02/7/2020",
+    day: "02/7/2020",
     courseName: "IELTS 6.0",
-    timeStart: "11:00",
-    timeEnd: "11:30",
+    timeStart: "22:30",
+    timeEnd: "23:00",
     status: "booked",
-    student: "asdasd"
+    student: "Hoàng Văn Thái"
   }],
+}
+
+const initialCancelLesson = {
+  id: "",
+  name: "",
+  date: "",
+  start: "",
+  end: "",
+}
+
+const initialBookLesson = {
+  id: "",
+  name: "",
+  date: "",
+  start: "",
+  end: "",
 }
 
 const TeacherDetail = () => {
   const [state, setState] = React.useState(initialState)
+  const [stateCancelLesson, setStateCancelLesson] = React.useState(initialCancelLesson);
+  const [stateBookLesson, setStateBookLesson] = React.useState(initialBookLesson);
 
-  const onHandleBookSchedule = (id, student) => {
-    let index = state.schedule.findIndex(x => x.id === id)
-    const newSchedule = [...state.schedule]
-    
-    newSchedule[index].status = "booked";
-    newSchedule[index].student = student;
+  const [loading, setLoading] = React.useState(false);
 
-    setState({...state, schedule: newSchedule})
+  React.useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+
+  const onHandleBookLesson = (id, name, date, start, end) => {
+    setStateBookLesson({
+      ...stateBookLesson,
+      id,
+      name,
+      date,
+      start,
+      end
+    })
   }
 
-  const onHandleCancelSchedule = (id) => {
-    let index = state.schedule.findIndex(x => x.id === id)
-    const newSchedule = [...state.schedule]
-
-    newSchedule[index].status = "available";
-    delete newSchedule[index]["student"];
-
-    setState({...state, schedule: newSchedule})
+  const onHandleCancelLesson = (id, name, date, start, end) => {
+    setStateCancelLesson({
+      ...stateCancelLesson,
+      id,
+      name,
+      date,
+      start,
+      end
+    })
   }
 
   return (
     <div className="teacher__detail__wrap card-box">
       <div className="teacher__detail">
-        <div className="teacher-header">
-          <div className="teacher-avatar">
-            <img src={state.image} alt="avatar"/>
-          </div>
-          <div className="teacher-info">
-            <div className="teacher-name">
-                <h5 className="name">{state.name}</h5>
-              <div className="nation">
-                <span className={`flag-icon flag-icon-${nationMapToFlag(state.nation)} flag-icon-squared mg-r-5`}></span>
-                <span className="badge badge-light"><span className="tx-success"><i
-                  className="fa fa-check-circle"></i> Verified</span></span>
+        {
+          loading ? <SkeletonLessonCard /> :
+            <div className="teacher-header">
+              <div className="teacher-avatar">
+                <img src={state.image} alt="avatar" />
+              </div>
+              <div className="teacher-info">
+                <div className="teacher-name">
+                  <h5 className="name">{state.name}</h5>
+                  <div className="nation">
+                    <span className={`flag-icon flag-icon-${nationMapToFlag(state.nation)} flag-icon-squared mg-r-5`}></span>
+                    <span className="badge badge-light"><span className="tx-success"><i
+                      className="fa fa-check-circle"></i> Verified</span></span>
+                  </div>
+                </div>
+                <div className="teacher-summary">
+                  <a href="#js-video-modal" data-src={state.video}
+                    className="tx-primary" id="video-teacher"><i className="fas fa-play-circle "></i>Xem video giới thiệu</a>
+                  <p className="mg-b-0 mg-t-10">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus sunt delectus itaque veritatis quidem tempora, nesciunt excepturi dolores impedit consectetur cumque natus! Debitis unde repellat incidunt aut molestiae, possimus accusamus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam quisquam debitis dolor veniam non saepe voluptas consectetur culpa sequi illum, doloribus in minima officia ut id deleniti consequuntur ipsum corporis?</p>
+                </div>
               </div>
             </div>
-            <div className="teacher-summary">
-              <a href="#js-video-modal" data-src={state.video}
-                className="tx-primary" id="video-teacher"><i className="fas fa-play-circle "></i>
-                Xem video giới thiệu</a>
-              <p className="mg-b-0 mg-t-10">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus sunt delectus itaque veritatis quidem tempora, nesciunt excepturi dolores impedit consectetur cumque natus! Debitis unde repellat incidunt aut molestiae, possimus accusamus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam quisquam debitis dolor veniam non saepe voluptas consectetur culpa sequi illum, doloribus in minima officia ut id deleniti consequuntur ipsum corporis?</p>
-            </div>
-          </div>
-        </div>
+        }
         <div className="teacher-body">
           <div className="tab-navigation">
             <ul className="list-tab" id="js-list-tab">
@@ -173,23 +210,23 @@ const TeacherDetail = () => {
               <div className="teacher__info-wrap swiper-wrapper">
                 <div className="swiper-slide">
                   <div className="slide-tab-content">
-                  <TeacherInformation
+                    <TeacherInformation
                       introduce={state.introduce}
                       experience={state.experience}
-                      certificate={state.certificate}/>
-                   </div>
-                </div>
-                <div className="swiper-slide">
-                  <div className="slide-tab-content">
-                    <BookingSchedule 
-                        schedule={state.schedule}
-                        handleBookSchedule={onHandleBookSchedule}
-                        handleCancelSchedule={onHandleCancelSchedule}/>
+                      certificate={state.certificate} />
                   </div>
                 </div>
                 <div className="swiper-slide">
                   <div className="slide-tab-content">
-                    <StudentComment/>
+                    <BookingSchedule
+                      schedule={state.schedule}
+                      handleBookLesson={onHandleBookLesson}
+                      handleCancelLesson={onHandleCancelLesson} />
+                  </div>
+                </div>
+                <div className="swiper-slide">
+                  <div className="slide-tab-content">
+                    <StudentComment />
                   </div>
                 </div>
               </div>
@@ -197,6 +234,18 @@ const TeacherDetail = () => {
           </div>
         </div>
       </div>
+      <CancelBookingLessonModal
+        id={stateCancelLesson.id}
+        name={stateCancelLesson.name}
+        date={stateCancelLesson.date}
+        start={stateCancelLesson.start}
+        end={stateCancelLesson.end} />
+      <BookingLessonModal
+        id={stateBookLesson.id}
+        name={stateBookLesson.name}
+        date={stateBookLesson.date}
+        start={stateBookLesson.start}
+        end={stateBookLesson.end} />
     </div>
   )
 }

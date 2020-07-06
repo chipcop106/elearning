@@ -76,15 +76,14 @@ const StudentComment = () => {
       <h6 className="mg-b-15">{state.list.length} student has comment for this teacher:</h6>
       <div className="comment__wrapper">
         {
-          state.list.map((item, index)=>{
-            return <StudentCommentItem
+          !!state.list && state.list.length > 0 && state.list.map((item, index)=>
+            <StudentCommentItem
                     key={index}
                     name={item.name}
                     avatar={item.avatar}
                     content={item.content}
                     date={item.date}
-                    time={item.time}/>
-          })
+                    time={item.time} />)
         }
       </div>
       <nav aria-label="Page navigation" className="mg-t-15">

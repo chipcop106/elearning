@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import SkeletonLessonCard from "../common/Skeleton/SkeletonLessonCard"
+
 const TeacherInformation = ({ introduce, experience, certificate }) => {
-  return (
-    <React.Fragment>
+  return <React.Fragment>
       <div className="content-block">
         <h5 className="main-title">Introduce</h5>
         <div className="introduce-content">{introduce}</div>
@@ -17,9 +18,8 @@ const TeacherInformation = ({ introduce, experience, certificate }) => {
             <table className="table table-borderless table-exp">
               <tbody>
                 {
-                  experience.map((item, index) => {
-                    return (
-                      <tr key={index}>
+                  !!experience && experience.length > 0 && experience.map((item, index) =>
+                    <tr key={index}>
                         <td className="col-time">
                           <span className="from-time">{item.fromTime}</span>
                           <span className="icon mg-x-5"><i
@@ -32,7 +32,6 @@ const TeacherInformation = ({ introduce, experience, certificate }) => {
                         </td>
                       </tr>
                     )
-                  })
                 }
               </tbody>
             </table>
@@ -42,8 +41,7 @@ const TeacherInformation = ({ introduce, experience, certificate }) => {
             <table className="table table-borderless table-exp">
               <tbody>
                 {
-                  certificate.map((item, index) => {
-                    return (
+                  !!certificate && certificate.length > 0 && certificate.map((item, index) =>
                       <tr key={index}>
                         <td className="col-time">
                           <span className="from-time">{item.time}</span>
@@ -55,7 +53,6 @@ const TeacherInformation = ({ introduce, experience, certificate }) => {
                         </td>
                       </tr>
                     )
-                  })
                 }
               </tbody>
             </table>
@@ -63,7 +60,6 @@ const TeacherInformation = ({ introduce, experience, certificate }) => {
         </div>
       </div>
     </React.Fragment>
-  )
 }
 
 export default TeacherInformation;
