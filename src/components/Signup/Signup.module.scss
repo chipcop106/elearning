@@ -1,0 +1,24 @@
+.signup_wrapper {
+    width:60%;
+    margin:0 auto;
+    margin-top: 50px;
+}
+@media only screen and (max-width: 768px) {
+    .signup_wrapper {
+        width: 90%
+    }
+}
+.signup_banner {
+    height: 200px;
+    object-fit: cover;
+}
+.signup_btn {
+    background-color: #fd7e14;
+    color:#fff;
+}
+.signup_banner_wrapper {
+    margin-bottom: 10px;
+}
+.signup_wrapper form .form-group:last-child {
+    margin-top: 15px;
+}

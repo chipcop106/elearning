@@ -6,6 +6,7 @@ const componentEnrtryPrefix = './src/js/components/';
 const merge = require('webpack-merge');
 const common = require('./webpack.common');
 const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const {
   CleanWebpackPlugin
 } = require('clean-webpack-plugin');
@@ -50,15 +51,28 @@ const accountHTML = generateHtmlPlugins('./src/account', 'account');
 
 module.exports = merge(common,{
   mode: "production",
- // devtool: 'source-map',
+  // devtool: 'source-map',
   module: {
     rules: [
       {
             test: /\.(scss|sass)$/,
             use: [
                 MiniCssExtractPlugin.loader,
-                "css-loader",
-                "sass-loader"
+                {
+                  loader:"css-loader",
+                  options:{
+                    url: false
+                  }
+                },
+                {
+                  loader:"resolve-url-loader"
+                },
+                {
+                  loader: 'sass-loader',
+                  options: {
+                    sourceMap: true
+                  }
+                }
             ]
       }
       
@@ -68,8 +82,15 @@ module.exports = merge(common,{
   plugins: [
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].css'
+      filename: 'css/[name].css?[hash]'
   }),
-  new HtmlWebpackTagsPlugin({ tags: ['../js/Header.js','../js/Footer.js','../js/ProfileSidebar.js'], append: true,  usePublicPath: false }),
+  // new HtmlWebpackTagsPlugin({ tags: ['../Header.js','../Footer.js','../ProfileSidebar.js'], append: true,  usePublicPath: false }),
+  new CopyPlugin({
+    patterns: [
+      { from: 'src/assets', to: 'assets' },
+      { from: 'src/lib', to: 'lib' },
+      { from: 'src/assets/fonts', to: 'css/fonts' },
+    ],
+  })
   ].concat(teacherHTML).concat(accountHTML)
 });
