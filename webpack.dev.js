@@ -4,7 +4,7 @@ const fs = require('fs');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require('./webpack.common');
-const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin');
+
 function generateHtmlPlugins(templateDir, sub) {
   // Read files in template directory
   const templateFiles = fs.readdirSync(path.resolve(__dirname, templateDir))
@@ -42,10 +42,16 @@ module.exports = merge(common,{
       {
         test: /\.(scss|sass)$/,
         use: [{
-            loader: 'style-loader',
+          loader: 'style-loader',
+        },  {
+          loader: 'css-loader',
+          options:{
+            url: false
+          }
         }, {
-            loader: 'css-loader'
-        }, {
+          loader: 'resolve-url-loader',
+        },
+        {
           loader: 'sass-loader',
             
         }]
@@ -55,6 +61,5 @@ module.exports = merge(common,{
   watch: true,
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackTagsPlugin({ tags: ['../js/Header.js','../js/Footer.js','../js/ProfileSidebar.js'], append: true,  usePublicPath: false }),
   ].concat(teacherHTML).concat(accountHTML)
 });

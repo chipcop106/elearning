@@ -7,13 +7,13 @@
 
 /* ############### FONTS IMPORT ############### */
 
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900');
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
-@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700,900');
-@import url('https://fonts.googleapis.com/css?family=Rubik:300,400');
+// @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900');
+// @import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+// @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700,900');
+// @import url('https://fonts.googleapis.com/css?family=Rubik:300,400');
 // Local font
 @import "fonts/ibm-plex-sans";
-@import "fonts/inter-ui";
+// @import "fonts/inter-ui";
 // Variables
 @import "variables";
 @import "bootstrap/variables";
@@ -24,7 +24,7 @@
 
 /* ############### BOOTSTRAP FRAMEWORK ############### */
 
-@import "../node_modules/bootstrap/scss/bootstrap";
+@import "../lib/bootstrap/scss/bootstrap";
 
 /* ############### BOOTSTRAP OVERRIDES ############### */
 
@@ -34,7 +34,7 @@
 @import "bootstrap/breadcrumb";
 @import "bootstrap/buttons";
 @import "bootstrap/card";
-@import "bootstrap/carousel";
+// @import "bootstrap/carousel";
 @import "bootstrap/custom-forms";
 @import "bootstrap/dropdown";
 @import "bootstrap/forms";

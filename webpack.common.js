@@ -1,6 +1,10 @@
 const path = require('path');
-const componentEnrtryPrefix = './src/js/components/';
-
+const componentEnrtryPrefix = './src/components/';
+const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin');
+const appPaths = {
+  src:path.join(__dirname, './src'),
+  dist:path.join(__dirname, './dist')
+}
 module.exports = {
   entry: {
     'Header': componentEnrtryPrefix + '/Header.js',
@@ -32,11 +36,11 @@ module.exports = {
     'feedback': componentEnrtryPrefix + 'Feedback/Feedback.js',
     'lessonDetail': componentEnrtryPrefix + 'LessonDetail/LessonDetail.js',
     'notification': componentEnrtryPrefix + 'Notification/Notification.js',
-    'custom': './src/scss/custom.scss',
+    'app': ['./src/scss/custom.scss', './src/assets/js/custom.js'],
   },
   output: {
-    path: path.resolve(__dirname, './dist'),
-    filename: 'js/[name].js',
+    path: appPaths.dist,
+    filename: 'js/[name].js?[hash]',
   },
   module: {
     rules: [
@@ -52,5 +56,17 @@ module.exports = {
         loader: 'url-loader?limit=100000' 
       },
     ],
+  
   },
+  plugins:[
+    new HtmlWebpackTagsPlugin({   
+      useHash:true, 
+      addHash: (assetPath, hash) => {
+        return assetPath + '?' + hash;
+      },
+      scripts: ['../js/Header.js','../js/Footer.js','../js/ProfileSidebar.js'], 
+      links:['../css/app.css'],
+      append: true,  
+      usePublicPath: false }),
+  ]
 };
