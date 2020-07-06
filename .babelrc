@@ -7,7 +7,7 @@
         {
           "paths":[
             {
-              "rootPathSuffix": "./lib/",
+              "rootPathSuffix": "./src/lib/",
               "rootPathPrefix": "~lib/"
             },
             {
@@ -15,11 +15,11 @@
               "rootPathPrefix": "~src/"
             },
             {
-              "rootPathSuffix": "./assets/",
+              "rootPathSuffix": "./src/assets/",
               "rootPathPrefix": "~assets/"
             },
             {
-              "rootPathSuffix": "./src/js/components/",
+              "rootPathSuffix": "./src/components/",
               "rootPathPrefix": "~components/"
             }
           ]
