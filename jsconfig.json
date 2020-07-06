@@ -4,12 +4,13 @@
       "target": "es6",
       "module": "commonjs",
       "allowSyntheticDefaultImports": true,
-      "baseUrl": "./",
+      "baseUrl": ".",
       "paths": {
-        "~src/*": ["src/*"],
+        "~/*": ["src/*"],
         "~assets/*": ["assets/*"],
-        "~components/*": ["src/js/components/*"]
+        "~components/*": ["src/js/components/*"],
+        "~lib/*": ["lib/*"]
       }
     },
-    "exclude": ["node_modules", "**/node_modules/*"]
+    "exclude": ["node_modules", "**/node_modules/*",  "dist", "config", ".vscode"]
   }

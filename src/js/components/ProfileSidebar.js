@@ -46,6 +46,8 @@ const ProfileSidebar = () => {
     </div>
   )
 }
+
 const domContainer = document.getElementById('js-component-profilesidebar');
-if(domContainer)
-ReactDOM.render(<ProfileSidebar />, domContainer);
+if(domContainer){
+  ReactDOM.render(<ProfileSidebar />, domContainer);
+}
