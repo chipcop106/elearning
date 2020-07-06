@@ -6,16 +6,14 @@
   "author": "Dat Codero",
   "license": "MIT",
   "dependencies": {
-<<<<<<< HEAD
-    "formik": "^2.1.4",
-=======
     "axios": "^0.19.2",
->>>>>>> 145572b53e6919c11c015fb49fc9d50f7367960b
+    "formik": "^2.1.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-loading-skeleton": "^2.1.1",
     "react-router-dom": "^5.2.0",
-    "react-transition-group": "^4.4.1"
+    "react-transition-group": "^4.4.1",
+    "yup": "^0.29.1"
   },
   "scripts": {
     "watch": "webpack --watch",
