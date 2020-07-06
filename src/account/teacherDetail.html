@@ -76,7 +76,6 @@
   <link rel="stylesheet" href="../assets/js/fullcalendar-5.0.0-beta.4/lib/main.min.css">
   <script src="../assets/js/fullcalendar-5.0.0-beta.4/lib/main.min.js"></script>
   <script src='../assets/js/fullcalendar-5.0.0-beta.4/lib/locales/vi.js'></script>
-<<<<<<< HEAD
   
   <script src="../../lib/jquery/dist/jquery.min.js"></script>
   <script src="../../lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -88,56 +87,5 @@
   <script src="../../assets/js/dashforge.js"></script>
   <script src="../../assets/js/swiper/js/swiper.min.js"></script>
   <script src="../../assets/js/custom.js"></script>
-=======
-
-  <script>
-    $(document).ready(function () {
-      const teacherInfoSwiper = new Swiper('.swiper-container', {
-        loop: false,
-        freeModeMomentum: false,
-        preventInteractionOnTransition: true,
-        simulateTouch: false,
-        autoHeight: true,
-      })
-
-      const listTab = document.getElementById('js-list-tab');
-      const tabLinks = listTab.querySelectorAll('.tab-link');
-      const swapTab = (e) => {
-        e.preventDefault();
-        const element = e.target;
-        const indexSlide = element.dataset?.index ?? 0;
-        teacherInfoSwiper.slideTo(indexSlide, 500, false);
-        [...tabLinks].map(link => link === element ? link.classList.add('active') : link.classList.remove('active'));
-      }
-      [...tabLinks].map(link => {
-        link.addEventListener('click', swapTab);
-      });
-
-      let $videoSrc;
-      let $videoModal = $('#js-video-modal');
-      let $iframe = $videoModal.find('iframe');
-      $('#video-teacher').click(function () {
-        $videoSrc = $(this).attr('data-src');
-        $iframe.attr('src', $videoSrc);
-        $videoModal.modal('show');
-      });
-
-      $videoModal.on('hide.bs.modal', function (e) {
-        // a poor man's stop video
-        $iframe.attr('src', $videoSrc);
-      })
-    });
-  </script>
-  <script src="../lib/jquery/dist/jquery.min.js"></script>
-  <script src="../lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../lib/feather-icons/dist/feather.min.js"></script>
-  <script src="../lib/moment/min/moment.min.js"></script>
-  <script src="../lib/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
-  <script src="../lib/flatpickr/dist/flatpickr.min.js"></script>
-  <script src="../lib/select2/dist/js/select2.min.js"></script>
-  <script src="../assets/js/dashforge.js"></script>
-  <script src="../assets/js/swiper/js/swiper.min.js"></script>
-  
->>>>>>> 145572b53e6919c11c015fb49fc9d50f7367960b
 </body>
 </html>
