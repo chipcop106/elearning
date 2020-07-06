@@ -1,0 +1,24 @@
+.login_wrapper {
+    width:60%;
+    margin:0 auto;
+    margin-top: 50px;
+}
+@media only screen and (max-width: 768px) {
+    .login_wrapper {
+        width: 90%
+    }
+}
+.login_banner {
+    height: 200px;
+    object-fit: cover;
+}
+.login_btn {
+    background-color: #fd7e14;
+    color:#fff;
+}
+.login_banner_wrapper {
+    margin-bottom: 10px;
+}
+.login_wrapper form .form-group:last-child {
+    margin-top: 15px;
+}

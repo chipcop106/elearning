@@ -4,14 +4,14 @@ import styles from '~components/TeacherDetail/BookingSchedule.module.scss';
 
 let calendar;
 
-const BookingSchedule = ({ schedule, handleBookSchedule, handleCancelSchedule }) => {
+const BookingSchedule = ({ schedule, handleBookLesson, handleCancelLesson }) => {
 
-  const bookSchedule = (id, student) => {
-    handleBookSchedule(id, student)
+  const bookLesson = (id, name, date, start, end) => {
+    handleBookLesson(id, name, date, start, end)
   }
 
-  const cancelSchedule = (id) => {
-    handleCancelSchedule(id)
+  const cancelLesson = (id, name, date, start, end) => {
+    handleCancelLesson(id, name, date, start, end)
   }
 
   const calendarInit = () => {
@@ -264,6 +264,8 @@ const BookingSchedule = ({ schedule, handleBookSchedule, handleCancelSchedule })
       ${minutesTilStart < 30 && minutesTilStart > 0
                   ? `
         <a href="javascript:;" class="fix-btn cancel-schedule"
+        data-toggle="modal"
+        data-target="#md-cancel-schedule"
         data-id="${event.id}"
         data-start="${event.start}"
         data-end="${event.end}">Cancel</a>
@@ -273,9 +275,11 @@ const BookingSchedule = ({ schedule, handleBookSchedule, handleCancelSchedule })
     ${
               available && (minutesTilStart > 30 || minutesTilStart < 0)
                 ? `<a href="javascript:;" class="fix-btn book-schedule"
-        data-id="${event.id}"
-        data-start="${event.start}"
-        data-end="${event.start}"}>Book</a>`
+                 data-toggle="modal"
+                 data-target="#md-book-schedule"
+                data-id="${event.id}"
+                data-start="${event.start}"
+                data-end="${event.end}"}>Book</a>`
                 : ""
               }
     </div>
@@ -324,51 +328,23 @@ const BookingSchedule = ({ schedule, handleBookSchedule, handleCancelSchedule })
       $('body').on('click', '.book-schedule', function (e) {
         e.preventDefault();
         const id = this.getAttribute('data-id');
-        $("#md-book-schedule").attr("data-id", id);
-        const start = this.getAttribute('data-start');
-        const end = this.getAttribute('data-end');
         let index = schedule.findIndex(x => x.id === id)
-        const modalConfirm = document.getElementById("md-book-schedule");
-        const nameEl = modalConfirm.querySelector("#newCampaignTitle");
-        const dateEl = modalConfirm.querySelector("#js-date-time");
-        const startEl = modalConfirm.querySelector("#js-start-time");
-        const endEl = modalConfirm.querySelector("#js-end-time");
-        nameEl.textContent = schedule[index].courseName;
-        dateEl.textContent = moment(start).format("DD/MM/YYYY");
-        startEl.textContent = moment(start).format("HH:mm A");
-        endEl.textContent = moment(end).format("HH:mm A");
-        $("#md-book-schedule").modal("show");
-      });
-
-      $('body').on('click', '#book-schedule-confirm', function (e) {
-        e.preventDefault();
-        const id = $("#md-book-schedule").attr('data-id');
-        bookSchedule(id, "Nguyễn Văn Thái");
+        const name = schedule[index].courseName;
+        const date =  moment(this.getAttribute('data-start')).format("DD/MM/YYYY");
+        const start = moment(this.getAttribute('data-start')).format("HH:mm A");
+        const end = moment(this.getAttribute('data-end')).format("HH:mm A");
+        bookLesson(id, name, date, start, end);
       });
 
       $('body').on('click', '.cancel-schedule', function (e) {
         e.preventDefault();
         const id = this.getAttribute('data-id');
-        $("#md-cancel-schedule").attr("data-id", id);
-        const start = this.getAttribute('data-start');
-        const end = this.getAttribute('data-end');
         let index = schedule.findIndex(x => x.id === id)
-        const modalConfirm = document.getElementById("md-cancel-schedule");
-        const nameEl = modalConfirm.querySelector("#newCampaignTitle");
-        const dateEl = modalConfirm.querySelector("#js-date-time");
-        const startEl = modalConfirm.querySelector("#js-start-time");
-        const endEl = modalConfirm.querySelector("#js-end-time");
-        nameEl.textContent = schedule[index].courseName;
-        dateEl.textContent = moment(start).format("DD/MM/YYYY");
-          startEl.textContent = moment(start).format("HH:mm A");
-          endEl.textContent = moment(end).format("HH:mm A");
-        $("#md-cancel-schedule").modal("show");
-      });
-      
-      $('body').on('click', '#cancel-schedule-confirm', function (e) {
-        e.preventDefault();
-        const id = $("#md-cancel-schedule").attr('data-id');
-        cancelSchedule(id, "Nguyễn Văn Thái");
+        const name = schedule[index].courseName;
+        const date =  moment(this.getAttribute('data-start')).format("DD/MM/YYYY");
+        const start = moment(this.getAttribute('data-start')).format("HH:mm A");
+        const end = moment(this.getAttribute('data-end')).format("HH:mm A");
+        cancelLesson(id, name, date, start, end);
       });
 
       $toggleCheckbox = $('#student-toggle-checkbox');

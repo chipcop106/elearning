@@ -1,22 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-const RatingLessonModal = ({ course }) => {
+const initialState = {
+    id:"",
+    rating: 0,
+    message: "",
+}
+const RatingLessonModal = ({ id, teacher }) => {
 
-    const onHandleChange = (e) => {
-        const target = e.target;
-        const value = target.type === 'checkbox' ?
-            target.checked :
-            (target.getAttribute("name") === 'ratingStars' ?
-                parseInt(target.getAttribute('for').split('-')[1]) :
-                target.value);
+    const [state, setState] = React.useState(initialState)
 
-        const key = target.getAttribute("name");
-        course[key] = value;
+    const handleChange = (e) => {
+       const target = e.target;
+       const key = target.getAttribute("name");
+       const value = key === 'rating' ? parseInt(target.getAttribute("value")) : target.value;
+       setState({...state,
+        id,
+        [key]:value
+        })
     }
 
     const onSubmitRating = () => {
-        console.log(course);
+        console.log(state);
     }
+
+     React.useEffect(() => {
+        $('.rating input').prop('checked', false);
+        setState({id,rating:0,message:""})
+    }, [id]);
+
     return(
         <div className="modal effect-scale" tabIndex="-1" role="dialog" id="js-md-rate">
             <div className="modal-dialog modal-dialog-centered" role="document">
@@ -31,18 +42,18 @@ const RatingLessonModal = ({ course }) => {
                                 <img src="../../assets/img/feedback-image.svg" alt="" className="wd-150" />
                             </div>
                             <p className="mg-b-0 tx-center title">
-                                Buổi học của bạn với giáo viên {course.course && course.course.teacher} như thế nào ?</p>
+                                Buổi học của bạn với giáo viên {teacher} như thế nào ?</p>
                             <div className="rating">
-                                <input type="radio" name="rating" id="rating-5" />
-                                <label name="ratingStars" htmlFor="rating-5" onClick={onHandleChange}></label>
-                                <input type="radio" name="rating" id="rating-4" />
-                                <label name="ratingStars" htmlFor="rating-4" onClick={onHandleChange}></label>
-                                <input type="radio" name="rating" id="rating-3" />
-                                <label name="ratingStars" htmlFor="rating-3" onClick={onHandleChange}></label>
-                                <input type="radio" name="rating" id="rating-2" />
-                                <label name="ratingStars" htmlFor="rating-2" onClick={onHandleChange}></label>
-                                <input type="radio" name="rating" id="rating-1" />
-                                <label name="ratingStars" htmlFor="rating-1" onClick={onHandleChange}></label>
+                                <input type="radio" name="rating" id="rating-5"/>
+                                <label name="rating" htmlFor="rating-5" value={5} onClick={handleChange}></label>
+                                <input type="radio" name="rating" id="rating-4"/>
+                                <label name="rating" htmlFor="rating-4" value={4} onClick={handleChange}></label>
+                                <input type="radio" name="rating" id="rating-3"/>
+                                <label name="rating" htmlFor="rating-3" value={3} onClick={handleChange}></label>
+                                <input type="radio" name="rating" id="rating-2"/>
+                                <label name="rating" htmlFor="rating-2" value={2} onClick={handleChange}></label>
+                                <input type="radio" name="rating" id="rating-1"/>
+                                <label name="rating" htmlFor="rating-1" value={1} onClick={handleChange}></label>
                                 <div className="emoji-wrapper">
                                     <div className="emoji">
                                         <svg className="rating-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -200,7 +211,7 @@ const RatingLessonModal = ({ course }) => {
                             <div className="row">
                                 <div className="form-group col-12">
                                     <label>Ý kiến của bạn:</label>
-                                    <textarea name="note" rows="5" className="form-control" onChange={onHandleChange}></textarea>
+                                    <textarea name="message" rows="5" className="form-control" onChange={handleChange} value={state.message}></textarea>
                                 </div>
                             </div>
                         </div>

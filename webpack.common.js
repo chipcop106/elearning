@@ -5,6 +5,9 @@ module.exports = {
   entry: {
     'Header': componentEnrtryPrefix + '/Header.js',
     'Footer': componentEnrtryPrefix + '/Footer.js',
+    'login': componentEnrtryPrefix + 'Login/Login.js',
+    'signup': componentEnrtryPrefix + 'Signup/Signup.js',
+
     'teacherHome': componentEnrtryPrefix + 'TeacherHome/teacherHome.js',
     'teacherClassRooms': componentEnrtryPrefix + 'TeacherClassRooms/teacherClassRooms.js',
     'teacherBooking': componentEnrtryPrefix + 'TeacherBooking/teacherBooking.js',

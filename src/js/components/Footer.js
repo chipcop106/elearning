@@ -26,4 +26,5 @@ const Footer = () => {
 }
 
 const domContainer = document.getElementById('footer');
+if(domContainer)
 ReactDOM.render(<Footer />, domContainer);
