@@ -5,7 +5,8 @@ import StudentInformationModal from '../StudentInformationModal';
 import NoteForStudentModal from '../NoteForStudentModal';
 import { randomId } from '../../utils';
 import styles from '../TeacherBooking/teacherBooking.module.scss';
-
+import ScheduleLogTable from '~components/table/ScheduleLogTable'
+import BookingRequest from './BookingRequest';
 let calendar;
 const pad = (n) => (n >= 10 ? n : "0" + n);
 Date.prototype.addHours = function (h) {
@@ -195,20 +196,6 @@ const initEvents = [
 ]
 
 
-const OperationRow = () => {
-    return (
-        <tr>
-            <td>20/10/2020 10:30:00 AM</td>
-            <td className="tx-center">Hong Loan</td>
-            <td>20/10/2020 10:30:00 AM</td>
-            <td>20/10/2020 10:30:00 AM</td>
-            <td className="tx-center"><span className="badge badge-danger">Closed</span>
-            </td>
-            <td className="tx-center"><span className="badge badge-success">Open</span>
-            </td>
-        </tr>
-    )
-}
 
 const TeacherBooking = () => {
     const [courseSelect, setCourseSelect] = React.useState('1');
@@ -527,166 +514,13 @@ const TeacherBooking = () => {
                                     <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Asperiores minima
                                     nesciunt unde exercitationem vitae quibusdam reiciendis rerum necessitatibus
                                     ipsa aliquam praesentium totam modi tempore, illum sint vero eius aperiamcumque.</p>
-                                    <div className="table-responsive">
-                                        <table className="table table-light">
-                                            <thead>
-                                                <tr>
-                                                    <th>Operation time</th>
-                                                    <th className="tx-center">Operator</th>
-                                                    <th>Schedule time (Local)</th>
-                                                    <th>Schedule time (VN)</th>
-                                                    <th className="tx-center">Previous Action</th>
-                                                    <th className="tx-center">Updated Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <OperationRow />
-                                                <OperationRow />
-                                                <OperationRow />
-                                                <OperationRow />
-                                                <OperationRow />
-                                                <OperationRow />
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <nav aria-label="Page navigation" className="mg-t-15">
-                                        <ul className="pagination mg-b-0 justify-content-end">
-                                            <li className="page-item disabled"><a className="page-link page-link-icon" href="#"><i data-feather="chevron-left" /></a></li>
-                                            <li className="page-item active"><a className="page-link" href="#">1</a></li>
-                                            <li className="page-item"><a className="page-link" href="#">2</a></li>
-                                            <li className="page-item"><a className="page-link" href="#">3</a></li>
-                                            <li className="page-item"><a className="page-link page-link-icon" href="#"><i data-feather="chevron-right" /></a></li>
-                                        </ul>
-                                    </nav>
+                                    <ScheduleLogTable />
                                 </div>
                             </div>
                             <div className="swiper-slide">
                                 <div className="slide-tab-content">
                                     <div className="course-horizental">
-                                        <div className="empty-error tx-center mg-y-30 bg-white">
-                                            <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" />
-                                            <p className=" tx-danger tx-medium">You don't have any book lesson with student</p>
-                                        </div>
-                                        <div className="fb-summary-container pd-x-20-f pd-b-0-f pd-t-20-f ">
-                                            <form method="get" className="st-date">
-                                                <div className="row from-to-group">
-                                                    <div className="col-12 col-md-3 form-group">
-                                                        <select value={courseSelect} className="form-control" onChange={_onChangeCourse}>
-                                                            <option value="1">All course</option>
-                                                            <option value="2">IELTS 8.0 Professional</option>
-                                                        </select>
-                                                    </div>
-                                                    <div className="col-12 col-sm-6 col-md-3 form-group">
-                                                        <input type="text" name="start-day " className="form-control datetimepicker from-date" placeholder="From date" />
-                                                    </div>
-                                                    <div className="col-12 col-sm-6 col-md-3 form-group">
-                                                        <input type="text" name="end-day" className="form-control datetimepicker to-date" placeholder="To date" />
-                                                    </div>
-
-                                                    <div className="form-group col-md-3">
-                                                        <button className="btn btn-info btn-block"><i className="fa fa-search mg-r-5" /> Search</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div className="list-wrap ">
-                                            <div className="row">
-                                                <div className="col-lg-6">
-                                                    <LessonCard
-                                                        courseName="IELST Professional 8.0"
-                                                        studentName="Truong Van Lam"
-                                                        lessonDate="Monday, 30/04/2020"
-                                                        lessonStart="10:30AM"
-                                                        lessonEnd="11:00AM"
-                                                        lessonStatus="Lesson 2"
-                                                        studentNote="Good job, you have excellent coding skills !!"
-                                                        cancellable={false}
-                                                        documents={[{
-                                                            id: 1,
-                                                            name: "doc 1",
-                                                            extension: "docx",
-                                                            link: 'http://mona.media'
-                                                        },
-                                                        {
-                                                            id: 2,
-                                                            name: "doc 2",
-                                                            extension: "exce",
-                                                            link: 'http://mona.media'
-                                                        }]}
-                                                    />
-                                                </div>
-                                                <div className="col-lg-6">
-                                                    <LessonCard
-                                                        courseName="IELST Professional 8.0"
-                                                        studentName="Truong Van Lam"
-                                                        lessonDate="Monday, 30/04/2020"
-                                                        lessonStart="10:30AM"
-                                                        lessonEnd="11:00AM"
-                                                        lessonStatus="Lesson 2"
-                                                        studentNote="Good job, you have excellent coding skills !!"
-                                                        cancellable={false}
-                                                        documents={[{
-                                                            id: 1,
-                                                            name: "doc 1",
-                                                            extension: "docx",
-                                                            link: 'http://mona.media'
-                                                        },
-                                                        {
-                                                            id: 2,
-                                                            name: "doc 2",
-                                                            extension: "exce",
-                                                            link: 'http://mona.media'
-                                                        }]}
-                                                    /> </div>
-                                                <div className="col-lg-6">
-                                                    <LessonCard
-                                                        courseName="IELST Professional 8.0"
-                                                        studentName="Truong Van Lam"
-                                                        lessonDate="Monday, 30/04/2020"
-                                                        lessonStart="10:30AM"
-                                                        lessonEnd="11:00AM"
-                                                        lessonStatus="Lesson 2"
-                                                        studentNote="Good job, you have excellent coding skills !!"
-                                                        cancellable={true}
-                                                        documents={[{
-                                                            id: 1,
-                                                            name: "doc 1",
-                                                            extension: "docx",
-                                                            link: 'http://mona.media'
-                                                        },
-                                                        {
-                                                            id: 2,
-                                                            name: "doc 2",
-                                                            extension: "exce",
-                                                            link: 'http://mona.media'
-                                                        }]}
-                                                    /></div>
-                                                <div className="col-lg-6">
-                                                    <LessonCard
-                                                        courseName="IELST Professional 8.0"
-                                                        studentName="Truong Van Lam"
-                                                        lessonDate="Monday, 30/04/2020"
-                                                        lessonStart="10:30AM"
-                                                        lessonEnd="11:00AM"
-                                                        lessonStatus="Lesson 2"
-                                                        studentNote="Good job, you have excellent coding skills !!"
-                                                        cancellable={false}
-                                                        documents={[{
-                                                            id: 1,
-                                                            name: "doc 1",
-                                                            extension: "docx",
-                                                            link: 'http://mona.media'
-                                                        },
-                                                        {
-                                                            id: 2,
-                                                            name: "doc 2",
-                                                            extension: "exce",
-                                                            link: 'http://mona.media'
-                                                        }]}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <BookingRequest />
                                     </div>
                                 </div>
                             </div>

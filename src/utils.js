@@ -1,4 +1,4 @@
-
+import moment from './lib/moment/min/moment-with-locales.min';
 
 export const randomId = () => {
     let dt = new Date().getTime();
@@ -54,4 +54,34 @@ export const nationMapToFlag = (nation) => {
         }
     }
     return result;
+}
+
+
+export const convertDateFromTo = (dateStr) => {
+    const dateArr = dateStr.split('-');
+    const momentDate = moment(dateArr[0].trim(),'DD/MM/YYYY HH:mm');
+    const date = momentDate.format('dddd, DD/MM/YYYY');
+    const fromTime = momentDate.format('HH:mm');
+    const endTime = dateArr[1].trim();
+    return {
+        dateObject:moment(momentDate).toDate(),
+        date,
+        fromTime,
+        endTime
+    }
+}
+
+const getDifferentMinBetweenTime = (startDate, endDate) => {
+    const oneMinutes = 1000 * 60 * 60;
+    const startTime = startDate.getTime();
+    const endTime = endDate.getTime();
+    const diffTime = endTime - startTime;
+    return Math.round(diffTime / oneMinutes);
+};
+
+export const checkCancelTime = (startTime) => {
+    console.log(startTime);
+    const diff = getDifferentMinBetweenTime(new Date(), startTime);
+    console.log(diff);
+    return diff > 30 ? true : false
 }

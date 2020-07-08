@@ -88,7 +88,7 @@ $(document).ready(function() {
     });
    
     $(".datetimepicker").flatpickr({
-        dateFormat: "d/m/yy",
+        dateFormat: "d/m/Y",
         onOpen: function (selectedDates, dateStr, instance) {
             let element = instance.element;
             if (!this.element.classList.contains("to-date")) return;

@@ -12,6 +12,8 @@ import SkeletonLessonCard from '../common/Skeleton/SkeletonLessonCard';
 
 import { randomId } from "../../utils.js"
 
+import {getLessons} from '~src/api/studentAPI'
+
 let initialState = {
   upcomingLesson: [{
     id: randomId(),
@@ -126,7 +128,8 @@ const Dashboard = () => {
     const timer = setTimeout(() => {
       setLoading(false);
     }, 2000);
-
+    const lessons = getLessons();
+    console.log(lessons);
     return () => clearTimeout(timer);
   }, []);
 

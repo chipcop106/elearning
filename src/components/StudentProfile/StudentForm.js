@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Formik, withFormik } from 'formik';
-import * as Yup from 'yup';
+
 
 const Schema = Yup.object().shape({
     fullName: Yup.string()

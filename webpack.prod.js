@@ -51,7 +51,7 @@ const accountHTML = generateHtmlPlugins('./src/account', 'account');
 
 module.exports = merge(common,{
   mode: "production",
-  // devtool: 'source-map',
+  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -78,7 +78,6 @@ module.exports = merge(common,{
       
     ]
   },
-  watch: true,
   plugins: [
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({

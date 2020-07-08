@@ -2,8 +2,8 @@ const path = require('path');
 const componentEnrtryPrefix = './src/components/';
 const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin');
 const appPaths = {
-  src:path.join(__dirname, './src'),
-  dist:path.join(__dirname, './dist')
+  src:path.resolve(__dirname, 'src'),
+  dist:path.resolve(__dirname, 'dist')
 }
 module.exports = {
   entry: {
@@ -64,7 +64,7 @@ module.exports = {
       addHash: (assetPath, hash) => {
         return assetPath + '?' + hash;
       },
-      scripts: ['../js/Header.js','../js/Footer.js','../js/ProfileSidebar.js'], 
+      scripts: ['../js/Header.js','../js/Footer.js','../js/ProfileSidebar.js', '../js/app.js'], 
       links:['../css/app.css'],
       append: true,  
       usePublicPath: false }),
