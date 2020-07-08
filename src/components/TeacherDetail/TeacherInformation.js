@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import SkeletonLessonCard from "../common/Skeleton/SkeletonLessonCard"
-
-const TeacherInformation = ({ introduce, experience, certificate }) => {
+const TeacherInformation = ({ IntroduceContent, Experience, Certificate }) => {
   return <React.Fragment>
       <div className="content-block">
         <h5 className="main-title">Introduce</h5>
-        <div className="introduce-content">{introduce}</div>
+        <div className="introduce-content">{IntroduceContent}</div>
       </div>
       <div className="content-block">
         <h5 className="main-title">CURRICULUM VITAE</h5>
@@ -18,17 +16,17 @@ const TeacherInformation = ({ introduce, experience, certificate }) => {
             <table className="table table-borderless table-exp">
               <tbody>
                 {
-                  !!experience && experience.length > 0 && experience.map((item, index) =>
+                  !!Experience && Experience.length > 0 && Experience.map((item, index) =>
                     <tr key={index}>
                         <td className="col-time">
-                          <span className="from-time">{item.fromTime}</span>
+                          <span className="from-time">{item.Date.split(" - ")[0]}</span>
                           <span className="icon mg-x-5"><i
                             className="fas fa-long-arrow-alt-right"></i></span>
-                          <span className="to-time">{item.toTime}</span>
+                          <span className="to-time">{item.Date.split(" - ")[1]}</span>
                         </td>
                         <td className="col-info">
-                          <p className="role">{item.position}</p>
-                          <p className="description">{item.desc}</p>
+                          <p className="role">{item.ExperienceName}</p>
+                          <p className="description">{item.ExperienceContent}</p>
                         </td>
                       </tr>
                     )
@@ -41,15 +39,15 @@ const TeacherInformation = ({ introduce, experience, certificate }) => {
             <table className="table table-borderless table-exp">
               <tbody>
                 {
-                  !!certificate && certificate.length > 0 && certificate.map((item, index) =>
+                  !!Certificate && Certificate.length > 0 && Certificate.map((item, index) =>
                       <tr key={index}>
                         <td className="col-time">
-                          <span className="from-time">{item.time}</span>
+                          <span className="from-time">{item.Date}</span>
                         </td>
                         <td className="col-info">
-                          <p className="role">{item.course}
+                          <p className="role">{item.CertificateName}
                           </p>
-                          <p className="description">{item.desc}</p>
+                          <p className="description">{item.CertificateContent}</p>
                         </td>
                       </tr>
                     )

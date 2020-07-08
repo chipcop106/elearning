@@ -14,35 +14,35 @@ const initialState = [{
   nation: "U.S.",
   schedule: [{
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "English For Today",
     timeStart: "12:30",
     timeEnd: "13:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "English For Today",
     timeStart: "13:30",
     timeEnd: "14:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "English For Today",
     timeStart: "08:00",
     timeEnd: "08:30",
     status: "available",
   }, {
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "English For Today",
     timeStart: "20:30",
     timeEnd: "21:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "TOEIC Basic",
     timeStart: "22:30",
     timeEnd: "23:00",
@@ -50,21 +50,21 @@ const initialState = [{
     student: "Hoàng Văn Thái"
   }, {
     id: randomId(),
-    day: "04/07/2020",
+    day: "14/07/2020",
     courseName: "Grammar",
     timeStart: "12:30",
     timeEnd: "13:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "04/07/2020",
+    day: "14/07/2020",
     courseName: "TOEIC Advanced",
     timeStart: "15:30",
     timeEnd: "16:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "IELTS 6.0",
     timeStart: "09:30",
     timeEnd: "10:00",
@@ -72,7 +72,7 @@ const initialState = [{
     student: "Hoàng Văn Thái"
   }, {
     id: randomId(),
-    day: "02/07/2020",
+    day: "12/07/2020",
     courseName: "IELTS 6.0",
     timeStart: "11:00",
     timeEnd: "11:30",
@@ -88,35 +88,35 @@ const initialState = [{
   nation: "Canada",
   schedule: [{
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "English For Today",
     timeStart: "12:30",
     timeEnd: "13:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "English For Today",
     timeStart: "13:30",
     timeEnd: "14:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "English For Today",
     timeStart: "08:00",
     timeEnd: "08:30",
     status: "available",
   }, {
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "English For Today",
     timeStart: "20:30",
     timeEnd: "21:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "TOEIC Basic",
     timeStart: "22:30",
     timeEnd: "23:00",
@@ -124,21 +124,21 @@ const initialState = [{
     student: "Hoàng Văn Thái"
   }, {
     id: randomId(),
-    day: "04/07/2020",
+    day: "14/07/2020",
     courseName: "Grammar",
     timeStart: "12:30",
     timeEnd: "13:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "04/07/2020",
+    day: "14/07/2020",
     courseName: "TOEIC Advanced",
     timeStart: "15:30",
     timeEnd: "16:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "IELTS 6.0",
     timeStart: "09:30",
     timeEnd: "10:00",
@@ -146,7 +146,7 @@ const initialState = [{
     student: "Hoàng Văn Thái"
   }, {
     id: randomId(),
-    day: "02/07/2020",
+    day: "12/07/2020",
     courseName: "IELTS 6.0",
     timeStart: "11:00",
     timeEnd: "11:30",
@@ -162,35 +162,35 @@ const initialState = [{
   nation: "Vietnam",
   schedule: [{
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "English For Today",
     timeStart: "12:30",
     timeEnd: "13:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "English For Today",
     timeStart: "13:30",
     timeEnd: "14:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "English For Today",
     timeStart: "08:00",
     timeEnd: "08:30",
     status: "available",
   }, {
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "English For Today",
     timeStart: "20:30",
     timeEnd: "21:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "TOEIC Basic",
     timeStart: "22:30",
     timeEnd: "23:00",
@@ -198,21 +198,21 @@ const initialState = [{
     student: "Hoàng Văn Thái"
   }, {
     id: randomId(),
-    day: "04/07/2020",
+    day: "14/07/2020",
     courseName: "Grammar",
     timeStart: "12:30",
     timeEnd: "13:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "04/07/2020",
+    day: "14/07/2020",
     courseName: "TOEIC Advanced",
     timeStart: "15:30",
     timeEnd: "16:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "IELTS 6.0",
     timeStart: "09:30",
     timeEnd: "10:00",
@@ -220,7 +220,7 @@ const initialState = [{
     student: "Hoàng Văn Thái"
   }, {
     id: randomId(),
-    day: "02/07/2020",
+    day: "12/07/2020",
     courseName: "IELTS 6.0",
     timeStart: "11:00",
     timeEnd: "11:30",
@@ -236,35 +236,35 @@ const initialState = [{
   nation: "Malaysia",
   schedule: [{
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "English For Today",
     timeStart: "12:30",
     timeEnd: "13:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "English For Today",
     timeStart: "13:30",
     timeEnd: "14:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "English For Today",
     timeStart: "08:00",
     timeEnd: "08:30",
     status: "available",
   }, {
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "English For Today",
     timeStart: "20:30",
     timeEnd: "21:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "TOEIC Basic",
     timeStart: "22:30",
     timeEnd: "23:00",
@@ -272,21 +272,21 @@ const initialState = [{
     student: "Hoàng Văn Thái"
   }, {
     id: randomId(),
-    day: "04/07/2020",
+    day: "14/07/2020",
     courseName: "Grammar",
     timeStart: "12:30",
     timeEnd: "13:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "04/07/2020",
+    day: "14/07/2020",
     courseName: "TOEIC Advanced",
     timeStart: "15:30",
     timeEnd: "16:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "06/07/2020",
+    day: "16/07/2020",
     courseName: "IELTS 6.0",
     timeStart: "09:30",
     timeEnd: "10:00",
@@ -294,7 +294,7 @@ const initialState = [{
     student: "Hoàng Văn Thái"
   }, {
     id: randomId(),
-    day: "02/07/2020",
+    day: "12/07/2020",
     courseName: "IELTS 6.0",
     timeStart: "11:00",
     timeEnd: "11:30",
@@ -305,13 +305,13 @@ const initialState = [{
 
 const initialBookLesson = {
   id: "",
-  name: "",
+  LessionName: "",
   date: "",
   start: "",
   end: ""
 }
 
-const ListTutor = ({ searchInput }) => {
+const ListTutor = ({ searchInput, callback }) => {
   const [state, setState] = React.useState(initialState);
   const [stateBookLesson, setStateBookLesson] = React.useState(initialBookLesson);
 
@@ -319,11 +319,11 @@ const ListTutor = ({ searchInput }) => {
   let learnTime = []
   let filteredState = state
 
-  const handleBook = (id, name, date, start, end) => {
+  const handleBook = (id, LessionName, date, start, end) => {
     setStateBookLesson({
       ...stateBookLesson,
       id,
-      name,
+      LessionName,
       date,
       start,
       end
@@ -346,7 +346,6 @@ const ListTutor = ({ searchInput }) => {
     if (i !== max)
       learnTime.push(`${i < 10 ? '0' + i : i}:30`)
   }
-  console.log(learnTime)
   })();
 
   (function filter (){
@@ -363,6 +362,8 @@ const ListTutor = ({ searchInput }) => {
 
 
   React.useEffect(() => {
+    $('#display-schedule').prop('checked', false);
+
     $('#display-schedule').on('change', function () {
       if ($('#display-schedule').prop('checked') === true) {
         $('.tutor-schedule').slideDown();
@@ -378,8 +379,8 @@ const ListTutor = ({ searchInput }) => {
     setLoading(true);
     const timer = setTimeout(() => {
       setLoading(false);
+      callback();
     }, 2000);
-
     return () => clearTimeout(timer);
   }, [searchInput]);
 
@@ -484,7 +485,7 @@ const ListTutor = ({ searchInput }) => {
     <BookingLessonModal
       style={{ color: "#000", textAlign: "left" }}
       id={stateBookLesson.id}
-      name={stateBookLesson.name}
+      LessionName={stateBookLesson.LessionName}
       date={stateBookLesson.date}
       start={stateBookLesson.start}
       end={stateBookLesson.end} />

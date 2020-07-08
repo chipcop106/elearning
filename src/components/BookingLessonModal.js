@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const BookingLessonModal = ({id, name, date, start, end, style}) => {
+const BookingLessonModal = ({id, LessionName, date, start, end, style}) => {
 
   const handleBookingLesson = () => {
     console.log(id)
@@ -11,7 +11,7 @@ const BookingLessonModal = ({id, name, date, start, end, style}) => {
       <div className="modal-dialog modal-dialog-centered modal-sm" role="document">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title" id="newCampaignTitle">{name}</h5>
+            <h5 className="modal-title" id="newCampaignTitle">{LessionName}</h5>
             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>

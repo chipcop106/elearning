@@ -10,69 +10,59 @@ import SkeletonLessonCard from "~components/common/Skeleton/SkeletonLessonCard"
 import { nationMapToFlag, randomId } from '~src/utils'
 
 const initialState = {
-  name: "Huỳnh Thị Lan Anh",
-  image: "https://theamericanschool.edu.vn/wp-content/uploads/2020/01/Ms-Hong-Nguyen-Vietnamese.jpg",
+  TeacherUID: 1,
+  TeacherName: "Huỳnh Thị Lan Anh",
+  TeacherIMG: "https://theamericanschool.edu.vn/wp-content/uploads/2020/01/Ms-Hong-Nguyen-Vietnamese.jpg",
   nation: "U.S.",
-  video: "https://www.youtube.com/embed/mJzpX_YrC10",
-  desc: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus sunt delectus itaque veritatis quidem tempora, nesciunt excepturi dolores impedit consectetur cumque natus! Debitis unde repellat incidunt aut molestiae, possimus accusamus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam quisquam debitis dolor veniam non saepe voluptas consectetur culpa sequi illum, doloribus in minima officia ut id deleniti consequuntur ipsum corporis?",
-  introduce: `While I have no soccer skills, I once played in a fairly competitive adult soccer league with my then-teenage stepson. I was terrible, but I played because he asked me to. (When your kids get older and ask you to do something with them, the first time you say no might be the last time you get asked.) I was trying to match the drollness of my "Wow" when my stepson stepped in, half-smile on his lips and full twinkle in his eyes, and rescued me by saying, "Come on, we need to get ready." Was Louis cocky? Certainly, but only on the surface. His $400 cleats, carbon fiber shin guards, and "I'm the king of the business world" introduction was an unconscious effort to protect his ego. His introduction said, "Hey, I might not turn out to be good at soccer, but out there in the real world, where it really matters, I am the Man." As we took the field before a game, a guy on the other team strutted over, probably picking me out because I was clearly the oldest player on the field. (There's a delightful sentence to write.)`,
-  experience: [
+  LinkVideoIntroduce: "https://www.youtube.com/embed/mJzpX_YrC10",
+  IntroduceContent: "I have been teaching English as a foreign language for almost ten years. I have taught English in Japan, Thailand, India, Mexico, and Italy. Teaching English is my passion, and I love being able to connect with people from all over the world. My hobbies include cooking and anything to do with nature.",
+  Experience: [
     {
-      fromTime: "12/2018",
-      toTime: "02/2019",
-      position: "Tutor Teacher",
-      desc: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus doloremque voluptatem eius eveniet quae, iste et, harum, commodi ad voluptates blanditiis vero a? Delectus, provident! Quos ea amet aperiam quisquam!`,
+      Date: "08/2019 - 11/2019",
+      ExperienceName: "English Teaching Assisstant",
+      ExperienceContent: "Prepared teaching materials and supported the foreign teachers. - Managed the class, helped the students finish their homework and difficulties during the lessons."
     }, {
-      fromTime: "12/2018",
-      toTime: "02/2019",
-      position: "Tutor Teacher",
-      desc: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus doloremque voluptatem eius eveniet quae, iste et, harum, commodi ad voluptates blanditiis vero a? Delectus, provident! Quos ea amet aperiam quisquam!`,
-    }, {
-      fromTime: "12/2018",
-      toTime: "02/2019",
-      position: "Tutor Teacher",
-      desc: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus doloremque voluptatem eius eveniet quae, iste et, harum, commodi ad voluptates blanditiis vero a? Delectus, provident! Quos ea amet aperiam quisquam!`,
-    }],
-  certificate: [{
-    time: "12/2018",
-    course: "IELST 8.0 Certificate",
-    desc: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus doloremque voluptatem eius eveniet quae, iste et, harum, commodi ad voluptates blanditiis vero a? Delectus, provident! Quos ea amet aperiam quisquam!`,
-  }, {
-    time: "02/2019",
-    course: "Bachelor Certificate Information Of Technologies",
-    desc: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus doloremque voluptatem eius eveniet quae, iste et, harum, commodi ad voluptates blanditiis vero a? Delectus, provident! Quos ea amet aperiam quisquam!`,
-  }],
+      Date: "11/2019 - Present",
+      ExperienceName: "Tester and Academic supporter",
+      ExperienceContent: "Check the teaching ability of teachers and English level of students. - Support the foreign teachers during the class due to technical issues or teaching materials,.. - Prepared the flow of lessons everyday."
+    }
+  ],
+  Certificate: [{
+    Date: "2015",
+    CertificateName: "Teaching English to Speakers of Other Languages (TESOL)",
+    CertificateContent: "Madision School of Professional Development"
+}],
   schedule: [{
     id: randomId(),
-    day: "03/7/2020",
+    day: "23/7/2020",
     courseName: "English For Today",
     timeStart: "12:30",
     timeEnd: "13:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "03/7/2020",
+    day: "23/7/2020",
     courseName: "English For Today",
     timeStart: "13:30",
     timeEnd: "14:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "03/7/2020",
+    day: "23/7/2020",
     courseName: "English For Today",
     timeStart: "08:00",
     timeEnd: "08:30",
     status: "available",
   }, {
     id: randomId(),
-    day: "03/7/2020",
+    day: "23/7/2020",
     courseName: "English For Today",
     timeStart: "20:30",
     timeEnd: "21:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "04/7/2020",
+    day: "24/7/2020",
     courseName: "TOEIC Basic",
     timeStart: "01:30",
     timeEnd: "02:00",
@@ -80,21 +70,21 @@ const initialState = {
     student: "Hoàng Văn Thái"
   }, {
     id: randomId(),
-    day: "04/7/2020",
+    day: "24/7/2020",
     courseName: "Grammar",
     timeStart: "12:30",
     timeEnd: "13:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "04/7/2020",
+    day: "24/7/2020",
     courseName: "TOEIC Advanced",
     timeStart: "15:30",
     timeEnd: "16:00",
     status: "available",
   }, {
     id: randomId(),
-    day: "03/7/2020",
+    day: "23/7/2020",
     courseName: "IELTS 6.0",
     timeStart: "09:30",
     timeEnd: "10:00",
@@ -102,10 +92,10 @@ const initialState = {
     student: "Hoàng Văn Thái"
   }, {
     id: randomId(),
-    day: "02/7/2020",
+    day: "08/7/2020",
     courseName: "IELTS 6.0",
-    timeStart: "22:30",
-    timeEnd: "23:00",
+    timeStart: "15:30",
+    timeEnd: "16:00",
     status: "booked",
     student: "Hoàng Văn Thái"
   }],
@@ -165,6 +155,10 @@ const TeacherDetail = () => {
     })
   }
 
+  React.useEffect(()=>{
+    $('#js-video-modal iframe').attr('src',state.LinkVideoIntroduce);
+  },[])
+
   return (
     <div className="teacher__detail__wrap card-box">
       <div className="teacher__detail">
@@ -172,11 +166,11 @@ const TeacherDetail = () => {
           loading ? <SkeletonLessonCard /> :
             <div className="teacher-header">
               <div className="teacher-avatar">
-                <img src={state.image} alt="avatar" />
+                <img src={state.TeacherIMG} alt="avatar" />
               </div>
               <div className="teacher-info">
                 <div className="teacher-name">
-                  <h5 className="name">{state.name}</h5>
+                  <h5 className="name">{state.TeacherName}</h5>
                   <div className="nation">
                     <span className={`flag-icon flag-icon-${nationMapToFlag(state.nation)} flag-icon-squared mg-r-5`}></span>
                     <span className="badge badge-light"><span className="tx-success"><i
@@ -184,9 +178,12 @@ const TeacherDetail = () => {
                   </div>
                 </div>
                 <div className="teacher-summary">
-                  <a href="#js-video-modal" data-src={state.video}
+                  <a href="#js-video-modal"
+                  data-toggle="modal"
+                  data-target="#js-video-modal"
+                  data-src={state.LinkVideoIntroduce}
                     className="tx-primary" id="video-teacher"><i className="fas fa-play-circle "></i>Xem video giới thiệu</a>
-                  <p className="mg-b-0 mg-t-10">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus sunt delectus itaque veritatis quidem tempora, nesciunt excepturi dolores impedit consectetur cumque natus! Debitis unde repellat incidunt aut molestiae, possimus accusamus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam quisquam debitis dolor veniam non saepe voluptas consectetur culpa sequi illum, doloribus in minima officia ut id deleniti consequuntur ipsum corporis?</p>
+                  <p className="mg-b-0 mg-t-10">{state.IntroduceContent}</p>
                 </div>
               </div>
             </div>
@@ -211,9 +208,9 @@ const TeacherDetail = () => {
                 <div className="swiper-slide">
                   <div className="slide-tab-content">
                     <TeacherInformation
-                      introduce={state.introduce}
-                      experience={state.experience}
-                      certificate={state.certificate} />
+                      IntroduceContent={state.IntroduceContent}
+                      Experience={state.Experience}
+                      Certificate={state.Certificate} />
                   </div>
                 </div>
                 <div className="swiper-slide">
@@ -236,13 +233,14 @@ const TeacherDetail = () => {
       </div>
       <CancelBookingLessonModal
         id={stateCancelLesson.id}
-        name={stateCancelLesson.name}
+        LessionName={stateCancelLesson.name}
         date={stateCancelLesson.date}
         start={stateCancelLesson.start}
         end={stateCancelLesson.end} />
+
       <BookingLessonModal
         id={stateBookLesson.id}
-        name={stateBookLesson.name}
+        LessionName={stateBookLesson.name}
         date={stateBookLesson.date}
         start={stateBookLesson.start}
         end={stateBookLesson.end} />

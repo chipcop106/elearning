@@ -31,7 +31,7 @@ const Signup = (props) => {
   } = props;
 
   return (
-    <form className="login100-form validate-form" onSubmit={handleSubmit} autocomplete="off">
+    <form className="login100-form validate-form" onSubmit={handleSubmit} autoComplete="off">
     <span className="login100-form-title">Signup</span>
     <div className="wrap-input100 validate-input">
       <input className="input100" type="text" name="phone" placeholder="Phone"

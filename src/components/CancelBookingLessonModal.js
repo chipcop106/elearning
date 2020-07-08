@@ -1,16 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const CancelBookingLessonModal = ({id, name, date, start, end, style}) => {
+import { cancelLesson } from '../api/optionAPI';
+
+const CancelBookingLessonModal = ({id, LessionName, date, start, end, style, callback}) => {
+
+  const getAPI = async (id) => {
+    const lessons = await cancelLesson({BookingID:id});
+    //console.log(lessons.Message)
+    /* success:1, fail:2 */
+    let result = 1;
+    callback && callback(id, result);
+  }
+
+
   const onSubmitCancelLesson = () => {
     console.log(id)
+    getAPI(id)
   }
   return <div style={style} className="modal fade effect-scale" id="md-cancel-schedule" tabIndex="-1" role="dialog" aria-labelledby="active-slot"
       aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered modal-sm" role="document">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title" id="newCampaignTitle">{name}</h5>
+            <h5 className="modal-title" id="newCampaignTitle">{LessionName}</h5>
             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>

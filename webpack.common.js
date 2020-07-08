@@ -2,11 +2,12 @@ const path = require('path');
 const componentEnrtryPrefix = './src/components/';
 const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin');
 const appPaths = {
-  src:path.join(__dirname, './src'),
-  dist:path.join(__dirname, './dist')
+  src:path.join(__dirname, 'src'),
+  dist:path.join(__dirname, 'dist')
 }
 module.exports = {
   entry: {
+    "polyfill": "@babel/polyfill",
     'Header': componentEnrtryPrefix + '/Header.js',
     'Footer': componentEnrtryPrefix + '/Footer.js',
     'login': componentEnrtryPrefix + 'Login/Login.js',
@@ -64,7 +65,7 @@ module.exports = {
       addHash: (assetPath, hash) => {
         return assetPath + '?' + hash;
       },
-      scripts: ['../js/Header.js','../js/Footer.js','../js/ProfileSidebar.js'], 
+      scripts: ['../js/Header.js','../js/Footer.js','../js/ProfileSidebar.js','../js/app.js'], 
       links:['../css/app.css'],
       append: true,  
       usePublicPath: false }),

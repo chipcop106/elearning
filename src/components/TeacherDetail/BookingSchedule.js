@@ -23,8 +23,6 @@ const BookingSchedule = ({ schedule, handleBookLesson, handleCancelLesson }) => 
         title: schedule[i].status === "booked" ? "Event Booked" : "Event Hot Available",
         courseName: schedule[i].courseName,
         day: schedule[i].day,
-        timeStart: schedule[i].timeStart,
-        timeEnd: schedule[i].timeEnd,
         start: new Date(moment(schedule[i].day + ' ' + schedule[i].timeStart, "DD/MM/YYYY hh:mm")),
         end: new Date(moment(schedule[i].day + ' ' + schedule[i].timeEnd, "DD/MM/YYYY hh:mm")),
         eventType: 0, // 0 : Bình thường || 1 : Hot
@@ -242,10 +240,6 @@ const BookingSchedule = ({ schedule, handleBookLesson, handleCancelLesson }) => 
             bookStatus,
             available,
             isEmptySlot,
-            courseName,
-            day,
-            timeStart,
-            timeEnd
           } = event.extendedProps;
           let minutesTilStart = getDifferentMinBetweenTime(new Date(), args.event._instance.range.start)
           const html = `

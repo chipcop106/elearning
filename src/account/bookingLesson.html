@@ -22,8 +22,8 @@
   <link href="../lib/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../assets/js/swiper/css/swiper.min.css">
   <!-- Mona CSS -->
-  
-  
+
+
   <link rel="stylesheet" href="../assets/css/csscustom.css">
 
   <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
@@ -312,17 +312,8 @@
   <script src="../lib/select2/dist/js/select2.min.js"></script>
   <script src="../assets/js/dashforge.js"></script>
   <script src="../assets/js/swiper/js/swiper.min.js"></script>
-  
+  <script src="../assets/js/custom.js"></script>
   <script>
-    $(document).ready(function () {
-    $(".js-select2").select2({
-                closeOnSelect: false,
-                placeholder: "Select program",
-                allowHtml: true,
-                allowClear: true,
-                tags: true // создает новые опции на лету
-              });
-            })
     function showlist() {
       $('#list-tutor').css({
         "display": "block"
@@ -368,6 +359,15 @@
     $(document).on('click', '.open-lessionwish', function () {
       $('#div-lessionwish').modal();
     });
+    $(document).ready(function () {
+      $(".js-select2").select2({
+        closeOnSelect: false,
+        placeholder: "Select program",
+        allowHtml: true,
+        allowClear: true,
+        tags: true // создает новые опции на лету
+      });
+    })
   </script>
   <script>
     //Dat JS Generate Slider Calendar

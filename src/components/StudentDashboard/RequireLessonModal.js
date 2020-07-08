@@ -11,15 +11,15 @@ const initialState = {
 
 const RequireLessonModal = ({
   id,
-  avatar,
-  teacher,
-  name,
+  avatar = "default-avatar.png",
+  TeacherName,
+  LessionName,
   note,
   date,
   start,
   end,
-  documents,
-  skype }) => {
+  DocumentName,
+  SkypeID, }) => {
    const [state, setState] = React.useState(initialState)
 
   const handleChange = (e) => {
@@ -65,15 +65,15 @@ const RequireLessonModal = ({
     <div className="media">
     <div className="teacher-information">
     <a className="teacher-avatar" href={"#"}>
-    <img src={avatar} className="teacher-image" alt="" />
+    <img src={`../assets/img/${avatar}`} className="teacher-image" alt="" />
     <p className="course-teacher tx-14 tx-gray-800 tx-normal mg-b-0 tx-center mg-t-5 d-block">
-    {teacher}</p>
+    {TeacherName}</p>
     </a>
     </div>
     <div className="media-body  mg-l-20 pos-relative pd-b-0-f">
     <h5 className="mg-b-10">
     <span className="badge badge-warning">Incoming</span>{' '}
-    <a href="lesson-detail.html" className="course-name tx-bold">{name}</a>
+    <a href="lesson-detail.html" className="course-name tx-bold">{LessionName}</a>
     </h5>
     <div className="course-information tx-14">
     <span className="mg-r-15 tx-gray-600 tx-medium"><i className="fa fa-calendar  tx-info mg-r-5"></i>
@@ -91,7 +91,8 @@ const RequireLessonModal = ({
     <h6 className="mg-b-3">Documents:</h6>
     <div className="docs-lists">
     {
-      !!documents && Array.isArray(documents) && documents.length > 0 && documents.map((doc, index) =>
+      !!DocumentName && Array.isArray(DocumentName) && DocumentName.length > 0 &&
+      DocumentName.map((doc, index) =>
         <a key={index} href={"#"} className="file-doc"><i className="fa fa-file mg-r-3"></i>
         <span className="file-name">{doc.split('.')[0]}</span>
         <span className="file-ext">{`.${doc.split('.')[1]}`}</span>

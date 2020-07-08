@@ -1,39 +1,47 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SideMenu from "./SideMenu";
+import { getProfile } from "../api/studentAPI";
 
-let initialState = {
-  fullName: "Nguyễn Văn Thái",
-  avatar: "student.png",
-  phone: "0111222333",
-  email: "example@gmail.com",
-  sex: "1",
-  address: "123 Ly Thuong Kiet, TPHCM",
-}
+let initialState = {}
 
 const ProfileSidebar = () => {
   const [state, setState] = React.useState(initialState)
+  const [loading, setLoading] = React.useState(false);
 
-  return (
+  const getAPI = async () => {
+    setLoading(true);
+    const profile = await getProfile();
+    setState(profile.Data)
+    setLoading(false);
+    feather.replace();
+  }
+
+  React.useEffect(() => {
+    getAPI();
+  }, []);
+
+
+
+  return loading ? <h2>Loaing...</h2> : (
     <div className="profile-sidebar pd-lg-r-25">
       <div className="user__infomation d-flex d-lg-block flex-wrap">
         <div className="col-sm-12 col-md-6 col-lg-12 mg-b-20">
-          <div className="avatar avatar-xxl avatar-online"><img src={`../assets/img/${state.avatar}`} className="rounded-circle" alt="" /></div>
-          <h5 className="mg-b-2 tx-spacing--1 mg-t-15">{state.fullName}</h5>
+          <div className="avatar avatar-xxl avatar-online"><img src={`../assets/img/${state.Avatar ? state.Avatar : 'default-avatar.png'}`} className="rounded-circle" alt="" /></div>
+          <h5 className="mg-b-2 tx-spacing--1 mg-t-15">{state.FullName}</h5>
         </div>{/* col */}
         <div className="col-sm-12 col-md-6 col-lg-12  ">
           <label className="tx-sans tx-10 tx-semibold tx-uppercase tx-color-01 tx-spacing-1 mg-b-15">Contact
         Information</label>
           <ul className="list-unstyled profile-info-list mg-b-10">
-            <li><i data-feather="home" /><span>{state.address}</span></li>
-            <li><i data-feather="phone" /><a href="tel:0987654321">{state.phone}</a></li>
-            <li><i data-feather="mail" /><a href={`mailto:${state.email}`}>{state.email}</a></li>
+            <li><i data-feather="home" /><span>{state.Address}</span></li>
+            <li><i data-feather="phone" /><a href="tel:0987654321">{state.Phone}</a></li>
+            <li><i data-feather="mail" /><a href={`mailto:${state.Email}`}>{state.Email}</a></li>
           </ul>
         </div>{/* col */}
         <div className="col-sm-12 col-md-6 col-lg-12 mg-t-20 mg-sm-t-0 mg-lg-t-25">
           <div className="d-flex mg-b-25">
-            <a className="btn btn-xs btn-primary flex-fill mg-r-2 bg-orange tx-white" href="bookingLesson.html">Book a
-          Lesson</a>
+            <a className="btn btn-xs btn-primary flex-fill mg-r-2 bg-orange tx-white" href="bookingLesson.html">Book a Lesson</a>
           </div>
         </div>
       </div>{/* row */}
@@ -48,6 +56,6 @@ const ProfileSidebar = () => {
 }
 
 const domContainer = document.getElementById('js-component-profilesidebar');
-if(domContainer){
+if (domContainer) {
   ReactDOM.render(<ProfileSidebar />, domContainer);
 }

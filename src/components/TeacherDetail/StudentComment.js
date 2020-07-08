@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import StudentCommentItem from "./StudentCommentItem"
+import Pagination from "react-js-pagination";
 
 const initialState = {
   list: [{
@@ -52,6 +53,12 @@ const initialState = {
 }
 const StudentComment = () => {
   const [state, setState] = React.useState(initialState);
+  const [page, setPage] = React.useState(1)
+
+  const handlePageChange = (pageNumber) =>  {
+    setPage(pageNumber);
+  }
+
   const handleChange = (e) => {
     setState({...state, comment:e.target.value})
   }
@@ -86,22 +93,16 @@ const StudentComment = () => {
                     time={item.time} />)
         }
       </div>
-      <nav aria-label="Page navigation" className="mg-t-15">
-        <ul className="pagination mg-b-0 justify-content-end">
-          <li className="page-item disabled"><a
-            className="page-link page-link-icon" href="#"><i
-              data-feather="chevron-left"></i></a></li>
-          <li className="page-item active"><a className="page-link"
-            href="#">1</a></li>
-          <li className="page-item"><a className="page-link"
-            href="#">2</a></li>
-          <li className="page-item"><a className="page-link"
-            href="#">3</a></li>
-          <li className="page-item"><a
-            className="page-link page-link-icon" href="#"><i
-              data-feather="chevron-right"></i></a></li>
-        </ul>
-      </nav>
+       <Pagination
+          innerClass="pagination justify-content-end mt-3"
+          activePage={page}
+          itemsCountPerPage={10}
+          totalItemsCount={450}
+          pageRangeDisplayed={5}
+          itemClass="page-item"
+          linkClass="page-link"
+          onChange={handlePageChange.bind(this)}
+            />
     </div>
   )
 }

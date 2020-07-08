@@ -8,176 +8,213 @@ import LessonHistoryCard from "~components/StudentDashBoard/LessonHistoryCard"
 import LessonUpcomingCard from "~components/StudentDashBoard/LessonUpcomingCard"
 import CancelBookingLessonModal from "~components/CancelBookingLessonModal"
 import SkeletonLessonCard from "~components/common/Skeleton/SkeletonLessonCard"
+import { getLessons } from "../../api/studentAPI"
+import { convertDateFromTo } from "../../utils.js"
+import Pagination from "react-js-pagination";
 
 import styles from '~components/BookedLesson/bookedLesson.module.scss'
 
-let initialState = {
-  upcomingLesson: [{
-    id: randomId(),
-    teacher: "Hoàng Thị Uyên Phương",
-    images: "https://image.engoo.com/teacher/15867/p2872.jpg",
-    courseName: "IELST - Professional",
-    date: "03/07/2020",
-    startTime: "12:30",
-    endTime: "13:00",
-    note: "Prepare speaking topic",
-    documents: ["ReadingSpeaking.doc", "Listening.doc"],
-    skype: "http://skype.com/abc",
-  }, {
-    id: randomId(),
-    teacher: "Hoàng Văn Thái",
-    images: "https://images.unsplash.com/photo-1593087989983-e887d642a19c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-    courseName: "IELST - Beginner",
-    date: "11/07/2020",
-    startTime: "10:30",
-    endTime: "11:00",
-    note: "Prepare speaking topic",
-    documents: ["ReadingSpeaking.doc", "Listening.doc"],
-    skype: "http://skype.com/abc",
-  }],
-  lessonHistory: [{
-    id: randomId(),
-    teacher: "Hoàng Thị Uyên Phương",
-    images: "https://image.engoo.com/teacher/15867/p2872.jpg",
-    courseName: "IELST - Professional",
-    date: "24/06/2020",
-    startTime: "10:30",
-    endTime: "11:00",
-    note: "Student have a good speaking skill",
-    ratingCourse: "90",
-  }, {
-    id: randomId(),
-    teacher: "Hoàng Văn Thái",
-    images: "https://images.unsplash.com/photo-1593087989983-e887d642a19c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-    courseName: "IELST - Beginner",
-    date: "15/06/2020",
-    startTime: "10:00",
-    endTime: "14:00",
-    note: "Student have a good speaking skill",
-    ratingCourse: "75",
-  }],
-}
+let initialState = {}
+
 const initialCancelLesson = {
-  id:"",
-  name:"",
+  id: "",
+  LessionName: "",
   date: "",
   start: "",
   end: "",
 }
 const initialRatingLesson = {
-  id:"",
-  teacher: "",
+  id: "",
+  TeacherName: "",
 }
 const initialRequireLesson = {
-  id:"",
- avatar:"",
- teacher:"",
- name:"",
- note:"",
- date:"",
- start:"",
- end:"",
- documents:"",
- skype:"",
+  id: "",
+  avatar: "",
+  TeacherName: "",
+  LessionName: "",
+  note: "",
+  date: "",
+  start: "",
+  end: "",
+  DocumentName: "",
+  SkypeID: "",
 }
 
 const BookedLesson = () => {
-    const [state, setState] = React.useState(initialState);
+  const [state, setState] = React.useState(initialState);
+  const [page, setPage] = React.useState(1)
+  const [filterLesson, setFilterLesson] = React.useState(1);
   const [stateCancelLesson, setStateCancelLesson] = React.useState(initialCancelLesson);
   const [stateRatingLesson, setStateRatingLesson] = React.useState(initialRatingLesson);
   const [stateRequireLesson, setStateRequireLesson] = React.useState(initialRequireLesson);
 
   const [loading, setLoading] = React.useState(false);
 
-  const handleRatingLesson = (id, teacher) => {
-    setStateRatingLesson({...stateRatingLesson,
+  const handleRatingLesson = (id, TeacherName) => {
+    setStateRatingLesson({
+      ...stateRatingLesson,
       id,
-      teacher})
+      TeacherName
+    })
   }
 
-  const handleRequireLesson = (id, avatar, teacher, name, note, date, start, end, documents, skype) => {
-   setStateRequireLesson({...stateRequireLesson,
-    id,
-     avatar,
-     teacher,
-     name,
-     note,
-     date,
-     start,
-     end,
-     documents,
-     skype })
+  const handlePageChange = (pageNumber) =>  {
+    setPage(pageNumber);
   }
 
-  const handleCancelBooking = (id, name, date, start, end) => {
-    setStateCancelLesson({...stateCancelLesson,
+  const handleRequireLesson = (id, avatar, TeacherName, LessionName, note, date, start, end, DocumentName, SkypeID) => {
+    setStateRequireLesson({
+      ...stateRequireLesson,
       id,
-      name,
+      avatar,
+      TeacherName,
+      LessionName,
+      note,
       date,
       start,
-      end})
+      end,
+      DocumentName,
+      SkypeID
+    })
+  }
+
+  const handleCancelBooking = (id, LessionName, date, start, end) => {
+    setStateCancelLesson({
+      ...stateCancelLesson,
+      id,
+      LessionName,
+      date,
+      start,
+      end
+    })
+  }
+
+  const getAPI = async () => {
+    setLoading(true);
+    const lessons = await getLessons();
+    setState(lessons.Data)
+    console.log(lessons.Data)
+    setLoading(false);
   }
 
   React.useEffect(() => {
-    setLoading(true);
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-    return () => clearTimeout(timer);
+    getAPI()
   }, []);
 
   return <React.Fragment>
-     <ul className="list-wrap">
-        {
-          state.upcomingLesson.map(item => loading?<SkeletonLessonCard key={item.id}/>:
-            <LessonUpcomingCard
-              key={item.id}
-              id={item.id}
-              avatar={item.images}
-              teacher={item.teacher}
-              name={item.courseName}
-              note={item.note}
-              date={item.date}
-              start={item.startTime}
-              end={item.endTime}
-              documents={item.documents}
-              skype={item.skype}
-              onHandleCancelBooking={handleCancelBooking}
-              onHandleRequireLesson={handleRequireLesson} />)
-        }
-        {
-          state.lessonHistory.map(item => loading?<SkeletonLessonCard key={item.id}/>:
-            <LessonHistoryCard
-              key={item.id}
-              id={item.id}
-              avatar={item.images}
-              teacher={item.teacher}
-              name={item.courseName}
-              date={item.date}
-              note={item.note}
-              start={item.startTime}
-              end={item.endTime}
-              rating={item.ratingCourse}
-              onHandleRatingLesson={handleRatingLesson} />)
-        }
-      </ul>
+      <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
+        <h4 className="mg-b-0 gradient-heading"><i className="fas fa-calendar-check" />BOOKED LESSON</h4>
+      </div>
+      <div className="mg-t-30 feedback-container">
+        <div className="fb-summary-container">
+          <div className="fb-summary pd-t-0-f bd-t-0-f">
+            <div className="fb-type">
+              <div className="fb-radio">
+                <label>
+                  <input type="radio" name="fbType" group="feedback" defaultChecked
+                  onClick={()=>setFilterLesson(1)}/>
+                  <span>All lesson<span className="number">
+                    {!!state.UpcomingLessions && !!state.LessionHistory &&
+                    state.UpcomingLessions.length + state.LessionHistory.length}</span>
+                    </span>
+                </label>
+              </div>
+            </div>
+            <div className="fb-type">
+              <div className="fb-radio">
+                <label>
+                  <input type="radio" name="fbType" group="feedback" onClick={()=>setFilterLesson(2)}/>
+                <span>Incoming <span className="number">{!!state.UpcomingLessions && state.UpcomingLessions.length}</span></span>
+                </label>
+              </div>
+            </div>
+            <div className="fb-type">
+              <div className="fb-radio">
+                <label>
+                  <input type="radio" name="fbType" group="feedback" onClick={()=>setFilterLesson(3)}/>
+                <span>Completed <span className="number">{!!state.LessionHistory && state.LessionHistory.length}</span></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="course-horizental mg-t-20">
+          {
+            !!state.UpcomingLessions && !!state.LessionHistory &&
+            state.UpcomingLessions.length + state.LessionHistory.length === 0 ? (
+            <div className="empty-error tx-center mg-y-30 cr-item bg-white">
+            <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" />
+            <p className=" tx-danger tx-medium">You don't have any lesson.</p>
+            <a href="bookingLesson.html" className="btn btn-primary">Book a lesson</a>
+          </div>): ""
+          }
+          <ul className="list-wrap">
+            {
+              (filterLesson === 1 || filterLesson === 2) &&
+              !!state.UpcomingLessions && state.UpcomingLessions.length > 0 &&
+              state.UpcomingLessions.map(item => loading ? <SkeletonLessonCard key={item.BookingID} /> :
+                <LessonUpcomingCard
+                  key={item.BookingID}
+                  id={item.BookingID}
+                  teacherUID={item.TeacherUID}
+                  TeacherName={item.TeacherName}
+                  LessionName={item.LessionName}
+                  start={convertDateFromTo(item.ScheduleTimeVN).fromTime}
+                  end={convertDateFromTo(item.ScheduleTimeVN).endTime}
+                  date={convertDateFromTo(item.ScheduleTimeVN).date}
+                  DocumentName={item.DocumentName}
+                  SkypeID={item.SkypeID}
+                  onHandleCancelBooking={handleCancelBooking}
+                  onHandleRequireLesson={handleRequireLesson} />)
+            }
+            {
+               (filterLesson === 1 || filterLesson === 3) &&
+              !!state.LessionHistory && state.LessionHistory.length > 0 &&
+              state.LessionHistory.map(item => loading ? <SkeletonLessonCard key={item.BookingID} /> :
+                <LessonHistoryCard
+                  key={item.BookingID}
+                  id={item.BookingID}
+                  teacherUID={item.TeacherUID}
+                  TeacherName={item.TeacherName}
+                  LessionName={item.LessionName}
+                  start={convertDateFromTo(item.ScheduleTime).fromTime}
+                  end={convertDateFromTo(item.ScheduleTime).endTime}
+                  date={convertDateFromTo(item.ScheduleTime).date}
+                  Rate={item.Rate}
+                  onHandleRatingLesson={handleRatingLesson} />)
+            }
+          </ul>
+        </div>
+      </div>
+      <Pagination
+                innerClass="pagination justify-content-end mt-3"
+                activePage={page}
+                itemsCountPerPage={10}
+                totalItemsCount={450}
+                pageRangeDisplayed={5}
+                itemClass="page-item"
+                linkClass="page-link"
+                onChange={handlePageChange.bind(this)}
+            />
       <RatingLessonModal
         id={stateRatingLesson.id}
-        teacher={stateRatingLesson.teacher} />
+        TeacherName={stateRatingLesson.TeacherName} />
+
       <RequireLessonModal
         id={stateRequireLesson.id}
         avatar={stateRequireLesson.avatar}
-        teacher={stateRequireLesson.teacher}
-        name={stateRequireLesson.name}
+        TeacherName={stateRequireLesson.TeacherName}
+        LessionName={stateRequireLesson.LessionName}
         note={stateRequireLesson.note}
         date={stateRequireLesson.date}
         start={stateRequireLesson.start}
         end={stateRequireLesson.end}
-        documents={stateRequireLesson.documents}
-        skype={stateRequireLesson.skype}/>
-       <CancelBookingLessonModal
+        DocumentName={stateRequireLesson.DocumentName}
+        SkypeID={stateRequireLesson.SkypeID} />
+
+      <CancelBookingLessonModal
         id={stateCancelLesson.id}
-        name={stateCancelLesson.name}
+        LessionName={stateCancelLesson.LessionName}
         date={stateCancelLesson.date}
         start={stateCancelLesson.start}
         end={stateCancelLesson.end} />

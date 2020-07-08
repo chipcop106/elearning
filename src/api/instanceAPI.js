@@ -25,7 +25,7 @@ const getUrl = (config) => {
 }
 
 const instance = axios.create({
-    baseURL: apiConfig.baseUrl,
+    baseURL: apiConfig.baseURL,
     headers: {
         Accept: 'application/json',
     },

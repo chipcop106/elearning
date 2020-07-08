@@ -38,6 +38,8 @@ const reducer = (prevState, { type, payload }) => {
 const BookingLesson = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const [searchInput, setSearchInput] = React.useState(initialSearchInput);
+  const [disableButtonSearch, toggleDisable] = React.useState(false);
+
   const handleSelect2 = (e) => {
     const target = e.target;
     const value = [];
@@ -74,7 +76,9 @@ const BookingLesson = () => {
 
   const onSearch = (e) => {
     e.preventDefault();
-    setSearchInput({...state})
+    if (!disableButtonSearch)
+      setSearchInput({ ...state })
+    toggleDisable(true)
   }
 
   const initCalendar = () => {
@@ -203,9 +207,14 @@ const BookingLesson = () => {
       maxTime: "23:00",
     });
   }
-  
+
+  const onCallback = () => {
+    toggleDisable(false)
+  }
+
   React.useEffect(() => {
     initCalendar();
+
     $(".js-select2").on('change', handleSelect2.bind(this));
     $('#div-nationality input').on('change', handleChangeNation.bind(this))
     $('#div-nationality .legend-checkbox').on('click', handleChangeNation.bind(this))
@@ -213,7 +222,20 @@ const BookingLesson = () => {
     $("#js-select-today").on("click", handleChangeDate.bind(this))
     $('.from-date').on('change', handleChange.bind(this))
     $('.to-date').on('change', handleChange.bind(this))
+
+    $(".js-select2").select2({
+      closeOnSelect: false,
+      placeholder: "Select program",
+      allowHtml: true,
+      allowClear: true,
+      tags: true
+    });
+
   }, []);
+  /* 
+    React.useEffect(() => {
+     
+    }, [searchInput]) */
 
   return (
     <React.Fragment>
@@ -257,9 +279,12 @@ const BookingLesson = () => {
                     name="selectedProgram"
                     value={state.selectedProgram}
                     onClick={handleSelect2}>
-                    {!!state.program && state.program.length > 0 && state.program.map((item, index) =>
+                   {/*  {!!state.program && state.program.length > 0 && state.program.map((item, index) =>
                       <option key={index} value={item}>{item}</option>)
-                    }
+                    } */}
+                    {!!state.program && state.program.length > 0 ? (
+                      state.program.map((item, index) => <option key={index} value={item}>{item}</option>)) :
+                      (<option value="">Loading option... </option>)}
                   </select>
                 </div>
               </div>
@@ -299,7 +324,7 @@ const BookingLesson = () => {
                   <input className="form-control" name="searchText" type="text" placeholder="..." onChange={handleChange} />
                 </div>
                 <div className="col-sm-4 item">
-                  <a href={"#"} className="btn btn-primary btn-block"
+                  <a href={"#"} className="submit-search btn btn-primary btn-block"
                     onClick={onSearch}>Search</a>
                 </div>
               </div>
@@ -307,7 +332,7 @@ const BookingLesson = () => {
           </div>
         </div>
       </div>
-      <ListTutor searchInput={searchInput} />
+      <ListTutor searchInput={searchInput} callback={onCallback} />
     </React.Fragment>
   )
 }

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import PurchasedCourseCard from "./PurchasedCourseCard";
 import SkeletonLessonCard from "../common/Skeleton/SkeletonLessonCard";
 import { randomId } from "../../utils.js"
+import Pagination from "react-js-pagination";
 
 const initialState = [{
   id:randomId(),
@@ -32,9 +33,14 @@ const initialState = [{
   courseMaterial: "ITLEST 8.0 EASY",
 }]
 const PurchasedCourseList = () => {
+  const [page, setPage] = React.useState(1)
   const [state, setState] = React.useState(initialState);
 
   const [loading, setLoading] = React.useState(false);
+
+  const handlePageChange = (pageNumber) =>  {
+    setPage(pageNumber);
+  }
 
   React.useEffect(() => {
     setLoading(true);
@@ -104,17 +110,16 @@ const PurchasedCourseList = () => {
           }
         </ul>
       </div>
-      <nav aria-label="Page navigation" className="mg-t-15">
-        <ul className="pagination mg-b-0 justify-content-end">
-          <li className="page-item disabled"><a className="page-link page-link-icon" href="#"><i
-            data-feather="chevron-left"></i></a></li>
-          <li className="page-item active"><a className="page-link" href="#">1</a></li>
-          <li className="page-item"><a className="page-link" href="#">2</a></li>
-          <li className="page-item"><a className="page-link" href="#">3</a></li>
-          <li className="page-item"><a className="page-link page-link-icon" href="#"><i
-            data-feather="chevron-right"></i></a></li>
-        </ul>
-      </nav>
+      <Pagination
+          innerClass="pagination justify-content-end"
+          activePage={page}
+          itemsCountPerPage={10}
+          totalItemsCount={450}
+          pageRangeDisplayed={5}
+          itemClass="page-item"
+          linkClass="page-link"
+          onChange={handlePageChange.bind(this)}
+            />
     </React.Fragment>
 }
 export default PurchasedCourseList;

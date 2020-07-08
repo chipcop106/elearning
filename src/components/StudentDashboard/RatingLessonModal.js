@@ -5,7 +5,7 @@ const initialState = {
     rating: 0,
     message: "",
 }
-const RatingLessonModal = ({ id, teacher }) => {
+const RatingLessonModal = ({ id, TeacherName }) => {
 
     const [state, setState] = React.useState(initialState)
 
@@ -42,7 +42,7 @@ const RatingLessonModal = ({ id, teacher }) => {
                                 <img src="../assets/img/feedback-image.svg" alt="" className="wd-150" />
                             </div>
                             <p className="mg-b-0 tx-center title">
-                                Buổi học của bạn với giáo viên {teacher} như thế nào ?</p>
+                                Buổi học của bạn với giáo viên {TeacherName} như thế nào ?</p>
                             <div className="rating">
                                 <input type="radio" name="rating" id="rating-5"/>
                                 <label name="rating" htmlFor="rating-5" value={5} onClick={handleChange}></label>

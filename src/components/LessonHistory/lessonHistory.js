@@ -2,7 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import LessonList from './LessonList';
 
-let initialState = {
+const initialState = {
+  courseName: "",
+  fromDate: "",
+  toDate: "",
+}
+
+const initialSearchInput = {
   courseName: "",
   fromDate: "",
   toDate: "",
@@ -23,6 +29,7 @@ const reducer = (prevState, { type, payload }) => {
 
 const LessonHistory = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
+  const [searchInput, setSearchInput] = React.useState(initialSearchInput);
 
   const handleChange = (e) => {
     const target = e.target;
@@ -33,7 +40,7 @@ const LessonHistory = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(state);
+    setSearchInput({...state})
   }
 
   React.useEffect(() => {
@@ -64,7 +71,7 @@ const LessonHistory = () => {
         </div>
       </form>
     </div>
-    <LessonList/>
+    <LessonList searchInput={searchInput}/>
     </React.Fragment>
 }
 
