@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styles from '~components/LessonCard.module.scss';
-
+import CancelBookingLessonModal from '~components/CancelBookingLessonModal';
 const LessonCard = (
     {
+        lessonId,
         teacherAvatar,
         teacherName,
         teacherNote,
@@ -18,8 +19,15 @@ const LessonCard = (
         rating,
         documents,
         skypeId,
-        actionDisplay = true
+        actionDisplay = true,
+        handleCancelLesson = null
     }) => {
+
+    const _onClickCancel = (e) => {
+        e.preventDefault();
+        handleCancelLesson({ lessonId, lessonDate, lessonStart, lessonEnd });
+    }
+
     return (<>
         <div className="cr-item lesson-info mg-b-30">
             <div className="media">
@@ -39,16 +47,16 @@ const LessonCard = (
                         ) : lessonStatus === 'incoming' ? (
                             <span className="badge badge-warning  mg-r-10 pd-x-10 pd-y-5 tx-12">Incoming</span>
                         ) : (
-                            <span className="badge badge-warning  mg-r-10 pd-x-10 pd-y-5 tx-12">{lessonStatus}</span>
-                        )}
+                                    <span className="badge badge-warning  mg-r-10 pd-x-10 pd-y-5 tx-12">{lessonStatus}</span>
+                                )}
                         <a href={`../account/lessonDetail.html`} className="course-name tx-bold">{courseName}</a>
                         {!!studentName && (
                             <>
-                            <span className="tx-gray-400 tx-normal valign-middle mg-x-10">with</span>
-                            <a href={`../account/studentProfile.html`} className="course-teacher tx-16 tx-info tx-medium valign-middle d-inline-block tx-nowrap">{studentName}</a>
+                                <span className="tx-gray-400 tx-normal valign-middle mg-x-10">with</span>
+                                <a href={`../account/studentProfile.html`} className="course-teacher tx-16 tx-info tx-medium valign-middle d-inline-block tx-nowrap">{studentName}</a>
                             </>
                         )}
-                       
+
                     </h5>
                     <div className="course-information tx-14">
                         <span className="mg-r-15 tx-gray-600 tx-medium"><i className="fa fa-calendar  tx-info mg-r-5" /> {lessonDate}</span>
@@ -98,40 +106,41 @@ const LessonCard = (
                         </div>
                     )}
                     {actionDisplay === true && (
-                    <div className="course-actions">
-                        <div className="action-left">
-                            {lessonStatus === 'finished' ? (
-                                <a href="lesson-detail.html" className="btn btn-sm btn-warning mg-r-10" target="_blank" rel="noopener"><i className="fas fa-vote-yea mg-r-5" /> Detail lesson</a>
-                            ) :
-
-                                !!studentNote ? (
-                                    <a href="#js-md-note" className="btn btn-sm btn-success" data-toggle="modal">
+                        <div className="course-actions">
+                            <div className="action-left">
+                                {lessonStatus === 'finished' ? (
+                                    <a href="lesson-detail.html" className="btn btn-sm btn-warning mg-r-10" target="_blank" rel="noopener"><i className="fas fa-vote-yea mg-r-5" /> Detail lesson</a>
+                                ) :
+                                    !!studentNote ? (
+                                        <>
+                                            <a href={`skype:${skypeId}?chat`} className="btn btn-sm btn-info mg-r-10" target="_blank" rel="noopener"><i className="fab fa-skype mg-r-5"></i> Join class</a>
+                                            {/* <a href="#js-md-note" className="btn btn-sm btn-success" data-toggle="modal">
                                         <i className="fas fa-edit mg-r-5" /> Note for students 
-                                    </a>
+                                    </a> */}
+                                        </>
+                                    ) : (
+                                            <>
+                                                <a href={`skype:${skypeId}?chat`} className="btn btn-sm btn-info mg-r-10" target="_blank" rel="noopener"><i className="fab fa-skype mg-r-5"></i> Join class</a>
+                                                <a href="#js-md-required" className="btn btn-sm btn-success" data-toggle="modal"><i className="fas fa-edit mg-r-5"></i> Checking lesson booking </a>
+                                            </>
+                                        )
+
+                                }
+
+
+                            </div>
+                            <div className="action-right">
+                                {lessonStatus !== 'finished' && (!!cancellable ? (
+                                    <a href={`#`} onClick={_onClickCancel} className="btn btn-sm btn-outline-danger" data-toggle="tooltip" title="You can only cancel this lesson before start for 30 minutes !!" data-placement="top"><i data-feather="x"></i> Cancel lesson</a>
                                 ) : (
-                                    <>
-                                        <a href="https://skype.com" className="btn btn-sm btn-info mg-r-10" target="_blank" rel="noopener"><i className="fab fa-skype mg-r-5"></i> ID: <span className="tx-bold">mona.media</span></a>
-                                        <a href="#js-md-required" className="btn btn-sm btn-success" data-toggle="modal"><i className="fas fa-edit mg-r-5"></i> Checking lesson booking </a>
-                                    </>
-                                )
-
-                            }
-
-
+                                        <span className="tx-danger">Unavailable to cancel</span>
+                                    ))}
+                            </div>
                         </div>
-                        <div className="action-right">
-                            {lessonStatus !== 'finished' && ( !!cancellable ? (
-                                <a href={`#`} className="btn btn-sm btn-outline-danger" data-toggle="tooltip" title="You can only cancel this lesson before start for 30 minutes !!" data-placement="top"><i data-feather="x"></i> Cancel lesson</a>
-                            ) : (
-                                    <span className="tx-danger">Unavailable to cancel</span>
-                                ))}
-                        </div>
-                    </div>
                     )}
                 </div>
             </div>
         </div>
-
 
     </>)
 }

@@ -22,7 +22,9 @@ const BookingSchedule = ({ schedule, handleBookLesson, handleCancelLesson }) => 
         id: schedule[i].id,
         title: schedule[i].status === "booked" ? "Event Booked" : "Event Hot Available",
         courseName: schedule[i].courseName,
-        day: schedule[i].day,
+        // day: schedule[i].day,
+        // timeStart: schedule[i].timeStart,
+        // timeEnd: schedule[i].timeEnd,
         start: new Date(moment(schedule[i].day + ' ' + schedule[i].timeStart, "DD/MM/YYYY hh:mm")),
         end: new Date(moment(schedule[i].day + ' ' + schedule[i].timeEnd, "DD/MM/YYYY hh:mm")),
         eventType: 0, // 0 : Bình thường || 1 : Hot
