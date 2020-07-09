@@ -1,9 +1,15 @@
 import React, { useState, useEffect, createRef } from 'react';
-import ReactDOM from 'react-dom';
-import StudentInformationModal from '~components/StudentInformationModal';
 import SkeletonTable from '~components/common/Skeleton/SkeletonTable';
 import { getAllClass } from '~src/api/teacherAPI';
-import Pagination from 'react-js-pagination'
+import Pagination from 'react-js-pagination';
+import Flatpickr from "react-flatpickr";
+
+const DateTimeFormat = new Intl.DateTimeFormat('vi-VN', {
+    dateStyle:'short',
+    month:"2-digit",
+    day:"2-digit",
+});
+
 const AllClassRow = ({ data, showStudentModal }) => {
     const {
         Status,
@@ -66,24 +72,25 @@ const UpCommingTable = ({showStudentModal}) => {
     const [filterStatusAllClass, setFilterStatusAllClass] = React.useState(0);
     const [pageNumber, setPageNumber] = useState(0);
     const [data, setData] = useState(null);
+    const [fromDate, setFromDate] = useState('');
+    const [toDate, setToDate] = useState('');
 
     const _onFilterDate = (e) => {
         e.preventDefault();
-        const fromDate = document.querySelector('#filter-time .from-date');
-        const toDate = document.querySelector('#filter-time .to-date');
-        console.log({ fromDate, toDate });
+        loadAllClassesData();
     }
 
     const _changeFilterStatusAllClass = (event) => {
         setFilterStatusAllClass(event.target.value);
-        //LoadAjax table
     }
     
     const loadAllClassesData = async () => {
         try {
             const res = await getAllClass({ 
-                Page: pageNumber,
-                Status:filterStatusAllClass
+                Page: parseInt(pageNumber),
+                Status:parseInt(filterStatusAllClass),
+                fromDate:fromDate === '' ? fromDate : DateTimeFormat.format(new Date(fromDate)),
+                toDate:toDate === '' ? toDate : DateTimeFormat.format(new Date(toDate))
             });
             if (res?.Code && res.Code === 1) {
                 setData(res.Data);
@@ -97,10 +104,6 @@ const UpCommingTable = ({showStudentModal}) => {
         }
     }
 
-    const _onClickPage = (e) => {
-        const target = e.target;
-    }
-
     useEffect(() => {
         loadAllClassesData();
     }, [pageNumber])
@@ -112,17 +115,31 @@ const UpCommingTable = ({showStudentModal}) => {
                     <select name="language" id=""
                         value={filterStatusAllClass}
                         className="form-control" onChange={_changeFilterStatusAllClass}>
-                        <option value="1">All status</option>
-                        <option value="2">Booked</option>
-                        <option value="3">Finished</option>
+                        <option value="0">All status</option>
+                        <option value="1">Booked</option>
+                        <option value="2">Finished</option>
                     </select>
                 </div>
                 <div className="form-row from-to-group" id="filter-time">
                     <div className="wd-sm-200 col">
-                        <input type="text" name="start-day " className="form-control datetimepicker from-date" placeholder="From date" />
+                        <Flatpickr 
+                            options={{
+                                dateFormat: "d/m/Y",
+                                }}
+                                className="form-control"
+                                onChange={(date) => setFromDate(date)}
+                        />   
+                        {/* <input type="text" name="start-day " onChange={(value) =>  setFromDate(value)} className="form-control datetimepicker from-date" placeholder="From date" /> */}
                     </div>
                     <div className="wd-sm-200 col">
-                        <input type="text" name="end-day" className="form-control datetimepicker to-date" placeholder="To date" />
+                    <Flatpickr 
+                            options={{
+                                dateFormat: "d/m/Y",
+                                minDate:fromDate || ''
+                                }}
+                                className="form-control"
+                                onChange={(date) => setToDate(date)}
+                        />  
                     </div>
                     <div className="flex-grow-0 tx-right flex-shrink-0 pd-x-5">
                         <button type="button" className="btn btn-info " onClick={_onFilterDate}><i className="fa fa-filter" /> Filter</button>
@@ -157,10 +174,10 @@ const UpCommingTable = ({showStudentModal}) => {
                             <Pagination 
                                 innerClass="pagination"
                                 activePage={pageNumber}
-                                itemsCountPerPage={10}
-                                totalItemsCount={100}
+                                itemsCountPerPage={data.PageSize || 0}
+                                totalItemsCount={data.TotalResult || 0}
                                 pageRangeDisplayed={5}
-                                onChange={_handlePageChange}
+                                onChange={(page) => setPageNumber(page)}
                                 itemClass="page-item"
                                 linkClass="page-link"
                                 activeClass="active"

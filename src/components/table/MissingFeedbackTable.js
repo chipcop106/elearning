@@ -66,13 +66,9 @@ const MissingFeedbackTable = () => {
         }
     }
 
-    const _onClickPage = (e) => {
-        const target = e.target;
-    }
-
     useEffect(() => {
         loadMissingFeedback();
-    }, [])
+    }, [pageNumber])
 
     return (
         <>

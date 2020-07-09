@@ -1,26 +1,48 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {getStudentByUID} from '~src/api/teacherAPI';
+import Skeleton from 'react-loading-skeleton';
+const initialState = {
+    stImageUrl: '../assets/img/male.png',
+    stPhone:'',
+    stEmail:'',
+    stSkypeId:'',
+    stName: '',
+    stSex:'',
+    stCourseLearning: '',
+    stLastLesson: '',
+    stLanguage: '',
+    stTimeZone: '',
+    stDescription: ''
+}
 
 const StudentInformationModal = React.forwardRef(({ studentId }, ref) => {
-    const [state, setState] = React.useState({
-        stImageUrl: 'https://media.techz.vn/media2019/source/myphan/my-t32/ngoc-trinh.jpg',
-        stName: 'Ngoc Trinh',
-        stSex:'Female',
-        stCourseLearning: 'IELST 8.0 Professional',
-        stLastLesson: 'Lesson 6: React JS Application',
-        stNation: 'Vietnam',
-        stTimeZone: 'GMT+7',
-        stDescription: 'Là một trong những mỹ nhân hàng đầu showbiz, không có gì bất ngờ khi Ngọc Trinh được rất nhiều người săn đón.'
-    });
-
-    const loadStudentInfo = () => {
+    const [state, setState] = React.useState(initialState);
+    const [isLoading, setIsloading] = React.useState(true);
+    const loadStudentInfo = async () => {
         if (!!!studentId) return;
         console.log('Load ajax modal student id: ', studentId);
-        //setState
+        const res = await getStudentByUID({StudentUID:studentId});
+        if(res.Code !== 1) {
+            setIsloading(false);
+            return;
+        };
+        setState({
+            ...res.Data,
+            stImageUrl:res.Data.Avatar,
+            stName: res.Data.FullName,
+            stSex: res.Data.Gender,
+            stLanguage:  res.Data.LanguageString,
+            stTimeZone:  res.Data.TimeZoneString,
+            stDescription:  res.Data.Introduce,
+            stSkypeId:  res.Data.SkypeID,
+            stEmail:  res.Data.Email,
+            stPhone: res.Data.Phone,
+        });
+        setIsloading(false);
     }
 
     React.useEffect(() => {
-        loadStudentInfo();
+       loadStudentInfo();
     }, [studentId]);
     return (
         <>
@@ -36,7 +58,9 @@ const StudentInformationModal = React.forwardRef(({ studentId }, ref) => {
                         <div className="modal-body">
                             <div className="d-flex">
                                 <div className="flex-shrink-0 mg-r-15">
-                                    <img src={state.stImageUrl} className="avatar-xxl avatar-xl rounded" />
+                                    {!isLoading ? (<img src={state.stImageUrl} className="avatar-xxl avatar-xl rounded" />) 
+                                    : (<Skeleton circle={true} height={50} width={50}/>)}
+                                    
                                 </div>
                                 <div className="flex-grow-1">
                                     <div className="d-flex mg-b-15">
@@ -44,7 +68,7 @@ const StudentInformationModal = React.forwardRef(({ studentId }, ref) => {
                                             <span>Full name:</span>
                                         </div>
                                         <div className="col">
-                                            <span>{state.stName}</span>
+                                            <span>{!isLoading ? state.stName : <Skeleton />}</span>
                                         </div>
                                     </div>
                                     <div className="d-flex mg-b-15">
@@ -53,18 +77,40 @@ const StudentInformationModal = React.forwardRef(({ studentId }, ref) => {
                                         </div>
                                         <div className="col">
                                             {/* <span className="valign-middle mg-r-5 tx-primary"><i className="fa fa-mars" /></span> */}
-                                            <span className="valign-middle mg-r-5 tx-primary"><i className="fa fa-venus" /></span>
-                                            <span>{state.stSex}</span>
-                                     
+                                            {!isLoading ? (
+                                                <>
+                                                {state.stSex === 1 && <span className="valign-middle mg-r-5 tx-primary"><i className="fa fa-venus" /></span>}
+                                                {state.stSex === 2 && <span className="valign-middle mg-r-5 tx-primary"><i className="fa fa-venus" /></span>}
+                                                {state.stSex === 3 && <span className="valign-middle mg-r-5 tx-primary"><i className="fa fa-genderless" /></span>}
+                                                <span>{state.stSex}</span>
+                                            </>
+                                            ) :   <Skeleton />}
+                                            
+                                          
                                         </div>
                                     </div>
                                     <div className="d-flex mg-b-15">
                                         <div className="wd-150 tx-medium">
-                                            <span>Nation:</span>
+                                            <span>Phone:</span>
                                         </div>
                                         <div className="col">
-                                            <span className="mg-r-5 valign-middle"><i className="flag-icon flag-icon-vn"></i> </span>
-                                            <span>{state.stNation}</span>
+                                            <span>{!isLoading ? state.stPhone : <Skeleton />}</span>
+                                        </div>
+                                    </div>
+                                    <div className="d-flex mg-b-15">
+                                        <div className="wd-150 tx-medium">
+                                            <span>Email:</span>
+                                        </div>
+                                        <div className="col">
+                                            <span>{!isLoading ? state.stEmail : <Skeleton />}</span>
+                                        </div>
+                                    </div>
+                                    <div className="d-flex mg-b-15">
+                                        <div className="wd-150 tx-medium">
+                                            <span>Language:</span>
+                                        </div>
+                                        <div className="col">
+                                            <span>{!isLoading ? state.stLanguage : <Skeleton />}</span>
                                         </div>
                                     </div>
                                     
@@ -73,23 +119,7 @@ const StudentInformationModal = React.forwardRef(({ studentId }, ref) => {
                                             <span>Timezone:</span>
                                         </div>
                                         <div className="col">
-                                            <span>{state.stTimeZone}</span>
-                                        </div>
-                                    </div>
-                                    <div className="d-flex mg-b-15">
-                                        <div className="wd-150 tx-medium">
-                                            <span>Learning course:</span>
-                                        </div>
-                                        <div className="col">
-                                            <span>{state.stCourseLearning}</span>
-                                        </div>
-                                    </div>
-                                    <div className="d-flex mg-b-15">
-                                        <div className="wd-150 tx-medium">
-                                            <span>Last lesson:</span>
-                                        </div>
-                                        <div className="col">
-                                            <span>{state.stLastLesson}</span>
+                                            <span>{!isLoading ? state.stTimeZone : <Skeleton />}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -97,7 +127,7 @@ const StudentInformationModal = React.forwardRef(({ studentId }, ref) => {
                             <div className="required-list mg-t-5 bd-t pd-t-5">
                                 <div className="required-text-box mg-t-15">
                                     <label className="tx-medium"><i className="fas fa-info-circle mg-r-5"></i> Student description:</label>
-                                    <p>{state.stDescription}</p>
+                                    <p>{!isLoading ? state.stDescription : <Skeleton count={3}/>}</p>
                                 </div>
                             </div>
                         </div>

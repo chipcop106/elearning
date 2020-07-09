@@ -106,6 +106,9 @@ $(document).ready(function() {
                     )
                 );
         },
+        onValueUpdate: function(selectedDates, dateStr, instance) {
+            this.element.setAttribute('value', dateStr);
+        }
     });
 
 

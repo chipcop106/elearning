@@ -127,3 +127,20 @@ export const getBookingRequest = async (params) => {
     }
     return result;
 }
+
+// Param: int StudentUID, int UID ? 0, string Token ? null
+export const getStudentByUID = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/GetByStudentUID', {
+            params: {
+                ...params,
+                UID:appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
