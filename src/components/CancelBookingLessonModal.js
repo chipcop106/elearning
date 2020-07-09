@@ -4,7 +4,8 @@ import {cancelSchedule} from '~src/api/teacherAPI';
 const CancelBookingLessonModal = ({id = 0, name = '', date = '', start = '', end = '', style = {}, callback}) => {
   const onSubmitCancelLesson = async () => {
     console.log(id)
-    await cancelSchedule({BookingID: id});
+    const res = await cancelSchedule({BookingID: id});
+    if(res !== 1) return;
     callback && callback(id);
   }
   return <div style={style} className="modal fade effect-scale" id="md-cancel-schedule" tabIndex="-1" role="dialog" aria-labelledby="active-slot"
