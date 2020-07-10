@@ -1,10 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { getScheduleByTeacherUID } from "~src/api/studentAPI";
 import styles from '~components/TeacherDetail/BookingSchedule.module.scss';
 
 let calendar;
 
-const BookingSchedule = ({ schedule, handleBookLesson, handleCancelLesson }) => {
+const BookingSchedule = ({ handleBookLesson, handleCancelLesson }) => {
+
+  const [schedule, setSchedule] = React.useState([])
+  const [loading, setLoading] = React.useState(false)
 
   const bookLesson = (id, name, date, start, end) => {
     handleBookLesson(id, name, date, start, end)
@@ -15,24 +19,24 @@ const BookingSchedule = ({ schedule, handleBookLesson, handleCancelLesson }) => 
   }
 
   const calendarInit = () => {
-
+    console.log(schedule)
     let eventList = [];
     for (let i = 0; i < schedule.length; i++) {
       eventList.push({
-        id: schedule[i].id,
-        title: schedule[i].status === "booked" ? "Event Booked" : "Event Hot Available",
-        courseName: schedule[i].courseName,
+        id: schedule[i].StudyTimeID,
+        title: schedule[i].bookStatus ? "Event Booked" : "Event Hot Available",
+        courseName: schedule[i].title,
         // day: schedule[i].day,
         // timeStart: schedule[i].timeStart,
         // timeEnd: schedule[i].timeEnd,
-        start: new Date(moment(schedule[i].day + ' ' + schedule[i].timeStart, "DD/MM/YYYY hh:mm")),
-        end: new Date(moment(schedule[i].day + ' ' + schedule[i].timeEnd, "DD/MM/YYYY hh:mm")),
+        start: new Date(schedule[i].Start),
+        end: new Date(schedule[i].End),
         eventType: 0, // 0 : Bình thường || 1 : Hot
-        bookStatus: schedule[i].status === "booked" ? true : false,
-        bookInfo: schedule[i].student ? {
-          name: schedule[i].student
+        bookStatus: schedule[i].bookStatus,
+        bookInfo: schedule[i].bookStatus ? {
+          name: schedule[i].bookInfo.name
         } : null,
-        available: schedule[i].status === "booked" ? false : true,
+        available: schedule[i].available,
         isEmptySlot: false,
       })
     }
@@ -46,7 +50,7 @@ const BookingSchedule = ({ schedule, handleBookLesson, handleCancelLesson }) => 
       const oneMinutes = 1000 * 60;
       const startTime = startDate.getTime();
       const endTime = endDate.getTime();
-      const diffTime = endTime - startTime + (startDate.getTimezoneOffset()*60*1000);
+      const diffTime = endTime - startTime + (startDate.getTimezoneOffset() * 60 * 1000);
       return Math.round(diffTime / oneMinutes);
     };
 
@@ -143,13 +147,13 @@ const BookingSchedule = ({ schedule, handleBookLesson, handleCancelLesson }) => 
       }
 
       const eventClick = (args) => {
-       /*  Handle when click on cell const element = args.el;
-        if ([...element.classList].includes("available-slot") &&
-          !([...element.classList].includes("empty-slot") || [...element.classList].includes("fc-event-past"))
-        ) {
-          const { start, end } = args.event;
-        }
-        return; */
+        /*  Handle when click on cell const element = args.el;
+         if ([...element.classList].includes("available-slot") &&
+           !([...element.classList].includes("empty-slot") || [...element.classList].includes("fc-event-past"))
+         ) {
+           const { start, end } = args.event;
+         }
+         return; */
       };
 
       calendar = new FullCalendar.Calendar(calendarEl, {
@@ -204,12 +208,12 @@ const BookingSchedule = ({ schedule, handleBookLesson, handleCancelLesson }) => 
           let slot = 0;
           schedule.map(item => {
             if (
-              (parseInt(item.day.split('/')[0]) === args.date.getDate()) &&
-              (parseInt(item.day.split('/')[1]) === args.date.getMonth() + 1) &&
-              (parseInt(item.day.split('/')[2]) === args.date.getFullYear())
+              (parseInt(item.Start.split('-')[2].substring(0, 2)) === args.date.getDate()) &&
+              (parseInt(item.Start.split('-')[1]) === args.date.getMonth() + 1) &&
+              (parseInt(item.Start.split('-')[0]) === args.date.getFullYear())
             ) {
               count++;
-              if (item.status === "booked") slot++
+              if (!item.available) slot++
             }
           })
           const days = args.date.getDay();
@@ -263,6 +267,7 @@ const BookingSchedule = ({ schedule, handleBookLesson, handleCancelLesson }) => 
         data-toggle="modal"
         data-target="#md-cancel-schedule"
         data-id="${event.id}"
+        data-title="${event._def.extendedProps.courseName}"
         data-start="${event.start}"
         data-end="${event.end}">Cancel</a>
         `: ""}`
@@ -274,6 +279,7 @@ const BookingSchedule = ({ schedule, handleBookLesson, handleCancelLesson }) => 
                  data-toggle="modal"
                  data-target="#md-book-schedule"
                 data-id="${event.id}"
+                data-title="${event._def.extendedProps.courseName}"
                 data-start="${event.start}"
                 data-end="${event.end}"}>Book</a>`
                 : ""
@@ -324,9 +330,8 @@ const BookingSchedule = ({ schedule, handleBookLesson, handleCancelLesson }) => 
       $('body').on('click', '.book-schedule', function (e) {
         e.preventDefault();
         const id = this.getAttribute('data-id');
-        let index = schedule.findIndex(x => x.id === id)
-        const name = schedule[index].courseName;
-        const date =  moment(this.getAttribute('data-start')).format("DD/MM/YYYY");
+        const name = this.getAttribute('data-title')
+        const date = moment(this.getAttribute('data-start')).format("DD/MM/YYYY");
         const start = moment(this.getAttribute('data-start')).format("HH:mm A");
         const end = moment(this.getAttribute('data-end')).format("HH:mm A");
         bookLesson(id, name, date, start, end);
@@ -335,9 +340,8 @@ const BookingSchedule = ({ schedule, handleBookLesson, handleCancelLesson }) => 
       $('body').on('click', '.cancel-schedule', function (e) {
         e.preventDefault();
         const id = this.getAttribute('data-id');
-        let index = schedule.findIndex(x => x.id === id)
-        const name = schedule[index].courseName;
-        const date =  moment(this.getAttribute('data-start')).format("DD/MM/YYYY");
+        const name = this.getAttribute('data-title')
+        const date = moment(this.getAttribute('data-start')).format("DD/MM/YYYY");
         const start = moment(this.getAttribute('data-start')).format("HH:mm A");
         const end = moment(this.getAttribute('data-end')).format("HH:mm A");
         cancelLesson(id, name, date, start, end);
@@ -355,46 +359,25 @@ const BookingSchedule = ({ schedule, handleBookLesson, handleCancelLesson }) => 
     });
   }
 
-  const swiperInit = () => {
-    const teacherInfoSwiper = new Swiper('.swiper-container', {
-      loop: false,
-      freeModeMomentum: false,
-      preventInteractionOnTransition: true,
-      simulateTouch: false,
-      autoHeight: true,
-    })
-  
-    const listTab = document.getElementById('js-list-tab');
-    const tabLinks = listTab.querySelectorAll('.tab-link');
-    const swapTab = (e) => {
-      e.preventDefault();
-      const element = e.target;
-      const indexSlide = element.dataset?.index ?? 0;
-      teacherInfoSwiper.slideTo(indexSlide, 500, false);
-      [...tabLinks].map(link => link === element ? link.classList.add('active') : link.classList.remove('active'));
-    }
-    [...tabLinks].map(link => {
-      link.addEventListener('click', swapTab);
+  const getAPI = async (params) => {
+    setLoading(true);
+    const schedule = await getScheduleByTeacherUID({
+      TeacherUID: params.TeacherUID,
+      Date: params.Date,
     });
-  
-    let $videoSrc;
-    let $videoModal = $('#js-video-modal');
-    let $iframe = $videoModal.find('iframe');
-    $('#video-teacher').click(function () {
-      $videoSrc = $(this).attr('data-src');
-      $iframe.attr('src', $videoSrc);
-      $videoModal.modal('show');
-    });
-  
-    $videoModal.on('hide.bs.modal', function (e) {
-      // a poor man's stop video
-      $iframe.attr('src', $videoSrc);
-    })
+    setSchedule(schedule.Data)
+    setLoading(false);
   }
 
   React.useEffect(() => {
+    getAPI({
+      TeacherUID: 2,
+      Date: "07/07/2020",
+    })
+  }, [/* schedule */])
+
+  React.useEffect(() => {
     calendarInit();
-    swiperInit();
   }, [schedule])
 
   return (

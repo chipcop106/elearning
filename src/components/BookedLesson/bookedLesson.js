@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import RatingLessonModal from '~components/StudentDashBoard/RatingLessonModal'
-import RequireLessonModal from '~components/StudentDashboard/RequireLessonModal'
-import LessonHistoryCard from "~components/StudentDashBoard/LessonHistoryCard"
-import LessonUpcomingCard from "~components/StudentDashBoard/LessonUpcomingCard"
+import RatingLessonModal from '~components/RatingLessonModal'
+import RequireLessonModal from '~components/RequireLessonModal'
+import LessonHistoryCard from "~components/LessonHistoryCard"
+import LessonUpcomingCard from "~components/LessonUpcomingCard"
 import CancelBookingLessonModal from "~components/CancelBookingLessonModal"
 import SkeletonLessonCard from "~components/common/Skeleton/SkeletonLessonCard"
 import { getLessons } from "~src/api/studentAPI"

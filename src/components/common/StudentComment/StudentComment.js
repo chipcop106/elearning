@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import StudentCommentItem from "./StudentCommentItem"
 import Pagination from "react-js-pagination";
 
+import styles from '~components/common/StudentComment/StudentComment.module.scss';
+
+
 const initialState = {
   list: [{
     name: "Henry",
@@ -51,7 +54,7 @@ const initialState = {
   }],
   comment: "",
 }
-const StudentComment = () => {
+const StudentComment = ({teacherInfoSwiper}) => {
   const [state, setState] = React.useState(initialState);
   const [page, setPage] = React.useState(1)
 
@@ -90,7 +93,8 @@ const StudentComment = () => {
                     avatar={item.avatar}
                     content={item.content}
                     date={item.date}
-                    time={item.time} />)
+                    time={item.time}
+                    teacherInfoSwiper={teacherInfoSwiper}/>)
         }
       </div>
        <Pagination

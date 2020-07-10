@@ -104,7 +104,8 @@ const StudentForm = (props) => {
                                     required
                                     onChange={handleChange} />
                                 {
-                                    errors.Phone ? <span className="text-danger d-block mt-2">{errors.Phone}</span> : ""
+                                    errors.Phone && touched.Phone &&
+                                    <span className="text-danger d-block mt-2">{errors.Phone}</span>
                                 }
                             </div>
                         </div>
@@ -150,7 +151,8 @@ const StudentForm = (props) => {
                                     placeholder="0"
                                     required onChange={handleChange} />
                                 {
-                                    errors.FullName ? <span className="text-danger d-block mt-2">{errors.FullName}</span> : ""
+                                    errors.FullName && touched.FullName &&
+                                    <span className="text-danger d-block mt-2">{errors.FullName}</span>
                                 }
                             </div>
                         </div>
@@ -166,7 +168,8 @@ const StudentForm = (props) => {
                                     placeholder="Ex: monamedia@mona.net"
                                     required onChange={handleChange} />
                                 {
-                                    errors.Email ? <span className="text-danger d-block mt-2">{errors.Email}</span> : ""
+                                    errors.Email && touched.Email &&
+                                    <span className="text-danger d-block mt-2">{errors.Email}</span>
                                 }
                             </div>
                         </div>
@@ -215,7 +218,8 @@ const StudentForm = (props) => {
                                     placeholder="Your address"
                                     onChange={handleChange} />
                                 {
-                                    errors.Address ? <span className="text-danger d-block mt-2">{errors.Address}</span> : ""
+                                    errors.Address && touched.Address &&
+                                    <span className="text-danger d-block mt-2">{errors.Address}</span>
                                 }
                             </div>
                         </div>
@@ -253,7 +257,8 @@ const StudentForm = (props) => {
                                     value={values.PersonalPreference}
                                     onChange={handleChange} />
                                 {
-                                    errors.PersonalPreference ? <span className="text-danger d-block mt-2">{errors.PersonalPreference}</span> : ""
+                                    errors.PersonalPreference && touched.PersonalPreference &&
+                                    <span className="text-danger d-block mt-2">{errors.PersonalPreference}</span>
                                 }
                             </div>
                         </div>
@@ -272,7 +277,8 @@ const StudentForm = (props) => {
                                     placeholder="Notes for teachers"
                                     onChange={handleChange}></textarea>
                                 {
-                                    errors.RequestWithTeacher ? <span className="text-danger d-block mt-2">{errors.RequestWithTeacher}</span> : ""
+                                    errors.RequestWithTeacher && touched.RequestWithTeacher &&
+                                    <span className="text-danger d-block mt-2">{errors.RequestWithTeacher}</span>
                                 }
                             </div>
                         </div>
@@ -293,7 +299,8 @@ const StudentForm = (props) => {
                                     value={values.password}
                                     onChange={handleChange} />
                                 {
-                                    errors.password ? <span className="text-danger d-block mt-2">{errors.password}</span> : ""
+                                    errors.password && touched.password &&
+                                    <span className="text-danger d-block mt-2">{errors.password}</span>
                                 }
                             </div>
                         </div>
@@ -310,7 +317,8 @@ const StudentForm = (props) => {
                                     value={values.newPassword}
                                     onChange={handleChange} />
                                 {
-                                    errors.newPassword ? <span className="text-danger d-block mt-2">{errors.newPassword}</span> : ""
+                                    errors.newPassword && touched.newPassword &&
+                                    <span className="text-danger d-block mt-2">{errors.newPassword}</span>
                                 }
                             </div>
                         </div>

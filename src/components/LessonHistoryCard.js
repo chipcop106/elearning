@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import styles from '~components/StudentDashboard/LessonHistoryCard.module.scss';
+import styles from '~components/LessonHistoryCard.module.scss';
 
 const LessonHistoryCard = ({
   onHandleRatingLesson,

@@ -21,7 +21,7 @@ const ProfileSidebar = () => {
     getAPI();
   }, []);
 
-  return loading ? <h2>Loaing...</h2> : (
+  return loading ? <h2>Loading...</h2> : (
     <div className="profile-sidebar pd-lg-r-25">
       <div className="user__infomation d-flex d-lg-block flex-wrap">
         <div className="col-sm-12 col-md-6 col-lg-12 mg-b-20">

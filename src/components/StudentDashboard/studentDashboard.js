@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import LessonHistoryCard from "./LessonHistoryCard"
-import LessonUpcomingCard from "./LessonUpcomingCard"
+import LessonHistoryCard from "~components/LessonHistoryCard"
+import LessonUpcomingCard from "~components/LessonUpcomingCard"
 
-import RatingLessonModal from "./RatingLessonModal"
-import RequireLessonModal from "./RequireLessonModal"
-import CancelBookingLessonModal from "../CancelBookingLessonModal"
+import RatingLessonModal from "~components/RatingLessonModal"
+import RequireLessonModal from "~components/RequireLessonModal"
+import CancelBookingLessonModal from "~components/CancelBookingLessonModal"
 
 import SkeletonLessonCard from '~components/common/Skeleton/SkeletonLessonCard';
 

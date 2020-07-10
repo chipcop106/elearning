@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import SkeletonLessonDetail from "~components/common/Skeleton/SkeletonLessonDetail";
 
-import StudentComment from "../TeacherDetail/StudentComment"
+import StudentComment from "../common/StudentComment/StudentComment"
 
 import { getEvaluation } from "~src/api/studentAPI"
 
@@ -12,16 +12,20 @@ const LessonDetail = () => {
   const [state, setState] = React.useState(initialState)
   const [loading, setLoading] = React.useState(false)
 
-  const getAPI = async () => {
+  const getAPI = async (params) => {
     setLoading(true);
-    const evaluation = await getEvaluation({ ElearnBookingID: 1 });
+    const evaluation = await getEvaluation({
+      ElearnBookingID: params.ElearnBookingID,
+    });
     setState(evaluation.Data)
     console.log(evaluation.Data)
     setLoading(false);
   }
 
   React.useEffect(() => {
-    getAPI()
+    getAPI({
+      ElearnBookingID: 1,
+    })
   }, []);
 
   return <React.Fragment>
@@ -37,14 +41,14 @@ const LessonDetail = () => {
                   <div className="st-time">
                     <p className="st-teacher-text">
                       <i className="fa fa-book st-icon wd-20 mg-r-5"></i>
-                      <span>Course name: <a href={"#"}>{state.courseName}</a></span>
+                      <span>Course name: <a href={"#"}>{state.DocumentName}</a></span>
                     </p>
                   </div>
                   <div className="st-time">
                     <p className="st-time-text">
                       <i className="fa fa-user-clock st-icon wd-20 mg-r-5"></i>
-                      <span className="tx-black tx-normal">Expired:</span>
-                      <span>{state.ScheduleDay}</span>
+                      <span className="tx-black tx-normal">Expired: </span>
+                      <span>{state.ScheduleTimeVN}</span>
                     </p>
                   </div>
                   <div className="st-time">

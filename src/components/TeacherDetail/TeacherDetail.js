@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import StudentComment from "./StudentComment"
+import StudentComment from "../common/StudentComment/StudentComment"
 import BookingSchedule from "./BookingSchedule"
 import TeacherInformation from "./TeacherInformation"
 import CancelBookingLessonModal from "~components/CancelBookingLessonModal"
@@ -10,75 +10,73 @@ import SkeletonLessonCard from "~components/common/Skeleton/SkeletonLessonCard"
 import { nationMapToFlag, randomId } from '~src/utils'
 import { getTeacherInfo } from "~src/api/studentAPI"
 
-const initialState = {}
-
 const schedule = [{
-    id: randomId(),
-    day: "23/7/2020",
-    courseName: "English For Today",
-    timeStart: "12:30",
-    timeEnd: "13:00",
-    status: "available",
-  }, {
-    id: randomId(),
-    day: "23/7/2020",
-    courseName: "English For Today",
-    timeStart: "13:30",
-    timeEnd: "14:00",
-    status: "available",
-  }, {
-    id: randomId(),
-    day: "23/7/2020",
-    courseName: "English For Today",
-    timeStart: "08:00",
-    timeEnd: "08:30",
-    status: "available",
-  }, {
-    id: randomId(),
-    day: "23/7/2020",
-    courseName: "English For Today",
-    timeStart: "20:30",
-    timeEnd: "21:00",
-    status: "available",
-  }, {
-    id: randomId(),
-    day: "24/7/2020",
-    courseName: "TOEIC Basic",
-    timeStart: "01:30",
-    timeEnd: "02:00",
-    status: "booked",
-    student: "Hoàng Văn Thái"
-  }, {
-    id: randomId(),
-    day: "24/7/2020",
-    courseName: "Grammar",
-    timeStart: "12:30",
-    timeEnd: "13:00",
-    status: "available",
-  }, {
-    id: randomId(),
-    day: "24/7/2020",
-    courseName: "TOEIC Advanced",
-    timeStart: "15:30",
-    timeEnd: "16:00",
-    status: "available",
-  }, {
-    id: randomId(),
-    day: "23/7/2020",
-    courseName: "IELTS 6.0",
-    timeStart: "09:30",
-    timeEnd: "10:00",
-    status: "booked",
-    student: "Hoàng Văn Thái"
-  }, {
-    id: randomId(),
-    day: "08/7/2020",
-    courseName: "IELTS 6.0",
-    timeStart: "15:30",
-    timeEnd: "16:00",
-    status: "booked",
-    student: "Hoàng Văn Thái"
-  }]
+  id: randomId(),
+  day: "23/7/2020",
+  courseName: "English For Today",
+  timeStart: "12:30",
+  timeEnd: "13:00",
+  status: "available",
+}, {
+  id: randomId(),
+  day: "23/7/2020",
+  courseName: "English For Today",
+  timeStart: "13:30",
+  timeEnd: "14:00",
+  status: "available",
+}, {
+  id: randomId(),
+  day: "23/7/2020",
+  courseName: "English For Today",
+  timeStart: "08:00",
+  timeEnd: "08:30",
+  status: "available",
+}, {
+  id: randomId(),
+  day: "23/7/2020",
+  courseName: "English For Today",
+  timeStart: "20:30",
+  timeEnd: "21:00",
+  status: "available",
+}, {
+  id: randomId(),
+  day: "24/7/2020",
+  courseName: "TOEIC Basic",
+  timeStart: "01:30",
+  timeEnd: "02:00",
+  status: "booked",
+  student: "Hoàng Văn Thái"
+}, {
+  id: randomId(),
+  day: "24/7/2020",
+  courseName: "Grammar",
+  timeStart: "12:30",
+  timeEnd: "13:00",
+  status: "available",
+}, {
+  id: randomId(),
+  day: "24/7/2020",
+  courseName: "TOEIC Advanced",
+  timeStart: "15:30",
+  timeEnd: "16:00",
+  status: "available",
+}, {
+  id: randomId(),
+  day: "23/7/2020",
+  courseName: "IELTS 6.0",
+  timeStart: "09:30",
+  timeEnd: "10:00",
+  status: "booked",
+  student: "Hoàng Văn Thái"
+}, {
+  id: randomId(),
+  day: "10/7/2020",
+  courseName: "IELTS 6.0",
+  timeStart: "11:00",
+  timeEnd: "11:30",
+  status: "booked",
+  student: "Hoàng Văn Thái"
+}]
 
 
 const initialCancelLesson = {
@@ -97,12 +95,54 @@ const initialBookLesson = {
   end: "",
 }
 
+let teacherInfoSwiper;
+
 const TeacherDetail = () => {
-  const [state, setState] = React.useState(initialState)
+  const [state, setState] = React.useState({})
   const [stateCancelLesson, setStateCancelLesson] = React.useState(initialCancelLesson);
   const [stateBookLesson, setStateBookLesson] = React.useState(initialBookLesson);
 
   const [loading, setLoading] = React.useState(false);
+
+  const swiperInit = () => {
+    teacherInfoSwiper = new Swiper('.swiper-container', {
+      loop: false,
+      freeModeMomentum: false,
+      preventInteractionOnTransition: true,
+      simulateTouch: false,
+      autoHeight: true,
+      observer: true,
+      observeParents: true,
+      observeSlideChildren: true,
+    })
+
+    const listTab = document.getElementById('js-list-tab');
+    const tabLinks = listTab.querySelectorAll('.tab-link');
+    const swapTab = (e) => {
+      e.preventDefault();
+      const element = e.target;
+      const indexSlide = element.dataset?.index ?? 0;
+      teacherInfoSwiper.slideTo(indexSlide, 500, false);
+      [...tabLinks].map(link => link === element ? link.classList.add('active') : link.classList.remove('active'));
+    }
+    [...tabLinks].map(link => {
+      link.addEventListener('click', swapTab);
+    });
+
+    let $videoSrc;
+    let $videoModal = $('#js-video-modal');
+    let $iframe = $videoModal.find('iframe');
+    $('#video-teacher').click(function () {
+      $videoSrc = $(this).attr('data-src');
+      $iframe.attr('src', $videoSrc);
+      $videoModal.modal('show');
+    });
+
+    $videoModal.on('hide.bs.modal', function (e) {
+      // a poor man's stop video
+      $iframe.attr('src', $videoSrc);
+    })
+  }
 
 
   const getAPI = async () => {
@@ -111,9 +151,8 @@ const TeacherDetail = () => {
       TeacherUID: 1,
     });
     setState(teacher.Data)
-    console.log(teacher.Data)
     setLoading(false);
-    $('#js-video-modal iframe').attr('src',teacher.Data.LinkVideoIntroduce);
+    $('#js-video-modal iframe').attr('src', teacher.Data.LinkVideoIntroduce);
   }
 
   const onHandleBookLesson = (id, LessionName, date, start, end) => {
@@ -138,9 +177,10 @@ const TeacherDetail = () => {
     })
   }
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     getAPI()
-  },[])
+    swiperInit()
+  }, [])
 
   return (
     <div className="teacher__detail__wrap card-box">
@@ -155,16 +195,16 @@ const TeacherDetail = () => {
                 <div className="teacher-name">
                   <h5 className="name">{state.TeacherName}</h5>
                   <div className="nation">
-                    <span className={`flag-icon flag-icon-${nationMapToFlag(state.nation)} flag-icon-squared mg-r-5`}></span>
+                    <span className={`flag-icon flag-icon-${state.nation ? nationMapToFlag(state.nation) : "vn"} flag-icon-squared mg-r-5`}></span>
                     <span className="badge badge-light"><span className="tx-success"><i
                       className="fa fa-check-circle"></i> Verified</span></span>
                   </div>
                 </div>
                 <div className="teacher-summary">
                   <a href="#js-video-modal"
-                  data-toggle="modal"
-                  data-target="#js-video-modal"
-                  data-src={state.LinkVideoIntroduce}
+                    data-toggle="modal"
+                    data-target="#js-video-modal"
+                    data-src={state.LinkVideoIntroduce}
                     className="tx-primary" id="video-teacher"><i className="fas fa-play-circle "></i>Xem video giới thiệu</a>
                   <p className="mg-b-0 mg-t-10">{state.IntroduceContent}</p>
                 </div>
@@ -200,14 +240,14 @@ const TeacherDetail = () => {
                   <div className="slide-tab-content">
                     <BookingSchedule
                       /* schedule={state.schedule} */
-                      schedule={schedule}
+                     /*  schedule={schedule} */
                       handleBookLesson={onHandleBookLesson}
                       handleCancelLesson={onHandleCancelLesson} />
                   </div>
                 </div>
                 <div className="swiper-slide">
                   <div className="slide-tab-content">
-                    <StudentComment />
+                    <StudentComment teacherInfoSwiper={teacherInfoSwiper} />
                   </div>
                 </div>
               </div>

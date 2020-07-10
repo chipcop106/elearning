@@ -21,6 +21,10 @@ const RatingLessonModal = ({ id, TeacherName }) => {
 
     const onSubmitRating = () => {
         console.log(state);
+        if(state.rating === 0) {
+            alert("Just rating it")
+        }
+        /* else  Call API */
     }
 
      React.useEffect(() => {
