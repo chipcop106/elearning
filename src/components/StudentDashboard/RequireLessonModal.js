@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { convertTime, convertDay } from "../../utils.js";
 
 const initialState = {
     id:"",

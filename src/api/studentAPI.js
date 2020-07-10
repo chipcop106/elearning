@@ -7,7 +7,7 @@ export const getLessons = async () => {
     try {
         let res = await instance.get(path + '/Dashboard',{
             params: {
-                UID: "1"
+                UID: appSettings.UID
             }
         })
         result =  res.data;
@@ -22,7 +22,7 @@ export const getUpcomingLessons = async () => {
     try {
         let res = await instance.get(path + '/GetUpcomingLessions', {
             params: {
-                UID: "1"
+                UID: appSettings.UID
             }
         })
         result =  res.data;
@@ -37,9 +37,10 @@ export const getLessonHistory = async (params) => {
     try {
         let res = await instance.get(path + '/GetLessionHistory',{
             params: {
-                UID: "1",
+                UID: appSettings.UID,
                 FromDate: params.FromDate,
                 ToDate: params.ToDate,
+                Page: params.Page,
             }
         })
         result =  res.data;
@@ -54,7 +55,7 @@ export const getEvaluation = async (params) => {
     try {
         let res = await instance.get(path + '/GetEvaluation',{
             params: {
-                UID: 1,
+                UID: appSettings.UID,
                 ElearnBookingID: params.ElearnBookingID
             }
         })
@@ -70,7 +71,23 @@ export const getProfile = async () => {
     try {
         let res = await instance.get(path + '/GetProfile', {
             params: {
-                UID: "1"
+                UID: appSettings.UID,
+            }
+        })
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const getTeacherInfo = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/GetTeacherInfo', {
+            params: {
+                UID: appSettings.UID,
+                TeacherUID: params.TeacherUID,
             }
         })
         result =  res.data;

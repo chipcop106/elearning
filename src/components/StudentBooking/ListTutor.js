@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import BookingLessonModal from "../BookingLessonModal";
-import SkeletonNotification from '../common/Skeleton/SkeletonNotification';
-import { nationMapToFlag } from '../../utils'
+import SkeletonNotification from '~components/common/Skeleton/SkeletonNotification';
+import { nationMapToFlag, randomId } from "~src/utils"
 import styles from '~components/StudentBooking/ListTutor.module.scss';
 
 const initialState = [{
@@ -318,7 +318,7 @@ const ListTutor = ({ searchInput, callback }) => {
   const [loading, setLoading] = React.useState(false)
   let learnTime = []
   let filteredState = state
-
+  
   const handleBook = (id, LessionName, date, start, end) => {
     setStateBookLesson({
       ...stateBookLesson,
@@ -329,7 +329,6 @@ const ListTutor = ({ searchInput, callback }) => {
       end
     })
   }
-
 
   (function init () {
   let min = Math.min(

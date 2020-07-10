@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Formik, withFormik } from 'formik';
 import * as Yup from 'yup';
-import { getProfile } from "../../api/studentAPI";
+import { getProfile } from "~src/api/studentAPI";
+import { getFormattedDate } from "~src/utils";
 
 const Schema = Yup.object().shape({
     FullName: Yup.string()
@@ -16,7 +17,7 @@ const Schema = Yup.object().shape({
         .email('invalid email'),
     Address: Yup.string()
         .required('Address is not empty'),
-    PeronalPreference: Yup.string()
+    PersonalPreference: Yup.string()
         .required('Hobbits is not empty'),
     RequestWithTeacher: Yup.string()
         .required('Notes is not empty'),
@@ -113,10 +114,10 @@ const StudentForm = (props) => {
                                 <p className="mg-b-0 tx-medium">Date of birth:</p>
                             </div>
                             <div className="form-group col-sm-9">
-                                <input type="text"
+                            <input type="text"
                                     className="form-control datetimepicker"
-                                    name="dateOfBirth"
-                                    value={values.dateOfBirth}
+                                    name="BirthDay"
+                                    value={getFormattedDate(values.BirthDay)}
                                     onChange={handleChange}
                                     placeholder="dd/mm/YYYY" />
                             </div>
@@ -178,8 +179,9 @@ const StudentForm = (props) => {
                                 <select className="form-control" name="Gender"
                                     value={values.Gender}
                                     onChange={handleChange}>
-                                    <option value="0">Female</option>
                                     <option value="1">Male</option>
+                                    <option value="2">Female</option>
+                                    <option value="3">Other</option>
                                 </select>
                             </div>
                         </div>
@@ -224,8 +226,7 @@ const StudentForm = (props) => {
                                 className="form-group col-sm-3 col-label-fixed">
                                 <p className="mg-b-0 tx-medium ">Target:</p>
                             </div>
-                            <div
-                                className="form-group col-sm-9 select-checkbox">
+                            <div className="form-group col-sm-9 select-checkbox">
                                 <select id="target-select"
                                     className="js-select2 form-control"
                                     multiple={true}
@@ -247,12 +248,12 @@ const StudentForm = (props) => {
                                 <p className="mg-b-0 tx-medium ">Hobbits: </p>
                             </div>
                             <div className="form-group col-sm-9">
-                                <input type="text" name="PeronalPreference" className="form-control"
+                                <input type="text" name="PersonalPreference" className="form-control"
                                     placeholder="Your hobbit"
-                                    value={values.PeronalPreference}
+                                    value={values.PersonalPreference}
                                     onChange={handleChange} />
                                 {
-                                    errors.PeronalPreference ? <span className="text-danger d-block mt-2">{errors.PeronalPreference}</span> : ""
+                                    errors.PersonalPreference ? <span className="text-danger d-block mt-2">{errors.PersonalPreference}</span> : ""
                                 }
                             </div>
                         </div>
@@ -348,11 +349,11 @@ const FormWrap = () => {
                 Gender: profile.Gender,
                 TimeZone: profile.TimeZone,
                 Language: profile.Language,
-                dateOfBirth: "12/09/1999",
+                BirthDay: profile.BirthDay,
                 Email: profile.Email,
                 Target: ["Exam preparation", "Study aboard", "Self improvement", "Other"],
                 SelectTarget: ["Exam preparation"],
-                PeronalPreference: profile.PeronalPreference,
+                PersonalPreference: profile.PersonalPreference,
                 RequestWithTeacher: profile.RequestWithTeacher,
                 password: "",
                 newPassword: "",

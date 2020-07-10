@@ -15,3 +15,22 @@
     overflow: hidden;
     }
 }
+
+.select__control--is-focused {
+    border-color: hsl(0,0%,80%)!important;
+    box-shadow: none!important;
+}
+.select__multi-value {
+    background-color: #fd7e14!important;
+}
+.select__multi-value .select__multi-value__label {
+    color:#fff;
+    font-size:13px !important;
+}
+.select__multi-value .select__multi-value__remove {
+    color:#fff;
+}
+.select__multi-value .select__multi-value__remove:hover {
+    background-color: inherit!important;
+    cursor: pointer;
+}

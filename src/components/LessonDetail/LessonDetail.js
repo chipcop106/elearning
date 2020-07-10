@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SkeletonLessonDetail from "../common/Skeleton/SkeletonLessonDetail";
+import SkeletonLessonDetail from "~components/common/Skeleton/SkeletonLessonDetail";
 
 import StudentComment from "../TeacherDetail/StudentComment"
 
-import { getEvaluation } from "../../api/studentAPI"
+import { getEvaluation } from "~src/api/studentAPI"
 
 const initialState = {};
 

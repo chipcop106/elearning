@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SkeletonFaq from "../common/Skeleton/SkeletonFaq";
+import SkeletonFaq from "~components/common/Skeleton/SkeletonFaq";
 
 const Faq = () => {
   const [loading, setLoading] = React.useState(false);

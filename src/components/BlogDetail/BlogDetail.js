@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import SkeletonBlogCard from "../common/Skeleton/SkeletonBlogCard"
+import SkeletonBlogCard from "~components/common/Skeleton/SkeletonBlogCard"
 
 const BlogDetail = () => {
   const [loading, setLoading] = React.useState(false);

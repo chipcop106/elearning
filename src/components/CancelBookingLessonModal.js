@@ -5,11 +5,15 @@ import { cancelLesson } from '../api/optionAPI';
 
 const CancelBookingLessonModal = ({id, LessionName, date, start, end, style, callback}) => {
 
+
   const getAPI = async (id) => {
+    /* start: 0 */
+    let result = 0;
+    callback && callback(id, result)
     const lessons = await cancelLesson({BookingID:id});
     //console.log(lessons.Message)
     /* success:1, fail:2 */
-    let result = 1;
+    result = 1;
     callback && callback(id, result);
   }
 

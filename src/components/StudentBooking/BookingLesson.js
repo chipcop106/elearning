@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ListTutor from './ListTutor';
+import Select from 'react-select'
 
 const initialState = {
   nation: "",
   gender: "",
-  program: ["Children", "Youth", "Basic", "Advanced", "Speaking", "Pronounce", "Other"],
+  program: ["Children","Youth","Basic","Advanced","Speaking","Pronounce","Other"],
   selectedProgram: ["Children"],
   date: "",
   startTime: "06:00",
@@ -40,13 +41,9 @@ const BookingLesson = () => {
   const [searchInput, setSearchInput] = React.useState(initialSearchInput);
   const [disableButtonSearch, toggleDisable] = React.useState(false);
 
-  const handleSelect2 = (e) => {
-    const target = e.target;
-    const value = [];
-    [...target.children].map(option => {
-      if (option.selected) value.push(option.value);
-    });
-    const key = target.getAttribute("name");
+  const handleSelect2 = (val) => {
+    const key = "selectedProgram";
+    const value = val;
     dispatch({ type: "STATE_CHANGE", payload: { key, value } })
   }
 
@@ -77,7 +74,11 @@ const BookingLesson = () => {
   const onSearch = (e) => {
     e.preventDefault();
     if (!disableButtonSearch)
-      setSearchInput({ ...state })
+    {
+      setSearchInput({
+        ...state,
+      }) 
+    }
     toggleDisable(true)
   }
 
@@ -215,7 +216,6 @@ const BookingLesson = () => {
   React.useEffect(() => {
     initCalendar();
 
-    $(".js-select2").on('change', handleSelect2.bind(this));
     $('#div-nationality input').on('change', handleChangeNation.bind(this))
     $('#div-nationality .legend-checkbox').on('click', handleChangeNation.bind(this))
     $(document).on("click", ".day-block", handleChangeDate.bind(this))
@@ -223,19 +223,7 @@ const BookingLesson = () => {
     $('.from-date').on('change', handleChange.bind(this))
     $('.to-date').on('change', handleChange.bind(this))
 
-    $(".js-select2").select2({
-      closeOnSelect: false,
-      placeholder: "Select program",
-      allowHtml: true,
-      allowClear: true,
-      tags: true
-    });
-
   }, []);
-  /* 
-    React.useEffect(() => {
-     
-    }, [searchInput]) */
 
   return (
     <React.Fragment>
@@ -272,20 +260,18 @@ const BookingLesson = () => {
                   </select>
                 </div>
                 <div className="col-sm-12 col-md-6 item">
-                  <select id="target-select"
-                    className="js-select2 form-control"
-                    multiple={true}
-                    readOnly={true}
+                  <Select
+                    isMulti
                     name="selectedProgram"
+                    options={state.program}
                     value={state.selectedProgram}
-                    onClick={handleSelect2}>
-                   {/*  {!!state.program && state.program.length > 0 && state.program.map((item, index) =>
-                      <option key={index} value={item}>{item}</option>)
-                    } */}
-                    {!!state.program && state.program.length > 0 ? (
-                      state.program.map((item, index) => <option key={index} value={item}>{item}</option>)) :
-                      (<option value="">Loading option... </option>)}
-                  </select>
+                    getOptionLabel={label => label}
+                    getOptionValue={value => value}
+                    className="basic-multi-select"
+                    placeholder="Select Program"
+                    classNamePrefix="select"
+                    onChange={handleSelect2}
+                  />
                 </div>
               </div>
             </div>

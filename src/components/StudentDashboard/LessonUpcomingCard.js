@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { convertTime, convertDay } from "../../utils.js";
 
 const LessonUpcomingCard = ({
   id,
@@ -8,7 +7,7 @@ const LessonUpcomingCard = ({
   teacherUID,
   TeacherName,
   LessionName,
-  note = "No note",
+  SpecialRequest,
   start,
   end,
   date,
@@ -16,10 +15,14 @@ const LessonUpcomingCard = ({
   SkypeID,
   onHandleCancelBooking,
   onHandleRequireLesson,
+  lock = {
+    id:'',
+    lock:false
+  },
 }) => {
 
-  const handleRequireLesson = (id, avatar, TeacherName, LessionName, note, date, start, end, DocumentName, SkypeID) => {
-    onHandleRequireLesson(id, avatar, TeacherName, LessionName, note, date, start, end, DocumentName, SkypeID)
+  const handleRequireLesson = (id, avatar, TeacherName, LessionName, SpecialRequest, date, start, end, DocumentName, SkypeID) => {
+    onHandleRequireLesson(id, avatar, TeacherName, LessionName, SpecialRequest, date, start, end, DocumentName, SkypeID)
   }
 
   const handleCancelBooking = (e, id, LessionName, date, start, end) => {
@@ -28,7 +31,8 @@ const LessonUpcomingCard = ({
   }
   
   return (
-    <li className="cr-item lesson-info">
+    <li className="cr-item lesson-info" style={{position:'relvate'}}>
+      <div className={`${lock.id === id && lock.lock ? '':'d-none'}`} style={{zIndex:"99",position:"absolute",top:0,left:0,width:"100%",height:"100%"}}></div>
       <div className="media">
         <div className="teacher-information">
           <a className="teacher-avatar" href="teacherDetail.html">
@@ -52,7 +56,7 @@ const LessonUpcomingCard = ({
           </div>
           <div className="course-note mg-t-15">
             <h6 className="mg-b-3">Lesson notes:</h6>
-            <p className="tx-14 mg-b-0">{note}</p>
+            <p className="tx-14 mg-b-0">{SpecialRequest}</p>
           </div>
           <div className="course-docs mg-t-15">
             <h6 className="mg-b-3">Documents:</h6>
@@ -77,7 +81,7 @@ const LessonUpcomingCard = ({
                   avatar,
                   TeacherName,
                   LessionName,
-                  note,
+                  SpecialRequest,
                   date,
                   start,
                   end,

@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import NotificationItem from './NotificationItem';
-import SkeletonNotification from "../common/Skeleton/SkeletonNotification";
-import { randomId } from "../../utils"
+import SkeletonNotification from "~components/common/Skeleton/SkeletonNotification";
+import { randomId } from "~src/utils"
 import Pagination from "react-js-pagination";
 
 const initialState = [{

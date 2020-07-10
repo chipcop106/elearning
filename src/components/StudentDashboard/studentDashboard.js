@@ -8,10 +8,10 @@ import RatingLessonModal from "./RatingLessonModal"
 import RequireLessonModal from "./RequireLessonModal"
 import CancelBookingLessonModal from "../CancelBookingLessonModal"
 
-import SkeletonLessonCard from '../common/Skeleton/SkeletonLessonCard';
+import SkeletonLessonCard from '~components/common/Skeleton/SkeletonLessonCard';
 
-import { convertDateFromTo } from "../../utils.js"
-import { getLessons } from "../../api/studentAPI";
+import { convertDateFromTo } from "~src/utils.js"
+import { getLessons } from "~src/api/studentAPI";
 
 let initialState = {}
 
@@ -33,7 +33,7 @@ const initialRequireLesson = {
   avatar: "",
   TeacherName: "",
   LessionName: "",
-  note: "",
+  SpecialRequest: "",
   date: "",
   start: "",
   end: "",
@@ -43,6 +43,10 @@ const initialRequireLesson = {
 
 const Dashboard = () => {
   const [state, setState] = React.useState(initialState);
+  const [lock, setLock] = React.useState({
+    id:"",
+    lock:false,
+  })
   const [stateCancelLesson, setStateCancelLesson] = React.useState(initialCancelLesson);
   const [stateRatingLesson, setStateRatingLesson] = React.useState(initialRatingLesson);
   const [stateRequireLesson, setStateRequireLesson] = React.useState(initialRequireLesson);
@@ -57,14 +61,14 @@ const Dashboard = () => {
     })
   }
 
-  const handleRequireLesson = (id, avatar, TeacherName, LessionName, note, date, start, end, DocumentName, SkypeID) => {
+  const handleRequireLesson = (id, avatar, TeacherName, LessionName, SpecialRequest, date, start, end, DocumentName, SkypeID) => {
     setStateRequireLesson({
       ...stateRequireLesson,
       id,
       avatar,
       TeacherName,
       LessionName,
-      note,
+      SpecialRequest,
       date,
       start,
       end,
@@ -85,7 +89,19 @@ const Dashboard = () => {
   }
 
   const cbCancelBooking = (id, status) => {
-    console.log('id',id, 'status',status)
+    if(status === 0)
+    {
+      setLock({
+        id,
+        lock:true
+      })
+    }
+    else {
+      setLock({
+        id,
+        lock:false
+      })
+    }
   }
 
   const getAPI = async () => {
@@ -120,7 +136,7 @@ const Dashboard = () => {
                   <div className="item-title">Canceled Lessons</div>
                 </li>
                 <li className="top-step-item "><span className="item-count">
-                {state.StudyProcess && state.StudyProcess.NumberOfLessionsLeft}
+                {state.StudyProcess && state.StudyProcess.NumberOfAbsences}
                 </span>
                   <div className="item-title">Truant Lessons</div>
                 </li>
@@ -147,13 +163,15 @@ const Dashboard = () => {
                           teacherUID={item.TeacherUID}
                           TeacherName={item.TeacherName}
                           LessionName={item.LessionName}
+                          SpecialRequest={item.SpecialRequest}
                           start={convertDateFromTo(item.ScheduleTimeVN).fromTime}
                           end={convertDateFromTo(item.ScheduleTimeVN).endTime}
                           date={convertDateFromTo(item.ScheduleTimeVN).date}
                           DocumentName={item.DocumentName}
                           SkypeID={item.SkypeID}
                           onHandleCancelBooking={handleCancelBooking}
-                          onHandleRequireLesson={handleRequireLesson} />)
+                          onHandleRequireLesson={handleRequireLesson}
+                          lock={lock}/>)
                   }
                 </ul>
               </div>
@@ -193,7 +211,7 @@ const Dashboard = () => {
               avatar={stateRequireLesson.avatar}
               TeacherName={stateRequireLesson.TeacherName}
               LessionName={stateRequireLesson.LessionName}
-              note={stateRequireLesson.note}
+              SpecialRequest={stateRequireLesson.SpecialRequest}
               date={stateRequireLesson.date}
               start={stateRequireLesson.start}
               end={stateRequireLesson.end}

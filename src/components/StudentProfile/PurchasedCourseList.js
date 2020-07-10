@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PurchasedCourseCard from "./PurchasedCourseCard";
-import SkeletonLessonCard from "../common/Skeleton/SkeletonLessonCard";
-import { randomId } from "../../utils.js"
+import SkeletonLessonCard from "~components/common/Skeleton/SkeletonLessonCard";
+import { randomId } from "~src/utils.js"
 import Pagination from "react-js-pagination";
 
 const initialState = [{
-  id:randomId(),
-  teacher: "Hoàng Thị Quyên",
+  CoursesID:randomId(),
+  TeacherName: "Hoàng Thị Quyên",
   avatar: "interface-2.jpg",
-  courseName: "IELST - Professional",
+  CoursesName: "IELST - Professional",
   total: 20,
   completed: 30,
   incoming: 20,
@@ -17,12 +17,12 @@ const initialState = [{
   status: "ongoing",
   start: "20/04/2020",
   end: "20/12/2020",
-  courseMaterial: "ITLEST 8.0 EASY",
+  CourseMaterial: "ITLEST 8.0 EASY",
 }, {
-  id:randomId(),
-  teacher: "Hoàng Văn Thái",
+  CoursesID:randomId(),
+  TeacherName: "Hoàng Văn Thái",
   avatar: "interface-2.jpg",
-  courseName: "IELST - Professional",
+  CoursesName: "IELST - Professional",
   total: 20,
   completed: 30,
   incoming: 20,
@@ -30,7 +30,7 @@ const initialState = [{
   status: "finished",
   start: "20/04/2020",
   end: "20/12/2020",
-  courseMaterial: "ITLEST 8.0 EASY",
+  CourseMaterial: "ITLEST 8.0 EASY",
 }]
 const PurchasedCourseList = () => {
   const [page, setPage] = React.useState(1)
@@ -96,9 +96,9 @@ const PurchasedCourseList = () => {
               loading ? <SkeletonLessonCard key={item.id}/> :
               <PurchasedCourseCard
                 key={item.id}
-                id={item.id}
+                CoursesID={item.CoursesID}
                 avatar={item.avatar}
-                name={item.courseName}
+                CoursesName={item.CoursesName}
                 total={item.total}
                 completed={item.completed}
                 incoming={item.incoming}
@@ -106,7 +106,7 @@ const PurchasedCourseList = () => {
                 status={item.status}
                 start={item.start}
                 end={item.end}
-                material={item.courseMaterial} />)
+                CourseMaterial={item.CourseMaterial} />)
           }
         </ul>
       </div>

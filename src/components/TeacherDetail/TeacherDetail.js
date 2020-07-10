@@ -8,31 +8,11 @@ import BookingLessonModal from "~components/BookingLessonModal"
 import SkeletonLessonCard from "~components/common/Skeleton/SkeletonLessonCard"
 
 import { nationMapToFlag, randomId } from '~src/utils'
+import { getTeacherInfo } from "~src/api/studentAPI"
 
-const initialState = {
-  TeacherUID: 1,
-  TeacherName: "Huỳnh Thị Lan Anh",
-  TeacherIMG: "https://theamericanschool.edu.vn/wp-content/uploads/2020/01/Ms-Hong-Nguyen-Vietnamese.jpg",
-  nation: "U.S.",
-  LinkVideoIntroduce: "https://www.youtube.com/embed/mJzpX_YrC10",
-  IntroduceContent: "I have been teaching English as a foreign language for almost ten years. I have taught English in Japan, Thailand, India, Mexico, and Italy. Teaching English is my passion, and I love being able to connect with people from all over the world. My hobbies include cooking and anything to do with nature.",
-  Experience: [
-    {
-      Date: "08/2019 - 11/2019",
-      ExperienceName: "English Teaching Assisstant",
-      ExperienceContent: "Prepared teaching materials and supported the foreign teachers. - Managed the class, helped the students finish their homework and difficulties during the lessons."
-    }, {
-      Date: "11/2019 - Present",
-      ExperienceName: "Tester and Academic supporter",
-      ExperienceContent: "Check the teaching ability of teachers and English level of students. - Support the foreign teachers during the class due to technical issues or teaching materials,.. - Prepared the flow of lessons everyday."
-    }
-  ],
-  Certificate: [{
-    Date: "2015",
-    CertificateName: "Teaching English to Speakers of Other Languages (TESOL)",
-    CertificateContent: "Madision School of Professional Development"
-}],
-  schedule: [{
+const initialState = {}
+
+const schedule = [{
     id: randomId(),
     day: "23/7/2020",
     courseName: "English For Today",
@@ -98,12 +78,12 @@ const initialState = {
     timeEnd: "16:00",
     status: "booked",
     student: "Hoàng Văn Thái"
-  }],
-}
+  }]
+
 
 const initialCancelLesson = {
   id: "",
-  name: "",
+  LessionName: "",
   date: "",
   start: "",
   end: "",
@@ -111,7 +91,7 @@ const initialCancelLesson = {
 
 const initialBookLesson = {
   id: "",
-  name: "",
+  LessionName: "",
   date: "",
   start: "",
   end: "",
@@ -124,31 +104,34 @@ const TeacherDetail = () => {
 
   const [loading, setLoading] = React.useState(false);
 
-  React.useEffect(() => {
+
+  const getAPI = async () => {
     setLoading(true);
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
+    const teacher = await getTeacherInfo({
+      TeacherUID: 1,
+    });
+    setState(teacher.Data)
+    console.log(teacher.Data)
+    setLoading(false);
+    $('#js-video-modal iframe').attr('src',teacher.Data.LinkVideoIntroduce);
+  }
 
-
-  const onHandleBookLesson = (id, name, date, start, end) => {
+  const onHandleBookLesson = (id, LessionName, date, start, end) => {
     setStateBookLesson({
       ...stateBookLesson,
       id,
-      name,
+      LessionName,
       date,
       start,
       end
     })
   }
 
-  const onHandleCancelLesson = (id, name, date, start, end) => {
+  const onHandleCancelLesson = (id, LessionName, date, start, end) => {
     setStateCancelLesson({
       ...stateCancelLesson,
       id,
-      name,
+      LessionName,
       date,
       start,
       end
@@ -156,7 +139,7 @@ const TeacherDetail = () => {
   }
 
   React.useEffect(()=>{
-    $('#js-video-modal iframe').attr('src',state.LinkVideoIntroduce);
+    getAPI()
   },[])
 
   return (
@@ -216,7 +199,8 @@ const TeacherDetail = () => {
                 <div className="swiper-slide">
                   <div className="slide-tab-content">
                     <BookingSchedule
-                      schedule={state.schedule}
+                      /* schedule={state.schedule} */
+                      schedule={schedule}
                       handleBookLesson={onHandleBookLesson}
                       handleCancelLesson={onHandleCancelLesson} />
                   </div>
@@ -233,14 +217,14 @@ const TeacherDetail = () => {
       </div>
       <CancelBookingLessonModal
         id={stateCancelLesson.id}
-        LessionName={stateCancelLesson.name}
+        LessionName={stateCancelLesson.LessionName}
         date={stateCancelLesson.date}
         start={stateCancelLesson.start}
         end={stateCancelLesson.end} />
 
       <BookingLessonModal
         id={stateBookLesson.id}
-        LessionName={stateBookLesson.name}
+        LessionName={stateBookLesson.LessionName}
         date={stateBookLesson.date}
         start={stateBookLesson.start}
         end={stateBookLesson.end} />

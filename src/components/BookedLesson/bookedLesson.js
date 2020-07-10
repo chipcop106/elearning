@@ -1,15 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { randomId } from '~src/utils'
 import RatingLessonModal from '~components/StudentDashBoard/RatingLessonModal'
 import RequireLessonModal from '~components/StudentDashboard/RequireLessonModal'
 import LessonHistoryCard from "~components/StudentDashBoard/LessonHistoryCard"
 import LessonUpcomingCard from "~components/StudentDashBoard/LessonUpcomingCard"
 import CancelBookingLessonModal from "~components/CancelBookingLessonModal"
 import SkeletonLessonCard from "~components/common/Skeleton/SkeletonLessonCard"
-import { getLessons } from "../../api/studentAPI"
-import { convertDateFromTo } from "../../utils.js"
+import { getLessons } from "~src/api/studentAPI"
+import { convertDateFromTo } from "~src/utils.js"
 import Pagination from "react-js-pagination";
 
 import styles from '~components/BookedLesson/bookedLesson.module.scss'
@@ -32,7 +31,7 @@ const initialRequireLesson = {
   avatar: "",
   TeacherName: "",
   LessionName: "",
-  note: "",
+  SpecialRequest: "",
   date: "",
   start: "",
   end: "",
@@ -43,6 +42,10 @@ const initialRequireLesson = {
 const BookedLesson = () => {
   const [state, setState] = React.useState(initialState);
   const [page, setPage] = React.useState(1)
+  const [lock, setLock] = React.useState({
+    id:"",
+    lock:false,
+  })
   const [filterLesson, setFilterLesson] = React.useState(1);
   const [stateCancelLesson, setStateCancelLesson] = React.useState(initialCancelLesson);
   const [stateRatingLesson, setStateRatingLesson] = React.useState(initialRatingLesson);
@@ -62,14 +65,14 @@ const BookedLesson = () => {
     setPage(pageNumber);
   }
 
-  const handleRequireLesson = (id, avatar, TeacherName, LessionName, note, date, start, end, DocumentName, SkypeID) => {
+  const handleRequireLesson = (id, avatar, TeacherName, LessionName, SpecialRequest, date, start, end, DocumentName, SkypeID) => {
     setStateRequireLesson({
       ...stateRequireLesson,
       id,
       avatar,
       TeacherName,
       LessionName,
-      note,
+      SpecialRequest,
       date,
       start,
       end,
@@ -89,11 +92,26 @@ const BookedLesson = () => {
     })
   }
 
+  const cbCancelBooking = (id, status) => {
+    if(status === 0)
+    {
+      setLock({
+        id,
+        lock:true
+      })
+    }
+    else {
+      setLock({
+        id,
+        lock:false
+      })
+    }
+  }
+
   const getAPI = async () => {
     setLoading(true);
     const lessons = await getLessons();
     setState(lessons.Data)
-    console.log(lessons.Data)
     setLoading(false);
   }
 
@@ -162,10 +180,12 @@ const BookedLesson = () => {
                   start={convertDateFromTo(item.ScheduleTimeVN).fromTime}
                   end={convertDateFromTo(item.ScheduleTimeVN).endTime}
                   date={convertDateFromTo(item.ScheduleTimeVN).date}
+                  SpecialRequest={item.SpecialRequest}
                   DocumentName={item.DocumentName}
                   SkypeID={item.SkypeID}
                   onHandleCancelBooking={handleCancelBooking}
-                  onHandleRequireLesson={handleRequireLesson} />)
+                  onHandleRequireLesson={handleRequireLesson}
+                  lock={lock}/>)
             }
             {
                (filterLesson === 1 || filterLesson === 3) &&
@@ -217,7 +237,8 @@ const BookedLesson = () => {
         LessionName={stateCancelLesson.LessionName}
         date={stateCancelLesson.date}
         start={stateCancelLesson.start}
-        end={stateCancelLesson.end} />
+        end={stateCancelLesson.end}
+        callback={cbCancelBooking} />
   </React.Fragment>
 }
 

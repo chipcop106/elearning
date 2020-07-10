@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SkeletonFeedback from "../common/Skeleton/SkeletonFeedback";
+import SkeletonFeedback from "~components/common/Skeleton/SkeletonFeedback";
+import Pagination from "react-js-pagination";
 
 const initialState = {
   averageRate: 4.5,
@@ -102,8 +103,13 @@ const TeacherComment = ({dateTime, teacherName, teacherAvatar, content }) => {
 }
 
 const Feedback = () => {
+  const [page, setPage] = React.useState(1)
   const [state, setState] = React.useState(initialState);
   const [loading, setLoading] = React.useState(false);
+
+  const handlePageChange = (pageNumber) =>  {
+    setPage(pageNumber);
+  }
 
   React.useEffect(() => {
     setLoading(true);
@@ -213,17 +219,16 @@ const Feedback = () => {
       </div>
     }
     </div>
-    <nav aria-label="Page navigation" className="mg-t-10">
-    <ul className="pagination mg-b-0 justify-content-end">
-    <li className="page-item disabled"><a className="page-link page-link-icon" href={"#"}><i
-    data-feather="chevron-left"></i></a></li>
-    <li className="page-item active"><a className="page-link" href={"#"}>1</a></li>
-    <li className="page-item"><a className="page-link" href={"#"}>2</a></li>
-    <li className="page-item"><a className="page-link" href={"#"}>3</a></li>
-    <li className="page-item"><a className="page-link page-link-icon" href={"#"}><i
-    data-feather="chevron-right"></i></a></li>
-    </ul>
-    </nav>
+    <Pagination
+                innerClass="pagination justify-content-end mt-3"
+                activePage={page}
+                itemsCountPerPage={10}
+                totalItemsCount={450}
+                pageRangeDisplayed={5}
+                itemClass="page-item"
+                linkClass="page-link"
+                onChange={handlePageChange.bind(this)}
+            />
     </React.Fragment>
     )
 }

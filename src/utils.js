@@ -1,5 +1,5 @@
-import moment from './lib/moment/min/moment-with-locales.min';
-
+/* import moment from '~src/lib/moment/min/moment-with-locales.min';
+ */
 export const randomId = () => {
     let dt = new Date().getTime();
     const uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
@@ -58,11 +58,11 @@ export const nationMapToFlag = (nation) => {
 
 export const convertDateFromTo = (dateStr) => {
     const dateArr = dateStr.split('-');
-    const date = moment(dateArr[0].trim(),'DD/MM/YYYY HH:mm').format('dddd, DD/MM/YYYY');
-    const fromTime = moment(dateArr[0].trim(),'DD/MM/YYYY HH:mm').format('HH:mm');
+    const date = moment(dateArr[0].trim(), 'DD/MM/YYYY HH:mm').format('dddd, DD/MM/YYYY');
+    const fromTime = moment(dateArr[0].trim(), 'DD/MM/YYYY HH:mm').format('HH:mm');
     const endTime = dateArr[1].trim()
     return {
-        date,fromTime,endTime
+        date, fromTime, endTime
     }
 }
 
@@ -77,4 +77,14 @@ const getDifferentMinBetweenTime = (startDate, endDate) => {
 export const checkCancelTime = (startTime) => {
     const diff = getDifferentMinBetweenTime(startTime, new Date());
     return diff < 30 ? true : false
+}
+
+export const getFormattedDate = (dateStr) => {
+    let result = dateStr;
+    if(dateStr && dateStr.includes("-"))
+    {
+        const dateArr = dateStr.split("-");
+        result = `${dateArr[2].substring(0,2)}/${dateArr[1]}/${dateArr[0]}`;
+    }
+    return result;
 }

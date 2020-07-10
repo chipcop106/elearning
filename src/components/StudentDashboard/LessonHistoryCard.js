@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { convertTime, convertDay } from "../../utils.js";
 
 import styles from '~components/StudentDashboard/LessonHistoryCard.module.scss';
 
@@ -11,7 +10,7 @@ const LessonHistoryCard = ({
   teacherUID,
   TeacherName,
   LessionName,
-  note="no notes",
+  note="",
   start,
   end,
   date,

@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 const PurchasedCourseCard = ({
-  id,
-  avatar,
-  name,
+  CoursesID,
+  avatar="default-avatar.png",
+  CoursesName,
   total,
   completed,
   incoming,
@@ -12,7 +12,7 @@ const PurchasedCourseCard = ({
   status,
   start,
   end,
-  material,
+  CourseMaterial,
 }) => {
   return (
     <li className="cr-item lesson-info">
@@ -26,7 +26,7 @@ const PurchasedCourseCard = ({
           <h5 className="mg-b-10 ">
             <span className={`badge badge-${status == "ongoing" ? "warning" : "success"}`}>
               {status == "ongoing" ? "On Going" : "Finished"}</span> {" "}
-            <a href="lessonDetail.html" className="course-name tx-semibold">{name}</a>
+            <a href="lessonDetail.html" className="course-name tx-semibold">{CoursesName}</a>
           </h5>
           <div className="course-information tx-14">
             <span className="mg-r-5 tx-gray-900 tx-medium">Expiry Date:</span>
@@ -35,7 +35,7 @@ const PurchasedCourseCard = ({
           </div>
           <div className="course-note mg-t-5 d-flex flex-wrap align-items-center">
             <h6 className="mg-r-5 mg-b-0">Course material:</h6>
-            <p className="tx-14 mg-b-0 tx-gray-600 tx-medium">{material}</p>
+            <p className="tx-14 mg-b-0 tx-gray-600 tx-medium">{CourseMaterial}</p>
           </div>
           <div className="set-result pd-10 bg-light mg-t-15 rounded-5">
             <div className="d-flex flex-wrap">
