@@ -5,9 +5,9 @@ import Pagination from 'react-js-pagination';
 import Flatpickr from "react-flatpickr";
 
 const DateTimeFormat = new Intl.DateTimeFormat('vi-VN', {
-    dateStyle:'short',
-    month:"2-digit",
-    day:"2-digit",
+    dateStyle: 'short',
+    month: "2-digit",
+    day: "2-digit",
 });
 
 const AllClassRow = ({ data, showStudentModal }) => {
@@ -30,7 +30,7 @@ const AllClassRow = ({ data, showStudentModal }) => {
                 <span className="tx-gray-500">{BookingID}</span>
             </td>
             <td className="clr-lesson">
-            
+
                 <span className="tx-gray-500">{LessionName}</span>
             </td>
             <td className="clr-student">
@@ -47,7 +47,7 @@ const AllClassRow = ({ data, showStudentModal }) => {
                 </div>
             </td>
             <td className="clr-status">
-            <span className={`badge badge-${Status === 1 ? 'warning' : 'success'} pd-5`}>{StatusString && StatusString.toString().toUpperCase()}</span>
+                <span className={`badge badge-${Status === 1 ? 'warning' : 'success'} pd-5`}>{StatusString && StatusString.toString().toUpperCase()}</span>
                 {/* {Status === 1 && <span className="badge badge-warning pd-5">BOOKED</span>}
                 {Status === 2 && <span className="badge badge-success pd-5">FINISHED</span>} */}
             </td>
@@ -67,10 +67,10 @@ const AllClassRow = ({ data, showStudentModal }) => {
     )
 }
 
-const UpCommingTable = ({showStudentModal}) => {
+const UpCommingTable = ({ showStudentModal }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [filterStatusAllClass, setFilterStatusAllClass] = React.useState(0);
-    const [pageNumber, setPageNumber] = useState(0);
+    const [pageNumber, setPageNumber] = useState(1);
     const [data, setData] = useState(null);
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
@@ -83,14 +83,14 @@ const UpCommingTable = ({showStudentModal}) => {
     const _changeFilterStatusAllClass = (event) => {
         setFilterStatusAllClass(event.target.value);
     }
-    
+
     const loadAllClassesData = async () => {
         try {
-            const res = await getAllClass({ 
+            const res = await getAllClass({
                 Page: parseInt(pageNumber),
-                Status:parseInt(filterStatusAllClass),
-                fromDate:fromDate === '' ? fromDate : DateTimeFormat.format(new Date(fromDate)),
-                toDate:toDate === '' ? toDate : DateTimeFormat.format(new Date(toDate))
+                Status: parseInt(filterStatusAllClass),
+                fromDate: fromDate === '' ? fromDate : DateTimeFormat.format(new Date(fromDate)),
+                toDate: toDate === '' ? toDate : DateTimeFormat.format(new Date(toDate))
             });
             if (res?.Code && res.Code === 1) {
                 setData(res.Data);
@@ -106,7 +106,7 @@ const UpCommingTable = ({showStudentModal}) => {
 
     useEffect(() => {
         loadAllClassesData();
-    }, [pageNumber])
+    }, [pageNumber, filterStatusAllClass])
 
     return (
         <>
@@ -122,24 +122,31 @@ const UpCommingTable = ({showStudentModal}) => {
                 </div>
                 <div className="form-row from-to-group" id="filter-time">
                     <div className="wd-sm-200 col">
-                        <Flatpickr 
+                        <Flatpickr
+                            placeholder="From date"
                             options={{
                                 dateFormat: "d/m/Y",
-                                }}
-                                className="form-control"
-                                onChange={(date) => setFromDate(date)}
-                        />   
+                            }}
+                            className="form-control"
+                            onChange={(date) => setFromDate(date)}
+                        />
                         {/* <input type="text" name="start-day " onChange={(value) =>  setFromDate(value)} className="form-control datetimepicker from-date" placeholder="From date" /> */}
                     </div>
                     <div className="wd-sm-200 col">
-                    <Flatpickr 
+                        <Flatpickr
+                            placeholder="To date"
                             options={{
                                 dateFormat: "d/m/Y",
-                                minDate:fromDate || ''
-                                }}
-                                className="form-control"
-                                onChange={(date) => setToDate(date)}
-                        />  
+                                onOpen: function (selectedDates, dateStr, instance) {
+                                    console.log(instance);
+                                    if (fromDate === '') return;
+                                    instance.set("minDate", new Date(fromDate));
+
+                                }
+                            }}
+                            className="form-control"
+                            onChange={(date) => setToDate(date)}
+                        />
                     </div>
                     <div className="flex-grow-0 tx-right flex-shrink-0 pd-x-5">
                         <button type="button" className="btn btn-info " onClick={_onFilterDate}><i className="fa fa-filter" /> Filter</button>
@@ -165,13 +172,13 @@ const UpCommingTable = ({showStudentModal}) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {!!data && !!data.length > 0 && data.map(item =>  <AllClassRow key={`${item.BookingID}`} data={item} showStudentModal={showStudentModal} />)}
+                                    {!!data && !!data.length > 0 && data.map(item => <AllClassRow key={`${item.BookingID}`} data={item} showStudentModal={showStudentModal} />)}
                                 </tbody>
                             </table>
                         </div>
 
                         {!!data && !!data.length > 10 && (
-                            <Pagination 
+                            <Pagination
                                 innerClass="pagination"
                                 activePage={pageNumber}
                                 itemsCountPerPage={data.PageSize || 0}

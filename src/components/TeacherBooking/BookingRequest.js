@@ -2,12 +2,15 @@ import React, {useState, useEffect} from 'react';
 import LessonCard from '~components/LessonCard';
 import SkeletonLessonCard from '../common/Skeleton/SkeletonLessonCard';
 import { getBookingRequest } from '~src/api/teacherAPI';
-
+import Flatpickr from 'react-flatpickr';
 const BookingRequest = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [lessons, setLessons] = useState(null);
     const [courseSelect, setCourseSelect] = useState('1');
     const [pageNumber, setPageNumber] = useState(1);
+    const [fromDate, setFromDate] = useState('');
+    const [toDate, setToDate] = useState('');
+
     const loadBookingRequestData = async () => {
         try {
             const res = await getBookingRequest({ 
@@ -45,10 +48,30 @@ const BookingRequest = () => {
                             </select>
                         </div>
                         <div className="col-12 col-sm-6 col-md-3 form-group">
-                            <input type="text" name="start-day " className="form-control datetimepicker from-date" placeholder="From date" />
+                        <Flatpickr
+                                            placeholder="To date"
+                                            options={{
+                                                dateFormat: "d/m/Y",
+                                            }}
+                                            className="form-control"
+                                            onChange={(date) => setFromDate(date)}
+                                        />
                         </div>
                         <div className="col-12 col-sm-6 col-md-3 form-group">
-                            <input type="text" name="end-day" className="form-control datetimepicker to-date" placeholder="To date" />
+                        <Flatpickr
+                                            placeholder="To date"
+                                            options={{
+                                                dateFormat: "d/m/Y",
+                                                onOpen: function (selectedDates, dateStr, instance) {
+                                                    console.log(instance);
+                                                    if (fromDate === '') return;
+                                                    instance.set("minDate", new Date(fromDate));
+
+                                                }
+                                            }}
+                                            className="form-control"
+                                            onChange={(date) => setToDate(date)}
+                                        />
                         </div>
 
                         <div className="form-group col-md-3">

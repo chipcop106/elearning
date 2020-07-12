@@ -1,10 +1,57 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-
+import React, { useState, useEffect, useRef } from 'react';
+import {getLibraryByCategoryID} from '~src/api/teacherAPI';
 import LibraryCard from './../LibraryCard';
+import Skeleton from 'react-loading-skeleton';
 
 
-const DocumentSlider = ({ listItems, slideTitle, moreLink, titleIcon }) => {
+const SkeletonCourse = () => {
+    return (
+        <>
+        <Skeleton height={100} className="mg-b-5"/>
+        <Skeleton className="mg-b-5"/>
+        <Skeleton className="mg-b-5"/>
+        </>
+    )
+}
+
+const DocumentSlider = ({ categoryID, slideTitle, moreLink, titleIcon }) => {
+    const [isLoading, setIsLoading] = useState(true);
+    const [listItems, setListItems] = useState(null);
+    const slideRef = useRef(true);
+    const initSwiper = () => {
+        new Swiper(slideRef.current, {
+            // Optional parameters
+            direction: 'horizontal',
+            loop: true,
+            slidesPerView: 4,
+            // If we need pagination
+            pagination: {
+                el: '.swiper-pagination',
+            },
+            // Navigation arrows
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            // And if we need scrollbar
+        });
+    }
+
+    const getCourseLists = async () => {
+        const res = await getLibraryByCategoryID({CategoryLibraryID:categoryID});
+        if(res.Code !== 1) return;
+        setListItems(res.Data);
+        setIsLoading(false);
+        initSwiper();
+    }
+
+    useEffect(() => {
+        getCourseLists();
+        return () => {
+            slideRef.current = false;
+        }
+    },[])
+
     return (
         <div className="foundations">
             <div className="d-xl-flex align-items-center justify-content-between mg-b-15">
@@ -16,16 +63,34 @@ const DocumentSlider = ({ listItems, slideTitle, moreLink, titleIcon }) => {
                     </div>
                 )}
             </div>
-            <div className="swiper-container">
+            {isLoading ? (
+                <div className="d-flex">
+                    <div className="col-3">
+                        <SkeletonCourse />
+                    </div>
+                    <div className="col-3">
+                        <SkeletonCourse />
+                    </div>
+                    <div className="col-3">
+                        <SkeletonCourse />
+                    </div>
+                    <div className="col-3">
+                        <SkeletonCourse />
+                    </div>
+                </div>
+): (
+    
+
+            <div className="swiper-container" ref={slideRef}>
                 {/* Additional required wrapper */}
                 <div className="swiper-wrapper">
                     {!!listItems && listItems.length > 0
-                        && listItems.map(item => <LibraryCard
-                            key={`${item.id}`}
-                            title={item.title}
-                            imageUrl={item.imageUrl}
-                            urlDownload={item.urlDownload}
-                            category={item.category} />
+                        && listItems.map((item,index) => <LibraryCard
+                            key={`${parseInt(item.ID) + index}`}
+                            title={item.LibraryName}
+                            imageUrl={item.BackgroundIMGThumbnails}
+                            urlDownload={item.LinkFile}
+                            category={slideTitle} />
                         )}
                 </div>
                 {/* Slides */}
@@ -34,6 +99,7 @@ const DocumentSlider = ({ listItems, slideTitle, moreLink, titleIcon }) => {
                 <div className="swiper-button-next" />
                 {/* If we need scrollbar */}
             </div>
+            )}
         </div>
 
     )

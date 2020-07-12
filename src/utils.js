@@ -1,4 +1,4 @@
-import moment from './lib/moment/min/moment-with-locales.min';
+import moment from 'moment';
 
 export const randomId = () => {
     let dt = new Date().getTime();

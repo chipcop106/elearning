@@ -7935,3 +7935,81 @@ blockquote.messageText{
     display:flex;
     flex-wrap:wrap;
 }
+
+.form-control.flatpickr-input{
+    background:#fff;
+}
+
+
+.st-thangdanhgia{
+            .st-noidung-rating{
+                
+                color: $primary-txt-color;
+                font-weight: bold;
+                margin-right: 10px;
+                font-size: 14px;
+                .st-verygood{
+                    font-size: 13px;
+                    margin-left: 10px;
+                    font-weight: lighter;
+                    background: lighten($color: $primary-color-dark, $amount: 40%);
+                    padding: 4px;
+                    border-radius: 4px;
+
+                }
+            }
+            .st-icon-star{
+                color: $primary-color;
+            }
+      
+    
+}
+.st-danhgianguphap{
+    hr{
+        margin: 3px;
+    }
+    .st-item-danhgia{
+        .row{
+            .col-6{
+                padding-bottom: 3px;
+                p{
+                    padding-bottom: 3px;
+                    margin-bottom: 0;
+                }
+            }
+            .canhphai{
+                
+            }
+        }
+    }
+}
+
+.st-input{ 
+        border:$red;
+        box-sizing: border-box;
+        border-radius: 4px;
+        border: none;
+        border-bottom: 2px solid $primary-color;
+}
+.timngaythang{
+    font-weight: bold;
+    padding: 0 4px;
+}
+
+
+
+
+.st-thangdanhgia {
+    display: table;
+    .st-rating {
+        display: table-row;
+    }
+    
+    .cell {
+        display: table-cell;
+        &:first-child {
+            text-align: right;
+            padding-right:15px;
+        }
+    }
+}

@@ -26,6 +26,7 @@ module.exports = {
     'ProfileSidebar': componentEnrtryPrefix + '/ProfileSidebar.js',
     
     'teacherProfile': componentEnrtryPrefix + 'TeacherProfile/teacherProfile.js',
+    'teacherLessonDetail': componentEnrtryPrefix + 'TeacherLessonDetail/teacherLessonDetail.js',
     'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/StudentDashboard.js',
     'bookingLesson': componentEnrtryPrefix + 'StudentBooking/BookingLesson.js',
     'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js',
@@ -65,11 +66,7 @@ module.exports = {
       addHash: (assetPath, hash) => {
         return assetPath + '?' + hash;
       },
-<<<<<<< HEAD
-      scripts: ['../js/Header.js','../js/Footer.js','../js/ProfileSidebar.js','../js/app.js'], 
-=======
       scripts: ['../js/Header.js','../js/Footer.js','../js/ProfileSidebar.js', '../js/app.js'], 
->>>>>>> 97c7aa7379598ac1fc2349677a4c5a9950ad73c4
       links:['../css/app.css'],
       append: true,  
       usePublicPath: false }),

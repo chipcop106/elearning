@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState, useReducer, useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import DocumentSlider from './DocumentSlider';
-
+import Skeleton from 'react-loading-skeleton';
+import {getListCategoryLibrary} from '~src/api/teacherAPI';
 const TeachingCirriculum = [
     {
         id: 1,
@@ -40,53 +41,26 @@ const TeachingCirriculum = [
     }
 ]
 
-const categories = [
-    {
-        id: 1,
-        title: 'Adults Courses'
-    },
-    {
-        id: 2,
-        title: 'Kids Courses'
-    },
-    {
-        id: 3,
-        title: 'Teens Courses'
-    },
-    {
-        id: 4,
-        title: 'Free Talks'
-    },
-    {
-        id: 5,
-        title: 'IELTS'
-    }
-]
+
 
 const TeacherLibrary = () => {
+    const [isLoading, setIsLoading] = useState(true);
+    const [categories, setCategories] = useState([]);
 
-    const initSwiper = () => {
-        const mySwiper = new Swiper('.swiper-container', {
-            // Optional parameters
-            direction: 'horizontal',
-            loop: true,
-            slidesPerView: 4,
-            // If we need pagination
-            pagination: {
-                el: '.swiper-pagination',
-            },
-            // Navigation arrows
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            // And if we need scrollbar
-        });
+    const updateLibrary = ({key, value}) => {
+        dispatch({type:'UPDATE_LIBRARY', payload:{key, value}})
     }
 
-    React.useEffect(() => {
-        initSwiper();
-    });
+    const getCategories = async () => {
+        const res = await getListCategoryLibrary();
+        if(res.Code !== 1) return;
+        setCategories(res.Data);
+        setIsLoading(false);
+    }
+
+    useEffect(() => {
+        getCategories();
+    },[])
 
     return (
         <>
@@ -102,7 +76,7 @@ const TeacherLibrary = () => {
                     </div>
                     <div className="col-sm-12 col-ms-12 col-lg-8 col-xl-9 bannerAndSlide">
                         <div className="banner-slide">
-                            <DocumentSlider listItems={TeachingCirriculum} slideTitle='Teaching Cirriculum' />
+                            <DocumentSlider categoryID={1} slideTitle='Teaching Cirriculum' />
                             {/*/foundation*/}
                         </div>
                     </div>
@@ -111,16 +85,16 @@ const TeacherLibrary = () => {
                 {/*/right*/}
                 <div className="mg-y-30 filter-category">
                     <div className="list-button py-2 mt-2 mb-2">
-                        {!!categories && categories.length > 0 && categories.map(cat => <a key={`${cat.title}`} className="btn btn-primary mg-x-10" href="#">{cat.title}</a>)}
+                        {!isLoading ? !!categories && categories.length > 0 && categories.map(cat => <a key={`${cat.ID}`} className="btn btn-primary mg-x-10" href="#">{cat.CategoryLibrary}</a>) : (<div className="d-flex"><Skeleton width={100} height={40} className="mg-x-10"/><Skeleton width={100} height={40} className="mg-x-10"/><Skeleton width={100} height={40} className="mg-x-10"/></div>)}
                     </div>
                 </div>
                 {/*foundation*/}
-                <DocumentSlider listItems={TeachingCirriculum} slideTitle='Adults Courses' titleIcon="fa-user" />
+                <DocumentSlider categoryID={1} slideTitle='Adults Courses' titleIcon="fa-user" />
                 {/*/foundation*/}
-                <DocumentSlider listItems={TeachingCirriculum} slideTitle='Kids Courses' titleIcon="fa-baby" />
-                <DocumentSlider listItems={TeachingCirriculum} slideTitle='Teens Courses' titleIcon="fa-child" />
-                <DocumentSlider listItems={TeachingCirriculum} slideTitle='Free Talks' titleIcon="fa-microphone" />
-                <DocumentSlider listItems={TeachingCirriculum} slideTitle='IELTS' />
+                <DocumentSlider categoryID={2} slideTitle='Kids Courses' titleIcon="fa-baby" />
+                <DocumentSlider categoryID={1} slideTitle='Teens Courses' titleIcon="fa-child" />
+                <DocumentSlider categoryID={1} slideTitle='Free Talks' titleIcon="fa-microphone" />
+                <DocumentSlider categoryID={1} slideTitle='IELTS' />
                 {/*foundation copy*/}
             </div>
 
