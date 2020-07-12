@@ -7,7 +7,7 @@ const TeacherReport = () => {
   const [isLoading, setIsloading] = React.useState(true);
   const [state, setState] = React.useState(null);
 
-  const getMonthReport = () => {
+  const getMonthReport = async () => {
     const res = await getMonthReport();
     if(res.Code === 1 && !!res.Data) setState(res.Data);
     setIsloading(false);
