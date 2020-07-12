@@ -1,19 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ListTutor from './ListTutor';
-import Select from 'react-select'
+import Select from 'react-select';
+import ListSchedule from "./ListSchedule"
+import { getListTeacher } from "~src/api/studentAPI";
+
+import BookingLessonModal from "../BookingLessonModal";
+import SkeletonNotification from '~components/common/Skeleton/SkeletonNotification';
+import { nationMapToFlag } from "~src/utils"
+
+import styles from '~components/StudentBooking/ListTutor.module.scss';
 
 const initialState = {
-  nation: "",
-  gender: "",
-  program: ["Children","Youth","Basic","Advanced","Speaking","Pronounce","Other"],
-  selectedProgram: ["Children"],
+  nation: [],
+  gender: "1",
+  program: ["Children", "Youth", "Basic", "Advanced", "Speaking", "Pronounce", "Other"],
+  selectedProgram: [],
   date: "",
   startTime: "06:00",
   endTime: "23:00",
   searchText: "",
 }
-const initialSearchInput = {
+/* const initialSearchInput = {
   nation: "",
   gender: "",
   selectedProgram: ["Children"],
@@ -21,6 +28,13 @@ const initialSearchInput = {
   startTime: "06:00",
   endTime: "23:00",
   searchText: "",
+} */
+const initialBookLesson = {
+  id: "",
+  LessionName: "",
+  date: "",
+  start: "",
+  end: ""
 }
 
 const reducer = (prevState, { type, payload }) => {
@@ -38,8 +52,34 @@ const reducer = (prevState, { type, payload }) => {
 
 const BookingLesson = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
-  const [searchInput, setSearchInput] = React.useState(initialSearchInput);
+  const [teachersList, setTeacherList] = React.useState([])
+  const [loading, setLoading] = React.useState(false)
   const [disableButtonSearch, toggleDisable] = React.useState(false);
+  const [stateBookLesson, setStateBookLesson] = React.useState(initialBookLesson);
+
+  let learnTime = [];
+
+  const getAPI = async (params) => {
+    setLoading(true);
+    const teachers = await getListTeacher(params);
+    let array = [];
+    console.log(teachers.Data)
+    array.push(teachers.Data);
+    setTeacherList(array);
+    setLoading(false);
+  }
+
+  const onHandleBooking = (id, LessionName, date, start, end) => {
+    setStateBookLesson({
+      ...stateBookLesson,
+      id,
+      LessionName,
+      date,
+      start,
+      end
+    })
+  }
+
 
   const handleSelect2 = (val) => {
     const key = "selectedProgram";
@@ -73,12 +113,15 @@ const BookingLesson = () => {
 
   const onSearch = (e) => {
     e.preventDefault();
-    if (!disableButtonSearch)
-    {
-      setSearchInput({
-        ...state,
-      }) 
-    }
+    $('#display-schedule').prop('checked', false);
+    getAPI({
+      Nation: state.nation.length === 0 ? "" : state.nation,
+      LevelPurpose: state.selectedProgram.length === 0 ? "" : state.selectedProgram,
+      Gender: state.gender,
+      Date: state.date,
+      Start: state.startTime,
+      End: state.endTime,
+    });
     toggleDisable(true)
   }
 
@@ -213,8 +256,37 @@ const BookingLesson = () => {
     toggleDisable(false)
   }
 
+  (function init() {
+    let min = Math.min(
+      parseInt(state.startTime.split(":")[0]),
+      parseInt(state.endTime.split(":")[0])
+    )
+    let max = Math.max(
+      parseInt(state.startTime.split(":")[0]),
+      parseInt(state.endTime.split(":")[0])
+    )
+
+    for (let i = min; i <= max; i++) {
+      learnTime.push(`${i < 10 ? '0' + i : i}:00`)
+      if (i !== max)
+        learnTime.push(`${i < 10 ? '0' + i : i}:30`)
+    }
+  })();
+
   React.useEffect(() => {
     initCalendar();
+
+    $('#display-schedule').on('change', function () {
+      if ($('#display-schedule').prop('checked') === true) {
+        $('.tutor-schedule').slideDown();
+      } else {
+        $('.tutor-schedule').slideUp();
+      }
+    });
+
+    $('.nationality').click(function () {
+      $('#div-nationality').modal();
+    });
 
     $('#div-nationality input').on('change', handleChangeNation.bind(this))
     $('#div-nationality .legend-checkbox').on('click', handleChangeNation.bind(this))
@@ -249,7 +321,7 @@ const BookingLesson = () => {
             <div className="right col-md-10">
               <div className="form-row">
                 <div className="col-sm-6 col-md-3 item">
-                  <a href={"#"} className="form-control nationality" name="txt-full-name">Nation</a>
+                  <a href={"#"} className="form-control nationality" name="txt-full-name" onClick={(e) => { e.preventDefault() }}>Nation</a>
                 </div>
                 <div className="col-sm-6 col-md-3 item">
                   <select type="text" className="form-control " name="gender" onChange={handleChange}
@@ -318,7 +390,86 @@ const BookingLesson = () => {
           </div>
         </div>
       </div>
-      <ListTutor searchInput={searchInput} callback={onCallback} />
+      {/* <ListTutor searchInput={searchInput} callback={onCallback} /> */}
+
+      <div className="filter-group pd-t-10 mg-t-10 bd-t" id="list-tutor">
+        <div className="filter-row row">
+          <div className="left col-md-2">
+            <h5>List Tutor</h5>
+          </div>
+          <div className="right col-md-10" style={{ alignItems: 'center', display: 'inline-flex' }}>
+            <div className="custom-control custom-checkbox">
+              <input type="checkbox" className="custom-control-input" id="display-schedule" />
+              <label className="custom-control-label" htmlFor="display-schedule">Show schedule</label>
+            </div>
+          </div>
+        </div>
+        <div className="filter-row row">
+          <div className="col-sm-12">
+            <div className="table-tutor">
+              <ul className="list-tutors">
+                {
+                  !!teachersList && teachersList.length > 0 && teachersList.map(item =>
+                    <li className="tutor" key={item.TeacherUID}>
+                      <div className="totor-detail">
+                        {
+                          loading ? <SkeletonNotification /> :
+                            <React.Fragment>
+                              <a href="teacherDetail.html" className="tutor-wrap">
+                                <span className="tutor-avatar">
+                                  <img src={item.TeacherIMG} alt="" />
+                                </span>
+                                <div className="tutor-infomation pd-5">
+                                  <div className="tutor-info">
+                                    <div className="tutor-rating-star">
+                                      <div className="rating-stars">
+                                        <span className="empty-stars">
+                                          <i className="star fa fa-star"></i>
+                                          <i className="star fa fa-star"></i>
+                                          <i className="star fa fa-star"></i>
+                                          <i className="star fa fa-star"></i>
+                                          <i className="star fa fa-star"></i>
+                                        </span>
+                                        <span className="filled-stars" style={{ width: `${item.Rate * 20}%`, }}>
+                                          <i className="star fa fa-star"></i>
+                                          <i className="star fa fa-star"></i>
+                                          <i className="star fa fa-star"></i>
+                                          <i className="star fa fa-star"></i>
+                                          <i className="star fa fa-star"></i>
+                                        </span>
+                                      </div>
+                                      <div className="tutor-rate-point">{item.Rate}</div>
+                                    </div>
+                                  </div>
+                                  <h6 className="mg-t-5"><span className={`flag-icon flag-icon-${nationMapToFlag(item.National)} flag-icon-squared`}></span>{item.name}</h6>
+                                </div>
+                              </a>
+                              <div className="tutor-schedule">
+                                <ul className="ul-schedule">
+                                  <ListSchedule
+                                    learnTime={learnTime}
+                                    TeacherUID={item.TeacherUID}
+                                    date={state.date}
+                                    handleBooking={onHandleBooking} />
+                                </ul>
+                              </div>
+                            </React.Fragment>
+                        }
+                      </div>
+                    </li>)
+                }
+              </ul>
+            </div>
+          </div>
+        </div>
+        <BookingLessonModal
+          style={{ color: "#000", textAlign: "left" }}
+          id={stateBookLesson.id}
+          LessionName={stateBookLesson.LessionName}
+          date={stateBookLesson.date}
+          start={stateBookLesson.start}
+          end={stateBookLesson.end} />
+      </div>
     </React.Fragment>
   )
 }
