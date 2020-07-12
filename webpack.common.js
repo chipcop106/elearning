@@ -26,6 +26,7 @@ module.exports = {
     'ProfileSidebar': componentEnrtryPrefix + '/ProfileSidebar.js',
     
     'teacherProfile': componentEnrtryPrefix + 'TeacherProfile/teacherProfile.js',
+    'teacherLessonDetail': componentEnrtryPrefix + 'TeacherLessonDetail/teacherLessonDetail.js',
     'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/StudentDashboard.js',
     'bookingLesson': componentEnrtryPrefix + 'StudentBooking/BookingLesson.js',
     'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js',

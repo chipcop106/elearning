@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { randomId } from '../../utils';
 import TeacherComment from '../common/TeacherComment';
@@ -7,8 +7,7 @@ import SkeletonComment from '~components/common/Skeleton/SkeletonComment';
 import {
     CSSTransition,
 } from 'react-transition-group';
-import styles from '~components/TeacherFeedback/teacherFeedback.module.scss';
-
+import styles from './teacherFeedback.module.scss';
 const feedbackDemo = [
     {
         id: randomId(),
@@ -96,6 +95,7 @@ const FeedbackRow = ({data:{ id, stName, stAvatar, stFeedback, lessonTime, lesso
         console.log('Comments updated call API:', comments );
     }
 
+    useEffect(() => console.log(isEditing),[isEditing]);
     return (
         <div className="fb-item">
             <div className="fb-avatar">

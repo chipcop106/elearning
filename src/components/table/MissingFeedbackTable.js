@@ -38,7 +38,7 @@ const MissingFeedbackRow = ({ data }) => {
 
             </td>
             <td className="clr-actions">
-                <a href={`#`} className="btn btn-sm btn-warning rounded-5"><i className="fa fa-comment-alt clrm-icon" /> Feedback</a>
+                <a href={`teacherLessonDetail.html`} className="btn btn-sm btn-warning rounded-5"><i className="fa fa-comment-alt clrm-icon" /> Feedback</a>
             </td>
         </tr>
     )

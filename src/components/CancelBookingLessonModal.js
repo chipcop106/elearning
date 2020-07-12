@@ -27,9 +27,9 @@ const CancelBookingLessonModal = ({id, LessionName, date, start, end, style, cal
       aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered modal-sm" role="document">
         <div className="modal-content">
-          <div className="modal-header">
+          <div className="modal-header bg-warning">
             <h5 className="modal-title" id="newCampaignTitle">{LessionName}</h5>
-            <h5 className="modal-title" id="newCampaignTitle">{name || ''}</h5>
+            <h5 className="modal-title" id="newCampaignTitle">Warning !!</h5>
             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -38,7 +38,7 @@ const CancelBookingLessonModal = ({id, LessionName, date, start, end, style, cal
             <p>Date: <span id="js-date-time" className="tx-medium">{date || ''}</span></p>
             <p>Start time: <span id="js-start-time" className="tx-medium">{start || ''}</span></p>
             <p>End time: <span id="js-end-time" className="tx-medium">{end || ''}</span></p>
-            <p>Are you sure to cancel this lesson?</p>
+            <p className="tx-danger tx-bold">Are you sure to cancel this lesson?</p>
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" data-dismiss="modal">No</button>

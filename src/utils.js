@@ -1,5 +1,5 @@
-/* import moment from '~src/lib/moment/min/moment-with-locales.min';
- */
+import moment from 'moment';
+
 export const randomId = () => {
     let dt = new Date().getTime();
     const uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(

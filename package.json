@@ -7,9 +7,12 @@
   "license": "MIT",
   "dependencies": {
     "@babel/polyfill": "^7.10.4",
+    "@tinymce/tinymce-react": "^3.6.0",
     "axios": "^0.19.2",
     "core-js": "3",
     "formik": "^2.1.4",
+    "is-url": "^1.2.4",
+    "moment": "^2.27.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-flatpickr": "^3.10.1",
