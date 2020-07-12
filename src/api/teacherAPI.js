@@ -179,6 +179,22 @@ export const getPaymentInfo = async (params) => {
     return result;
 }
 
+// Params: string Date ? null, int UID ? 0, string Token ? null
+export const getPaymentHistory = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/GetHistoryPayment', {
+            params: {
+                ...params,
+                UID:appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
 
 // Params:  int ElearnBookingID, string Pronunciation, string Vacabulary, string Grammar, string SentenceDevelopmentAndSpeak, string Note, int UID ? 0, string Token ? null
 export const addEvaluation = async (params) => {
@@ -239,6 +255,22 @@ export const getListEventsOfWeek = async (params) => {
     let result;
     try {
         let res = await instance.get(path + '/BookingSchedule', {
+            params: {
+                ...params,
+                UID:appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const getMonthReport = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/GetStatistics', {
             params: {
                 ...params,
                 UID:appSettings.UID

@@ -183,7 +183,7 @@ const RenderCommentFeedback = ({id, updateComment}) => {
     }
 
     React.useEffect(() => {
-        setTimeout(() => setComments(commentDemo), 3000)
+        setTimeout(() => setComments(commentDemo), 1000)
     },[])
 
     return (
@@ -223,7 +223,7 @@ const TeacherFeedback = () => {
 
     console.log('Feedback container Rendered');
     React.useEffect(() => {
-        setTimeout(() => setFeedbacks(feedbackDemo), 2000);
+        setTimeout(() => setFeedbacks(feedbackDemo), 1000);
     }, [])
 
     return (
