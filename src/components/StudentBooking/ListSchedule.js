@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { getScheduleByTeacherUID } from "~src/api/studentAPI";
 
-const ListSchedule = ({ learnTime, TeacherUID, date, handleBooking }) => {
+const ListSchedule = ({ learnTime, TeacherUID, date, handleBooking, onBookId, onBookStudentName }) => {
   const [scheduleList, setSchedule] = React.useState([])
   const [loading, setLoading] = React.useState(false)
 
@@ -23,9 +23,19 @@ const ListSchedule = ({ learnTime, TeacherUID, date, handleBooking }) => {
     })
   },[])
 
+  React.useEffect(()=>{
+    let newSchedule = [...scheduleList]
+    let index = newSchedule.findIndex(i => i.StudyTimeID == onBookId);
+    if(index !== -1) {
+      newSchedule[index].bookStatus = true;
+      newSchedule[index].bookInfo.name = onBookStudentName;
+      setSchedule(newSchedule);
+    }
+},[onBookId, onBookStudentName])
+
   return <React.Fragment>
     {
-      !!scheduleList && !!learnTime && learnTime.length > 0 && learnTime.map(item=> {
+      !!scheduleList && !!learnTime && learnTime.length > 0 && learnTime.map((item, index)=> {
        let bookedFilter = scheduleList.filter(item=>item.bookStatus)
        let availableFilter = scheduleList.filter(item=>!item.bookStatus && item.available)
        
@@ -35,12 +45,12 @@ const ListSchedule = ({ learnTime, TeacherUID, date, handleBooking }) => {
        let start = "";
        let end = "";
        bookedFilter.map(x=>{
-         if(new Date(x.Start).getHours()-7 === parseInt(item.split(":")[0]) &&
+         if(new Date(x.Start).getHours() === parseInt(item.split(":")[0]) &&
             new Date(x.Start).getMinutes() === parseInt(item.split(":")[1]))
               status = "registed"
        })
        availableFilter.map(x=>{
-        if(new Date(x.Start).getHours()-7 === parseInt(item.split(":")[0]) &&
+        if(new Date(x.Start).getHours() === parseInt(item.split(":")[0]) &&
            new Date(x.Start).getMinutes() === parseInt(item.split(":")[1]))
            {
               start = new Date(x.Start)
@@ -51,7 +61,7 @@ const ListSchedule = ({ learnTime, TeacherUID, date, handleBooking }) => {
            }
             
       })
-        return <li className={status}>
+        return <li className={status} key={index}>
       <span className="time">{item}</span>
       <span className="status">
         {
@@ -63,8 +73,8 @@ const ListSchedule = ({ learnTime, TeacherUID, date, handleBooking }) => {
               StudyTimeID,
               title,
               moment(start).format('DD/MM/YYYY'),
-              moment(start).format('HH:mm'),
-              moment(end).format('HH:mm'))
+              moment(start).format('HH:mm A'),
+              moment(end).format('HH:mm A'))
             } >Book now</button> : (status == "registed" ? "Booked": "")
         }
       </span>

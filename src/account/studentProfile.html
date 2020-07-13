@@ -104,27 +104,6 @@
   <script src="../assets/js/custom.js"></script>
   <script>
     $(document).ready(function () {
-      const teacherInfoSwiper = new Swiper('.swiper-container', {
-        loop: false,
-        freeModeMomentum: false,
-        preventInteractionOnTransition: true,
-        simulateTouch: false,
-        autoHeight: true,
-      })
-
-      const listTab = document.getElementById('js-list-tab');
-      const tabLinks = listTab.querySelectorAll('.tab-link');
-      const swapTab = (e) => {
-        e.preventDefault();
-        const element = e.target;
-        const indexSlide = element.dataset?.index ?? 0;
-        teacherInfoSwiper.slideTo(indexSlide, 500, false);
-        [...tabLinks].map(link => link === element ? link.classList.add('active') : link.classList.remove('active'));
-      }
-      [...tabLinks].map(link => {
-        link.addEventListener('click', swapTab);
-      });
-
       $(".js-select2").select2({
         closeOnSelect: false,
         placeholder: "Learning target",

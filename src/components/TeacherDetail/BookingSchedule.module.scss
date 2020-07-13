@@ -26,7 +26,14 @@
 }
 
 .teacher__info-wrap {
-    .swiper-slide.swiper-slide-active {
-        width:100%!important;
+    .swiper-slide {
+        &.active {
+            width:100%!important;
+        }
+        &:not(.active) {
+            width: 0!important;
+            max-height:0!important;
+            overflow: hidden;
+        }
     }
 }

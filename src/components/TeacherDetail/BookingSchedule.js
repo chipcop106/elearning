@@ -5,7 +5,7 @@ import styles from '~components/TeacherDetail/BookingSchedule.module.scss';
 
 let calendar;
 
-const BookingSchedule = ({ handleBookLesson, handleCancelLesson }) => {
+const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBookStudentName, onCancelId }) => {
 
   const [schedule, setSchedule] = React.useState([])
   const [loading, setLoading] = React.useState(false)
@@ -18,8 +18,7 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson }) => {
     handleCancelLesson(id, name, date, start, end)
   }
 
-  const calendarInit = () => {
-    console.log(schedule)
+ const calendarInit = () => {
     let eventList = [];
     for (let i = 0; i < schedule.length; i++) {
       eventList.push({
@@ -37,7 +36,7 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson }) => {
           name: schedule[i].bookInfo.name
         } : null,
         available: schedule[i].available,
-        isEmptySlot: false,
+        isEmptySlot: schedule[i].isEmptySlot,
       })
     }
 
@@ -114,10 +113,10 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson }) => {
       ];
 
       const eventDidMount = (args) => {
-        console.log("eventDidMount", args);
+        //console.log("eventDidMount", args);
         const { event } = args;
         let toggleStudent = document.getElementById('student-toggle-checkbox');
-        console.log(toggleStudent);
+        //console.log(toggleStudent);
         $(args.el).tooltip({
           html: true,
           title: `
@@ -208,12 +207,13 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson }) => {
           let slot = 0;
           schedule.map(item => {
             if (
-              (parseInt(item.Start.split('-')[2].substring(0, 2)) === args.date.getDate()) &&
-              (parseInt(item.Start.split('-')[1]) === args.date.getMonth() + 1) &&
-              (parseInt(item.Start.split('-')[0]) === args.date.getFullYear())
+              (new Date(item.Start).getDate() === args.date.getDate()) &&
+              (new Date(item.Start).getMonth() === args.date.getMonth()) &&
+              (new Date(item.Start).getFullYear() === args.date.getFullYear()) && 
+              item.available 
             ) {
               count++;
-              if (!item.available) slot++
+              if(item.bookStatus) slot++
             }
           })
           const days = args.date.getDay();
@@ -255,14 +255,12 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson }) => {
     <div class="inner-book-wrap ">
     <div class="inner-content">
     ${
-              bookStatus
-                ? `
+              bookStatus ? `
       <span class="label-book booked"><i class="fas ${
                 isPast ? "fa-check" : "fa-user-graduate"
                 }"></i> ${isPast ? "FINISHED" : "BOOKED"}</span> 
       <p class="booking-name">${bookInfo.name}</p>
-      ${minutesTilStart < 30 && minutesTilStart > 0
-                  ? `
+      ${minutesTilStart < 30 && minutesTilStart > 0 ? `
         <a href="javascript:;" class="fix-btn cancel-schedule"
         data-toggle="modal"
         data-target="#md-cancel-schedule"
@@ -274,21 +272,21 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson }) => {
                 : ` <i class="fas fa-copyright"></i><span class="label-book">AVAILABLE</span>`
               }
     ${
-              available && (minutesTilStart > 30 || minutesTilStart < 0)
-                ? `<a href="javascript:;" class="fix-btn book-schedule"
-                 data-toggle="modal"
-                 data-target="#md-book-schedule"
-                data-id="${event.id}"
-                data-title="${event._def.extendedProps.courseName}"
-                data-start="${event.start}"
-                data-end="${event.end}"}>Book</a>`
+              !bookStatus && (minutesTilStart > 30) ?
+                `<a href="javascript:;" class="fix-btn book-schedule"
+      data-toggle="modal"
+      data-target="#md-book-schedule"
+      data-id="${event.id}"
+      data-title="${event._def.extendedProps.courseName}"
+      data-start="${event.start}"
+      data-end="${event.end}"}>Book</a>`
                 : ""
               }
     </div>
     </div>`
               : ""
             }
-  `;
+`;
           templateEl.innerHTML = html;
           return { domNodes: [templateEl] };
         },
@@ -312,7 +310,7 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson }) => {
         // },
 
         nowIndicatorDidMount: function (args) {
-          console.log("nowIndicatorDidMount", args);
+          //console.log("nowIndicatorDidMount", args);
         },
         events: eventList,
       });
@@ -361,10 +359,7 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson }) => {
 
   const getAPI = async (params) => {
     setLoading(true);
-    const schedule = await getScheduleByTeacherUID({
-      TeacherUID: params.TeacherUID,
-      Date: params.Date,
-    });
+    const schedule = await getScheduleByTeacherUID(params);
     setSchedule(schedule.Data)
     setLoading(false);
   }
@@ -372,13 +367,33 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson }) => {
   React.useEffect(() => {
     getAPI({
       TeacherUID: 2,
-      Date: "07/07/2020",
-    })
-  }, [/* schedule */])
+    });
+  }, [])
 
   React.useEffect(() => {
-    calendarInit();
+    calendarInit()
   }, [schedule])
+
+  React.useEffect(() => {
+    let newSchedule = [...schedule]
+    let index = newSchedule.findIndex(i => i.StudyTimeID == onBookId);
+    if (index !== -1) {
+      newSchedule[index].bookStatus = true;
+      newSchedule[index].bookInfo.name = onBookStudentName;
+      setSchedule(newSchedule);
+    }
+  }, [onBookId, onBookStudentName])
+
+
+  React.useEffect(() => {
+    let newSchedule = [...schedule]
+    let index = newSchedule.findIndex(i => i.StudyTimeID == onCancelId);
+    if (index !== -1) {
+      newSchedule[index].bookStatus = false;
+      setSchedule(newSchedule);
+    }
+  }, [onCancelId])
+
 
   return (
     <React.Fragment>

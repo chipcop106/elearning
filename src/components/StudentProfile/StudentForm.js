@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Formik, withFormik } from 'formik';
+import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { getProfile } from "~src/api/studentAPI";
 import { getFormattedDate } from "~src/utils";
@@ -24,8 +24,7 @@ const Schema = Yup.object().shape({
 });
 
 
-const StudentForm = (props) => {
-
+    const StudentForm = (props) => {
     const handleSelect2 = (e) => {
         const target = e.target;
         const value = [];

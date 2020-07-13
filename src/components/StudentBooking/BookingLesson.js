@@ -20,21 +20,18 @@ const initialState = {
   endTime: "23:00",
   searchText: "",
 }
-/* const initialSearchInput = {
-  nation: "",
-  gender: "",
-  selectedProgram: ["Children"],
-  date: "",
-  startTime: "06:00",
-  endTime: "23:00",
-  searchText: "",
-} */
+
 const initialBookLesson = {
   id: "",
   LessionName: "",
   date: "",
   start: "",
   end: ""
+}
+
+const initialOnBookState = {
+  id: "",
+  studentName: "",
 }
 
 const reducer = (prevState, { type, payload }) => {
@@ -54,6 +51,7 @@ const BookingLesson = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const [teachersList, setTeacherList] = React.useState([])
   const [loading, setLoading] = React.useState(false)
+  const [onBookState, setOnBookState] = React.useState(initialOnBookState)
   const [disableButtonSearch, toggleDisable] = React.useState(false);
   const [stateBookLesson, setStateBookLesson] = React.useState(initialBookLesson);
 
@@ -109,6 +107,14 @@ const BookingLesson = () => {
       }
     })
     dispatch({ type: "STATE_CHANGE", payload: { key, value } })
+  }
+
+  const onBook = (id, studentName) => {
+    setOnBookState({
+      ...onBookState,
+      id,
+      studentName
+    })
   }
 
   const onSearch = (e) => {
@@ -392,8 +398,6 @@ const BookingLesson = () => {
           </div>
         </div>
       </div>
-      {/* <ListTutor searchInput={searchInput} callback={onCallback} /> */}
-
       <div className="filter-group pd-t-10 mg-t-10 bd-t" id="list-tutor">
         <div className="filter-row row">
           <div className="left col-md-2">
@@ -449,6 +453,8 @@ const BookingLesson = () => {
                               <div className="tutor-schedule">
                                 <ul className="ul-schedule">
                                   <ListSchedule
+                                   onBookId={onBookState.id}
+                                   onBookStudentName={onBookState.studentName}
                                     learnTime={learnTime}
                                     TeacherUID={item.TeacherUID}
                                     date={state.date}
@@ -470,7 +476,8 @@ const BookingLesson = () => {
           LessionName={stateBookLesson.LessionName}
           date={stateBookLesson.date}
           start={stateBookLesson.start}
-          end={stateBookLesson.end} />
+          end={stateBookLesson.end}
+          onBook={onBook} />
       </div>
     </React.Fragment>
   )
