@@ -221,7 +221,7 @@ const BookingLesson = () => {
     const todayBtn = document.getElementById('js-select-today');
 
     const chooseToday = (e) => {
-      e.preventDefault();
+      e && e.preventDefault();
       const slideEls = document.querySelectorAll('.calendar__picker .day-block');
       [...slideEls].map(slide => slide.classList.remove('selected'));
       slideEls[0].classList.add('selected');
@@ -230,6 +230,7 @@ const BookingLesson = () => {
       dateDisplay.value = moment(new Date(date)).format('dddd, DD/MM/YYYY');
     }
     todayBtn.addEventListener('click', chooseToday);
+    
 
 
     function setDateDisplay() {
@@ -242,6 +243,7 @@ const BookingLesson = () => {
 
     calendarSwiper.on('click', setDateDisplay);
     calendarSwiper.on('slideChange', setDateDisplay);
+    chooseToday();
 
     $(".time-only").flatpickr({
       enableTime: true,
