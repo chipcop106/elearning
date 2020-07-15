@@ -33,7 +33,6 @@ const SituationBlock = ({ title, value, unit, imageUrl, link, linkTitle, isLoadi
 }
 
 
-
 const TeacherHome = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [dashboardInfo, setDashboardInfo] = useState(null);

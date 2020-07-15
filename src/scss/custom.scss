@@ -264,7 +264,7 @@
 }
 
 .content {
-    min-height: calc(100vh - 161px);
+    min-height: calc(100vh - 167px);
 }
 
 .course-price {
@@ -6119,7 +6119,8 @@ footer.footer {
         bottom: 0;
         position: relative;
         height: 100%;
-
+        border-color:#fff;
+        min-height: calc(3rem - 1px);
         &:hover {
             .fix-btn {
                 display: inline-block;
@@ -6128,7 +6129,7 @@ footer.footer {
 
         &.booked-slot {
             background-color: rgb(39, 198, 39);
-            border-color: rgb(39, 198, 39);
+            border-color: #fff;
         }
 
         .fas {
@@ -6141,7 +6142,7 @@ footer.footer {
         }
         &.fc-event-past {
             background-color: #d8d8d8;
-            border-color: #d8d8d8;
+            border-color: #fff;
             .booking-name{
                 color:#777;
                 
@@ -6151,7 +6152,7 @@ footer.footer {
             }
             &.empty-slot{
                 background-color: #d8d8d8;
-                border-color: #d8d8d8;
+                border-color: #eeeeee !important;
             }
             &.available-slot{
                 .inner-content{
@@ -8014,3 +8015,96 @@ blockquote.messageText{
     }
 }
 
+.loading-style{
+    content:'';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+}
+.book__calendar{
+    position:relative;
+}
+
+
+.loading-style:after{
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 9997;
+    background-size: contain;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: rgba(0,0,0,.4);
+}
+.lds-ellipsis {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+    z-index:9999;
+  }
+  .lds-ellipsis div {
+    position: absolute;
+    top: 33px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #fff;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+  }
+  .lds-ellipsis div:nth-child(1) {
+    left: 8px;
+    animation: lds-ellipsis1 0.6s infinite;
+  }
+  .lds-ellipsis div:nth-child(2) {
+    left: 8px;
+    animation: lds-ellipsis2 0.6s infinite;
+  }
+  .lds-ellipsis div:nth-child(3) {
+    left: 32px;
+    animation: lds-ellipsis2 0.6s infinite;
+  }
+  .lds-ellipsis div:nth-child(4) {
+    left: 56px;
+    animation: lds-ellipsis3 0.6s infinite;
+  }
+  @keyframes lds-ellipsis1 {
+    0% {
+      transform: scale(0);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  @keyframes lds-ellipsis3 {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(0);
+    }
+  }
+  @keyframes lds-ellipsis2 {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(24px, 0);
+    }
+  }
+
+  #js-book-calendar{
+    .fc-theme-standard td, .fc-theme-standard th{
+        border-color:#e1e1e1;
+    }
+  }

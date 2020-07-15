@@ -7,13 +7,14 @@ import {addEvaluation} from "~src/api/teacherAPI";
 import {randomId} from '~src/utils'
 
 const editorOptions = {
-    height: 350,
+    height: 300,
+    id:randomId(),
     menubar: false,
     images_upload_handler: imageUploadHandle,
     images_reuse_filename: true,
     // toolbar: false,
     // menubar: false,
-    // inline: true,
+    inline: false,
     plugins: [
         'autolink lists link image ',
         'media table paste help wordcount',
@@ -21,7 +22,6 @@ const editorOptions = {
         'autolink',
         'paste',
         'autoresize',
-        'quickbars',
         'table',
     ],
     // quickbars_insert_toolbar: 'quicktable image table',
@@ -143,13 +143,13 @@ const TeacherLessonDetail = () => {
                                     <div className="st-time">
                                         <p className="st-teacher-text">
                                             <i className="fa fa-user-graduate st-icon wd-20 mg-r-5"></i>
-                                            <span>Teacher:</span> <span className="st-tengv tx-primary">{!!state.lessonInfo && !!state.lessonInfo.TeacherName && state.lessonInfo.TeacherName}</span>
+                                            <span>Student:</span> <span className="st-tengv tx-primary">{!!state.lessonInfo && !!state.lessonInfo.StudentName && state.lessonInfo.StudentName}</span>
                                         </p>
                                     </div>
                                     <div className="st-time">
                                         <p className="st-teacher-text">
                                             <i className="fa fa-book-open st-icon wd-20 mg-r-5"></i>
-                                            <span>Material: <a href={!!state.lessonInfo && !!state.lessonInfo.MaterialLink && state.lessonInfo.MaterialLink} target="_blank">{!!state.lessonInfo && !!state.lessonInfo.Material && state.lessonInfo.Material}</a> </span>
+                                            <span>Material: <a href={!!state.lessonInfo && !!state.lessonInfo.MaterialLink ? state.lessonInfo.MaterialLink : ''} target="_blank">{!!state.lessonInfo && !!state.lessonInfo.Material && state.lessonInfo.Material}</a> </span>
                                         </p>
                                     </div>
                                 </div>

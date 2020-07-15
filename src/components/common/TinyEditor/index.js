@@ -14,13 +14,15 @@ const TinyEditor = ({ options, onChange }) => {
 
 
 export const imageUploadHandle = async (blobInfo, success, failure, progress) => {
-    console.log(blobInfo);
+    const blob = await blobInfo.blob();
     try {
-      //  const res = await uploadImageToServer({})
+       const res = await uploadImageToServer([blob]);
+       res.Code === 1 && res.Data.length > 0 && success(`${res.Data[0].UrlIMG}`);
+       //success('https://vcdn-ngoisao.vnecdn.net/2020/07/08/MRAT6138-JPG-2263-1594179677_r_460x0.jpg');
     } catch (error) {
-        
+        console.log(error?.message ?? error);
     }
-    success('https://vcdn-ngoisao.vnecdn.net/2020/07/08/MRAT6138-JPG-2263-1594179677_r_460x0.jpg');
+   
 }
 
 export default memo(TinyEditor);

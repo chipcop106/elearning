@@ -59,10 +59,11 @@ export const nationMapToFlag = (nation) => {
 export const convertDateFromTo = (dateStr) => {
     const dateArr = dateStr.split('-');
     const date = moment(dateArr[0].trim(), 'DD/MM/YYYY HH:mm').format('dddd, DD/MM/YYYY');
+    const dateObject = moment(dateArr[0].trim(), 'DD/MM/YYYY HH:mm').toDate();
     const fromTime = moment(dateArr[0].trim(), 'DD/MM/YYYY HH:mm').format('HH:mm');
     const endTime = dateArr[1].trim()
     return {
-        date, fromTime, endTime
+        dateObject, date, fromTime, endTime
     }
 }
 
@@ -75,7 +76,7 @@ const getDifferentMinBetweenTime = (startDate, endDate) => {
 };
 
 export const checkCancelTime = (startTime) => {
-    const diff = getDifferentMinBetweenTime(startTime, new Date());
+    const diff = getDifferentMinBetweenTime(new Date(startTime), new Date());
     return diff < 30 ? true : false
 }
 

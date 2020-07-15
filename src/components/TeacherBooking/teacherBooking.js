@@ -1,18 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import LessonCard from '../LessonCard';
-import StudentInformationModal from '../StudentInformationModal';
 import NoteForStudentModal from '../NoteForStudentModal';
-import { randomId } from '../../utils';
 import styles from '../TeacherBooking/teacherBooking.module.scss';
 import ScheduleLogTable from '~components/table/ScheduleLogTable'
 import BookingRequest from './BookingRequest';
 import BookingCalendar from './BookingCalendar';
-
-
+import { ToastContainer } from 'react-toastify';
 
 const TeacherBooking = () => {
-    
     const initSwiper = () => {
         const teacherInfoSwiper = new Swiper('.swiper-container', {
             loop: false,
@@ -40,6 +35,7 @@ const TeacherBooking = () => {
     React.useEffect(() => {
         initSwiper();
     }, []);
+    
 
     return (
         <>
@@ -65,6 +61,7 @@ const TeacherBooking = () => {
                         <div className="teacher__info-wrap swiper-wrapper">
                             <div className="swiper-slide">
                                 <div className="slide-tab-content">
+                                    <h5>Timezone: GTM + 7</h5>
                                     <BookingCalendar />
                                 </div>
                             </div>
@@ -87,9 +84,18 @@ const TeacherBooking = () => {
                     </div>
                 </div>
             </div>
-
+            <ToastContainer
+                position="top-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
             <NoteForStudentModal />
-
         </>
     )
 }

@@ -20,6 +20,7 @@ export const cancelLesson = async (params) => {
 
 export const uploadImageToServer = async (params) => {
     let result;
+    console.log('log params', params);
     try {
         let formData = new FormData();
         if (!!params && params.length > 0) {
@@ -28,9 +29,12 @@ export const uploadImageToServer = async (params) => {
             });
         }
 
-        let res = await instance.post(`${path}/uploadIMG`, formData, {
+        let res = await instance.post(`${path}/UploadImage`, formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
+            },
+            params:{
+                UID: appSettings.UID,
             }
         });
         result = res.data;

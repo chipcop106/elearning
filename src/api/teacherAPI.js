@@ -217,7 +217,7 @@ export const addEvaluation = async (params) => {
 export const getTeacherInfo = async (params) => {
     let result;
     try {
-        let res = await instance.get(path + '/GetTeacherInfo', {
+        let res = await instance.get(path + '/GetTeacherProfile', {
             params: {
                 ...params,
                 UID:appSettings.UID
@@ -250,6 +250,21 @@ export const setEventAvailable = async (params) => {
 }
 
 
+export const setEventClose = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/CancelAvailable', {
+            params: {
+                ...params,
+                UID:appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
 
 export const getListEventsOfWeek = async (params) => {
     let result;
@@ -257,7 +272,7 @@ export const getListEventsOfWeek = async (params) => {
         let res = await instance.get(path + '/BookingSchedule', {
             params: {
                 ...params,
-                UID:appSettings.UID
+                UID: appSettings.UID
             }
         });
         result =  res.data;
