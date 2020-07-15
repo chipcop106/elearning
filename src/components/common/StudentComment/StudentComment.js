@@ -72,7 +72,7 @@ const StudentComment = () => {
     console.log(state)
     if(state.comment.length < 10)
     {
-      setCommentTooShort("Your comment at least 10 characters")
+      setCommentTooShort("Your comment must at least 10 characters")
     }
     else {
     /* Call API */
@@ -82,8 +82,8 @@ const StudentComment = () => {
       name:"My name",
       avatar: "bg-status2.jpg",
       content: state.comment,
-      time: moment(new Date()).format('HH:MM A').toString(),
-      date: moment(new Date()).format('DD/MM/Y').toString(),
+      time: moment(new Date()).format('HH:mm'),
+      date: moment(new Date()).format('DD/MM/YYYY'),
     })
     setState({
       list:newListComment,

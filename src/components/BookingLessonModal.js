@@ -1,12 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/scss/main.scss'
+import { toastInit } from "~src/utils"
 
 const BookingLessonModal = ({id, LessionName, date, start, end, style, onBook}) => {
+
+   const bookingToast = () => toast("Book lesson successful!", toastInit);
 
   const handleBookingLesson = () => {
     console.log(id)
     onBook(id, "Nguyen Van A");
     /* Goi API */
+    bookingToast();
   }
     return <div style={style} className="modal fade effect-scale" id="md-book-schedule" tabIndex="-1" role="dialog" aria-labelledby="active-slot"
       aria-hidden="true">

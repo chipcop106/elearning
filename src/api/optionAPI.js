@@ -9,6 +9,22 @@ export const cancelLesson = async (params) => {
             params: {
                 UID: 1,
                 BookingID: params.BookingID,
+                Reason: params.Reason,
+            }
+        })
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const getListLevelPurpose = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/GetListLevelPurpose',{
+            params: {
+                UID: 1,
             }
         })
         result =  res.data;

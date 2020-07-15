@@ -12,8 +12,7 @@ import SkeletonLessonCard from '~components/common/Skeleton/SkeletonLessonCard';
 
 import { convertDateFromTo } from "~src/utils.js"
 import { getLessons } from "~src/api/studentAPI";
-
-let initialState = {}
+import { ToastContainer } from 'react-toastify'
 
 const initialCancelLesson = {
   id: "",
@@ -42,10 +41,10 @@ const initialRequireLesson = {
 }
 
 const Dashboard = () => {
-  const [state, setState] = React.useState(initialState);
+  const [state, setState] = React.useState({});
   const [lock, setLock] = React.useState({
-    id:"",
-    lock:false,
+    id: "",
+    lock: false,
   })
   const [stateCancelLesson, setStateCancelLesson] = React.useState(initialCancelLesson);
   const [stateRatingLesson, setStateRatingLesson] = React.useState(initialRatingLesson);
@@ -88,19 +87,26 @@ const Dashboard = () => {
     })
   }
 
-  const cbCancelBooking = (id, status) => {
-    if(status === 0)
+  const cbCancelBooking = (id, result) => {
+    if (result === 0) //Start Call API, lock the card
     {
       setLock({
         id,
-        lock:true
+        lock: true
       })
     }
-    else {
+    else { //After call API, unlock the card
       setLock({
         id,
-        lock:false
+        lock: false
       })
+      if (result === 1) { //If cancel lesson success
+        let newUpcomingLessions = [...state.UpcomingLessions].filter(item => item.BookingID !== id)
+        setState({
+          ...state,
+          UpcomingLessions: newUpcomingLessions,
+        })
+      }
     }
   }
 
@@ -130,18 +136,18 @@ const Dashboard = () => {
                 </span>
                   <div className="item-title">Booked Lessons</div>
                 </li>
-                  <li className="top-step-item "><span className="item-count">
-                    {state.StudyProcess && state.StudyProcess.CancelLessions}
-                    </span>
+                <li className="top-step-item "><span className="item-count">
+                  {state.StudyProcess && state.StudyProcess.CancelLessions}
+                </span>
                   <div className="item-title">Canceled Lessons</div>
                 </li>
                 <li className="top-step-item "><span className="item-count">
-                {state.StudyProcess && state.StudyProcess.NumberOfAbsences}
+                  {state.StudyProcess && state.StudyProcess.NumberOfAbsences}
                 </span>
                   <div className="item-title">Truant Lessons</div>
                 </li>
                 <li className="top-step-item "><span className="item-count">
-                {state.StudyProcess && state.StudyProcess.CompleteLessions}
+                  {state.StudyProcess && state.StudyProcess.CompleteLessions}
                 </span>
                   <div className="item-title">Remaining Lessons</div>
                 </li>
@@ -171,7 +177,7 @@ const Dashboard = () => {
                           SkypeID={item.SkypeID}
                           onHandleCancelBooking={handleCancelBooking}
                           onHandleRequireLesson={handleRequireLesson}
-                          lock={lock}/>)
+                          lock={lock} />)
                   }
                 </ul>
               </div>
@@ -224,10 +230,11 @@ const Dashboard = () => {
               date={stateCancelLesson.date}
               start={stateCancelLesson.start}
               end={stateCancelLesson.end}
-              callback={cbCancelBooking}/>
+              callback={cbCancelBooking} />
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   </React.Fragment>
 }

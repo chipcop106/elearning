@@ -1,9 +1,7 @@
+@import '../../scss/variable.scss';
+
 .swiper-slide-active {
     width:100%!important;
-}
-
-.select2.select2-container{
-   width:auto!important;
 }
 
 .teacher__info-wrap {
@@ -18,3 +16,22 @@
         }
     }
 }
+
+.select__control--is-focused {
+    border-color: hsl(0,0%,80%)!important;
+    box-shadow: none!important;
+}
+.select__multi-value {
+    background-color: $primary-color!important;
+    .select__multi-value__label {
+      color:#fff;
+      font-size:13px !important;
+    }
+    .select__multi-value__remove {
+      color:#fff;
+      &:hover {
+        background-color: inherit!important;
+        cursor: pointer;
+      }
+    }
+  }

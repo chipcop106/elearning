@@ -1,0 +1,101 @@
+@import '../../scss/variable.scss';
+
+.fc-col-header-cell {
+    position: relative;
+    .slot {
+        position: absolute;
+        right:0;
+        bottom:0;
+       font-size:12px;
+        padding: 1px;
+        color:#aaa;
+        line-height: 1;
+        border-top: 1px solid #e1e1e1;
+        border-left: 1px solid #e1e1e1;
+    }
+}
+#js-book-calendar {
+    .book-schedule {
+        background-color: $primary-color;
+        color: #fff;
+        border-color: $primary-color;
+    }
+}
+
+.fc-toolbar-title {
+    min-width: 140px;
+    text-align: center;
+}
+
+.teacher__info-wrap {
+    .swiper-slide {
+        &.active {
+            width:100%!important;
+        }
+        &:not(.active) {
+            width: 0!important;
+            max-height:0!important;
+            overflow: hidden;
+        }
+    }
+}
+
+ .book__calendar{
+    position: relative;
+    .overlay {
+        position: absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        background-color: rgba(0,0,0,.2);
+        z-index: 999;
+    }
+}
+
+.lds-ellipsis {
+  display: block;
+  position: relative;
+  width: 80px;
+  height: 100%;
+  margin: 0 auto;
+  div {
+    position: absolute;
+    top: 50%;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #fff;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+    &:nth-child(1) {
+      left: 8px;
+      animation: lds-ellipsis1 0.6s infinite;
+    }
+    &:nth-child(2) {
+      left: 8px;
+      animation: lds-ellipsis2 0.6s infinite;
+    }
+    &:nth-child(3) {
+      left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+    }
+    &:nth-child(4) {
+      left: 56px;
+      animation: lds-ellipsis3 0.6s infinite;
+    }
+  }
+}
+
+@keyframes lds-ellipsis1 {
+  0% {transform: scale(0);}
+  100% {transform: scale(1);}
+}
+@keyframes lds-ellipsis3 {
+  0% {transform: scale(1);}
+  100% {transform: scale(0);}
+}
+@keyframes lds-ellipsis2 {
+  0% {transform: translate(0, 0);}
+  100% {transform: translate(24px, 0);}
+}
+  

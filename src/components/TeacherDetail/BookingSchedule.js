@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { getScheduleByTeacherUID } from "~src/api/studentAPI";
-import styles from '~components/TeacherDetail/BookingSchedule.module.scss';
+
 
 let calendar;
 
@@ -9,6 +9,7 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBoo
 
   const [schedule, setSchedule] = React.useState([])
   const [loading, setLoading] = React.useState(false)
+  const [dateFetch, setDate] = React.useState(new Date())
 
   const bookLesson = (id, name, date, start, end) => {
     handleBookLesson(id, name, date, start, end)
@@ -18,16 +19,13 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBoo
     handleCancelLesson(id, name, date, start, end)
   }
 
- const calendarInit = () => {
-    let eventList = [];
+  const calendarInit = () => {
+    /* let eventList = [];
     for (let i = 0; i < schedule.length; i++) {
       eventList.push({
         id: schedule[i].StudyTimeID,
         title: schedule[i].bookStatus ? "Event Booked" : "Event Hot Available",
         courseName: schedule[i].title,
-        // day: schedule[i].day,
-        // timeStart: schedule[i].timeStart,
-        // timeEnd: schedule[i].timeEnd,
         start: new Date(schedule[i].Start),
         end: new Date(schedule[i].End),
         eventType: 0, // 0 : Bình thường || 1 : Hot
@@ -38,7 +36,23 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBoo
         available: schedule[i].available,
         isEmptySlot: schedule[i].isEmptySlot,
       })
+    } */
+
+    const eventList = schedule.map(event=>{
+      return {
+        ...event,
+        id: event.StudyTimeID,
+        title: event.bookStatus ? "Event Booked" : "Event Hot Available",
+        courseName: event.title,
+        start: new Date(event.Start),
+        end: new Date(event.End),
+        eventType: event.eventType,
+        bookStatus: event.bookStatus,
+        bookInfo: event.bookInfo,
+        available: event.available,
+        isEmptySlot: event.isEmptySlot
     }
+    })
 
     Date.prototype.addHours = function (h) {
       this.setTime(this.getTime() + h * 60 * 60 * 1000);
@@ -88,16 +102,11 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBoo
 
       const hotTime = [5, 6, 7, 8, 9, 13, 14, 15, 16];
 
-      const date = new Date();
-      const d = date.getDate();
-      const m = date.getMonth() + 1;
-      const y = date.getFullYear();
-
       //const createEventSlots
 
       const calendarEl = document.getElementById("js-book-calendar");
       let $toggleCheckbox;
-      const hotTimeSlot = [
+      /* const hotTimeSlot = [
         {
           dateIndex: 0,
           hotTime: [5, 6, 7, 8, 13, 14, 15],
@@ -110,7 +119,7 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBoo
           dateIndex: 2,
           hotTime: [5, 6, 7, 8, 13, 14, 15],
         },
-      ];
+      ]; */
 
       const eventDidMount = (args) => {
         //console.log("eventDidMount", args);
@@ -119,31 +128,15 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBoo
         //console.log(toggleStudent);
         $(args.el).tooltip({
           html: true,
-          title: `
-<p class="mg-b-5">${moment(event.start).format(
-            "dddd, MM / YYYY"
-          )}</p>
-<p class="mg-b-5">Start: ${moment(event.start).format(
-            "hh:mm A"
-          )}</p>
-<p class="mg-b-5">End: ${moment(event.end).format("hh:mm A")}</p>
-`,
+          title: `<p class="mg-b-5">${moment(event.start).format("dddd, MM / YYYY")}</p>
+          <p class="mg-b-5">Start: ${moment(event.start).format("hh:mm A")}</p>
+          <p class="mg-b-5">End: ${moment(event.end).format("hh:mm A")}</p>`,
           animation: false,
-          template: `<div class="tooltip tooltip-primary" role="tooltip">
-<div class="tooltip-arrow">
-</div>
-<div class="tooltip-inner">
-
-</div>
-</div>`,
+          template: `<div class="tooltip tooltip-primary" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>`,
           trigger: "hover",
         });
         !!$toggleCheckbox && showStudentToggle();
       };
-
-      const toggleStudentView = () => {
-
-      }
 
       const eventClick = (args) => {
         /*  Handle when click on cell const element = args.el;
@@ -175,12 +168,33 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBoo
         allDayDefault: false,
         dayMaxEvents: true, // allow "more" link when too many events
         eventOverlap: false,
-        initialDate: new Date(),
+        initialDate: new Date(dateFetch),
         initialView: "timeGridWeek",
         firstDay: 1,
         slotDuration: "00:30",
         slotLabelInterval: "00:30",
         slotEventOverlap: false,
+        customButtons: {
+          prev: {
+            click: function () {
+              calendar.prev();
+              setDate(calendar.getDate())
+            }
+          },
+          next: {
+            click: function () {
+              calendar.next();
+              setDate(calendar.getDate())
+            }
+          },
+          today: {
+            text: "Today",
+            click: function () {
+              calendar.today();
+              setDate(calendar.getDate())
+            }
+          }
+        },
         selectOverlap: function (event) {
           return event.rendering === "background";
         },
@@ -190,14 +204,8 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBoo
 
           let templateEl = document.createElement("div");
           templateEl.setAttribute("class", "slot-label");
-          const html = `
-  ${
-            hotTime.includes(hour)
-              ? `<i class="fa fa-fire tx-danger hot-icon"></i>`
-              : ""
-            }
-  ${arg.text.toUpperCase()}
-  `;
+          const html = `${hotTime.includes(hour) ? `<i class="fa fa-fire tx-danger hot-icon"></i>` : ""}
+          ${arg.text.toUpperCase()}`;
           templateEl.innerHTML = html;
           return { html };
         },
@@ -209,27 +217,25 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBoo
             if (
               (new Date(item.Start).getDate() === args.date.getDate()) &&
               (new Date(item.Start).getMonth() === args.date.getMonth()) &&
-              (new Date(item.Start).getFullYear() === args.date.getFullYear()) && 
-              item.available 
+              (new Date(item.Start).getFullYear() === args.date.getFullYear()) &&
+              item.available
             ) {
               count++;
-              if(item.bookStatus) slot++
+              if (item.bookStatus) slot++
             }
           })
           const days = args.date.getDay();
           const d = args.date.getDate();
-          const html = `<span class="hd-date">${d} </span><span class="hd-day">${dayNamesShort[days]}</span>
-  <div class="slot">${slot}/${count}</div>`;
+          const html = `<span class="hd-date">${d} </span><span class="hd-day">${dayNamesShort[days]}
+          </span><div class="slot">${slot}/${count}</div>`;
           return { html };
         },
 
         eventClassNames: function (args) {
-          const { event, isPast, isStart } = args;
+          const { event } = args;
           const {
-            bookInfo,
             eventType,
             bookStatus,
-            available,
             isEmptySlot,
           } = event.extendedProps;
           let classLists = bookStatus ? "booked-slot" : "available-slot";
@@ -242,23 +248,15 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBoo
           const { event, isPast, isStart } = args;
           const {
             bookInfo,
-            eventType,
             bookStatus,
-            available,
             isEmptySlot,
           } = event.extendedProps;
           let minutesTilStart = getDifferentMinBetweenTime(new Date(), args.event._instance.range.start)
-          const html = `
-  ${
-            !isEmptySlot
-              ? `
+          const html = `${!isEmptySlot? `
     <div class="inner-book-wrap ">
-    <div class="inner-content">
-    ${
-              bookStatus ? `
-      <span class="label-book booked"><i class="fas ${
-                isPast ? "fa-check" : "fa-user-graduate"
-                }"></i> ${isPast ? "FINISHED" : "BOOKED"}</span> 
+    <div class="inner-content"> ${bookStatus ? `
+      <span class="label-book booked"><i class="fas ${isPast ? "fa-check" : "fa-user-graduate"
+    }"></i> ${isPast ? "FINISHED" : "BOOKED"}</span> 
       <p class="booking-name">${bookInfo.name}</p>
       ${minutesTilStart < 30 && minutesTilStart > 0 ? `
         <a href="javascript:;" class="fix-btn cancel-schedule"
@@ -269,24 +267,20 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBoo
         data-start="${event.start}"
         data-end="${event.end}">Cancel</a>
         `: ""}`
-                : ` <i class="fas fa-copyright"></i><span class="label-book">AVAILABLE</span>`
-              }
-    ${
-              !bookStatus && (minutesTilStart > 30) ?
-                `<a href="javascript:;" class="fix-btn book-schedule"
-      data-toggle="modal"
-      data-target="#md-book-schedule"
-      data-id="${event.id}"
-      data-title="${event._def.extendedProps.courseName}"
-      data-start="${event.start}"
-      data-end="${event.end}"}>Book</a>`
-                : ""
-              }
-    </div>
-    </div>`
-              : ""
-            }
-`;
+        : ` <i class="fas fa-copyright"></i><span class="label-book">AVAILABLE</span>`
+      }
+      ${!bookStatus && (minutesTilStart > 30) ?
+        `<a href="javascript:;" class="fix-btn book-schedule"
+          data-toggle="modal"
+          data-target="#md-book-schedule"
+          data-id="${event.id}"
+          data-title="${event._def.extendedProps.courseName}"
+          data-start="${event.start}"
+          data-end="${event.end}"}>Book</a>`
+        : "" }
+        </div>
+        </div>` : ""
+      }`;
           templateEl.innerHTML = html;
           return { domNodes: [templateEl] };
         },
@@ -321,8 +315,7 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBoo
           `<div class="custom-control custom-checkbox" id="student-toggle">
     <input type="checkbox" class="custom-control-input" id="student-toggle-checkbox">
     <label class="custom-control-label" for="student-toggle-checkbox">Only show student booking hours</label>
-    </div>`
-        );
+    </div>`);
       }
 
       $('body').on('click', '.book-schedule', function (e) {
@@ -367,8 +360,9 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBoo
   React.useEffect(() => {
     getAPI({
       TeacherUID: 2,
+      Date: moment(dateFetch).format("DD/MM/YYYY"),
     });
-  }, [])
+  }, [dateFetch])
 
   React.useEffect(() => {
     calendarInit()
@@ -398,6 +392,9 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBoo
   return (
     <React.Fragment>
       <div className="book__calendar">
+        <div className={`${loading ? '' : 'd-none'} overlay`}>
+          <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+        </div>
         <div id="js-book-calendar" className="fc fc-unthemed fc-ltr"
           height="500"></div>
       </div>

@@ -1,4 +1,4 @@
-
+@import '../../scss/variable.scss';
   
   a:focus {
       outline: none !important;
@@ -48,20 +48,20 @@
     margin: 0 auto;
   }
   .text-hl {
-    color:#fd7e14!important;
+    color:$primary-color!important;
   }
   .txt1 {
     font-family: Poppins-Regular;
     font-size: 13px;
     line-height: 1.5;
-    color: #999999;
+    color: #999;
   }
   
   .txt2 {
     font-family: Poppins-Regular;
     font-size: 13px;
     line-height: 1.5;
-    color: #666666;
+    color: #666;
   }
   
   
@@ -89,7 +89,7 @@
     /* background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
     background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
     background: -moz-linear-gradient(-135deg, #c850c0, #4158d0); */
-    background: linear-gradient(-135deg, #fd6b69, #ca620a);
+    background: linear-gradient(-135deg, $second-color, $primary-color);
   }
   
   .wrap-login100 {
@@ -128,7 +128,7 @@
   .login100-form-title {
     font-family: Poppins-Bold;
     font-size: 24px;
-    color: #333333;
+    color: #333;
     line-height: 1.2;
     text-align: center;
     width: 100%;
@@ -149,7 +149,7 @@
     font-family: Poppins-Medium;
     font-size: 15px;
     line-height: 1.5;
-    color: #666666;
+    color: #666;
   
     display: block;
     width: 100%;
@@ -172,7 +172,7 @@
     width: 100%;
     height: 100%;
     box-shadow: 0px 0px 0px 0px;
-    color: rgba(87,184,70, 0.8);
+    color: $primary-color;
   }
   
   .input100:focus + .focus-input100 {
@@ -211,7 +211,7 @@
     height: 100%;
     padding-left: 35px;
     pointer-events: none;
-    color: #666666;
+    color: #666;
   
     -webkit-transition: all 0.4s;
     -o-transition: all 0.4s;
@@ -220,7 +220,7 @@
   }
   
   .input100:focus + .focus-input100 + .symbol-input100 {
-    color: #fd7e14;
+    color: $primary-color;
     padding-left: 28px;
   }
   
@@ -248,7 +248,7 @@
     width: 100%;
     height: 50px;
     border-radius: 25px;
-    background: #fd7e14;
+    background: $primary-color;
     display: -webkit-box;
     display: -webkit-flex;
     display: -moz-box;
@@ -265,7 +265,7 @@
   }
   
   .login100-form-btn:hover {
-    background: #333333;
+    background: #da731f;
   }
   
   

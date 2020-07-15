@@ -10,6 +10,7 @@ import SkeletonLessonCard from "~components/common/Skeleton/SkeletonLessonCard"
 import { getLessons } from "~src/api/studentAPI"
 import { convertDateFromTo } from "~src/utils.js"
 import Pagination from "react-js-pagination";
+import { ToastContainer } from 'react-toastify'
 
 import styles from '~components/BookedLesson/bookedLesson.module.scss'
 
@@ -92,19 +93,26 @@ const BookedLesson = () => {
     })
   }
 
-  const cbCancelBooking = (id, status) => {
-    if(status === 0)
+  const cbCancelBooking = (id, result) => {
+    if (result === 0) //Start Call API, lock the card
     {
       setLock({
         id,
-        lock:true
+        lock: true
       })
     }
-    else {
+    else { //After call API, unlock the card
       setLock({
         id,
-        lock:false
+        lock: false
       })
+      if (result === 1) { //If cancel lesson success
+        let newUpcomingLessions = [...state.UpcomingLessions].filter(item => item.BookingID !== id)
+        setState({
+          ...state,
+          UpcomingLessions: newUpcomingLessions,
+        })
+      }
     }
   }
 
@@ -124,7 +132,7 @@ const BookedLesson = () => {
         <h4 className="mg-b-0 gradient-heading"><i className="fas fa-calendar-check" />BOOKED LESSON</h4>
       </div>
       <div className="mg-t-30 feedback-container">
-        <div className="fb-summary-container">
+        <div className="fb-summary-container animated fadeInUp">
           <div className="fb-summary pd-t-0-f bd-t-0-f">
             <div className="fb-type">
               <div className="fb-radio">
@@ -156,7 +164,7 @@ const BookedLesson = () => {
             </div>
           </div>
         </div>
-        <div className="course-horizental mg-t-20">
+        <div className="course-horizental mg-t-20 animated fadeInUp am-animation-delay-1">
           {
             !!state.UpcomingLessions && !!state.LessionHistory &&
             state.UpcomingLessions.length + state.LessionHistory.length === 0 ? (
@@ -207,15 +215,15 @@ const BookedLesson = () => {
         </div>
       </div>
       <Pagination
-                innerClass="pagination justify-content-end mt-3"
-                activePage={page}
-                itemsCountPerPage={10}
-                totalItemsCount={450}
-                pageRangeDisplayed={5}
-                itemClass="page-item"
-                linkClass="page-link"
-                onChange={handlePageChange.bind(this)}
-            />
+        innerClass="pagination justify-content-end mt-3"
+        activePage={page}
+        itemsCountPerPage={10}
+        totalItemsCount={450}
+        pageRangeDisplayed={5}
+        itemClass="page-item"
+        linkClass="page-link"
+        onChange={handlePageChange.bind(this)} />
+
       <RatingLessonModal
         id={stateRatingLesson.id}
         TeacherName={stateRatingLesson.TeacherName} />
@@ -239,6 +247,8 @@ const BookedLesson = () => {
         start={stateCancelLesson.start}
         end={stateCancelLesson.end}
         callback={cbCancelBooking} />
+        
+      <ToastContainer />
   </React.Fragment>
 }
 

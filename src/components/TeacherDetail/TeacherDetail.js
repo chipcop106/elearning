@@ -10,6 +10,9 @@ import SkeletonLessonCard from "~components/common/Skeleton/SkeletonLessonCard"
 import { nationMapToFlag } from '~src/utils'
 import { getTeacherInfo } from "~src/api/studentAPI"
 
+import { ToastContainer } from 'react-toastify'
+import styles from '~components/TeacherDetail/TeacherDetail.module.scss';
+
 const initialCancelLesson = {
   id: "",
   LessionName: "",
@@ -49,7 +52,7 @@ const TeacherDetail = () => {
     const teacher = await getTeacherInfo(params);
     setState(teacher.Data)
     setLoading(false);
-    $('#js-video-modal iframe').attr('src', teacher.Data.LinkVideoIntroduce);
+    $('#js-video-modal iframe').attr('src', teacher.Data.LinkVideoIntroduce);    
   }
 
   const onHandleBookLesson = (id, LessionName, date, start, end) => {
@@ -72,7 +75,7 @@ const TeacherDetail = () => {
   }
 
   const onCancel = (id, result) => {
-    if(result == 1) {
+    if(result === 1) {
       setOnCancelState({
         id,
       })
@@ -109,7 +112,7 @@ const TeacherDetail = () => {
                 <div className="teacher-name">
                   <h5 className="name">{state.TeacherName}</h5>
                   <div className="nation">
-                    <span className={`flag-icon flag-icon-${state.nation ? nationMapToFlag(state.nation) : "vn"} flag-icon-squared mg-r-5`}></span>
+                    <span className={`flag-icon flag-icon-${state.TeacherNational ? nationMapToFlag(state.TeacherNational) : "vn"} flag-icon-squared mg-r-5`}></span>
                     <span className="badge badge-light"><span className="tx-success"><i
                       className="fa fa-check-circle"></i> Verified</span></span>
                   </div>
@@ -190,7 +193,9 @@ const TeacherDetail = () => {
         date={stateBookLesson.date}
         start={stateBookLesson.start}
         end={stateBookLesson.end}
-        onBook={onBook} />
+        onBook={onBook}/>
+
+    <ToastContainer/>
     </div>
   )
 }

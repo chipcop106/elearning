@@ -1,3 +1,5 @@
+@import '../scss/variable.scss';
+
 .rating-wrap {
     .rating-stars {
         position: relative;
@@ -7,7 +9,7 @@
         white-space: nowrap;
         }
         .filled-stars {
-        color: #fd7e14;
+        color: $primary-color;
         position: absolute;
         left: 0;
         top: 0;

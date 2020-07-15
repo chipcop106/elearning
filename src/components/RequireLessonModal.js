@@ -1,5 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/scss/main.scss'
+import { toastInit } from "~src/utils"
 
 const initialState = {
     id:"",
@@ -20,6 +23,8 @@ const RequireLessonModal = ({
   DocumentName,
   SkypeID, }) => {
    const [state, setState] = React.useState(initialState)
+   const requireLesson = () => toast("Thank for your request!", toastInit);
+    const requireLessonAlert = () => toast("Please fill your note", toastInit);
 
   const handleChange = (e) => {
     const target = e.target;
@@ -44,6 +49,17 @@ const RequireLessonModal = ({
 
   const onSubmitRequire = () => {
     console.log(state)
+    if(state.message.length <= 0) {
+      requireLessonAlert();
+    }
+    else {
+      /* Call API */
+      requireLesson();
+      //$("#js-md-required").modal("hide")
+      $('#js-md-required').fadeOut(500,function(){
+        $('#js-md-required').modal('hide');
+     });
+    }
   }
 
    React.useEffect(() => {

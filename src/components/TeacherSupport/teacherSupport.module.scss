@@ -1,0 +1,12 @@
+@import '../../scss/variable.scss';
+
+#react-teacher-support .sub-menu {
+    p {
+        &.active {
+            background: $primary-color;
+            a {
+                color:#fff;
+            }
+        }
+    }
+}

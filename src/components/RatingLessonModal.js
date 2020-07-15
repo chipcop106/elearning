@@ -1,5 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/scss/main.scss'
+import { toastInit } from "~src/utils"
+
 const initialState = {
     id:"",
     rating: 0,
@@ -8,6 +12,9 @@ const initialState = {
 const RatingLessonModal = ({ id, TeacherName }) => {
 
     const [state, setState] = React.useState(initialState)
+    const ratingLesson = () => toast("Thank for your rating!", toastInit);
+    const ratingLessonAlert1 = () => toast("You must rating it", toastInit);
+    const ratingLessonAlert2 = () => toast("Please fill your message", toastInit);
 
     const handleChange = (e) => {
        const target = e.target;
@@ -22,9 +29,18 @@ const RatingLessonModal = ({ id, TeacherName }) => {
     const onSubmitRating = () => {
         console.log(state);
         if(state.rating === 0) {
-            alert("Just rating it")
+            ratingLessonAlert1()
         }
-        /* else  Call API */
+        else if(state.message.length <= 0) {
+            ratingLessonAlert2()
+        }
+        else {
+            /* Call API */
+            ratingLesson();
+            $('#js-md-rate').fadeOut(500,function(){
+                $('#js-md-rate').modal('hide');
+             });
+        }
     }
 
      React.useEffect(() => {
