@@ -6,7 +6,6 @@ import ScheduleLogTable from '~components/table/ScheduleLogTable'
 import BookingRequest from './BookingRequest';
 import BookingCalendar from './BookingCalendar';
 import { ToastContainer } from 'react-toastify';
-
 const TeacherBooking = () => {
     const initSwiper = () => {
         const teacherInfoSwiper = new Swiper('.swiper-container', {
@@ -29,7 +28,6 @@ const TeacherBooking = () => {
         [...tabLinks].map(link => {
             link.addEventListener('click', swapTab);
         });
-
     }
 
     React.useEffect(() => {
@@ -42,6 +40,7 @@ const TeacherBooking = () => {
             <div className="book__container mg-t-15">
                 <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
                     <h4 className="mg-b-0 gradient-heading"><i className="fas fa-address-card" /> BOOKING SCHEDULE</h4>
+                    <span className="tx-primary bg-gray-200 pd-5 rounded d-inline-block tx-medium"><i class="fas fa-globe-europe mg-r-5"></i>Timezone: GTM + 7</span>
                 </div>
                 <div className="tab-navigation">
                     <ul className="list-tab" id="js-list-tab">
@@ -61,7 +60,7 @@ const TeacherBooking = () => {
                         <div className="teacher__info-wrap swiper-wrapper">
                             <div className="swiper-slide">
                                 <div className="slide-tab-content">
-                                    <h5>Timezone: GTM + 7</h5>
+                                    
                                     <BookingCalendar />
                                 </div>
                             </div>

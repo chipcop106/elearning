@@ -77,7 +77,7 @@ const Header = () => {
                             <div className="avatar avatar-lg mg-b-15"><img src="../assets/img/teacher.jpg" className="rounded-circle" alt="" /></div>
                             <h6 className="tx-semibold mg-b-5">Mona Media</h6>
                             <p className="mg-b-25 tx-12 tx-color-03">Administrator</p>
-                            <a className="dropdown-item"><i data-feather="user" /> View Profile</a>
+                            <a href="teacher/teacherProfile.html" className="dropdown-item"><i data-feather="user" /> View Profile</a>
                             <div className="dropdown-divider" />
                             <a  className="dropdown-item"><i data-feather="log-out" />Sign Out</a>
                         </div>{/* dropdown-menu */}

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { randomId } from '../../utils';
 import TeacherComment from '../common/TeacherComment';
-import SkeletonComment from '~components/common/Skeleton/SkeletonComment';
+import SkeletonFeedback from '~components/common/Skeleton/SkeletonFeedback';
 
 import {
     CSSTransition,
@@ -12,7 +12,7 @@ const feedbackDemo = [
     {
         id: randomId(),
         stName: 'Truong Van Lam',
-        stAvatar: 'https://i.pinimg.com/236x/aa/84/88/aa8488c0bdc927ac836586c004c7cb12.jpg',
+        stAvatar: null,
         stFeedback: '',
         lessonTime: '12/06/2020 10:30AM (Vietnam Time)',
         lessonName: 'Lesson 6: ReactJS application',
@@ -22,7 +22,7 @@ const feedbackDemo = [
         id: randomId(),
         stName: 'Truong Van Lam',
         stAvatar: 'https://i.pinimg.com/236x/aa/84/88/aa8488c0bdc927ac836586c004c7cb12.jpg',
-        stFeedback: 'Hello my world',
+        stFeedback: 'Buổi học rất tốt, giảng viên nhiệt tình. Giảng viên phát âm rất chuẩn chỉnh',
         lessonTime: '12/06/2020 10:30AM (Vietnam Time)',
         lessonName: 'Lesson 6: ReactJS application',
         rating: '3',
@@ -56,12 +56,9 @@ const commentDemo = [
 ];
 
 
-const FeedbackRow = ({data:{ id, stName, stAvatar, stFeedback, lessonTime, lessonName, rating} }) => {
+const FeedbackRow = ({ data: { id, stName, stAvatar, stFeedback, lessonTime, lessonName, rating } }) => {
     const [content, setContent] = React.useState('');
     const [isEditing, setIsEditing] = React.useState(false);
-
-    console.log('FeedbackRow rendered');
-
     const _showReply = (event) => {
         event.preventDefault();
         setContent('');
@@ -92,10 +89,10 @@ const FeedbackRow = ({data:{ id, stName, stAvatar, stFeedback, lessonTime, lesso
 
     const updateComment = (comments) => {
         //API update comment
-        console.log('Comments updated call API:', comments );
+        console.log('Comments updated call API:', comments);
     }
 
-    useEffect(() => console.log(isEditing),[isEditing]);
+    useEffect(() => console.log(isEditing), [isEditing]);
     return (
         <div className="fb-item">
             <div className="fb-avatar">
@@ -107,20 +104,20 @@ const FeedbackRow = ({data:{ id, stName, stAvatar, stFeedback, lessonTime, lesso
                     <div className="rating-wrap">
                         <div className="rating">
                             {
-                                [...Array(5)].map((el, index) => (5 - index) <= rating 
-                                ? <i key={`${index}`} className="fas fa-star" /> 
-                                : <i key={`${index}`} className="far fa-star" />)
+                                [...Array(5)].map((el, index) => (5 - index) <= rating
+                                    ? <i key={`${index}`} className="fas fa-star" />
+                                    : <i key={`${index}`} className="far fa-star" />)
                             }
                         </div>
                     </div>
                 </div>
 
-                <div className="metas mg-b-0-f">
+                <div className="metas mg-b-10-f">
                     <div className="meta">
-                        Class Time: <span>{lessonTime}</span>
+                        Class Time: <span className="tx-info">{lessonTime}</span>
                     </div>
                     <div className="meta">
-                        <span>{lessonName}</span>
+                        Lesson: <span className="tx-info">{lessonName}</span>
                     </div>
                 </div>
                 <div className="feedback-comment mg-b-15-f">
@@ -139,7 +136,7 @@ const FeedbackRow = ({data:{ id, stName, stAvatar, stFeedback, lessonTime, lesso
 
                             <div className="reply-box">
                                 <div className="form-group cmt-box">
-                                    <textarea rows={5} className="form-control" value={content} onChange={_onChange} />
+                                    <textarea rows={5} className="form-control" value={content} onChange={_onChange} placeholder="Feedback content..."/>
                                 </div>
                                 <div className="cmt-action">
                                     <a href={`#`} className="btn btn-primary mg-r-10" onClick={_onSubmit}>Submit</a>
@@ -159,23 +156,23 @@ const FeedbackRow = ({data:{ id, stName, stAvatar, stFeedback, lessonTime, lesso
 
                 }
 
-                <div className="tc-comment-wrap">
+                {/* <div className="tc-comment-wrap">
                     {<RenderCommentFeedback feedbackId={id} updateComment={updateComment}/>}
-                </div>
+                </div> */}
 
             </div>
         </div>
     )
 }
 
-const RenderCommentFeedback = ({id, updateComment}) => {
+const RenderCommentFeedback = ({ id, updateComment }) => {
     const [comments, setComments] = React.useState(null);
     const _onUpdateComment = (cmtId, cmtContent) => {
         setComments(
             [...comments].map(cmt => cmt.id === cmtId ? {
                 ...cmt,
-                content:cmtContent,
-                editted:true,
+                content: cmtContent,
+                editted: true,
                 dateTime: new Date()
             } : cmt)
         );
@@ -184,11 +181,11 @@ const RenderCommentFeedback = ({id, updateComment}) => {
 
     React.useEffect(() => {
         setTimeout(() => setComments(commentDemo), 1000)
-    },[])
+    }, [])
 
     return (
-        <>  
-            {!comments && <SkeletonComment/>}
+        <>
+            {!comments && <SkeletonComment />}
             {!!comments && <h6 className="mg-b-15">The teacher had commented on this feedback:</h6>}
             {!!comments && comments.length > 0 && comments.map(comment => <TeacherComment
                 key={`${comment.id}`}
@@ -198,21 +195,23 @@ const RenderCommentFeedback = ({id, updateComment}) => {
                     teacherAvatar: comment.teacherAvatar,
                     dateTime: comment.dateTime,
                     commentContent: comment.content,
-                    editted:comment.editted
+                    editted: comment.editted
                 }}
                 handleUpdateComment={_onUpdateComment}
             />)
             }
         </>
     )
-   
-} 
+
+}
 
 const TeacherFeedback = () => {
     const [averateRate, setAverateRate] = React.useState('4.5');
     const [filterValue, setFilterValue] = React.useState('all');
     const [feedbacks, setFeedbacks] = React.useState(null);
-
+    const [isLoading, setIsLoading] = React.useState(true);
+    const [pageSize, setPageSize] = React.useState(null);
+    const [totalResult, setTotalResult] = React.useState(null);
     const handleUpdateComment = (feedbackId, commentId, commentContent) => {
         dispatch({ type: 'UPDATE_COMMENT', payload: { feedbackId, commentId, commentContent } })
     }
@@ -221,10 +220,18 @@ const TeacherFeedback = () => {
         setFilterValue(e.target.value);
     }
 
+    const fetchFeedback = async () => {
+        setIsLoading(true);
+        setTimeout(() => {
+            setFeedbacks(feedbackDemo);
+            setIsLoading(false);
+        }, 1000);
+    }
+
     console.log('Feedback container Rendered');
     React.useEffect(() => {
-        setTimeout(() => setFeedbacks(feedbackDemo), 1000);
-    }, [])
+       fetchFeedback();
+    }, [filterValue])
 
     return (
         <div>
@@ -249,7 +256,7 @@ const TeacherFeedback = () => {
                         <div className="fb-type">
                             <div className="fb-radio">
                                 <label>
-                                    <input type="radio" name="fbType" group="feedback" value="5" onChange={handFilterValue}/>
+                                    <input type="radio" name="fbType" group="feedback" value="5" onChange={handFilterValue} />
                                     <span>5 <i className="fa fa-star tx-warning"></i> Excellent <span className="number">882</span></span>
                                 </label>
                             </div>
@@ -257,7 +264,7 @@ const TeacherFeedback = () => {
                         <div className="fb-type">
                             <div className="fb-radio">
                                 <label>
-                                    <input type="radio" name="fbType" group="feedback" value="4" onChange={handFilterValue}/>
+                                    <input type="radio" name="fbType" group="feedback" value="4" onChange={handFilterValue} />
                                     <span>4 <i className="fa fa-star tx-warning"></i> Good<span className="number">10</span></span>
                                 </label>
                             </div>
@@ -265,7 +272,7 @@ const TeacherFeedback = () => {
                         <div className="fb-type">
                             <div className="fb-radio">
                                 <label>
-                                    <input type="radio" name="fbType" group="feedback" value="3" onChange={handFilterValue}/>
+                                    <input type="radio" name="fbType" group="feedback" value="3" onChange={handFilterValue} />
                                     <span>3 <i className="fa fa-star tx-warning"></i> Average<span className="number">2</span></span>
                                 </label>
                             </div>
@@ -273,7 +280,7 @@ const TeacherFeedback = () => {
                         <div className="fb-type">
                             <div className="fb-radio">
                                 <label>
-                                    <input type="radio" name="fbType" group="feedback" value="2" onChange={handFilterValue}/>
+                                    <input type="radio" name="fbType" group="feedback" value="2" onChange={handFilterValue} />
                                     <span>2 <i className="fa fa-star tx-warning"></i> Bad<span className="number">2</span></span>
                                 </label>
                             </div>
@@ -281,30 +288,40 @@ const TeacherFeedback = () => {
                     </div>
                 </div>
                 <div className="fb-list">
-                    {!!feedbacks && feedbacks.length > 0 && [...feedbacks].map(fb => <FeedbackRow
-                        key={`${fb.id}`}
-                        data={{
-                            id:fb.id,
-                            stName:fb.stName,
-                            stAvatar:fb.stAvatar,
-                            stFeedback:fb.stFeedback,
-                            lessonTime:fb.lessonTime,
-                            lessonName:fb.lessonName,
-                            rating:fb.rating
-                        }}     
-                    />)}
-
+                    {
+                        isLoading ? <SkeletonFeedback /> : (
+                            <>
+                                {!!feedbacks && feedbacks.length > 0 && [...feedbacks].map(fb => <FeedbackRow
+                                    key={`${fb.id}`}
+                                    data={{
+                                        id: fb.id,
+                                        stName: fb?.stName ?? '',
+                                        stAvatar: fb?.stAvatar ?? '../assets/img/default-avatar.png',
+                                        stFeedback: fb?.stFeedback ?? '',
+                                        lessonTime: fb?.lessonTime ?? '',
+                                        lessonName: fb?.lessonName ?? '',
+                                        rating: fb.rating
+                                    }}
+                                />)
+                                }
+                               {!!totalResult && totalResult >= pageSize && (
+                                    <Pagination
+                                        innerClass="pagination justify-content-end"
+                                        activePage={pageNumber}
+                                        itemsCountPerPage={pageSize}
+                                        totalItemsCount={totalResult}
+                                        pageRangeDisplayed={5}
+                                        onChange={(page) => setPageNumber(page)}
+                                        itemClass="page-item"
+                                        linkClass="page-link"
+                                        activeClass="active"
+                                    />
+                                )}
+                            </>
+                        )
+                    }
                 </div>
             </div>
-            <nav aria-label="Page navigation" className="mg-t-10">
-                <ul className="pagination mg-b-0 justify-content-end">
-                    <li className="page-item disabled"><a className="page-link page-link-icon" href="#"><i data-feather="chevron-left" /></a></li>
-                    <li className="page-item active"><a className="page-link" href="#">1</a></li>
-                    <li className="page-item"><a className="page-link" href="#">2</a></li>
-                    <li className="page-item"><a className="page-link" href="#">3</a></li>
-                    <li className="page-item"><a className="page-link page-link-icon" href="#"><i data-feather="chevron-right" /></a></li>
-                </ul>
-            </nav>
         </div>
 
 
