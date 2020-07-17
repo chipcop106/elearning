@@ -174,6 +174,7 @@ export const ratingLessonAPI = async (params) => {
             params: {
                 UID: appSettings.UID,
                 BookingID: params.BookingID,
+                TeacherUID: params.TeacherUID,
                 Rate: params.Rate,
                 Evaluation: params.Evaluation,
             }

@@ -50,3 +50,74 @@ export const updatePassAPI = async (params) => {
     }
     return result;
 }
+
+export const getTimeZoneAPI = async () => {
+    let result;
+    try {
+        let res = await instance.get(path + '/GetTimeZone',{
+            params: {
+                UID: appSettings.UID,
+            }
+        })
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const uploadImageToServer = async (params) => {
+    let result;
+    console.log('log params', params);
+    try {
+        let formData = new FormData();
+        if (!!params && params.length > 0) {
+            [...params].map((image) => {
+                formData.append("file", image);
+            });
+        }
+
+        let res = await instance.post(`${path}/UploadImage`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            params:{
+                UID: appSettings.UID,
+            }
+        });
+        result = res.data;
+    } catch (error) {
+        result = error.message ? error.message : '';
+    }
+    return result;
+};
+
+export const getListTargetAPI = async () => {
+    let result;
+    try {
+        let res = await instance.get(path + '/ListTarget',{
+            params: {
+                UID: appSettings.UID,
+            }
+        })
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const getListLanguageAPI = async () => {
+    let result;
+    try {
+        let res = await instance.get(path + '/ListLangluage',{
+            params: {
+                UID: appSettings.UID,
+            }
+        })
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}

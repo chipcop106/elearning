@@ -8,6 +8,10 @@ import { getProfile } from "~src/api/studentAPI";
 import { getListLevelPurpose } from "~src/api/optionAPI";
 import { updateProfileAPI } from "~src/api/studentAPI";
 import { updatePassAPI } from "~src/api/optionAPI";
+import { getTimeZoneAPI } from "~src/api/optionAPI";
+import { uploadImageToServer } from "~src/api/optionAPI";
+import { getListTargetAPI } from "~src/api/optionAPI";
+import { getListLanguageAPI } from "~src/api/optionAPI";
 
 import Flatpickr from 'react-flatpickr';
 import Select from 'react-select';
@@ -39,6 +43,10 @@ const Schema = Yup.object().shape({
 
 
 const StudentForm = (props) => {
+  const [listTimeZone, setListTimeZone] = React.useState([]);
+  const [listLanguage, setListLanguage] = React.useState([]);
+  const [listTarget, setListTarget] = React.useState([]);
+
   const {
     values,
     touched,
@@ -48,9 +56,68 @@ const StudentForm = (props) => {
     setFieldValue,
   } = props;
 
-  return values.errorFetch ? <></> : (
+  const getTimeZone = async () => {
+    const res = await getTimeZoneAPI();
+    if (res.Code === 1 && res.Data.length > 0) {
+      setListTimeZone(res.Data);
+    }
+  }
+
+  const getLanguage = async () => {
+    const res = await getListLanguageAPI();
+    if (res.Code === 1 && res.Data.length > 0) {
+      setListLanguage(res.Data);
+    }
+  }
+
+  const getTarget = async () => {
+    const res = await getListTargetAPI();
+    let x = [];
+    if (res.Code === 1 && res.Data.length > 0) {
+      x = res.Data.map(item => item.TargetName)
+      console.log(x)
+      setListTarget(x);
+    }
+  }
+
+  const handleUploadImage = async (e) => {
+    let files = e.target.files
+    if (!files) return;
+    else {
+      const res = await uploadImageToServer(files)
+      if (res.Code === 1) { //Upload Avatar success
+
+        const avatar = res.Data[0].UrlIMG;
+        setFieldValue("Avatar", avatar, false);
+
+        let output = document.getElementById('avatar')
+        output.src = URL.createObjectURL(files[0])
+        output.onload = function () {
+          URL.revokeObjectURL(output.src)
+        }
+      }
+    }
+  }
+
+  React.useEffect(() => {
+    getTimeZone();
+    getLanguage();
+    getTarget();
+  }, [])
+
+  return /* values.errorFetch ? <></> : */ (
     <form id="form-account-profile" onSubmit={handleSubmit}>
       <div className="form-account pd-y-15">
+        {/* Avatar field */}
+        <div className="student-avatar">
+          <div className="upload-container">
+            <label className="upload-avatar">
+              <input type="file" accept="image/*" className="upload-box hidden d-none upload-file" onChange={handleUploadImage} />
+              <img id="avatar" src={values.Avatar} />
+            </label>
+          </div>
+        </div>
+        {/* End avatar field */}
         <div className="row mg-b-15">
           <div className="col-md-6">
             <div className="form-row align-items-center">
@@ -105,8 +172,11 @@ const StudentForm = (props) => {
                   value={values.Language}
                   className="form-control"
                   onChange={handleChange}>
-                  <option value="1">Vietnamese</option>
-                  <option value="2">English</option>
+                  {
+                    !!listLanguage && listLanguage.length > 0 && listLanguage.map(item =>
+                      <option value={item.ID}>{item.LanguageName}</option>
+                    )
+                  }
                 </select>
               </div>
             </div>
@@ -162,13 +232,15 @@ const StudentForm = (props) => {
                 <p className="mg-b-0 tx-medium">Timezone:</p>
               </div>
               <div className="form-group col-sm-9">
-                <select name="TimeZone"
-                  value={values.TimeZone}
+                <select name="TimezoneID"
+                  value={values.TimezoneID}
                   className="form-control"
                   onChange={handleChange} >
-                  <option value="1">GTM +7</option>
-                  <option value="2">GTM +0</option>
-                  <option value="3">GTM -7</option>
+                  {
+                    !!listTimeZone && listTimeZone.length > 0 && listTimeZone.map(item =>
+                      <option value={item.ID}>{item.TimeZoneName}</option>
+                    )
+                  }
                 </select>
               </div>
             </div>
@@ -199,7 +271,7 @@ const StudentForm = (props) => {
                 <Select
                   isMulti
                   name="SelectTarget"
-                  options={values.Target}
+                  options={listTarget}
                   value={values.SelectTarget}
                   getOptionLabel={label => label}
                   getOptionValue={value => value}
@@ -289,14 +361,14 @@ const StudentForm = (props) => {
           <button type="submit" className="btn btn-primary rounded-pill">Save information</button>
         </div>
       </div>
-    </form>
+    </form >
   )
 }
 
 const FormWrap = () => {
   const [profile, setProfile] = React.useState({});
   const [listLevelPurpose, setListLevelPurpose] = React.useState([]);
-  const [myLevel, setMylevel] = React.useState(null);
+  const [myLevel, setMylevel] = React.useState(1);
   const [errorFetch, setErrorFetch] = React.useState(false);
 
   const updateProfileToastSuccess = () => toast("Update profile successful!", toastInit);
@@ -307,14 +379,13 @@ const FormWrap = () => {
   const getAPI = async () => {
     try {
       const resLevelPurpose = await getListLevelPurpose();
-      let x;
+      let x = [];
       if (resLevelPurpose.Code === 1 && resLevelPurpose.Data.length > 0) {
         x = resLevelPurpose.Data.map(item => {
           return item.PurposeLevelName
         })
         setListLevelPurpose(x)
       }
-
       const resProfile = await getProfile();
       if (resProfile.Code === 1) {
         setProfile({
@@ -324,15 +395,15 @@ const FormWrap = () => {
       else {
         setErrorFetch(true)
       }
-      const index = resLevelPurpose.Data.map(x => x.ID.toString()).indexOf(resProfile.Data.LevelPurpose);
-      setMylevel([resLevelPurpose.Data[index].PurposeLevelName])
+      /* const index = resListTarget.Data.map(x => x.ID.toString()).indexOf(resProfile.Data.LevelPurpose);
+      setMylevel([resLevelPurpose.Data[index].PurposeLevelName]) */
     }
-    catch {}
+    catch { }
   }
 
   const onUpdateProfileAPI = async (params) => {
     const res = await updateProfileAPI(params)
-    if(res.Code === 1) {
+    if (res.Code === 1) {
       updateProfileToastSuccess();
     }
     else {
@@ -342,7 +413,7 @@ const FormWrap = () => {
 
   const onUpdatePassAPI = async (params) => {
     const res = await updatePassAPI(params)
-    if(res.Code === 1) {
+    if (res.Code === 1) {
       updatePassToastSuccess();
     }
     else {
@@ -363,11 +434,10 @@ const FormWrap = () => {
         Address: profile.Address,
         Phone: profile.Phone,
         Gender: profile.Gender,
-        TimeZone: profile.TimeZone,
+        TimezoneID: profile.Timezone,
         Language: profile.Language,
         BirthDay: profile.BirthDay,
         Email: profile.Email,
-        Target: listLevelPurpose,
         SelectTarget: myLevel,
         PersonalPreference: profile.PersonalPreference,
         RequestWithTeacher: profile.RequestWithTeacher,
@@ -400,12 +470,12 @@ const FormWrap = () => {
         TimezoneID: values.TimezoneID,
         Address: values.Address,
         Target: values.SelectTarget && values.SelectTarget.join(","),
-        Hobbits: values.Hobbits,
+        Hobbits: values.PersonalPreference,
         RequestWithTeacher: values.RequestWithTeacher,
         PurposeLevel: values.PurposeLevel,
         Avatar: values.Avatar,
       })
-      if(values.passwordChange) {
+      if (values.passwordChange) {
         onUpdatePassAPI({
           OldPass: values.password,
           NewPass: values.newPassword,

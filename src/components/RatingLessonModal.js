@@ -9,7 +9,7 @@ const initialState = {
     rating: 0,
     message: "",
 }
-const RatingLessonModal = ({ BookingID, TeacherName, callback }) => {
+const RatingLessonModal = ({ BookingID, TeacherUID, TeacherName, callback }) => {
 
     const [state, setState] = React.useState(initialState)
     const ratingLesson = () => toast("Thank for your rating!", toastInit);
@@ -50,6 +50,7 @@ const RatingLessonModal = ({ BookingID, TeacherName, callback }) => {
             /* Call API */
             fetchAPI({
                 BookingID,
+                TeacherUID,
                 Rate: state.rating,
                 Evaluation: state.message,
             })

@@ -14,7 +14,7 @@ module.exports = {
     'forgotpassword': componentEnrtryPrefix + 'ForgotPassword/ForgotPassword.js',
     'signup': componentEnrtryPrefix + 'Signup/Signup.js',
 
-    'teacherSupport': componentEnrtryPrefix + 'TeacherSupport/teacherSupport.js',
+    /* 'teacherSupport': componentEnrtryPrefix + 'TeacherSupport/teacherSupport.js',
     'teacherHome': componentEnrtryPrefix + 'TeacherHome/teacherHome.js',
     'teacherClassRooms': componentEnrtryPrefix + 'TeacherClassRooms/teacherClassRooms.js',
     'teacherBooking': componentEnrtryPrefix + 'TeacherBooking/teacherBooking.js',
@@ -23,7 +23,7 @@ module.exports = {
     'teacherPayment': componentEnrtryPrefix + 'TeacherPayment/teacherPayment.js',
     'teacherFeedback': componentEnrtryPrefix + 'TeacherFeedback/teacherFeedback.js',
     'teacherProfile': componentEnrtryPrefix + 'TeacherProfile/teacherProfile.js',
-    'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/studentDashboard.js',
+    'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/studentDashboard.js', */
     // 'DocumentSlider': componentEnrtryPrefix + 'TeacherLibrary/DocumentSlider.js',
 
     'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js',

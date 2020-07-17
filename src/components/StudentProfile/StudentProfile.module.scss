@@ -1,67 +1,103 @@
-@import '../../scss/variable.scss';
+@import "../../scss/variable.scss";
 
 .swiper-slide-active {
-    width:100%!important;
+  width: 100% !important;
 }
 
 .teacher__info-wrap {
-    .swiper-slide {
-        &.active {
-            width:100%!important;
-        }
-        &:not(.active) {
-            width: 0!important;
-            max-height:0!important;
-            overflow: hidden;
-        }
+  .swiper-slide {
+    &.active {
+      width: 100% !important;
     }
+    &:not(.active) {
+      width: 0 !important;
+      max-height: 0 !important;
+      overflow: hidden;
+    }
+  }
 }
 
 .select__control--is-focused {
-    border-color: hsl(0,0%,80%)!important;
-    box-shadow: none!important;
+  border-color: hsl(0, 0%, 80%) !important;
+  box-shadow: none !important;
 }
 .select__multi-value {
-    background-color: $primary-color!important;
-    .select__multi-value__label {
-      color:#fff;
-      font-size:13px !important;
+  background-color: $primary-color !important;
+  .select__multi-value__label {
+    color: #fff;
+    font-size: 13px !important;
+  }
+  .select__multi-value__remove {
+    color: #fff;
+    &:hover {
+      background-color: inherit !important;
+      cursor: pointer;
     }
-    .select__multi-value__remove {
-      color:#fff;
-      &:hover {
-        background-color: inherit!important;
-        cursor: pointer;
+  }
+}
+
+.flatpickr-wrapper {
+  width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .cr-item {
+    .teacher-avatar {
+      margin: 0 auto;
+    }
+    .media-body {
+      margin-top: 15px;
+      h5 {
+        text-align: center;
       }
     }
   }
+}
 
-  .flatpickr-wrapper {
-    width:100%;
-  }
-
-
-  @media screen and (max-width: 768px) {
-    .cr-item {
-      .teacher-avatar {
-        margin: 0 auto;
-      }
-      .media-body {
-        margin-top: 15px;
-        h5 {
-          text-align: center;
-        }
-      }
+@media screen and (max-width: 568px) {
+  .payment-tab {
+    .payment {
+      width: 100%;
+    }
+    .code {
+      width: 100%;
     }
   }
+}
 
-  @media screen and (max-width: 568px) {
-    .payment-tab {
-      .payment {
+.student-avatar {
+  width: 125px;
+  height: 125px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+  margin: 0 auto 15px auto;
+  .upload-container {
+    width: inherit;
+    height: inherit;
+    .upload-avatar {
+      width: inherit;
+      height: inherit;
+      display: block;
+      position: relative;
+      overflow: hidden;
+      &:before {
+        content: "";
+        background: rgba(0, 0, 0, 0.4);
+        position: absolute;
+        left: 0;
+        top: 0;
         width: 100%;
+        height: 100%;
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.3s linear;
       }
-      .code {
-        width: 100%;
+      img {
+        object-fit: cover;
+        height:100%;
       }
     }
   }
+}

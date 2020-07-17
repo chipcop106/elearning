@@ -26,6 +26,7 @@ const initialCancelLesson = {
 
 const initialRatingLesson = {
   BookingID: "",
+  TeacherUID: "",
   TeacherName: "",
 }
 
@@ -54,10 +55,11 @@ const Dashboard = () => {
   const [loading, setLoading] = React.useState(false)
 
 
-  const handleRatingLesson = (BookingID, TeacherName) => {
+  const handleRatingLesson = (BookingID, TeacherUID, TeacherName) => {
     setStateRatingLesson({
       ...stateRatingLesson,
       BookingID,
+      TeacherUID,
       TeacherName
     })
   }
@@ -199,7 +201,7 @@ const Dashboard = () => {
                         <LessonHistoryCard
                           key={item.BookingID}
                           BookingID={item.BookingID}
-                          teacherUID={item.TeacherUID}
+                          TeacherUID={item.TeacherUID}
                           TeacherName={item.TeacherName}
                           LessionName={item.LessionName}
                           start={convertDateFromTo(item.ScheduleTime).fromTime}
@@ -213,6 +215,7 @@ const Dashboard = () => {
             </div>
             <RatingLessonModal
               BookingID={stateRatingLesson.BookingID}
+              TeacherUID={stateRatingLesson.TeacherUID}
               TeacherName={stateRatingLesson.TeacherName} />
 
             <RequireLessonModal

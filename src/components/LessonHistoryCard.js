@@ -7,7 +7,7 @@ const LessonHistoryCard = ({
   onHandleRatingLesson,
   BookingID,
   avatar = "default-avatar.png",
-  teacherUID,
+  TeacherUID,
   TeacherName,
   LessionName,
   note="",
@@ -16,8 +16,8 @@ const LessonHistoryCard = ({
   date,
   Rate
 }) => {
-  const handleRatingLesson = (BookingID, TeacherName) => {
-    onHandleRatingLesson(BookingID, TeacherName)
+  const handleRatingLesson = (BookingID, TeacherUID, TeacherName) => {
+    onHandleRatingLesson(BookingID, TeacherUID, TeacherName)
   }
   return (
     <React.Fragment>
@@ -78,7 +78,7 @@ const LessonHistoryCard = ({
                 className="rate-now"
                 data-toggle="modal"
                 data-target="#js-md-rate"
-                onClick={()=>handleRatingLesson(BookingID, TeacherName)}>Rating now!</a>
+                onClick={()=>handleRatingLesson(BookingID, TeacherUID, TeacherName)}>Rating now!</a>
             </div>
           </div>
           </div>
