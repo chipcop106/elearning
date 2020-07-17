@@ -18,14 +18,6 @@ const ProfileSidebar = () => {
         Avatar: res.Data.Avatar,
       }));
     }
-
-    else {
-      localStorage.setItem("user", JSON.stringify({
-        FullName: "Nguyen Van A",
-        UID: "18",
-        Avatar: "https://theamericanschool.edu.vn/wp-content/uploads/2020/01/Ms-Hong-Nguyen-Vietnamese.jpg",
-      }));
-    }
     setLoading(false);
     feather.replace();
   }
