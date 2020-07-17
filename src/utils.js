@@ -58,6 +58,7 @@ export const nationMapToFlag = (nation) => {
 
 export const convertDateFromTo = (dateStr) => {
     const dateArr = dateStr.split('-');
+    if(!dateArr.length) return;
     const date = moment(dateArr[0].trim(), 'DD/MM/YYYY HH:mm').format('dddd, DD/MM/YYYY');
     const dateObject = moment(dateArr[0].trim(), 'DD/MM/YYYY HH:mm').toDate();
     const fromTime = moment(dateArr[0].trim(), 'DD/MM/YYYY HH:mm').format('HH:mm');

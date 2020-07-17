@@ -50,7 +50,7 @@ const TeacherSidebar = () => {
 
             <div className="mg-sm-r-30 mg-lg-r-0 d-sm-flex d-lg-block">
                 <div className="mg-b-20 mg-sm-x-30 mg-lg-x-0">
-                    <div className="avatar avatar-xxl avatar-online"><img src="../assets/img/teacher.jpg" className="rounded-circle" alt="" /></div>
+                    <div className="avatar avatar-xxl avatar-online"><img src="../assets/img/default-avatar.jpg" className="rounded-circle" alt="" /></div>
                     <h5 className="mg-b-2 tx-spacing--1 mg-t-15">{!isLoading ? state.FullName || '' : <Skeleton width={50}/>}</h5>
                 </div>{/* col */}
                 <div >
