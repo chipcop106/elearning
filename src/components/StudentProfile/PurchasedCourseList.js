@@ -115,7 +115,7 @@ const PurchasedCourseList = () => {
           activePage={page}
           itemsCountPerPage={10}
           totalItemsCount={450}
-          pageRangeDisplayed={5}
+          pageRangeDisplayed={3}
           itemClass="page-item"
           linkClass="page-link"
           onChange={handlePageChange.bind(this)}

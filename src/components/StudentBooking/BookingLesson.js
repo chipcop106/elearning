@@ -3,38 +3,41 @@ import ReactDOM from 'react-dom';
 import Select from 'react-select';
 import ListSchedule from "./ListSchedule"
 import { getListTeacher } from "~src/api/studentAPI";
+import { getListLevelPurpose } from "~src/api/optionAPI";
 
 import BookingLessonModal from "../BookingLessonModal";
-import SkeletonNotification from '~components/common/Skeleton/SkeletonNotification';
 import { nationMapToFlag } from "~src/utils"
+import { ToastContainer } from 'react-toastify'
+import Flatpickr from 'react-flatpickr';
 
-import styles from '~components/StudentBooking/ListTutor.module.scss';
+import styles from '~components/StudentBooking/BookingLesson.module.scss';
 
 const initialState = {
   nation: [],
   gender: "1",
-  program: ["Children", "Youth", "Basic", "Advanced", "Speaking", "Pronounce", "Other"],
-  selectedProgram: [],
+  levelPurpose: [],
+  selectedLevelPurpose: [],
   date: "",
   startTime: "06:00",
   endTime: "23:00",
   searchText: "",
 }
-/* const initialSearchInput = {
-  nation: "",
-  gender: "",
-  selectedProgram: ["Children"],
-  date: "",
-  startTime: "06:00",
-  endTime: "23:00",
-  searchText: "",
-} */
+
 const initialBookLesson = {
-  id: "",
+  StudyTimeID: "",
   LessionName: "",
+  TeacherUID: "",
+  TeacherIMG: "",
+  TeacherName: "",
+  Rate: "",
   date: "",
   start: "",
-  end: ""
+  end: "",
+}
+
+const initialOnBookState = {
+  id: "",
+  studentName: "",
 }
 
 const reducer = (prevState, { type, payload }) => {
@@ -54,35 +57,48 @@ const BookingLesson = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const [teachersList, setTeacherList] = React.useState([])
   const [loading, setLoading] = React.useState(false)
-  const [disableButtonSearch, toggleDisable] = React.useState(false);
+  const [onBookState, setOnBookState] = React.useState(initialOnBookState)
   const [stateBookLesson, setStateBookLesson] = React.useState(initialBookLesson);
 
   let learnTime = [];
 
   const getAPI = async (params) => {
     setLoading(true);
-    const teachers = await getListTeacher(params);
-    let array = [];
-    console.log(teachers.Data)
-    array.push(teachers.Data);
-    setTeacherList(array);
+    const res = await getListTeacher(params);
+    if (res.Code === 1 && res.Data.length > 0) {
+      setTeacherList(res.Data);
+    }
     setLoading(false);
   }
 
-  const onHandleBooking = (id, LessionName, date, start, end) => {
+  const fetchListLevelPurpose = async (params) => {
+    const res = await getListLevelPurpose(params);
+    if (res.Code === 1 && res.Data.length > 0) {
+      let key = "levelPurpose";
+      const value = res.Data.map(item => {
+        return item.PurposeLevelName
+      })
+      dispatch({ type: "STATE_CHANGE", payload: { key, value } })
+    }
+  }
+
+  const onHandleBooking = (StudyTimeID, LessionName, TeacherUID, TeacherIMG, TeacherName, Rate, date, start, end) => {
     setStateBookLesson({
       ...stateBookLesson,
-      id,
+      StudyTimeID,
       LessionName,
+      TeacherUID,
+      TeacherIMG,
+      TeacherName,
+      Rate,
       date,
       start,
-      end
+      end,
     })
   }
 
-
   const handleSelect2 = (val) => {
-    const key = "selectedProgram";
+    const key = "selectedLevelPurpose";
     const value = val;
     dispatch({ type: "STATE_CHANGE", payload: { key, value } })
   }
@@ -111,18 +127,27 @@ const BookingLesson = () => {
     dispatch({ type: "STATE_CHANGE", payload: { key, value } })
   }
 
+  const onBook = (id, studentName) => {
+    setOnBookState({
+      ...onBookState,
+      id,
+      studentName
+    })
+  }
+
   const onSearch = (e) => {
+    console.log(state)
+    setTeacherList([]);
     e.preventDefault();
     $('#display-schedule').prop('checked', false);
     getAPI({
       Nation: state.nation.length === 0 ? "" : state.nation,
-      LevelPurpose: state.selectedProgram.length === 0 ? "" : state.selectedProgram,
+      LevelPurpose: state.selectedLevelPurpose.length === 0 ? "" : state.selectedLevelPurpose.join(","),
       Gender: state.gender,
       Date: state.date,
       Start: state.startTime,
       End: state.endTime,
     });
-    toggleDisable(true)
   }
 
   const initCalendar = () => {
@@ -194,7 +219,7 @@ const BookingLesson = () => {
           slidesPerView: 5,
           spaceBetween: 10,
         },
-        325: {
+        0: {
           slidesPerView: 3,
           spaceBetween: 5,
         }
@@ -221,7 +246,7 @@ const BookingLesson = () => {
     const todayBtn = document.getElementById('js-select-today');
 
     const chooseToday = (e) => {
-      e.preventDefault();
+      e && e.preventDefault();
       const slideEls = document.querySelectorAll('.calendar__picker .day-block');
       [...slideEls].map(slide => slide.classList.remove('selected'));
       slideEls[0].classList.add('selected');
@@ -230,6 +255,7 @@ const BookingLesson = () => {
       dateDisplay.value = moment(new Date(date)).format('dddd, DD/MM/YYYY');
     }
     todayBtn.addEventListener('click', chooseToday);
+
 
 
     function setDateDisplay() {
@@ -242,18 +268,7 @@ const BookingLesson = () => {
 
     calendarSwiper.on('click', setDateDisplay);
     calendarSwiper.on('slideChange', setDateDisplay);
-
-    $(".time-only").flatpickr({
-      enableTime: true,
-      noCalendar: true,
-      dateFormat: "H:i",
-      minTime: "06:00",
-      maxTime: "23:00",
-    });
-  }
-
-  const onCallback = () => {
-    toggleDisable(false)
+    chooseToday();
   }
 
   (function init() {
@@ -275,6 +290,7 @@ const BookingLesson = () => {
 
   React.useEffect(() => {
     initCalendar();
+    fetchListLevelPurpose({})
 
     $('#display-schedule').on('change', function () {
       if ($('#display-schedule').prop('checked') === true) {
@@ -292,13 +308,13 @@ const BookingLesson = () => {
     $('#div-nationality .legend-checkbox').on('click', handleChangeNation.bind(this))
     $(document).on("click", ".day-block", handleChangeDate.bind(this))
     $("#js-select-today").on("click", handleChangeDate.bind(this))
-    $('.from-date').on('change', handleChange.bind(this))
-    $('.to-date').on('change', handleChange.bind(this))
-
   }, []);
 
   return (
     <React.Fragment>
+      <div className={`${loading ? '' : 'd-none'} overlay`}>
+        <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+      </div>
       <div className="d-xl-flex align-items-center justify-content-between ">
         <h4 className="mg-b-0 gradient-heading"><i className="fas fa-calendar-alt"></i> BOOKING LESSON</h4>
       </div>
@@ -334,13 +350,13 @@ const BookingLesson = () => {
                 <div className="col-sm-12 col-md-6 item">
                   <Select
                     isMulti
-                    name="selectedProgram"
-                    options={state.program}
-                    value={state.selectedProgram}
+                    name="selectedLevelPurpose"
+                    options={state.levelPurpose}
+                    value={state.selectedLevelPurpose}
                     getOptionLabel={label => label}
                     getOptionValue={value => value}
                     className="basic-multi-select"
-                    placeholder="Select Program"
+                    placeholder="Select Level Purpose"
                     classNamePrefix="select"
                     onChange={handleSelect2}
                   />
@@ -360,12 +376,38 @@ const BookingLesson = () => {
                   <input name="date" type="text" className="form-control" placeholder="Date" disabled id="date-selected" />
                 </div>
                 <div className="col-sm-6 col-md-4 item">
-                  <input type="text" name="startTime" className="from-date form-control time-only"
-                    placeholder="Start time" defaultValue={state.startTime} />
+                  <Flatpickr
+                    placeholder="Start time"
+                    value={state.startTime}
+                    options={{
+                      dateFormat: "H:i",
+                      enableTime: true,
+                      noCalendar: true,
+                      minTime: "06:00",
+                      maxTime: "23:00",
+                      static: true,
+                    }}
+                    className="form-control"
+                    onChange={(selectedDates, dateStr, instance) => {
+                      dispatch({ type: "STATE_CHANGE", payload: { key: "startTime", value: dateStr } })
+                    }} />
                 </div>
                 <div className="col-sm-6 col-md-4 item">
-                  <input type="text" name="endTime" className="to-date form-control time-only"
-                    placeholder="End time" defaultValue={state.endTime} />
+                  <Flatpickr
+                    placeholder="End time"
+                    value={state.endTime}
+                    options={{
+                      dateFormat: "H:i",
+                      enableTime: true,
+                      noCalendar: true,
+                      minTime: "06:00",
+                      maxTime: "23:00",
+                      static: true,
+                    }}
+                    className="form-control"
+                    onChange={(selectedDates, dateStr, instance) => {
+                      dispatch({ type: "STATE_CHANGE", payload: { key: "endTime", value: dateStr } })
+                    }} />
                 </div>
               </div>
             </div>
@@ -381,17 +423,15 @@ const BookingLesson = () => {
                 <div className="col-sm-8 item">
                   <input className="form-control" name="searchText" type="text" placeholder="..." onChange={handleChange} />
                 </div>
-                <div className="col-sm-4 item">
-                  <a href={"#"} className="submit-search btn btn-primary btn-block"
-                    onClick={onSearch}>Search</a>
+                <div className="col-sm-4 item search-btn-group">
+                  <a href={"#"} className="submit-search btn btn-primary btn-block" onClick={onSearch}>
+                    Search</a>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      {/* <ListTutor searchInput={searchInput} callback={onCallback} /> */}
-
       <div className="filter-group pd-t-10 mg-t-10 bd-t" id="list-tutor">
         <div className="filter-row row">
           <div className="left col-md-2">
@@ -412,49 +452,49 @@ const BookingLesson = () => {
                   !!teachersList && teachersList.length > 0 && teachersList.map(item =>
                     <li className="tutor" key={item.TeacherUID}>
                       <div className="totor-detail">
-                        {
-                          loading ? <SkeletonNotification /> :
-                            <React.Fragment>
-                              <a href="teacherDetail.html" className="tutor-wrap">
-                                <span className="tutor-avatar">
-                                  <img src={item.TeacherIMG} alt="" />
-                                </span>
-                                <div className="tutor-infomation pd-5">
-                                  <div className="tutor-info">
-                                    <div className="tutor-rating-star">
-                                      <div className="rating-stars">
-                                        <span className="empty-stars">
-                                          <i className="star fa fa-star"></i>
-                                          <i className="star fa fa-star"></i>
-                                          <i className="star fa fa-star"></i>
-                                          <i className="star fa fa-star"></i>
-                                          <i className="star fa fa-star"></i>
-                                        </span>
-                                        <span className="filled-stars" style={{ width: `${item.Rate * 20}%`, }}>
-                                          <i className="star fa fa-star"></i>
-                                          <i className="star fa fa-star"></i>
-                                          <i className="star fa fa-star"></i>
-                                          <i className="star fa fa-star"></i>
-                                          <i className="star fa fa-star"></i>
-                                        </span>
-                                      </div>
-                                      <div className="tutor-rate-point">{item.Rate}</div>
-                                    </div>
-                                  </div>
-                                  <h6 className="mg-t-5"><span className={`flag-icon flag-icon-${nationMapToFlag(item.National)} flag-icon-squared`}></span>{item.name}</h6>
+                        <a href="teacherDetail.html" className="tutor-wrap">
+                          <span className="tutor-avatar">
+                            <img src={item.TeacherIMG} alt="" />
+                          </span>
+                          <div className="tutor-infomation pd-5">
+                            <div className="tutor-info">
+                              <div className="tutor-rating-star">
+                                <div className="rating-stars">
+                                  <span className="empty-stars">
+                                    <i className="star fa fa-star"></i>
+                                    <i className="star fa fa-star"></i>
+                                    <i className="star fa fa-star"></i>
+                                    <i className="star fa fa-star"></i>
+                                    <i className="star fa fa-star"></i>
+                                  </span>
+                                  <span className="filled-stars" style={{ width: `${item.Rate * 20}%`, }}>
+                                    <i className="star fa fa-star"></i>
+                                    <i className="star fa fa-star"></i>
+                                    <i className="star fa fa-star"></i>
+                                    <i className="star fa fa-star"></i>
+                                    <i className="star fa fa-star"></i>
+                                  </span>
                                 </div>
-                              </a>
-                              <div className="tutor-schedule">
-                                <ul className="ul-schedule">
-                                  <ListSchedule
-                                    learnTime={learnTime}
-                                    TeacherUID={item.TeacherUID}
-                                    date={state.date}
-                                    handleBooking={onHandleBooking} />
-                                </ul>
+                                <div className="tutor-rate-point">{item.Rate.toFixed(1)}</div>
                               </div>
-                            </React.Fragment>
-                        }
+                            </div>
+                            <h6 className="mg-t-5"><span className={`flag-icon flag-icon-${nationMapToFlag(item.National)} flag-icon-squared`}></span>{item.TeacherName}</h6>
+                          </div>
+                        </a>
+                        <div className="tutor-schedule">
+                          <ul className="ul-schedule">
+                            <ListSchedule
+                              onBookId={onBookState.id}
+                              onBookStudentName={onBookState.studentName}
+                              learnTime={learnTime}
+                              TeacherUID={item.TeacherUID}
+                              TeacherIMG={item.TeacherIMG}
+                              TeacherName={item.TeacherName}
+                              Rate={item.Rate}
+                              date={state.date}
+                              handleBooking={onHandleBooking} />
+                          </ul>
+                        </div>
                       </div>
                     </li>)
                 }
@@ -462,13 +502,21 @@ const BookingLesson = () => {
             </div>
           </div>
         </div>
+
         <BookingLessonModal
           style={{ color: "#000", textAlign: "left" }}
-          id={stateBookLesson.id}
+          StudyTimeID={stateBookLesson.StudyTimeID}
           LessionName={stateBookLesson.LessionName}
+          TeacherUID={stateBookLesson.TeacherUID}
+          TeacherIMG={stateBookLesson.TeacherIMG}
+          TeacherName={stateBookLesson.TeacherName}
+          Rate={stateBookLesson.Rate}
           date={stateBookLesson.date}
           start={stateBookLesson.start}
-          end={stateBookLesson.end} />
+          end={stateBookLesson.end}
+          onBook={onBook} />
+
+        <ToastContainer />
       </div>
     </React.Fragment>
   )

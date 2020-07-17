@@ -12,11 +12,12 @@ import SkeletonLessonCard from '~components/common/Skeleton/SkeletonLessonCard';
 
 import { convertDateFromTo } from "~src/utils.js"
 import { getLessons } from "~src/api/studentAPI";
+import { ToastContainer } from 'react-toastify';
 
-let initialState = {}
+import styles from "~components/StudentDashboard/StudentDashboard.module.scss";
 
 const initialCancelLesson = {
-  id: "",
+  BookingID: "",
   LessionName: "",
   date: "",
   start: "",
@@ -24,12 +25,13 @@ const initialCancelLesson = {
 }
 
 const initialRatingLesson = {
-  id: "",
+  BookingID: "",
+  TeacherUID: "",
   TeacherName: "",
 }
 
 const initialRequireLesson = {
-  id: "",
+  BookingID: "",
   avatar: "",
   TeacherName: "",
   LessionName: "",
@@ -42,10 +44,10 @@ const initialRequireLesson = {
 }
 
 const Dashboard = () => {
-  const [state, setState] = React.useState(initialState);
+  const [state, setState] = React.useState({});
   const [lock, setLock] = React.useState({
-    id:"",
-    lock:false,
+    id: "",
+    lock: false,
   })
   const [stateCancelLesson, setStateCancelLesson] = React.useState(initialCancelLesson);
   const [stateRatingLesson, setStateRatingLesson] = React.useState(initialRatingLesson);
@@ -53,18 +55,19 @@ const Dashboard = () => {
   const [loading, setLoading] = React.useState(false)
 
 
-  const handleRatingLesson = (id, TeacherName) => {
+  const handleRatingLesson = (BookingID, TeacherUID, TeacherName) => {
     setStateRatingLesson({
       ...stateRatingLesson,
-      id,
+      BookingID,
+      TeacherUID,
       TeacherName
     })
   }
 
-  const handleRequireLesson = (id, avatar, TeacherName, LessionName, SpecialRequest, date, start, end, DocumentName, SkypeID) => {
+  const handleRequireLesson = (BookingID, avatar, TeacherName, LessionName, SpecialRequest, date, start, end, DocumentName, SkypeID) => {
     setStateRequireLesson({
       ...stateRequireLesson,
-      id,
+      BookingID,
       avatar,
       TeacherName,
       LessionName,
@@ -77,10 +80,10 @@ const Dashboard = () => {
     })
   }
 
-  const handleCancelBooking = (id, LessionName, date, start, end) => {
+  const handleCancelBooking = (BookingID, LessionName, date, start, end) => {
     setStateCancelLesson({
       ...stateCancelLesson,
-      id,
+      BookingID,
       LessionName,
       date,
       start,
@@ -88,27 +91,35 @@ const Dashboard = () => {
     })
   }
 
-  const cbCancelBooking = (id, status) => {
-    if(status === 0)
+  const cbCancelBooking = (id, result) => {
+    if (result === -1) //Start Call API, lock the card
     {
       setLock({
         id,
-        lock:true
+        lock: true
       })
     }
-    else {
+    else { //After call API, unlock the card
       setLock({
         id,
-        lock:false
+        lock: false
       })
+      if (result === 1) { //If cancel lesson success
+        let newUpcomingLessions = [...state.UpcomingLessions].filter(item => item.BookingID !== id)
+        setState({
+          ...state,
+          UpcomingLessions: newUpcomingLessions,
+        })
+      }
     }
   }
 
   const getAPI = async () => {
     setLoading(true);
-    const lessons = await getLessons();
-    setState(lessons.Data)
-    console.log(lessons.Data)
+    const res = await getLessons();
+    if(res.Code === 1) {
+      setState(res.Data)
+    }
     setLoading(false);
   }
 
@@ -130,18 +141,18 @@ const Dashboard = () => {
                 </span>
                   <div className="item-title">Booked Lessons</div>
                 </li>
-                  <li className="top-step-item "><span className="item-count">
-                    {state.StudyProcess && state.StudyProcess.CancelLessions}
-                    </span>
+                <li className="top-step-item "><span className="item-count">
+                  {state.StudyProcess && state.StudyProcess.CancelLessions}
+                </span>
                   <div className="item-title">Canceled Lessons</div>
                 </li>
                 <li className="top-step-item "><span className="item-count">
-                {state.StudyProcess && state.StudyProcess.NumberOfAbsences}
+                  {state.StudyProcess && state.StudyProcess.NumberOfAbsences}
                 </span>
                   <div className="item-title">Truant Lessons</div>
                 </li>
                 <li className="top-step-item "><span className="item-count">
-                {state.StudyProcess && state.StudyProcess.CompleteLessions}
+                  {state.StudyProcess && state.StudyProcess.CompleteLessions}
                 </span>
                   <div className="item-title">Remaining Lessons</div>
                 </li>
@@ -159,7 +170,7 @@ const Dashboard = () => {
                       state.UpcomingLessions.map(item =>
                         <LessonUpcomingCard
                           key={item.BookingID}
-                          id={item.BookingID}
+                          BookingID={item.BookingID}
                           teacherUID={item.TeacherUID}
                           TeacherName={item.TeacherName}
                           LessionName={item.LessionName}
@@ -171,7 +182,7 @@ const Dashboard = () => {
                           SkypeID={item.SkypeID}
                           onHandleCancelBooking={handleCancelBooking}
                           onHandleRequireLesson={handleRequireLesson}
-                          lock={lock}/>)
+                          lock={lock} />)
                   }
                 </ul>
               </div>
@@ -189,8 +200,8 @@ const Dashboard = () => {
                       state.LessionHistory.map(item =>
                         <LessonHistoryCard
                           key={item.BookingID}
-                          id={item.BookingID}
-                          teacherUID={item.TeacherUID}
+                          BookingID={item.BookingID}
+                          TeacherUID={item.TeacherUID}
                           TeacherName={item.TeacherName}
                           LessionName={item.LessionName}
                           start={convertDateFromTo(item.ScheduleTime).fromTime}
@@ -203,11 +214,12 @@ const Dashboard = () => {
               </div>
             </div>
             <RatingLessonModal
-              id={stateRatingLesson.id}
+              BookingID={stateRatingLesson.BookingID}
+              TeacherUID={stateRatingLesson.TeacherUID}
               TeacherName={stateRatingLesson.TeacherName} />
 
             <RequireLessonModal
-              id={stateRequireLesson.id}
+              BookingID={stateRequireLesson.BookingID}
               avatar={stateRequireLesson.avatar}
               TeacherName={stateRequireLesson.TeacherName}
               LessionName={stateRequireLesson.LessionName}
@@ -219,15 +231,16 @@ const Dashboard = () => {
               SkypeID={stateRequireLesson.SkypeID} />
 
             <CancelBookingLessonModal
-              id={stateCancelLesson.id}
+              BookingID={stateCancelLesson.BookingID}
               LessionName={stateCancelLesson.LessionName}
               date={stateCancelLesson.date}
               start={stateCancelLesson.start}
               end={stateCancelLesson.end}
-              callback={cbCancelBooking}/>
+              callback={cbCancelBooking} />
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   </React.Fragment>
 }

@@ -37,7 +37,7 @@ export const nationMapToFlag = (nation) => {
     let map = {
         ca: "Canada",
         my: "Malaysia",
-        vn: "Vietnam",
+        vn: ["Viet Nam", "Việt Nam"],
         us: "U.S.",
         jp: "Japan",
         kr: "South Korea",
@@ -45,10 +45,13 @@ export const nationMapToFlag = (nation) => {
         bg: "Bangladesh",
         id: "India",
         th: "Thailand",
+        cn: "China",
+        id: "Indonesia",
+        in: "India",
     }
     let result;
     for (const [key, value] of Object.entries(map)) {
-        if (value === nation) {
+        if (value === nation || value.includes(nation)) {
             result = key;
             break;
         }
@@ -58,7 +61,6 @@ export const nationMapToFlag = (nation) => {
 
 export const convertDateFromTo = (dateStr) => {
     const dateArr = dateStr.split('-');
-    if(!dateArr.length) return;
     const date = moment(dateArr[0].trim(), 'DD/MM/YYYY HH:mm').format('dddd, DD/MM/YYYY');
     const dateObject = moment(dateArr[0].trim(), 'DD/MM/YYYY HH:mm').toDate();
     const fromTime = moment(dateArr[0].trim(), 'DD/MM/YYYY HH:mm').format('HH:mm');
@@ -89,4 +91,14 @@ export const getFormattedDate = (dateStr) => {
         result = `${dateArr[2].substring(0,2)}/${dateArr[1]}/${dateArr[0]}`;
     }
     return result;
+}
+
+export const toastInit = {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
 }

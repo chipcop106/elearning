@@ -39,7 +39,7 @@ const PaymentHistory = () => {
   return (
     <React.Fragment>
       <div className="subcription-title">
-        <div className="d-flex align-items-center justify-content-between mg-b-15">
+        <div className="d-flex align-items-center justify-content-between mg-b-15" style={{flexWrap:'wrap'}}>
           <div className="payment wd-sm-50p wd-100p">
             <div className="list-subscription">
               <dl className="subscription-info ">
@@ -135,7 +135,7 @@ const PaymentHistory = () => {
           activePage={page}
           itemsCountPerPage={10}
           totalItemsCount={450}
-          pageRangeDisplayed={5}
+          pageRangeDisplayed={3}
           itemClass="page-item"
           linkClass="page-link"
           onChange={handlePageChange.bind(this)}

@@ -3,16 +3,21 @@ import ReactDOM from 'react-dom';
 import SideMenu from "./SideMenu";
 import { getProfile } from "../api/studentAPI";
 
-let initialState = {}
-
 const ProfileSidebar = () => {
-  const [state, setState] = React.useState(initialState)
+  const [state, setState] = React.useState({})
   const [loading, setLoading] = React.useState(false);
 
   const getAPI = async () => {
     setLoading(true);
-    const profile = await getProfile();
-    setState(profile.Data)
+    const res = await getProfile();
+    if (res.Code === 1) {
+      setState(res.Data)
+      localStorage.setItem("user", JSON.stringify({
+        FullName: res.Data.FullName,
+        UID: res.Data.UID,
+        Avatar: res.Data.Avatar,
+      }));
+    }
     setLoading(false);
     feather.replace();
   }

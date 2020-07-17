@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import NotificationItem from './NotificationItem';
 import SkeletonNotification from "~components/common/Skeleton/SkeletonNotification";
-import { randomId } from "~src/utils"
 import Pagination from "react-js-pagination";
 import { getAllNotification } from "~src/api/studentAPI"
 
@@ -13,17 +12,24 @@ const Notification = () => {
 
   const handlePageChange = (pageNumber) => {
     setPage(pageNumber);
+    getAPI({
+      page: pageNumber,
+    });
   }
 
-  const getAPI = async () => {
+  const getAPI = async (params) => {
     setLoading(true);
-    const notifications = await getAllNotification();
-    setState(notifications.Data)
+    const res = await getAllNotification(params);
+    if (res.Code === 1) {
+      setState(res.Data)
+    }
     setLoading(false);
   }
 
   React.useEffect(() => {
-    getAPI();
+    getAPI({
+      page,
+    });
   }, []);
 
 
@@ -51,16 +57,19 @@ const Notification = () => {
           )
         }
       </div>
-      <Pagination
-        innerClass="pagination justify-content-center"
-        activePage={page}
-        itemsCountPerPage={10}
-        totalItemsCount={450}
-        pageRangeDisplayed={5}
-        itemClass="page-item"
-        linkClass="page-link"
-        onChange={handlePageChange.bind(this)}
-      />
+      {
+        !!state && Array.isArray(state) && state.length > 0 &&
+        <Pagination
+          innerClass="pagination justify-content-center"
+          activePage={page}
+          itemsCountPerPage={10}
+          totalItemsCount={450}
+          pageRangeDisplayed={3}
+          itemClass="page-item"
+          linkClass="page-link"
+          onChange={handlePageChange.bind(this)}
+        />
+      }
     </div>
   </React.Fragment>
 }

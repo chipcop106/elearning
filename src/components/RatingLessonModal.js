@@ -1,36 +1,69 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/scss/main.scss'
+import { toastInit } from "~src/utils"
+import { ratingLessonAPI } from '~src/api/studentAPI';
+
 const initialState = {
-    id:"",
     rating: 0,
     message: "",
 }
-const RatingLessonModal = ({ id, TeacherName }) => {
+const RatingLessonModal = ({ BookingID, TeacherUID, TeacherName, callback }) => {
 
     const [state, setState] = React.useState(initialState)
+    const ratingLesson = () => toast("Thank for your rating!", toastInit);
+    const ratingLessonError = () => toast("Some error happened, please retry!", toastInit);
+    const ratingLessonAlert1 = () => toast("You must rating it", toastInit);
+    const ratingLessonAlert2 = () => toast("Please leave your feedback", toastInit);
+
+    const fetchAPI = async (params) => {
+        const res = await ratingLessonAPI(params);
+        let result = res.Code;
+        if(result === 1) //Success 
+        {
+            ratingLesson();
+        }
+        else { //Fail
+            ratingLessonError();
+        }
+        callback && callback(result, state.message)
+    }
 
     const handleChange = (e) => {
        const target = e.target;
        const key = target.getAttribute("name");
        const value = key === 'rating' ? parseInt(target.getAttribute("value")) : target.value;
        setState({...state,
-        id,
         [key]:value
         })
     }
 
     const onSubmitRating = () => {
-        console.log(state);
         if(state.rating === 0) {
-            alert("Just rating it")
+            ratingLessonAlert1()
         }
-        /* else  Call API */
+        else if(state.message.length <= 0) {
+            ratingLessonAlert2()
+        }
+        else {
+            /* Call API */
+            fetchAPI({
+                BookingID,
+                TeacherUID,
+                Rate: state.rating,
+                Evaluation: state.message,
+            })
+            $('#js-md-rate').fadeOut(500,function(){
+                $('#js-md-rate').modal('hide');
+            });
+        }
     }
 
      React.useEffect(() => {
         $('.rating input').prop('checked', false);
-        setState({id,rating:0,message:""})
-    }, [id]);
+        setState({rating:0,message:""})
+    }, [BookingID]);
 
     return(
         <div className="modal effect-scale" tabIndex="-1" role="dialog" id="js-md-rate">

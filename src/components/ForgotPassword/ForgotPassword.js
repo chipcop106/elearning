@@ -4,17 +4,17 @@ import styles from '~components/Login/Login.module.scss';
 import { Formik, withFormik } from 'formik';
 import * as Yup from 'yup';
 
-const LoginSchema = Yup.object().shape({
+const Schema = Yup.object().shape({
   phone: Yup.number()
     .typeError('Invalid phone number')
     .integer('Invalid phone number')
     .required('Phone is not empty'),
-  password: Yup.string()
+  newPassword: Yup.string()
     .required('Password is not empty')
     .min(6, "Password must at least 6 characters")
 });
 
-const Login = (props) => {
+const ForgotPassword = (props) => {
   const {
     values,
     touched,
@@ -25,7 +25,7 @@ const Login = (props) => {
   } = props;
 
   return <form className="login100-form validate-form" onSubmit={handleSubmit} autoComplete="off">
-    <span className="login100-form-title">Login</span>
+    <span className="login100-form-title">Reset password</span>
     <div className="wrap-input100 validate-input">
       <input className="input100" type="text" name="phone" placeholder="Phone"
         onChange={handleChange}
@@ -40,30 +40,20 @@ const Login = (props) => {
       <span className="text-danger d-block mb-2">{errors.phone}</span>
     }
     <div className="wrap-input100 validate-input" data-validate="Password is required">
-      <input className="input100" type="password" name="password" placeholder="Password"
+      <input className="input100" type="password" name="newPassword" placeholder="New password"
         onChange={handleChange}
-        value={values.password} />
+        value={values.newPassword} />
       <span className="focus-input100" />
       <span className="symbol-input100">
         <i className="fa fa-lock" aria-hidden="true" />
       </span>
     </div>
     {
-      touched.password && errors.password &&
-      <span className="text-danger d-block mb-2">{errors.password}</span>
+      touched.newPassword && errors.newPassword &&
+      <span className="text-danger d-block mb-2">{errors.newPassword}</span>
     }
     <div className="container-login100-form-btn">
-      <button type="submit" className="login100-form-btn">Login</button>
-    </div>
-    <div className="text-center p-t-12">
-      <span className="txt1">Forgot</span>{" "}
-      <a className="txt2 text-hl" href="forgotpassword.html">Password?</a>
-    </div>
-    <div className="text-center p-t-136">
-      <a className="txt2 text-hl" href="signup.html">
-        Create your Account
-      <i className="fa fa-long-arrow-right m-l-5" aria-hidden="true" />
-      </a>
+      <button type="submit" className="login100-form-btn">Send</button>
     </div>
   </form>
 }
@@ -73,14 +63,14 @@ const FormikForm = withFormik({
   mapPropsToValues(props) {
     return {
       phone: "",
-      password: ""
+      newPassword: ""
     }
   },
-  validationSchema: LoginSchema,
+  validationSchema: Schema,
   handleSubmit: (values) => {
     console.log(values)
   },
 
-})(Login)
+})(ForgotPassword)
 
-ReactDOM.render(<FormikForm />, document.getElementById('login'));
+ReactDOM.render(<FormikForm />, document.getElementById('forgotpassword'));
