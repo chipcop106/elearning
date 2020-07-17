@@ -32,8 +32,8 @@ const TeacherSupport = () => {
   const [state, setState] = React.useState(initialState);
   const [filter, setFilter] = React.useState(0);
   let filteredState = [...state]
-  if(filter !== 0) {
-    filteredState = filteredState.filter(item=>item.status === filter)
+  if (filter !== 0) {
+    filteredState = filteredState.filter(item => item.status === filter)
   }
   return (
     <div className="sup">
@@ -56,46 +56,52 @@ const TeacherSupport = () => {
           </div>
         </div>
         <div className="col-8">
-          <button className="btn float-right btn-primary"
-          data-toggle="modal"
-          data-target="#md-teacher-support"
-          id="contactsub">Contact Support</button>
-          <div className="clear" />
-          <div className="sup-item" id="sup-item">
-            <h5 className="sub-title mg-t-10">Danh sách yêu cầu hỗ trợ</h5>
-            <table className="table mg-t-20">
-              <tbody><tr>
-                <th className="bg-xanh">Người gửi</th>
-                <th className="bg-xanh">Tiêu đề</th>
-                <th className="bg-xanh">Ngày gửi</th>
-                <th className="bg-xanh">Trạng thái</th>
-              </tr>
-                {
-                  !!filteredState && filteredState.length > 0 && filteredState.map(item =>
-                    <tr key={item.id}>
-                      <td>
-                        <span><a className="sup-item-table-ten">{item.nguoigui}</a></span>
-                      </td>
-                      <td> <span><a className="sup-item-table-tieude">{item.tieude}</a></span><br /></td>
-                      <td>
-                        <span className="sup-item-table-gio">{moment(item.time).format("DD/MM/YYYY")}</span> <br />
-                        <span className="sup-item-table-gio">{moment(item.time).format("HH:mm")}</span>
-                      </td>
-                      <td>
-                        <span className={`badge badge-${
-                          item.status === 1 ? 'success' :
-                            item.status === 2 ? "warning" : "danger"} pd-5`}>
-                          {
-                            item.status === 1 ? "Đã trả lời" :
-                              item.status === 2 ? "Đang xử lý" : "Đã hủy"
-                          }
-                        </span>
-                      </td>
-                    </tr>)
-                }
-              </tbody></table>
+          <div className="d-flex justify-content-between mg-b-30">
+          <div className="d-xl-flex align-items-center justify-content-between">
+              <h4 className="gradient-heading"> <i className="fas fa-address-card" /> Danh sách yêu cầu hỗ trợ</h4>
+            </div>
+          <button className="btn btn-primary"
+            data-toggle="modal"
+            data-target="#md-teacher-support"
+            id="contactsub">Contact Support</button>
           </div>
-        </div>
+            <div className="table-responsive mg-b-15">
+              <table className="table">
+                <thead className="thead-light">
+                  <tr>
+                    <th>Người gửi</th>
+                    <th>Tiêu đề</th>
+                    <th>Ngày gửi</th>
+                    <th>Trạng thái</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    !!filteredState && filteredState.length > 0 && filteredState.map(item =>
+                      <tr key={item.id}>
+                        <td>
+                          <span><a className="sup-item-table-ten">{item.nguoigui}</a></span>
+                        </td>
+                        <td> <span><a className="sup-item-table-tieude">{item.tieude}</a></span><br /></td>
+                        <td>
+                          <span className="sup-item-table-gio">{moment(item.time).format("DD/MM/YYYY HH:mm")}</span> <br />
+                        </td>
+                        <td>
+                          <span className={`badge badge-${
+                            item.status === 1 ? 'success' :
+                              item.status === 2 ? "warning" : "danger"} pd-5`}>
+                            {
+                              item.status === 1 ? "Đã trả lời" :
+                                item.status === 2 ? "Đang xử lý" : "Đã hủy"
+                            }
+                          </span>
+                        </td>
+                      </tr>)
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
       </div>
 
       <TeacherSupportModal />

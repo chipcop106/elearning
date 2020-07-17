@@ -28,15 +28,15 @@
   textarea:focus::-moz-placeholder { color:transparent; }
   textarea:focus:-ms-input-placeholder { color:transparent; }
   
-  input::-webkit-input-placeholder { color: #999999; }
-  input:-moz-placeholder { color: #999999; }
-  input::-moz-placeholder { color: #999999; }
-  input:-ms-input-placeholder { color: #999999; }
+  input::-webkit-input-placeholder { color: #999; }
+  input:-moz-placeholder { color: #999; }
+  input::-moz-placeholder { color: #999; }
+  input:-ms-input-placeholder { color: #999; }
   
-  textarea::-webkit-input-placeholder { color: #999999; }
-  textarea:-moz-placeholder { color: #999999; }
-  textarea::-moz-placeholder { color: #999999; }
-  textarea:-ms-input-placeholder { color: #999999; }
+  textarea::-webkit-input-placeholder { color: #999; }
+  textarea:-moz-placeholder { color: #999; }
+  textarea::-moz-placeholder { color: #999; }
+  textarea:-ms-input-placeholder { color: #999; }
   
   /*---------------------------------------------*/
   button {
@@ -44,21 +44,19 @@
       border: none;
       background: transparent;
   }
-  #login {
+  #login, #signup, #forgotpassword {
     margin: 0 auto;
   }
   .text-hl {
     color:$primary-color!important;
   }
   .txt1 {
-    font-family: Poppins-Regular;
     font-size: 13px;
     line-height: 1.5;
     color: #999;
   }
   
   .txt2 {
-    font-family: Poppins-Regular;
     font-size: 13px;
     line-height: 1.5;
     color: #666;
@@ -76,19 +74,11 @@
   .container-login100 {
     width: 100%;  
     min-height: 100vh;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     padding: 15px;
-    background: #9053c7;
-    /* background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
-    background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
-    background: -moz-linear-gradient(-135deg, #c850c0, #4158d0); */
     background: linear-gradient(-135deg, $second-color, $primary-color);
   }
   
@@ -97,11 +87,6 @@
     background: #fff;
     border-radius: 10px;
     overflow: hidden;
-  
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -126,7 +111,6 @@
   }
   
   .login100-form-title {
-    font-family: Poppins-Bold;
     font-size: 24px;
     color: #333;
     line-height: 1.2;
@@ -134,6 +118,7 @@
     width: 100%;
     display: block;
     padding-bottom: 30px;
+    font-weight: 500;
   }
   
   
@@ -146,7 +131,6 @@
   }
   
   .input100 {
-    font-family: Poppins-Medium;
     font-size: 15px;
     line-height: 1.5;
     color: #666;
@@ -176,7 +160,6 @@
   }
   
   .input100:focus + .focus-input100 {
-    -webkit-animation: anim-shadow 0.5s ease-in-out forwards;
     animation: anim-shadow 0.5s ease-in-out forwards;
   }
   
@@ -196,11 +179,6 @@
   
   .symbol-input100 {
     font-size: 15px;
-  
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
     display: flex;
     align-items: center;
     position: absolute;
@@ -212,10 +190,6 @@
     padding-left: 35px;
     pointer-events: none;
     color: #666;
-  
-    -webkit-transition: all 0.4s;
-    -o-transition: all 0.4s;
-    -moz-transition: all 0.4s;
     transition: all 0.4s;
   }
   
@@ -228,10 +202,6 @@
   [ Button ]*/
   .container-login100-form-btn {
     width: 100%;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -239,7 +209,6 @@
   }
   
   .login100-form-btn {
-    font-family: Montserrat-Bold;
     font-size: 15px;
     line-height: 1.5;
     color: #fff;
@@ -249,26 +218,16 @@
     height: 50px;
     border-radius: 25px;
     background: $primary-color;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0 25px;
-  
-    -webkit-transition: all 0.4s;
-    -o-transition: all 0.4s;
-    -moz-transition: all 0.4s;
     transition: all 0.4s;
   }
   
   .login100-form-btn:hover {
     background: #da731f;
   }
-  
-  
   
   /*------------------------------------------------------------------
   [ Responsive ]*/
@@ -302,73 +261,5 @@
   @media (max-width: 576px) {
     .wrap-login100 {
       padding: 100px 15px 33px 15px;
-    }
-  }
-  
-  
-  /*------------------------------------------------------------------
-  [ Alert validate ]*/
-  
-  .validate-input {
-    position: relative;
-  }
-  
-  .alert-validate::before {
-    content: attr(data-validate);
-    position: absolute;
-    max-width: 70%;
-    background-color: white;
-    border: 1px solid #c80000;
-    border-radius: 13px;
-    padding: 4px 25px 4px 10px;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    -moz-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    -o-transform: translateY(-50%);
-    transform: translateY(-50%);
-    right: 8px;
-    pointer-events: none;
-  
-    font-family: Poppins-Medium;
-    color: #c80000;
-    font-size: 13px;
-    line-height: 1.4;
-    text-align: left;
-  
-    visibility: hidden;
-    opacity: 0;
-  
-    -webkit-transition: opacity 0.4s;
-    -o-transition: opacity 0.4s;
-    -moz-transition: opacity 0.4s;
-    transition: opacity 0.4s;
-  }
-  
-  .alert-validate::after {
-    content: "\f06a";
-    font-family: FontAwesome;
-    display: block;
-    position: absolute;
-    color: #c80000;
-    font-size: 15px;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    -moz-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    -o-transform: translateY(-50%);
-    transform: translateY(-50%);
-    right: 13px;
-  }
-  
-  .alert-validate:hover:before {
-    visibility: visible;
-    opacity: 1;
-  }
-  
-  @media (max-width: 992px) {
-    .alert-validate::before {
-      visibility: visible;
-      opacity: 1;
     }
   }

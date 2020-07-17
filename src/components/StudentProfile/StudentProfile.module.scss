@@ -35,3 +35,33 @@
       }
     }
   }
+
+  .flatpickr-wrapper {
+    width:100%;
+  }
+
+
+  @media screen and (max-width: 768px) {
+    .cr-item {
+      .teacher-avatar {
+        margin: 0 auto;
+      }
+      .media-body {
+        margin-top: 15px;
+        h5 {
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 568px) {
+    .payment-tab {
+      .payment {
+        width: 100%;
+      }
+      .code {
+        width: 100%;
+      }
+    }
+  }

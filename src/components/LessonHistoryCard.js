@@ -5,7 +5,7 @@ import styles from '~components/LessonHistoryCard.module.scss';
 
 const LessonHistoryCard = ({
   onHandleRatingLesson,
-  id,
+  BookingID,
   avatar = "default-avatar.png",
   teacherUID,
   TeacherName,
@@ -16,12 +16,12 @@ const LessonHistoryCard = ({
   date,
   Rate
 }) => {
-  const handleRatingLesson = (id, TeacherName) => {
-    onHandleRatingLesson(id, TeacherName)
+  const handleRatingLesson = (BookingID, TeacherName) => {
+    onHandleRatingLesson(BookingID, TeacherName)
   }
   return (
     <React.Fragment>
-    <li className="cr-item lesson-info">
+    <li className="cr-item lesson-history lesson-info">
       <div className="media">
         <div className="teacher-information">
           <a className="teacher-avatar" href="teacherDetail.html">
@@ -31,7 +31,8 @@ const LessonHistoryCard = ({
             </p>
           </a>
         </div>
-        <div className="media-body  mg-l-20 pos-relative">
+        <div className="media-body mg-l-20 pos-relative">
+          <div>
           <h5 className="mg-b-10">
             <span className="badge badge-success">Finished</span>{' '}
             <a href="lessonDetail.html" className="course-name tx-bold">
@@ -77,10 +78,11 @@ const LessonHistoryCard = ({
                 className="rate-now"
                 data-toggle="modal"
                 data-target="#js-md-rate"
-                onClick={()=>handleRatingLesson(id, TeacherName)}>Rating now!</a>
+                onClick={()=>handleRatingLesson(BookingID, TeacherName)}>Rating now!</a>
             </div>
           </div>
-          <div className="course-actions">
+          </div>
+          <div className="course-actions mg-t-15">
             <div className="action-left">
               <a href="lessonDetail.html" className="btn btn-sm btn-warning mg-r-10" target="_blank"
                 rel="noopener">

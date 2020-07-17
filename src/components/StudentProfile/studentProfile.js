@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import FormikForm from './StudentForm';
 import PurchasedCourseList from './PurchasedCourseList';
 import PaymentHistory from './PaymentHistory';
+import { ToastContainer } from 'react-toastify';
 
 import styles from '~components/StudentProfile/StudentProfile.module.scss';
 
@@ -39,8 +40,7 @@ const StudentProfile = () => {
                   <div className="slide-tab-content">
                     <div className="content-block">
                       <div className="introduce-content mg-b-30">
-                        <h5 className="sub-title"><i className="fas fa-user" /> Account
-                    </h5>
+                        <h5 className="sub-title"><i className="fas fa-user" />Account</h5>
                         <FormikForm />
                       </div>
                     </div>
@@ -48,7 +48,7 @@ const StudentProfile = () => {
                 </div>
                 <div className={`${showTab===2?'active':''} swiper-slide`}>
                   <div className="slide-tab-content">
-                    <div className="purchased-tab pd-x-15">
+                    <div className="purchased-tab">
                       <PurchasedCourseList />
                     </div>
                   </div>
@@ -65,6 +65,7 @@ const StudentProfile = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   )
 }

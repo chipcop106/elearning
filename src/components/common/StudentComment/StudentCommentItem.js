@@ -1,10 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const StudentCommentItem = ({ name, avatar, content, date, time }) => {
-  const [comment, setComment] = React.useState(content)
+const whoami = (localStorage.getItem("user")===null) ? {} :
+  JSON.parse(localStorage.getItem('user'));
+
+const StudentCommentItem = ({ 
+  StudentUID,
+  CreatedDate,
+  StudentName,
+  StudentIMG,
+  Evaluation,
+  Rate,
+  Lession,
+ }) => {
+  const [comment, setComment] = React.useState(Evaluation)
   const [showEditCommet, setShowEditComment] = React.useState(false)
-  const [editedComment, setEdittedComment] = React.useState(content)
+  const [editedComment, setEdittedComment] = React.useState(Evaluation)
   const [commentTooShort, setCommentTooShort] = React.useState(null)
 
   const _onChange = (e) => {
@@ -36,20 +47,24 @@ const StudentCommentItem = ({ name, avatar, content, date, time }) => {
   React.useEffect(() => {
   }, [showEditCommet, editedComment])
 
+  
+
   return (
     <div className="tc-comment">
-      <img src={`../assets/img/${avatar}`} alt="avatar"
+      <img src={StudentIMG} alt="avatar"
         className="avatar avatar rounded-circle" />
       <div className="tc-content">
         <div className="box">
-          <p className="teacher-name">{name}</p>
+          <p className="teacher-name">{StudentName}</p>
           <p className="mg-b-0">{comment}</p>
         </div>
         <div className="meta">
-          <div className="date">Comment at {time} | {date}</div>
+          <div className="date">Comment at {moment(CreatedDate).format("LLLL")}</div>
         </div>
-        <a href={"#"} className="edit-box" onClick={_showEditBox}><i
-          className="fa fa-edit"></i></a>
+        {
+          StudentUID && StudentUID === whoami.UID &&
+          <a href={"#"} className="edit-box" onClick={_showEditBox}><i className="fa fa-edit"></i></a>
+        }
         <div className={`${!showEditCommet ? 'd-none' : 'd-block'} edit-form flex-grow-1 mg-l-10 rounded-10 bd-1 bd-primary`}>
           <textarea className="form-control" rows="5" onChange={_onChange} value={editedComment} />
           {

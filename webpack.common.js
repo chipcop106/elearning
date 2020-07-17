@@ -11,6 +11,7 @@ module.exports = {
     'Header': componentEnrtryPrefix + '/Header.js',
     'Footer': componentEnrtryPrefix + '/Footer.js',
     'login': componentEnrtryPrefix + 'Login/Login.js',
+    'forgotpassword': componentEnrtryPrefix + 'ForgotPassword/ForgotPassword.js',
     'signup': componentEnrtryPrefix + 'Signup/Signup.js',
 
     'teacherSupport': componentEnrtryPrefix + 'TeacherSupport/teacherSupport.js',
@@ -25,20 +26,18 @@ module.exports = {
     'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/studentDashboard.js',
     // 'DocumentSlider': componentEnrtryPrefix + 'TeacherLibrary/DocumentSlider.js',
 
-    
-    'ProfileSidebar': componentEnrtryPrefix + '/ProfileSidebar.js',
-    
-    'feedback': componentEnrtryPrefix + 'Feedback/Feedback.js',
     'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js',
-    'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/StudentDashboard.js',
+    'ProfileSidebar': componentEnrtryPrefix + '/ProfileSidebar.js',
     'teacherDetail': componentEnrtryPrefix + 'TeacherDetail/TeacherDetail.js',
+    'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/StudentDashboard.js',
     'bookingLesson': componentEnrtryPrefix + 'StudentBooking/BookingLesson.js',
-    'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js',
-    'lessonHistory': componentEnrtryPrefix + 'LessonHistory/LessonHistory.js',
-    'blogDetail': componentEnrtryPrefix + 'BlogDetail/BlogDetail.js',
-    'faq': componentEnrtryPrefix + 'Faq/Faq.js',
+    'feedback': componentEnrtryPrefix + 'Feedback/Feedback.js',
     'lessonDetail': componentEnrtryPrefix + 'LessonDetail/LessonDetail.js',
-    'notification': componentEnrtryPrefix + 'Notification/Notification.js', 
+    'notification': componentEnrtryPrefix + 'Notification/Notification.js',
+    'faq': componentEnrtryPrefix + 'Faq/Faq.js',
+    'lessonHistory': componentEnrtryPrefix + 'LessonHistory/LessonHistory.js',
+    'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js',
+    'blogDetail': componentEnrtryPrefix + 'BlogDetail/BlogDetail.js',
     'app': ['./src/scss/custom.scss', './src/assets/js/custom.js'], 
   },
   output: {

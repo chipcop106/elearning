@@ -5,9 +5,10 @@ import Pagination from "react-js-pagination";
 import { getLessonHistory } from "~src/api/studentAPI";
 import { convertDateFromTo } from "~src/utils.js"
 import SkeletonLessonHistoryCard from "~components/common/Skeleton/SkeletonLessonHistoryCard";
+import Flatpickr from 'react-flatpickr';
+import styles from "~components/LessonHistory/lessonHistory.module.scss"
 
 const initialState = {
-  courseName: "",
   fromDate: "",
   toDate: "",
 }
@@ -31,14 +32,12 @@ const LessonHistory = () => {
   const [page, setPage] = React.useState(1)
   const [loading, setLoading] = React.useState(false);
 
-  const getAPI = async (page, searchInput) => {
+  const getAPI = async (params) => {
     setLoading(true);
-    const lessons = await getLessonHistory({
-      FromDate: searchInput.fromDate,
-      ToDate: searchInput.toDate,
-      Page: page,
-    });
-    setData(lessons.Data)
+    const res = await getLessonHistory(params);
+    if(res.Code === 1) {
+      setData(res.Data)
+    }
     setLoading(false);
   }
 
@@ -52,39 +51,67 @@ const LessonHistory = () => {
   const handlePageChange = (pageNumber) => {
     if (page !== pageNumber) {
       setPage(pageNumber);
-      getAPI(pageNumber, searchInput)
+      getAPI({
+        FromDate: searchInput.fromDate,
+        ToDate: searchInput.toDate,
+        Page: pageNumber,
+      })
     }
   }
 
   const onSubmit = (e) => {
     e.preventDefault();
-    getAPI(1, searchInput)
+    getAPI({
+      FromDate: searchInput.fromDate,
+      ToDate: searchInput.toDate,
+      Page: 1,
+    })
+    setPage(1);
   }
 
   React.useEffect(() => {
-    $(".datetimepicker").on('change', handleChange.bind(this));
-    getAPI(1, searchInput)
+    getAPI({
+      FromDate: searchInput.fromDate,
+      ToDate: searchInput.toDate,
+      Page: 1,
+    })
   }, []);
 
   return <React.Fragment>
     <div className="fb-summary-container pd-x-20-f pd-b-0-f pd-t-20-f ">
       <form action="" method="get" className="st-date" onSubmit={onSubmit}>
         <div className="row">
-          <div className="col-12 col-md-3 form-group">
+         {/*  <div className="col-12 col-md-3 form-group">
             <select name="courseName" id="" className="form-control" defaultValue="Course name" onChange={handleChange}>
               <option value="">Course name</option>
               <option value="IELTS 8.0 Professional">IELTS 8.0 Professional</option>
             </select>
+          </div> */}
+          <div className="col-12 col-sm-6 col-md-4 form-group">
+            <Flatpickr
+              placeholder="From date"
+              options={{
+                dateFormat: "d/m/Y",
+                static: true,
+              }}
+              className="form-control"
+              onChange={(selectedDates, dateStr, instance) => {
+                dispatch({ type: "STATE_CHANGE", payload: { key: "fromDate", value: dateStr } })
+              }} />
           </div>
-          <div className="col-12 col-sm-6 col-md-3 form-group">
-            <input type="text" name="fromDate" className="form-control datetimepicker"
-              placeholder="From date" />
+          <div className="col-12 col-sm-6 col-md-4 form-group">
+            <Flatpickr
+              placeholder="To date"
+              options={{
+                dateFormat: "d/m/Y",
+                static: true,
+              }}
+              className="form-control"
+              onChange={(selectedDates, dateStr, instance) => {
+                dispatch({ type: "STATE_CHANGE", payload: { key: "toDate", value: dateStr } })
+              }} />
           </div>
-          <div className="col-12 col-sm-6 col-md-3 form-group">
-            <input type="text" name="toDate" className="form-control datetimepicker"
-              placeholder="To date" />
-          </div>
-          <div className="form-group col-md-3">
+          <div className="form-group col-md-4">
             <button type="submit" className="btn btn-info btn-block"><i className="fa fa-search mg-r-5"></i>Search</button>
           </div>
         </div>
@@ -126,7 +153,7 @@ const LessonHistory = () => {
       activePage={page}
       itemsCountPerPage={10}
       totalItemsCount={450}
-      pageRangeDisplayed={5}
+      pageRangeDisplayed={3}
       itemClass="page-item"
       linkClass="page-link"
       onChange={handlePageChange.bind(this)}

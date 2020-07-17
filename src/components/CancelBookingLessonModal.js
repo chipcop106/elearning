@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { cancelLesson } from '../api/optionAPI';
+import { cancelLessonAPI } from '../api/studentAPI';
 import { toast } from 'react-toastify';
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
 
-const CancelBookingLessonModal = ({id, LessionName, date, start, end, style, callback}) => {
+const CancelBookingLessonModal = ({BookingID, LessionName, date, start, end, style, callback}) => {
   const [reason, setReason] = React.useState("")
   const cancelToastSuccess = () => toast("Cancel lesson successful!", toastInit);
 
@@ -13,32 +13,31 @@ const CancelBookingLessonModal = ({id, LessionName, date, start, end, style, cal
 
   const reasonTooShortAlert = () => toast("Please fill the reason!", toastInit);
 
-  const getAPI = async (id) => {
-    /* start: 0 */
-    let result = 0;
-    callback && callback(id, result)
-    const lessons = await cancelLesson({
-      BookingID:id,
-      Reason: reason,
-    });    
-    result = lessons.Code; /* success:1, fail:2 */
-    if(result === 1) {
+  const getAPI = async (params) => {
+    /* start: -1 */
+    let status = -1;
+    callback && callback(params.BookingID, status)
+    const lessons = await cancelLessonAPI(params);    
+    status = lessons.Code; /* success:1 , fail: 0*/
+    if(status === 1) {
       cancelToastSuccess()
     }
-    else if(result === 2) {
+    else {
       cancelToastFail()
     }
-    callback && callback(id, result);
+    callback && callback(params.BookingID, status);
   }
 
 
   const onSubmitCancelLesson = () => {
-    console.log(id)
     if(reason.length <= 0) {
       reasonTooShortAlert()
     }
     else {
-      getAPI(id)
+      getAPI({
+        BookingID,
+        ReasonCancel: reason
+      })
       $('#md-cancel-schedule').fadeOut(500,function(){
         $('#md-cancel-schedule').modal('hide');
      });
@@ -47,7 +46,7 @@ const CancelBookingLessonModal = ({id, LessionName, date, start, end, style, cal
 
   React.useEffect(() => {
     setReason("")
-  }, [id]);
+  }, [BookingID]);
 
   return <div style={style} className="modal fade effect-scale" id="md-cancel-schedule" tabIndex="-1" role="dialog" aria-labelledby="active-slot"
       aria-hidden="true">

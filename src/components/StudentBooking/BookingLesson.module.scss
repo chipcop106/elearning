@@ -113,3 +113,12 @@ body{
 .flatpickr-wrapper {
   width:100%;
 }
+
+.list-tutors .tutor {
+  @media screen and (max-width: 600px) {
+    width: 50%!important;
+  }
+  @media screen and (max-width: 500px) {
+    width: 100%!important;
+  }
+}

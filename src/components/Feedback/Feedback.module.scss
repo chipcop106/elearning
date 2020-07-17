@@ -21,3 +21,15 @@
         }
     }
 }
+
+.readmore {
+    i {
+        padding-left: 0;
+        animation: wiggle 1s infinite;
+    }
+}
+@keyframes wiggle {
+    0% {padding-left: 0}
+    50% {padding-left: 5px}
+    100% {padding-left: 0}
+}

@@ -1,25 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SkeletonLessonDetail from "~components/common/Skeleton/SkeletonLessonDetail";
+import RatingLessonModal from "~components/RatingLessonModal";
+import { getEvaluation } from "~src/api/studentAPI";
+import { ToastContainer } from 'react-toastify';
 
-import StudentComment from "../common/StudentComment/StudentComment"
-
-import { getEvaluation } from "~src/api/studentAPI"
-
-const initialState = {};
+import styles from '~components/LessonDetail/LessonDetail.module.scss';
 
 const LessonDetail = () => {
-  const [state, setState] = React.useState(initialState)
+  const [state, setState] = React.useState(null)
   const [loading, setLoading] = React.useState(false)
 
   const getAPI = async (params) => {
     setLoading(true);
-    const evaluation = await getEvaluation({
-      ElearnBookingID: params.ElearnBookingID,
-    });
-    setState(evaluation.Data)
-    console.log(evaluation.Data)
+    const res = await getEvaluation(params);
+    if(res.Code === 1) {
+      setState(res.Data)
+    }
     setLoading(false);
+  }
+
+  const onCallbackRating = (result, message) => {
+    if (result === 1) {
+      setState({
+        ...state,
+        StudentFeedback: message,
+      })
+    }
   }
 
   React.useEffect(() => {
@@ -31,7 +38,7 @@ const LessonDetail = () => {
   return <React.Fragment>
     {
       loading ? <SkeletonLessonDetail /> :
-        <React.Fragment>
+      !!state && <React.Fragment>
           <div className="row">
             <div className="col-md-6 col-sm-12">
               {/* <!--thông tin buổi học--> */}
@@ -41,7 +48,7 @@ const LessonDetail = () => {
                   <div className="st-time">
                     <p className="st-teacher-text">
                       <i className="fa fa-book st-icon wd-20 mg-r-5"></i>
-                      <span>Course name: <a href={"#"}>{state.DocumentName}</a></span>
+                      <span>Course name: <span>{state.DocumentName}</span></span>
                     </p>
                   </div>
                   <div className="st-time">
@@ -71,70 +78,33 @@ const LessonDetail = () => {
               {/* <!--thang danh gia--> */}
               <div className="st-thangdanhgia">
                 <h5 className="main-title">Rating</h5>
-                <div className="st-rating">
-                  <div className="cell">
-                    <span className="label">Grammar:</span>
-                  </div>
-                  <div className="cell">
+                {
+                  state.Rate ? (<div className="st-rating">
+                  <div className="cell text-left">
                     <p className="st-noidung-rating">
-                      <i className="fas fa-star st-icon-star"></i>
-                      <i className="fas fa-star st-icon-star"></i>
-                      <i className="fas fa-star st-icon-star"></i>
-                      <i className="fas fa-star st-icon-star"></i>
-                      <i className="fas fa-star-half-alt st-icon-star"></i>
+                      <div className="rating-stars">
+                        <span className="empty-stars">
+                          <i className="star fa fa-star"></i>
+                          <i className="star fa fa-star"></i>
+                          <i className="star fa fa-star"></i>
+                          <i className="star fa fa-star"></i>
+                          <i className="star fa fa-star"></i>
+                        </span>
+                        <span className="filled-stars" style={{ width: `${state.Rate * 20}%` }}>
+                          <i className="star fa fa-star"></i>
+                          <i className="star fa fa-star"></i>
+                          <i className="star fa fa-star"></i>
+                          <i className="star fa fa-star"></i>
+                          <i className="star fa fa-star"></i>
+                        </span>
+                      </div>
+                      {state.Rate >= 4.5 &&
                       <span className="badge badge-light tx-success mg-l-5"><i
-                        className="fa fa-check-circle"></i> Very Good</span>
+                        className="fa fa-check-circle"></i> Very Good</span>}
                     </p>
                   </div>
-                </div>
-                <div className="st-rating">
-                  <div className="cell">
-                    <span className="label">Volcabualary:</span>
-                  </div>
-                  <div className="cell">
-                    <p className="st-noidung-rating">
-                      <i className="fas fa-star st-icon-star"></i>
-                      <i className="fas fa-star st-icon-star"></i>
-                      <i className="fas fa-star st-icon-star"></i>
-                      <i className="fas fa-star st-icon-star"></i>
-                      <i className="fas fa-star-half-alt st-icon-star"></i>
-                      <span className="badge badge-light tx-success mg-l-5"><i
-                        className="fa fa-check-circle"></i> Very Good</span>
-                    </p>
-                  </div>
-                </div>
-                <div className="st-rating">
-                  <div className="cell">
-                    <span className="label">Pronunciation:</span>
-                  </div>
-                  <div className="cell">
-                    <p className="st-noidung-rating">
-                      <i className="fas fa-star st-icon-star"></i>
-                      <i className="fas fa-star st-icon-star"></i>
-                      <i className="fas fa-star st-icon-star"></i>
-                      <i className="fas fa-star st-icon-star"></i>
-                      <i className="fas fa-star-half-alt st-icon-star"></i>
-                      <span className="badge badge-light tx-success mg-l-5"><i
-                        className="fa fa-check-circle"></i> Very Good</span>
-                    </p>
-                  </div>
-                </div>
-                <div className="st-rating">
-                  <div className="cell">
-                    <span className="label">Fluency/Coherence:</span>
-                  </div>
-                  <div className="cell">
-                    <p className="st-noidung-rating">
-                      <i className="fas fa-star st-icon-star"></i>
-                      <i className="fas fa-star st-icon-star"></i>
-                      <i className="fas fa-star st-icon-star"></i>
-                      <i className="fas fa-star st-icon-star"></i>
-                      <i className="fas fa-star-half-alt st-icon-star"></i>
-                      <span className="badge badge-light tx-success mg-l-5"><i
-                        className="fa fa-check-circle"></i> Very Good</span>
-                    </p>
-                  </div>
-                </div>
+                </div>):<p>Buổi học này chưa có đánh giá</p>
+                }
               </div>
             </div>
           </div>
@@ -202,7 +172,7 @@ const LessonDetail = () => {
               }
             </div>
             {/* <!--/Từ cần ghi nhớ-->
-                      <!--Đánh giá chung--> */}
+                      <!--Đánh giá giáo viên--> */}
             <div className="st-danhgianguphap  mg-b-30">
               <div className="st-title-danhgia mg-b-15">
                 <h5 className="sub-title">General assessment</h5>
@@ -215,10 +185,32 @@ const LessonDetail = () => {
                 ) : ""
               }
             </div>
+            {/* <!--/Đánh giá giáo viên-->
+                      <!--Đánh giá học viên--> */}
+            <div className="st-danhgianguphap  mg-b-30">
+              <div className="st-title-danhgia mg-b-15">
+                <h5 className="sub-title">Student Feedback</h5>
+              </div>
+              {
+                state.StudentFeedback ? (
+                  <div className="st-item-danhgia">
+                    <p>{state.StudentFeedback}</p>
+                  </div>
+                ) : (<><p>You are not leave feedback for this lesson</p>
+                  <button className="btn btn-primary mg-r-10"
+                    data-toggle="modal"
+                    data-target="#js-md-rate"
+                  >Leave Feedback</button></>)
+              }
+            </div>
           </div>
+          <RatingLessonModal
+            BookingID={state.ElearnBookingID}
+            TeacherName={state.TeacherName}
+            callback={onCallbackRating} />
         </React.Fragment>
     }
-    <StudentComment />
+    <ToastContainer />
   </React.Fragment >
 }
 

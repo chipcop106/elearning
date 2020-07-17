@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 const LessonUpcomingCard = ({
-  id,
+  BookingID,
   avatar = "default-avatar.png",
   teacherUID,
   TeacherName,
@@ -21,18 +21,18 @@ const LessonUpcomingCard = ({
   },
 }) => {
 
-  const handleRequireLesson = (id, avatar, TeacherName, LessionName, SpecialRequest, date, start, end, DocumentName, SkypeID) => {
-    onHandleRequireLesson(id, avatar, TeacherName, LessionName, SpecialRequest, date, start, end, DocumentName, SkypeID)
+  const handleRequireLesson = (BookingID, avatar, TeacherName, LessionName, SpecialRequest, date, start, end, DocumentName, SkypeID) => {
+    onHandleRequireLesson(BookingID, avatar, TeacherName, LessionName, SpecialRequest, date, start, end, DocumentName, SkypeID)
   }
 
-  const handleCancelBooking = (e, id, LessionName, date, start, end) => {
+  const handleCancelBooking = (e, BookingID, LessionName, date, start, end) => {
     e.preventDefault()
-    onHandleCancelBooking(id, LessionName, date, start, end)
+    onHandleCancelBooking(BookingID, LessionName, date, start, end)
   }
   
   return (
-    <li className="cr-item lesson-info" style={{position:'relvate'}}>
-      <div className={`${lock.id === id && lock.lock ? '':'d-none'}`} style={{zIndex:"99",position:"absolute",top:0,left:0,width:"100%",height:"100%"}}></div>
+    <li className="cr-item upcoming-lesson lesson-info" style={{position:'relvate'}}>
+      <div className={`${lock.id === BookingID && lock.lock ? '':'d-none'}`} style={{zIndex:"99",position:"absolute",top:0,left:0,width:"100%",height:"100%"}}></div>
       <div className="media">
         <div className="teacher-information">
           <a className="teacher-avatar" href="teacherDetail.html">
@@ -41,7 +41,8 @@ const LessonUpcomingCard = ({
               {TeacherName}</p>
           </a>
         </div>
-        <div className="media-body  mg-l-20 pos-relative">
+        <div className="media-body mg-l-20 pos-relative">
+          <div>
           <h5 className="mg-b-10 ">
             <span className="badge badge-warning">Incoming</span>{' '}
             <a href="lessonDetail.html" className="course-name tx-bold">{LessionName}</a>
@@ -71,13 +72,15 @@ const LessonUpcomingCard = ({
               }
             </div>
           </div>
-          <div className="course-actions">
+          </div>
+          <div className="course-actions mg-t-15">
             <div className="action-left">
-              <a href={SkypeID} className="btn btn-sm btn-info mg-r-10" target="_blank"
+              <a href={SkypeID} className="btn btn-sm btn-info" target="_blank"
                 rel="noopener"><i className="fab fa-skype mg-r-5"></i> ID: <span
-                  className="tx-bold">mona.media</span></a>
+            className="tx-bold">{SkypeID}</span></a>
               <a href={"#"} className="btn btn-sm btn-success" data-toggle="modal" data-target="#js-md-required"
-                onClick={() => handleRequireLesson(id,
+                onClick={() => handleRequireLesson(
+                  BookingID,
                   avatar,
                   TeacherName,
                   LessionName,
@@ -93,7 +96,7 @@ const LessonUpcomingCard = ({
               <a href={"#"} className="btn btn-sm btn-outline-danger"
                 rel="noopener" data-toggle="tooltip"
                 title="You can only cancel this lesson before start for 30 minutes !!"
-                onClick={(e) => handleCancelBooking(e, id, LessionName, date, start, end)}
+                onClick={(e) => handleCancelBooking(e, BookingID, LessionName, date, start, end)}
                 data-toggle="modal" data-target="#md-cancel-schedule"
                 data-placement="top"><i data-feather="x"></i> Cancel lesson</a>
               {/* <span className="tx-danger">Unavailable to cancel</span> */}

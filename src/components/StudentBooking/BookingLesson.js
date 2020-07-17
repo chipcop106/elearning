@@ -24,11 +24,15 @@ const initialState = {
 }
 
 const initialBookLesson = {
-  id: "",
+  StudyTimeID: "",
   LessionName: "",
+  TeacherUID: "",
+  TeacherIMG: "",
+  TeacherName: "",
+  Rate: "",
   date: "",
   start: "",
-  end: ""
+  end: "",
 }
 
 const initialOnBookState = {
@@ -54,43 +58,42 @@ const BookingLesson = () => {
   const [teachersList, setTeacherList] = React.useState([])
   const [loading, setLoading] = React.useState(false)
   const [onBookState, setOnBookState] = React.useState(initialOnBookState)
-  const [disableButtonSearch, toggleDisable] = React.useState(false);
   const [stateBookLesson, setStateBookLesson] = React.useState(initialBookLesson);
 
   let learnTime = [];
 
   const getAPI = async (params) => {
-    toggleDisable(true)
     setLoading(true);
     const res = await getListTeacher(params);
-    if(res.Code === 1 && res.Data.length > 0)
-    {
+    if (res.Code === 1 && res.Data.length > 0) {
       setTeacherList(res.Data);
     }
     setLoading(false);
-    toggleDisable(false)
   }
 
   const fetchListLevelPurpose = async (params) => {
     const res = await getListLevelPurpose(params);
-    if(res.Code === 1 && res.Data.length > 0)
-    {
+    if (res.Code === 1 && res.Data.length > 0) {
       let key = "levelPurpose";
-      const value = res.Data.map(item=>{
+      const value = res.Data.map(item => {
         return item.PurposeLevelName
       })
       dispatch({ type: "STATE_CHANGE", payload: { key, value } })
     }
   }
 
-  const onHandleBooking = (id, LessionName, date, start, end) => {
+  const onHandleBooking = (StudyTimeID, LessionName, TeacherUID, TeacherIMG, TeacherName, Rate, date, start, end) => {
     setStateBookLesson({
       ...stateBookLesson,
-      id,
+      StudyTimeID,
       LessionName,
+      TeacherUID,
+      TeacherIMG,
+      TeacherName,
+      Rate,
       date,
       start,
-      end
+      end,
     })
   }
 
@@ -139,13 +142,12 @@ const BookingLesson = () => {
     $('#display-schedule').prop('checked', false);
     getAPI({
       Nation: state.nation.length === 0 ? "" : state.nation,
-      LevelPurpose: state.selectedLevelPurpose.length === 0 ? "" : state.selectedLevelPurpose,
+      LevelPurpose: state.selectedLevelPurpose.length === 0 ? "" : state.selectedLevelPurpose.join(","),
       Gender: state.gender,
       Date: state.date,
       Start: state.startTime,
       End: state.endTime,
     });
-    toggleDisable(true)
   }
 
   const initCalendar = () => {
@@ -217,7 +219,7 @@ const BookingLesson = () => {
           slidesPerView: 5,
           spaceBetween: 10,
         },
-        325: {
+        0: {
           slidesPerView: 3,
           spaceBetween: 5,
         }
@@ -374,38 +376,38 @@ const BookingLesson = () => {
                   <input name="date" type="text" className="form-control" placeholder="Date" disabled id="date-selected" />
                 </div>
                 <div className="col-sm-6 col-md-4 item">
-                    <Flatpickr
-                      placeholder="Start time"
-                      value={state.startTime}
-                      options={{
-                        dateFormat: "H:i",
-                        enableTime: true,
-                        noCalendar: true,
-                        minTime: "06:00",
-                        maxTime: "23:00",
-                        static: true,
-                      }}
-                      className="form-control"
-                      onChange={(selectedDates, dateStr, instance) =>{
-                        dispatch({ type: "STATE_CHANGE", payload: { key:"startTime", value:dateStr } })
-                      }}/>
+                  <Flatpickr
+                    placeholder="Start time"
+                    value={state.startTime}
+                    options={{
+                      dateFormat: "H:i",
+                      enableTime: true,
+                      noCalendar: true,
+                      minTime: "06:00",
+                      maxTime: "23:00",
+                      static: true,
+                    }}
+                    className="form-control"
+                    onChange={(selectedDates, dateStr, instance) => {
+                      dispatch({ type: "STATE_CHANGE", payload: { key: "startTime", value: dateStr } })
+                    }} />
                 </div>
                 <div className="col-sm-6 col-md-4 item">
-                <Flatpickr
-                      placeholder="End time"
-                      value={state.endTime}
-                      options={{
-                        dateFormat: "H:i",
-                        enableTime: true,
-                        noCalendar: true,
-                        minTime: "06:00",
-                        maxTime: "23:00",
-                        static: true,
-                      }}
-                      className="form-control"
-                      onChange={(selectedDates, dateStr, instance) =>{
-                        dispatch({ type: "STATE_CHANGE", payload: { key:"endTime", value:dateStr } })
-                      }}/>
+                  <Flatpickr
+                    placeholder="End time"
+                    value={state.endTime}
+                    options={{
+                      dateFormat: "H:i",
+                      enableTime: true,
+                      noCalendar: true,
+                      minTime: "06:00",
+                      maxTime: "23:00",
+                      static: true,
+                    }}
+                    className="form-control"
+                    onChange={(selectedDates, dateStr, instance) => {
+                      dispatch({ type: "STATE_CHANGE", payload: { key: "endTime", value: dateStr } })
+                    }} />
                 </div>
               </div>
             </div>
@@ -486,6 +488,9 @@ const BookingLesson = () => {
                               onBookStudentName={onBookState.studentName}
                               learnTime={learnTime}
                               TeacherUID={item.TeacherUID}
+                              TeacherIMG={item.TeacherIMG}
+                              TeacherName={item.TeacherName}
+                              Rate={item.Rate}
                               date={state.date}
                               handleBooking={onHandleBooking} />
                           </ul>
@@ -500,14 +505,18 @@ const BookingLesson = () => {
 
         <BookingLessonModal
           style={{ color: "#000", textAlign: "left" }}
-          id={stateBookLesson.id}
+          StudyTimeID={stateBookLesson.StudyTimeID}
           LessionName={stateBookLesson.LessionName}
+          TeacherUID={stateBookLesson.TeacherUID}
+          TeacherIMG={stateBookLesson.TeacherIMG}
+          TeacherName={stateBookLesson.TeacherName}
+          Rate={stateBookLesson.Rate}
           date={stateBookLesson.date}
           start={stateBookLesson.start}
           end={stateBookLesson.end}
           onBook={onBook} />
 
-       <ToastContainer />
+        <ToastContainer />
       </div>
     </React.Fragment>
   )

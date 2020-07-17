@@ -11,39 +11,20 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBoo
   const [loading, setLoading] = React.useState(false)
   const [dateFetch, setDate] = React.useState(new Date())
 
-  const bookLesson = (id, name, date, start, end) => {
-    handleBookLesson(id, name, date, start, end)
+  const bookLesson = (StudyTimeID, LessionName, date, start, end) => {
+    handleBookLesson(StudyTimeID, LessionName, date, start, end)
   }
 
-  const cancelLesson = (id, name, date, start, end) => {
-    handleCancelLesson(id, name, date, start, end)
+  const cancelLesson = (BookingID, LessionName, date, start, end) => {
+    handleCancelLesson(BookingID, LessionName, date, start, end)
   }
 
   const calendarInit = () => {
-    /* let eventList = [];
-    for (let i = 0; i < schedule.length; i++) {
-      eventList.push({
-        id: schedule[i].StudyTimeID,
-        title: schedule[i].bookStatus ? "Event Booked" : "Event Hot Available",
-        courseName: schedule[i].title,
-        start: new Date(schedule[i].Start),
-        end: new Date(schedule[i].End),
-        eventType: 0, // 0 : Bình thường || 1 : Hot
-        bookStatus: schedule[i].bookStatus,
-        bookInfo: schedule[i].bookStatus ? {
-          name: schedule[i].bookInfo.name
-        } : null,
-        available: schedule[i].available,
-        isEmptySlot: schedule[i].isEmptySlot,
-      })
-    } */
-
     const eventList = schedule.map(event=>{
       return {
         ...event,
         id: event.StudyTimeID,
         title: event.bookStatus ? "Event Booked" : "Event Hot Available",
-        courseName: event.title,
         start: new Date(event.Start),
         end: new Date(event.End),
         eventType: event.eventType,
@@ -227,7 +208,8 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBoo
           const days = args.date.getDay();
           const d = args.date.getDate();
           const html = `<span class="hd-date">${d} </span><span class="hd-day">${dayNamesShort[days]}
-          </span><div class="slot">${slot}/${count}</div>`;
+          </span><div class="slot"> <span class="hl">${slot}</span> / <span class="hl">${count}</span>
+          </div>`;
           return { html };
         },
 
@@ -250,6 +232,8 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBoo
             bookInfo,
             bookStatus,
             isEmptySlot,
+            title,
+            BookingID,
           } = event.extendedProps;
           let minutesTilStart = getDifferentMinBetweenTime(new Date(), args.event._instance.range.start)
           const html = `${!isEmptySlot? `
@@ -258,12 +242,13 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBoo
       <span class="label-book booked"><i class="fas ${isPast ? "fa-check" : "fa-user-graduate"
     }"></i> ${isPast ? "FINISHED" : "BOOKED"}</span> 
       <p class="booking-name">${bookInfo.name}</p>
-      ${minutesTilStart < 30 && minutesTilStart > 0 ? `
+      ${ minutesTilStart < 30 && minutesTilStart > 0 ? `
         <a href="javascript:;" class="fix-btn cancel-schedule"
         data-toggle="modal"
         data-target="#md-cancel-schedule"
+        data-bookingID="${BookingID}"
         data-id="${event.id}"
-        data-title="${event._def.extendedProps.courseName}"
+        data-title="${title}"
         data-start="${event.start}"
         data-end="${event.end}">Cancel</a>
         `: ""}`
@@ -320,22 +305,22 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBoo
 
       $('body').on('click', '.book-schedule', function (e) {
         e.preventDefault();
-        const id = this.getAttribute('data-id');
-        const name = this.getAttribute('data-title')
+        const StudyTimeID = this.getAttribute('data-id');
+        const LessionName = this.getAttribute('data-title')
         const date = moment(this.getAttribute('data-start')).format("DD/MM/YYYY");
         const start = moment(this.getAttribute('data-start')).format("HH:mm A");
         const end = moment(this.getAttribute('data-end')).format("HH:mm A");
-        bookLesson(id, name, date, start, end);
+        bookLesson(StudyTimeID, LessionName, date, start, end);
       });
 
       $('body').on('click', '.cancel-schedule', function (e) {
         e.preventDefault();
-        const id = this.getAttribute('data-id');
-        const name = this.getAttribute('data-title')
+        const BookingID = this.getAttribute('data-bookingID');
+        const LessionName = this.getAttribute('data-title')
         const date = moment(this.getAttribute('data-start')).format("DD/MM/YYYY");
         const start = moment(this.getAttribute('data-start')).format("HH:mm A");
         const end = moment(this.getAttribute('data-end')).format("HH:mm A");
-        cancelLesson(id, name, date, start, end);
+        cancelLesson(BookingID, LessionName, date, start, end);
       });
 
       $toggleCheckbox = $('#student-toggle-checkbox');
@@ -352,8 +337,11 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBoo
 
   const getAPI = async (params) => {
     setLoading(true);
-    const schedule = await getScheduleByTeacherUID(params);
-    setSchedule(schedule.Data)
+    const res = await getScheduleByTeacherUID(params);
+    if(res.Code === 1)
+    {
+      setSchedule(res.Data)
+    }
     setLoading(false);
   }
 

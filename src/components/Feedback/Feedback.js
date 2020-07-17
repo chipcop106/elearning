@@ -12,41 +12,17 @@ const initialState = {
       stName: 'Truong Van Lam',
       stAvatar: 'https://i.pinimg.com/236x/aa/84/88/aa8488c0bdc927ac836586c004c7cb12.jpg',
       stFeedback: 'This course is so great',
-      lessonTime: '12/06/2020 10:30AM (Vietnam Time)',
+      lessonTime: '12/06/2020 10:30AM',
       lessonName: 'Lesson 6: ReactJS application',
       rating: 3.5,
-      teacherComments: [
-        {
-          id: randomId(),
-          dateTime: new Date(),
-          teacherName: 'Kelly Clarkson',
-          teacherAvatar: 'https://i.pinimg.com/236x/aa/84/88/aa8488c0bdc927ac836586c004c7cb12.jpg',
-          content: `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error earum
-      molestias consequatur, iusto accusantium minima est saepe porro id odit nam, numquam
-      voluptates quis repudiandae veniam. Provident illum et voluptate. Lorem ipsum dolor sit,
-      amet consectetur adipisicing elit. Quaerat aliquam magni impedit vitae sit expedita totam
-      labore neque, dolores eos veritatis? Qui nisi, ipsa nostrum nulla labore esse dicta.
-      Aspernatur`,
-          edited: false,
-        },
-        {
-          id: randomId(),
-          dateTime: new Date(),
-          teacherName: 'Holy Breaker',
-          teacherAvatar: 'https://i.pinimg.com/236x/aa/84/88/aa8488c0bdc927ac836586c004c7cb12.jpg',
-          content: `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error earum
-      molestias consequatur, iusto accusantium minima est saepe porro id odit nam, numquam
-      voluptates.`,
-          edited: false,
-        }
-      ]
+      teacherComments: []
     },
     {
       id: randomId(),
       stName: 'Truong Van Lam',
       stAvatar: 'https://i.pinimg.com/236x/aa/84/88/aa8488c0bdc927ac836586c004c7cb12.jpg',
       stFeedback: 'This course is so great',
-      lessonTime: '12/06/2020 10:30AM (Vietnam Time)',
+      lessonTime: '12/06/2020 10:30AM',
       lessonName: 'Lesson 6: ReactJS application',
       rating: 5,
       teacherComments: [],
@@ -56,7 +32,7 @@ const initialState = {
       stName: 'Hoang Van Thai',
       stAvatar: 'https://i.pinimg.com/236x/aa/84/88/aa8488c0bdc927ac836586c004c7cb12.jpg',
       stFeedback: 'This course is so great',
-      lessonTime: '12/06/2020 10:30AM (Vietnam Time)',
+      lessonTime: '12/06/2020 10:30AM',
       lessonName: 'Lesson 6: ReactJS application',
       rating: 4,
       teacherComments: [],
@@ -66,57 +42,18 @@ const initialState = {
       stName: 'Truong Van Lam',
       stAvatar: 'https://i.pinimg.com/236x/aa/84/88/aa8488c0bdc927ac836586c004c7cb12.jpg',
       stFeedback: 'Hello world',
-      lessonTime: '12/06/2020 10:30AM (Vietnam Time)',
+      lessonTime: '12/06/2020 10:30AM',
       lessonName: 'Lesson 6: ReactJS application',
       rating: 1,
-      teacherComments: [
-        {
-          id: randomId(),
-          dateTime: new Date(),
-          teacherName: 'Kelly Clarkson',
-          teacherAvatar: 'https://i.pinimg.com/236x/aa/84/88/aa8488c0bdc927ac836586c004c7cb12.jpg',
-          content: `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error earum
-      molestias consequatur, iusto accusantium minima est saepe porro id odit nam, numquam
-      voluptates quis repudiandae veniam. Provident illum et voluptate. Lorem ipsum dolor sit,
-      amet consectetur adipisicing elit. Quaerat aliquam magni impedit vitae sit expedita totam
-      labore neque, dolores eos veritatis? Qui nisi, ipsa nostrum nulla labore esse dicta.
-      Aspernatur`,
-          edited: false,
-        },
-        {
-          id: randomId(),
-          dateTime: new Date(),
-          teacherName: 'Holy Breaker',
-          teacherAvatar: 'https://i.pinimg.com/236x/aa/84/88/aa8488c0bdc927ac836586c004c7cb12.jpg',
-          content: `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error earum
-      molestias consequatur, iusto accusantium minima est saepe porro id odit nam, numquam
-      voluptates.`,
-          edited: false,
-        }
-      ]
+      teacherComments: []
     }
   ]
 }
 
-const TeacherComment = ({ dateTime, teacherName, teacherAvatar, content }) => {
-  return <div className="tc-comment">
-    <img src={teacherAvatar} alt="avatar" className="avatar avatar rounded-circle" />
-    <div className="tc-content">
-      <div className="box">
-        <p className="teacher-name">{teacherName}</p>
-        <p className="mg-b-0">{content}</p>
-      </div>
-      <div className="meta">
-        <div className="date">Comment at {moment(dateTime).format("LLLL")}</div>
-      </div>
-    </div>
-  </div>
-}
-
 const Feedback = () => {
-  const [page, setPage] = React.useState(1)
   const [state, setState] = React.useState(initialState);
   const [loading, setLoading] = React.useState(false);
+  const [page, setPage] = React.useState(1)
   const [filter, setFilter] = React.useState(0);
 
   let filteredState = [...state.feedbacks]
@@ -225,28 +162,15 @@ const Feedback = () => {
                         <p className="">{item.stFeedback}</p>
                       </div>
                       <div className="metas">
-                        <div className="meta">className Time: <span>{item.lessonTime}</span>
+                        <div className="meta">Time: <span>{item.lessonTime}</span>
                         </div>
                         <div className="meta">
                           {item.lessonName}
                         </div>
                       </div>
-                      {
-                        !!item.teacherComments && Array.isArray(item.teacherComments) &&
-                        item.teacherComments.length > 0 &&
-                        <div className="tc-comment-wrap">
-                          <h6 className="mg-b-15">The teacher had commented on this feedback:</h6>
-                          {
-                            item.teacherComments.map(tcComment =>
-                              <TeacherComment
-                                key={tcComment.id}
-                                dateTime={tcComment.dateTime}
-                                teacherName={tcComment.teacherName}
-                                teacherAvatar={tcComment.teacherAvatar}
-                                content={tcComment.content} />)
-                          }
+                      <div className="readmore">
+                          <a href="lessonDetail.html">See Detail <i className="fas fa-arrow-right"></i></a>
                         </div>
-                      }
                     </div>
                   </div>
                 )

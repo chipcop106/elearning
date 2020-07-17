@@ -1,13 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
+
 import { getProfile } from "~src/api/studentAPI";
 import { getListLevelPurpose } from "~src/api/optionAPI";
-import { SkeletonStudentForm } from "~components/common/Skeleton/SkeletonStudentForm"
+import { updateProfileAPI } from "~src/api/studentAPI";
+import { updatePassAPI } from "~src/api/optionAPI";
+
+import Flatpickr from 'react-flatpickr';
+import Select from 'react-select';
+
+import { toast } from 'react-toastify';
+import 'react-toastify/scss/main.scss'
+import { toastInit } from "~src/utils"
 
 import { getFormattedDate } from "~src/utils";
-import Select from 'react-select';
+
 
 const Schema = Yup.object().shape({
   FullName: Yup.string()
@@ -38,30 +48,7 @@ const StudentForm = (props) => {
     setFieldValue,
   } = props;
 
-  const handleSelect2 = (val) => {
-    const key = "SelectTarget";
-    setFieldValue(key, val, false)
-  }
-
-  const datePickerInit = () => {
-    $(".datetimepicker").flatpickr({
-      dateFormat: "d/m/Y",
-    });
-  }
-
-  React.useEffect(() => {
-    $(".datetimepicker").on('change', handleChange.bind(this));
-
-    return () => {
-      $(".datetimepicker").off('change', handleChange.bind(this));
-    }
-  }, [values])
-
-  React.useEffect(() => {
-    datePickerInit();
-  }, [])
-
-  return (
+  return values.errorFetch ? <></> : (
     <form id="form-account-profile" onSubmit={handleSubmit}>
       <div className="form-account pd-y-15">
         <div className="row mg-b-15">
@@ -95,11 +82,18 @@ const StudentForm = (props) => {
                 <p className="mg-b-0 tx-medium">Date of birth:</p>
               </div>
               <div className="form-group col-sm-9">
-                <input type="text" className="form-control datetimepicker" placeholder="dd/mm/YYYY"
+                <Flatpickr
+                  placeholder="dd/mm/YYYY"
                   name="BirthDay"
+                  options={{
+                    dateFormat: "d/m/Y",
+                    static: true,
+                  }}
+                  className="form-control"
                   value={getFormattedDate(values.BirthDay)}
-                  onChange={handleChange}
-                />
+                  onChange={(selectedDates, dateStr, instance) => {
+                    setFieldValue("BirthDay", dateStr, false)
+                  }} />
               </div>
             </div>
             <div className="form-row align-items-center">
@@ -123,7 +117,7 @@ const StudentForm = (props) => {
                 <p className="mg-b-0 tx-medium">Full name:</p>
               </div>
               <div className="form-group col-sm-9">
-                <input type="text" className="form-control" placeholder="0" required
+                <input type="text" className="form-control" required
                   value={values.FullName}
                   name="FullName"
                   onChange={handleChange} />
@@ -141,7 +135,7 @@ const StudentForm = (props) => {
                 <input type="email" className="form-control"
                   name="Email"
                   value={values.Email}
-                  placeholder="Ex: monamedia@mona.net"
+                  placeholder="Ex: example@com"
                   required onChange={handleChange} />
                 {
                   errors.Email && touched.Email &&
@@ -212,7 +206,9 @@ const StudentForm = (props) => {
                   className="basic-multi-select"
                   placeholder="Select Target"
                   classNamePrefix="select"
-                  onChange={handleSelect2} />
+                  onChange={val => {
+                    setFieldValue("SelectTarget", val, false)
+                  }} />
               </div>
             </div>
           </div>
@@ -236,10 +232,10 @@ const StudentForm = (props) => {
           <div className="col-12">
             <div className="form-row  align-items-center ">
               <div className="form-group col-sm-3 col-label-fixed">
-                <p className="mg-b-0 tx-medium ">Notes:</p>
+                <p className="mg-b-0 tx-medium ">Bạn có yêu cầu gì với giáo viên không?</p>
               </div>
               <div className="form-group col-sm-9">
-                <textarea id="" rows="3" className="form-control" placeholder="Notes for teachers"
+                <textarea id="" rows="3" className="form-control" placeholder="Your notes"
                   name="RequestWithTeacher"
                   value={values.RequestWithTeacher}
                   onChange={handleChange}></textarea>
@@ -301,24 +297,57 @@ const FormWrap = () => {
   const [profile, setProfile] = React.useState({});
   const [listLevelPurpose, setListLevelPurpose] = React.useState([]);
   const [myLevel, setMylevel] = React.useState(null);
+  const [errorFetch, setErrorFetch] = React.useState(false);
+
+  const updateProfileToastSuccess = () => toast("Update profile successful!", toastInit);
+  const updateProfileToastFail = () => toast("Update profile fail, please retry!", toastInit);
+  const updatePassToastSuccess = () => toast("Update Password successful!", toastInit);
+  const updatePassToastFail = () => toast("Update password fail, please retry!", toastInit);
 
   const getAPI = async () => {
-    const resLevelPurpose = await getListLevelPurpose();
-    let x;
-    if (resLevelPurpose.Code === 1 && resLevelPurpose.Data.length > 0) {
-      x = resLevelPurpose.Data.map(item => {
-        return item.PurposeLevelName
-      })
-      setListLevelPurpose(x)
-    }
+    try {
+      const resLevelPurpose = await getListLevelPurpose();
+      let x;
+      if (resLevelPurpose.Code === 1 && resLevelPurpose.Data.length > 0) {
+        x = resLevelPurpose.Data.map(item => {
+          return item.PurposeLevelName
+        })
+        setListLevelPurpose(x)
+      }
 
-    const resProfile = await getProfile();
-    if (resProfile.Code === 1)
-      setProfile({
-        ...resProfile.Data,
-      })
-    const index = resLevelPurpose.Data.map(x => x.ID.toString()).indexOf(resProfile.Data.LevelPurpose);
-    setMylevel([resLevelPurpose.Data[index].PurposeLevelName])
+      const resProfile = await getProfile();
+      if (resProfile.Code === 1) {
+        setProfile({
+          ...resProfile.Data,
+        })
+      }
+      else {
+        setErrorFetch(true)
+      }
+      const index = resLevelPurpose.Data.map(x => x.ID.toString()).indexOf(resProfile.Data.LevelPurpose);
+      setMylevel([resLevelPurpose.Data[index].PurposeLevelName])
+    }
+    catch {}
+  }
+
+  const onUpdateProfileAPI = async (params) => {
+    const res = await updateProfileAPI(params)
+    if(res.Code === 1) {
+      updateProfileToastSuccess();
+    }
+    else {
+      updateProfileToastFail();
+    }
+  }
+
+  const onUpdatePassAPI = async (params) => {
+    const res = await updatePassAPI(params)
+    if(res.Code === 1) {
+      updatePassToastSuccess();
+    }
+    else {
+      updatePassToastFail();
+    }
   }
 
   React.useEffect(() => {
@@ -330,7 +359,7 @@ const FormWrap = () => {
       return {
         UID: profile.UID,
         FullName: profile.FullName,
-        avatar: "student.png",
+        Avatar: profile.Avatar,
         Address: profile.Address,
         Phone: profile.Phone,
         Gender: profile.Gender,
@@ -345,6 +374,7 @@ const FormWrap = () => {
         password: "",
         newPassword: "",
         passwordChange: false,
+        errorFetch: errorFetch,
       }
     },
     validationSchema: Schema,
@@ -360,6 +390,27 @@ const FormWrap = () => {
     },
     handleSubmit: (values) => {
       console.log(values)
+      onUpdateProfileAPI({
+        FullName: values.FullName,
+        Phone: values.Phone,
+        Email: values.Email,
+        BirthDay: values.BirthDay,
+        Gender: values.Gender,
+        Language: values.Language,
+        TimezoneID: values.TimezoneID,
+        Address: values.Address,
+        Target: values.SelectTarget && values.SelectTarget.join(","),
+        Hobbits: values.Hobbits,
+        RequestWithTeacher: values.RequestWithTeacher,
+        PurposeLevel: values.PurposeLevel,
+        Avatar: values.Avatar,
+      })
+      if(values.passwordChange) {
+        onUpdatePassAPI({
+          OldPass: values.password,
+          NewPass: values.newPassword,
+        })
+      }
     },
   })(StudentForm)
   return <FormikForm />

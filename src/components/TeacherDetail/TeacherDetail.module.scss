@@ -1,19 +1,47 @@
 @import '../../scss/variable.scss';
 
-.fc-col-header-cell {
+.hl {
+  color: $primary-color;
+}
+.fc th {
+  &.fc-col-header-cell {
     position: relative;
+    text-align: left;
+    padding: 2px 0;
+    a {
+      &.fc-col-header-cell-cushion {
+        display: block;
+        margin-left: 5px;
+      }
+    }
     .slot {
+        white-space: nowrap;
         position: absolute;
         right:0;
         bottom:0;
-       font-size:12px;
-        padding: 1px;
+        font-size:12px;
+        padding: 3px;
         color:#aaa;
         line-height: 1;
         border-top: 1px solid #e1e1e1;
         border-left: 1px solid #e1e1e1;
     }
+    @media screen and (max-width: 1200px) {
+      text-align: center;
+      padding-bottom: 12px;
+      a {
+        &.fc-col-header-cell-cushion {
+          display: inline-block;
+        }
+      }
+      .slot {
+        right: 50%;
+        transform: translateX(50%);
+      }
+    }
+  }
 }
+
 #js-book-calendar {
     .book-schedule {
         background-color: $primary-color;
@@ -25,6 +53,13 @@
 .fc-toolbar-title {
     min-width: 140px;
     text-align: center;
+}
+
+.fc-header-toolbar {
+  flex-wrap: wrap;
+  .fc-toolbar-chunk {
+    margin: 5px 0;
+  }
 }
 
 .teacher__info-wrap {

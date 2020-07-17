@@ -14,21 +14,19 @@ import { ToastContainer } from 'react-toastify'
 
 import styles from '~components/BookedLesson/bookedLesson.module.scss'
 
-let initialState = {}
-
 const initialCancelLesson = {
-  id: "",
+  BookingID: "",
   LessionName: "",
   date: "",
   start: "",
   end: "",
 }
 const initialRatingLesson = {
-  id: "",
+  BookingID: "",
   TeacherName: "",
 }
 const initialRequireLesson = {
-  id: "",
+  BookingID: "",
   avatar: "",
   TeacherName: "",
   LessionName: "",
@@ -41,7 +39,7 @@ const initialRequireLesson = {
 }
 
 const BookedLesson = () => {
-  const [state, setState] = React.useState(initialState);
+  const [state, setState] = React.useState({});
   const [page, setPage] = React.useState(1)
   const [lock, setLock] = React.useState({
     id:"",
@@ -54,10 +52,10 @@ const BookedLesson = () => {
 
   const [loading, setLoading] = React.useState(false);
 
-  const handleRatingLesson = (id, TeacherName) => {
+  const handleRatingLesson = (BookingID, TeacherName) => {
     setStateRatingLesson({
       ...stateRatingLesson,
-      id,
+      BookingID,
       TeacherName
     })
   }
@@ -66,10 +64,10 @@ const BookedLesson = () => {
     setPage(pageNumber);
   }
 
-  const handleRequireLesson = (id, avatar, TeacherName, LessionName, SpecialRequest, date, start, end, DocumentName, SkypeID) => {
+  const handleRequireLesson = (BookingID, avatar, TeacherName, LessionName, SpecialRequest, date, start, end, DocumentName, SkypeID) => {
     setStateRequireLesson({
       ...stateRequireLesson,
-      id,
+      BookingID,
       avatar,
       TeacherName,
       LessionName,
@@ -82,10 +80,10 @@ const BookedLesson = () => {
     })
   }
 
-  const handleCancelBooking = (id, LessionName, date, start, end) => {
+  const handleCancelBooking = (BookingID, LessionName, date, start, end) => {
     setStateCancelLesson({
       ...stateCancelLesson,
-      id,
+      BookingID,
       LessionName,
       date,
       start,
@@ -94,7 +92,7 @@ const BookedLesson = () => {
   }
 
   const cbCancelBooking = (id, result) => {
-    if (result === 0) //Start Call API, lock the card
+    if (result === -1) //Start Call API, lock the card
     {
       setLock({
         id,
@@ -118,8 +116,10 @@ const BookedLesson = () => {
 
   const getAPI = async () => {
     setLoading(true);
-    const lessons = await getLessons();
-    setState(lessons.Data)
+    const res = await getLessons();
+    if(res.Code === 1) {
+      setState(res.Data)
+    }
     setLoading(false);
   }
 
@@ -181,7 +181,7 @@ const BookedLesson = () => {
               state.UpcomingLessions.map(item => loading ? <SkeletonLessonCard key={item.BookingID} /> :
                 <LessonUpcomingCard
                   key={item.BookingID}
-                  id={item.BookingID}
+                  BookingID={item.BookingID}
                   teacherUID={item.TeacherUID}
                   TeacherName={item.TeacherName}
                   LessionName={item.LessionName}
@@ -201,7 +201,7 @@ const BookedLesson = () => {
               state.LessionHistory.map(item => loading ? <SkeletonLessonCard key={item.BookingID} /> :
                 <LessonHistoryCard
                   key={item.BookingID}
-                  id={item.BookingID}
+                  BookingID={item.BookingID}
                   teacherUID={item.TeacherUID}
                   TeacherName={item.TeacherName}
                   LessionName={item.LessionName}
@@ -225,11 +225,11 @@ const BookedLesson = () => {
         onChange={handlePageChange.bind(this)} />
 
       <RatingLessonModal
-        id={stateRatingLesson.id}
+        BookingID={stateRatingLesson.BookingID}
         TeacherName={stateRatingLesson.TeacherName} />
 
       <RequireLessonModal
-        id={stateRequireLesson.id}
+        BookingID={stateRequireLesson.BookingID}
         avatar={stateRequireLesson.avatar}
         TeacherName={stateRequireLesson.TeacherName}
         LessionName={stateRequireLesson.LessionName}
@@ -241,7 +241,7 @@ const BookedLesson = () => {
         SkypeID={stateRequireLesson.SkypeID} />
 
       <CancelBookingLessonModal
-        id={stateCancelLesson.id}
+        BookingID={stateCancelLesson.BookingID}
         LessionName={stateCancelLesson.LessionName}
         date={stateCancelLesson.date}
         start={stateCancelLesson.start}
