@@ -14,10 +14,10 @@ import styles from '~components/StudentBooking/BookingLesson.module.scss';
 
 const initialState = {
   nation: [],
-  gender: "1",
+  gender: "1,2,3",
   levelPurpose: [],
   selectedLevelPurpose: [],
-  date: "",
+  date: moment(new Date()).format('DD/MM/YYYY'),
   startTime: "06:00",
   endTime: "23:00",
   searchText: "",
@@ -36,7 +36,8 @@ const initialBookLesson = {
 }
 
 const initialOnBookState = {
-  id: "",
+  TeacherUID: "",
+  StudyTimeID: "",
   studentName: "",
 }
 
@@ -71,13 +72,15 @@ const BookingLesson = () => {
     setLoading(false);
   }
 
+  const renderLevelPurpose = (options) => {
+    return options.map(item => item.PurposeLevelName)
+  }
+
   const fetchListLevelPurpose = async (params) => {
     const res = await getListLevelPurpose(params);
     if (res.Code === 1 && res.Data.length > 0) {
       let key = "levelPurpose";
-      const value = res.Data.map(item => {
-        return item.PurposeLevelName
-      })
+      const value = res.Data;
       dispatch({ type: "STATE_CHANGE", payload: { key, value } })
     }
   }
@@ -97,12 +100,6 @@ const BookingLesson = () => {
     })
   }
 
-  const handleSelect2 = (val) => {
-    const key = "selectedLevelPurpose";
-    const value = val;
-    dispatch({ type: "STATE_CHANGE", payload: { key, value } })
-  }
-
   const handleChange = (e) => {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -118,31 +115,43 @@ const BookingLesson = () => {
 
   const handleChangeNation = (e) => {
     let key = "nation";
-    let value = [];
+    let array = [];
     $('#div-nationality .national-checkbox input').each(function () {
       if ($(this).is(':checked')) {
-        value.push($(this).next().text())
+        array.push($(this).next().text())
       }
     })
+    const value = array.join(",");
     dispatch({ type: "STATE_CHANGE", payload: { key, value } })
   }
 
-  const onBook = (id, studentName) => {
-    setOnBookState({
+  const onBook = (TeacherUID, StudyTimeID, studentName) => {
+     setOnBookState({
       ...onBookState,
-      id,
+      TeacherUID,
+      StudyTimeID,
       studentName
     })
   }
 
   const onSearch = (e) => {
-    console.log(state)
-    setTeacherList([]);
     e.preventDefault();
+    console.log(state)
+    let z = [];
+    for (let i = 0; i < state.selectedLevelPurpose.length; i++) {
+      for (let j = 0; j < state.levelPurpose.length; j++) {
+        if (state.selectedLevelPurpose[i] === state.levelPurpose[j].PurposeLevelName) {
+          z.push(state.levelPurpose[j].ID);
+          break;
+        }
+      }
+    }
+
+    setTeacherList([]);
     $('#display-schedule').prop('checked', false);
     getAPI({
       Nation: state.nation.length === 0 ? "" : state.nation,
-      LevelPurpose: state.selectedLevelPurpose.length === 0 ? "" : state.selectedLevelPurpose.join(","),
+      LevelPurpose: z.join(","),
       Gender: state.gender,
       Date: state.date,
       Start: state.startTime,
@@ -342,23 +351,29 @@ const BookingLesson = () => {
                 <div className="col-sm-6 col-md-3 item">
                   <select type="text" className="form-control " name="gender" onChange={handleChange}
                     defaultValue="Gender">
-                    <option value="">Gender</option>
-                    <option value={0}>Male</option>
-                    <option value={1}>Female</option>
+                    <option value="1,2,3">Gender</option>
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
+                    <option value="3">Other</option>
                   </select>
                 </div>
                 <div className="col-sm-12 col-md-6 item">
                   <Select
                     isMulti
                     name="selectedLevelPurpose"
-                    options={state.levelPurpose}
+                    options={renderLevelPurpose(state.levelPurpose)}
                     value={state.selectedLevelPurpose}
                     getOptionLabel={label => label}
                     getOptionValue={value => value}
                     className="basic-multi-select"
                     placeholder="Select Level Purpose"
                     classNamePrefix="select"
-                    onChange={handleSelect2}
+                    onChange={val => {
+                      dispatch({
+                        type: "STATE_CHANGE",
+                        payload: { key: "selectedLevelPurpose", value: val }
+                      })
+                    }}
                   />
                 </div>
               </div>
@@ -454,7 +469,7 @@ const BookingLesson = () => {
                       <div className="totor-detail">
                         <a href="teacherDetail.html" className="tutor-wrap">
                           <span className="tutor-avatar">
-                            <img src={item.TeacherIMG} alt="" />
+                            <img src={item.TeacherIMG ? item.TeacherIMG: "../assets/img/default_avatar.png"} alt="" />
                           </span>
                           <div className="tutor-infomation pd-5">
                             <div className="tutor-info">
@@ -484,7 +499,8 @@ const BookingLesson = () => {
                         <div className="tutor-schedule">
                           <ul className="ul-schedule">
                             <ListSchedule
-                              onBookId={onBookState.id}
+                              onBookStudyTimeID={onBookState.StudyTimeID}
+                              onBookTeacherUID={onBookState.TeacherUID}
                               onBookStudentName={onBookState.studentName}
                               learnTime={learnTime}
                               TeacherUID={item.TeacherUID}

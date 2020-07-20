@@ -5,7 +5,7 @@ import { getScheduleByTeacherUID } from "~src/api/studentAPI";
 
 let calendar;
 
-const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBookStudentName, onCancelId }) => {
+const BookingSchedule = ({ TeacherUID, handleBookLesson, handleCancelLesson, onBookStudyTimeID, onBookTeacherUID, onBookStudentName, onCancelId }) => {
 
   const [schedule, setSchedule] = React.useState([])
   const [loading, setLoading] = React.useState(false)
@@ -347,7 +347,7 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBoo
 
   React.useEffect(() => {
     getAPI({
-      TeacherUID: 2,
+      TeacherUID,
       Date: moment(dateFetch).format("DD/MM/YYYY"),
     });
   }, [dateFetch])
@@ -358,13 +358,14 @@ const BookingSchedule = ({ handleBookLesson, handleCancelLesson, onBookId, onBoo
 
   React.useEffect(() => {
     let newSchedule = [...schedule]
-    let index = newSchedule.findIndex(i => i.StudyTimeID == onBookId);
+    let index = newSchedule.findIndex(i => 
+    i.StudyTimeID == onBookStudyTimeID && i.TeacherUID == onBookTeacherUID);
     if (index !== -1) {
       newSchedule[index].bookStatus = true;
       newSchedule[index].bookInfo.name = onBookStudentName;
       setSchedule(newSchedule);
     }
-  }, [onBookId, onBookStudentName])
+  }, [onBookStudyTimeID, onBookTeacherUID, onBookStudentName])
 
 
   React.useEffect(() => {

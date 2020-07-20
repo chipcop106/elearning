@@ -3,25 +3,29 @@ import ReactDOM from 'react-dom';
 
 const LessonItem = ({
   CoursesID,
-  CoursesName,
-  LessionID,
+  DocumentID,
+  DocumentName,
+  DocumentDetailID,
   LessionName,
   start,
   end,
   date,
+  TeacherID,
   Teacher,
   Status,
+  StatusString,
 }) => {
   return <tr>
-    <td>{CoursesName}</td>
+    <td>{DocumentName}</td>
     <td>{date}</td>
     <td className="tx-nowrap">
-      <span>{start}</span>
+      {/* <span>{start}</span>
       <i className="fas fa-long-arrow-alt-right mg-x-2"></i>
-      <span>{end}</span>
+      <span>{end}</span> */}
+      {LessionName}
     </td>
     <td><a href="teacherDetail.html">{Teacher}</a></td>
-    <td><span className="tx-success">{Status}</span></td>
+    <td><span className="tx-success">{StatusString}</span></td>
     <td><a href="lessonDetail.html" className="btn btn-primary">Detail</a></td>
   </tr>
 }

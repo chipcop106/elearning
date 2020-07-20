@@ -8,7 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import styles from '~components/LessonDetail/LessonDetail.module.scss';
 
 const LessonDetail = () => {
-  const [state, setState] = React.useState(null)
+  const [state, setState] = React.useState({})
   const [loading, setLoading] = React.useState(false)
 
   const getAPI = async (params) => {
@@ -31,14 +31,14 @@ const LessonDetail = () => {
 
   React.useEffect(() => {
     getAPI({
-      ElearnBookingID: 1,
+      ElearnBookingID: 9,
     })
   }, []);
 
   return <React.Fragment>
     {
       loading ? <SkeletonLessonDetail /> :
-      !!state && <React.Fragment>
+      <React.Fragment>
           <div className="row">
             <div className="col-md-6 col-sm-12">
               {/* <!--thông tin buổi học--> */}
@@ -79,7 +79,7 @@ const LessonDetail = () => {
               <div className="st-thangdanhgia">
                 <h5 className="main-title">Rating</h5>
                 {
-                  state.Rate ? (<div className="st-rating">
+                  state.Rate==0 || state.Rate ? (<div className="st-rating">
                   <div className="cell text-left">
                     <p className="st-noidung-rating">
                       <div className="rating-stars">
@@ -115,7 +115,8 @@ const LessonDetail = () => {
                 <h5 className="sub-title">Grammar:</h5>
               </div>
               {
-                state.Grammar && state.Grammar.length > 0 && state.Grammar.map(item =>
+                state.Grammar && Array.isArray(state.Grammar) && state.Grammar.length > 0 &&
+                state.Grammar.map(item =>
                   <React.Fragment>
                     <div className="st-item-danhgia">
                       <div className="row">

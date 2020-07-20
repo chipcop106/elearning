@@ -39,28 +39,6 @@ const RequireLessonModal = ({
     }
   }
 
-  /* const handleChange = (e) => {
-    const target = e.target;
-    let value;
-    if (target.type === 'checkbox') {
-      value = state.selectedRequire;
-      if (target.checked) {
-        value.push(target.value)
-      }
-      else {
-        const index = state.selectedRequire.indexOf(target.value);
-        value.splice(index, 1);
-      }
-    }
-    else value = target.value;
-    const key = target.getAttribute("name");
-    setState({
-      ...state,
-      id,
-      [key]: value,
-    })
-  } */
-
   const onSubmitRequire = () => {
     if (state.SpecialRequest.length <= 0) {
       requireLessonAlert();

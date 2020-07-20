@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
-import { bookingLessonAPI } from "~src/api/studentAPI"
+import { bookingLessonAPI } from "~src/api/studentAPI";
+
+import styles from '~components/BookingLessonModal.module.scss';
 
 const whoami = (localStorage.getItem("user")===null) ? {} :
   JSON.parse(localStorage.getItem('user'));
@@ -38,7 +40,7 @@ const BookingLessonModal = ({
     const res = await bookingLessonAPI(params)
     if (res.Code === 1) {
       bookingToast();
-      onBook(StudyTimeID, whoami.FullName);
+      onBook(TeacherUID, StudyTimeID, whoami.FullName);
     }
     else {
       bookingToastFail();

@@ -40,7 +40,7 @@ export const getLessonHistory = async (params) => {
                 UID: appSettings.UID,
                 FromDate: params.FromDate,
                 ToDate: params.ToDate,
-                Page: params.Page,
+               /*  Page: params.Page, */
             }
         })
         result = res.data;
