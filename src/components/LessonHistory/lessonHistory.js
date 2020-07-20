@@ -35,7 +35,7 @@ const LessonHistory = () => {
   const getAPI = async (params) => {
     setLoading(true);
     const res = await getLessonHistory(params);
-    if(res.Code === 0) {
+    if(res.Code === 1) {
       setData(res.Data)
     }
     setLoading(false);
