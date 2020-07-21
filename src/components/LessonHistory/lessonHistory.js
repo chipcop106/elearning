@@ -81,12 +81,6 @@ const LessonHistory = () => {
     <div className="fb-summary-container pd-x-20-f pd-b-0-f pd-t-20-f ">
       <form action="" method="get" className="st-date" onSubmit={onSubmit}>
         <div className="row">
-         {/*  <div className="col-12 col-md-3 form-group">
-            <select name="courseName" id="" className="form-control" defaultValue="Course name" onChange={handleChange}>
-              <option value="">Course name</option>
-              <option value="IELTS 8.0 Professional">IELTS 8.0 Professional</option>
-            </select>
-          </div> */}
           <div className="col-12 col-sm-6 col-md-4 form-group">
             <Flatpickr
               placeholder="From date"
@@ -136,14 +130,17 @@ const LessonHistory = () => {
               data.map(item => <LessonItem
                 key={item.CoursesID}
                 CoursesID={item.CoursesID}
-                CoursesName={item.CoursesName}
-                LessionID={item.LessionID}
+                DocumentID={item.DocumentID}
+                DocumentName={item.DocumentName}
+                DocumentDetailID={item.DocumentDetailID}
                 LessionName={item.LessionName}
-                start={convertDateFromTo(item.SchudeDate).fromTime}
-                end={convertDateFromTo(item.SchudeDate).endTime}
-                date={convertDateFromTo(item.SchudeDate).date}
+                start={convertDateFromTo(item.Schedule).fromTime}
+                end={convertDateFromTo(item.Schedule).endTime}
+                date={convertDateFromTo(item.Schedule).date}
+                TeacherID={item.TeacherID}
                 Teacher={item.Teacher}
-                Status={item.Status} />)
+                Status={item.Status}
+                StatusString={item.StatusString} />)
           }
         </tbody>
       </table>

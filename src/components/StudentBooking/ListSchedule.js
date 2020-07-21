@@ -10,7 +10,8 @@ const ListSchedule = ({
   Rate,
   date,
   handleBooking,
-  onBookId,
+  onBookTeacherUID,
+  onBookStudyTimeID,
   onBookStudentName
 }) => {
   const [scheduleList, setSchedule] = React.useState([])
@@ -38,13 +39,14 @@ const ListSchedule = ({
 
   React.useEffect(() => {
     let newSchedule = [...scheduleList]
-    let index = newSchedule.findIndex(i => i.StudyTimeID == onBookId);
+    let index = newSchedule.findIndex(i =>
+      i.StudyTimeID == onBookStudyTimeID && i.TeacherUID == onBookTeacherUID);
     if (index !== -1) {
       newSchedule[index].bookStatus = true;
       newSchedule[index].bookInfo.name = onBookStudentName;
       setSchedule(newSchedule);
     }
-  }, [onBookId, onBookStudentName])
+  }, [onBookTeacherUID, onBookStudyTimeID, onBookStudentName])
 
   return <React.Fragment>
     {

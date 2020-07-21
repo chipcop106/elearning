@@ -40,7 +40,7 @@ export const getLessonHistory = async (params) => {
                 UID: appSettings.UID,
                 FromDate: params.FromDate,
                 ToDate: params.ToDate,
-                Page: params.Page,
+               /*  Page: params.Page, */
             }
         })
         result = res.data;
@@ -259,7 +259,6 @@ export const updateProfileAPI = async (params) => {
     try {
         let res = await instance.get(path + '/UpdateProfile', {
             params: {
-                ...params,
                 UID: appSettings.UID,
                 FullName: params.FullName,
                 Phone: params.Phone,

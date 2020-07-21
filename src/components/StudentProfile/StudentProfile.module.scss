@@ -101,3 +101,9 @@
     }
   }
 }
+
+.form-account .form-row .col-label-fixed {
+  @media screen and (max-width: 576px) {
+    flex-basis: auto;
+  }
+}

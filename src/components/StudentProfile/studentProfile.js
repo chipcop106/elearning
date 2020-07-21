@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import FormikForm from './StudentForm';
+import StudentForm from './StudentForm';
 import PurchasedCourseList from './PurchasedCourseList';
 import PaymentHistory from './PaymentHistory';
 import { ToastContainer } from 'react-toastify';
@@ -41,7 +41,7 @@ const StudentProfile = () => {
                     <div className="content-block">
                       <div className="introduce-content mg-b-30">
                         <h5 className="sub-title"><i className="fas fa-user" />Account</h5>
-                        <FormikForm />
+                        <StudentForm />
                       </div>
                     </div>
                   </div>

@@ -8,7 +8,6 @@ import {
     uploadImageToServer,
     getEnglishProficiencyOptions,
     getLevelOfEducationOptions,
-    getLevelPurposeOptions,
     getTesolCertificateOptions,
     getTeylCertificateOptions,
     getOtherCertificateOptions,

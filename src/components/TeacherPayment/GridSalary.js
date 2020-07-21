@@ -33,15 +33,15 @@ const GridSalary = () => {
                 <div className="d-flex justify-content-between align-items-center">
                     <h3 className="gradient-heading clear mg-r-20 mg-b-0"><i className="fa fa-credit-card mg-r-10"></i>Total Payment</h3>
                     <div className="d-flex align-items-center">
-                    <span className="pay-title-times mg-x-10">{selectedSection == 1 ? '1st' : '2nd'} half of <span className="tx-primary">{monthNames[now.getMonth()]} {now.getFullYear()}</span></span>
+                    <span className="pay-title-times mg-x-10">{selectedSection == 1 ? '1st' : '2nd'} half of <span className="tx-primary">{monthNames[month - 1]} {now.getFullYear()}</span></span>
                         <div className="mg-r-10">
-                            <select className="btn btn-white" value={selectedSection} onChange={(event) => setSelectedSection(event.target.value)} >
+                            <select className="form-control" value={selectedSection} onChange={(event) => setSelectedSection(event.target.value)} >
                                 <option value="1">The first 2 weeks </option>
                                 <option value="2">2 weeks later</option>
                             </select>
                         </div>
                         <div>
-                            <select className="btn btn-white" value={month} onChange={(event) => setMonth(event.target.value)}>
+                            <select className="form-control" value={month} onChange={(event) => setMonth(event.target.value)}>
                                 {new Array(12).fill().map((ele, index) => {
                                     return index <= now.getMonth() ? <option key={`${index}`} value={index + 1}>{monthNames[index]}</option> : null;
                                 })}

@@ -97,7 +97,6 @@ const Header = () => {
                         <li className="menu-link"><a  href={`teacherPayment.html`} className="link-icon">Payment</a></li>
                         <li className="menu-link"><a  href={`teacherFeedback.html`} className="link-icon">Feedback</a></li>
                         <li className="menu-link"><a  href={`teacherSupport.html`} className="link-icon">Support</a></li>
-                       
                     </ul>
                     <div className="menu-overlay" />
                 </div>

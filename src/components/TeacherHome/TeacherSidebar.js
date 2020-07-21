@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { getTeacherInfo } from '~src/api/teacherAPI';
 import Skeleton from 'react-loading-skeleton';
-import {Modal} from 'react-bootstrap';
+import {Modal, Button} from 'react-bootstrap';
 import { updatePassAPI } from '~src/api/optionAPI';
 import { toastInit } from "~src/utils"
 const initialState = {
@@ -46,7 +46,7 @@ const ModalChangePass = ({error, showPassword, hideChangePasswordForm, _onSubmit
         size="sm"
         >
            <Modal.Header closeButton>
-           <Modal.Title>Các bước lấy embed nhúng của youtube</Modal.Title>
+           <Modal.Title>Change password</Modal.Title>
            </Modal.Header>
            <Modal.Body>
                <div className="form-group">
@@ -65,7 +65,7 @@ const ModalChangePass = ({error, showPassword, hideChangePasswordForm, _onSubmit
            </Modal.Body>
            <Modal.Footer>
            <Button variant="primary" onClick={_onSubmit}>
-               Close
+               Change
            </Button>
            <Button variant="secondary" onClick={hideChangePasswordForm}>
                Close
@@ -101,7 +101,7 @@ const TeacherSidebar = () => {
             NewPass:newPassword
         });
         if(res.Code === 0){
-            setError('Old password not correct');
+            setError('Old password is not correct');
             return;
         }else if(res.Code === 1){
             setError(null);
@@ -132,7 +132,8 @@ const TeacherSidebar = () => {
                     <h5 className="mg-b-2 tx-spacing--1 mg-t-15">{!isLoading ? state.FullName || '' : <Skeleton width={50}/>}</h5>
                 </div>{/* col */}
                 <div className="d-flex mg-b-25">
-                  <button type="button" className="btn btn-xs btn-primary flex-fill" onClick={showChangePasswordForm}>Change password</button>
+                <a className="btn btn-xs btn-primary " href={`teacherProfile.html`}><i class="far fa-id-card mg-r-5"></i> Change profile</a>
+                  <button type="button" className="btn btn-xs btn-primary " onClick={showChangePasswordForm}><i className="fas fa-key mg-r-5" ></i> Change password</button>
                 </div>
                 <div >
                     <label className="tx-sans tx-10 tx-semibold tx-uppercase tx-color-01 tx-spacing-1 mg-b-15">Contact Information</label>

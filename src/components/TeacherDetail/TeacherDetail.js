@@ -34,7 +34,8 @@ const initialBookLesson = {
 }
 
 const initialOnBookState = {
-  id: "",
+  TeacherUID: "",
+  StudyTimeID: "",
   studentName: "",
 }
 
@@ -75,10 +76,11 @@ const TeacherDetail = () => {
     })
   }
 
-  const onBook = (id, studentName) => {
+  const onBook = (TeacherUID, StudyTimeID, studentName) => {
     setOnBookState({
       ...onBookState,
-      id,
+      TeacherUID,
+      StudyTimeID,
       studentName
     })
   }
@@ -169,7 +171,9 @@ const TeacherDetail = () => {
                   <div className={`${showTab === 2 ? 'active' : ''} swiper-slide`}>
                     <div className="slide-tab-content">
                       <BookingSchedule
-                        onBookId={onBookState.id}
+                        TeacherUID={state.TeacherUID}
+                        onBookStudyTimeID={onBookState.StudyTimeID}
+                        onBookTeacherUID={onBookState.TeacherUID}
                         onBookStudentName={onBookState.studentName}
                         onCancelId={onCancelState.id}
                         handleBookLesson={onHandleBookLesson}

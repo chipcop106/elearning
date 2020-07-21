@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import styles from '~components/Login/Login.module.scss';
-import { Formik, withFormik } from 'formik';
-import * as Yup from 'yup';
+import { useForm } from "react-hook-form";
 
-const LoginSchema = Yup.object().shape({
+import styles from '~components/Login/Login.module.scss';
+
+import { yupResolver } from '@hookform/resolvers';
+import * as Yup from "yup";
+
+const schema = Yup.object().shape({
   phone: Yup.number()
     .typeError('Invalid phone number')
     .integer('Invalid phone number')
@@ -14,43 +17,36 @@ const LoginSchema = Yup.object().shape({
     .min(6, "Password must at least 6 characters")
 });
 
-const Login = (props) => {
-  const {
-    values,
-    touched,
-    errors,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-  } = props;
+const Login = () => {
+  const { register, handleSubmit, errors, setValue, control } = useForm({
+    resolver: yupResolver(schema)
+  });
+  const onSubmit = data => console.log(data)
 
-  return <form className="login100-form validate-form" onSubmit={handleSubmit} autoComplete="off">
+  return <form className="login100-form validate-form" autoComplete="off"
+    onSubmit={handleSubmit(onSubmit)} >
     <span className="login100-form-title">Login</span>
     <div className="wrap-input100 validate-input">
       <input className="input100" type="text" name="phone" placeholder="Phone"
-        onChange={handleChange}
-        value={values.phone} />
+        ref={register} />
       <span className="focus-input100" />
       <span className="symbol-input100">
         <i className="fa fa-phone" aria-hidden="true" />
       </span>
     </div>
     {
-      touched.phone && errors.phone &&
-      <span className="text-danger d-block mb-2">{errors.phone}</span>
+      errors.phone && <span className="text-danger d-block mb-2">{errors.phone.message}</span>
     }
     <div className="wrap-input100 validate-input" data-validate="Password is required">
       <input className="input100" type="password" name="password" placeholder="Password"
-        onChange={handleChange}
-        value={values.password} />
+        ref={register} />
       <span className="focus-input100" />
       <span className="symbol-input100">
         <i className="fa fa-lock" aria-hidden="true" />
       </span>
     </div>
     {
-      touched.password && errors.password &&
-      <span className="text-danger d-block mb-2">{errors.password}</span>
+      errors.password && <span className="text-danger d-block mb-2">{errors.password.message}</span>
     }
     <div className="container-login100-form-btn">
       <button type="submit" className="login100-form-btn">Login</button>
@@ -62,25 +58,10 @@ const Login = (props) => {
     <div className="text-center p-t-136">
       <a className="txt2 text-hl" href="signup.html">
         Create your Account
-      <i className="fa fa-long-arrow-right m-l-5" aria-hidden="true" />
+    <i className="fa fa-long-arrow-right m-l-5" aria-hidden="true" />
       </a>
     </div>
   </form>
 }
 
-
-const FormikForm = withFormik({
-  mapPropsToValues(props) {
-    return {
-      phone: "",
-      password: ""
-    }
-  },
-  validationSchema: LoginSchema,
-  handleSubmit: (values) => {
-    console.log(values)
-  },
-
-})(Login)
-
-ReactDOM.render(<FormikForm />, document.getElementById('login'));
+ReactDOM.render(<Login />, document.getElementById('login'));

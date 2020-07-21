@@ -8,6 +8,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.10.4",
     "@tinymce/tinymce-react": "^3.6.0",
+    "@hookform/resolvers": "^0.0.6",
     "axios": "^0.19.2",
     "core-js": "3",
     "formik": "^2.1.4",
@@ -17,6 +18,7 @@
     "react-bootstrap": "^1.2.2",
     "react-dom": "^16.13.1",
     "react-flatpickr": "^3.10.1",
+    "react-hook-form": "^6.0.8",
     "react-js-pagination": "^3.0.3",
     "react-loading-skeleton": "^2.1.1",
     "react-router-dom": "^5.2.0",
