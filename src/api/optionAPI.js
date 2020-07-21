@@ -217,7 +217,7 @@ export const getTeylCertificateOptions = async (params) => {
 export const getOtherCertificateOptions = async (params) => {
     let result;
     try {
-        let res = await instance.get(path + '/OtherCertificate',{
+        let res = await instance.get(path + '/ListOtherCertificate',{
             params: {
                  UID: appSettings.UID,
             }

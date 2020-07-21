@@ -47,12 +47,11 @@ const initialState = {
     englishProficiency: [],
     timeZoneOptions:[],
     teacherExperiences: [],
-    avatar: "",
+    avatar: "https://theamericanschool.edu.vn/wp-content/uploads/2020/01/Ms-Hong-Nguyen-Vietnamese.jpg",
     fullName: "Truong Van Lam",
     skypeId: "mona.media",
     phoneNumber: "0886706289",
     location: {},
-
     levelOfPurpose:null,
     levelOfEducation: null,
     teylCertificate: null,
@@ -63,27 +62,25 @@ const initialState = {
     postalCode: "10010",
     timeZone: null,
     schoolName: "Bach Khoa University",
- 
     major: null,
-
     introduce: `While I have no soccer skills, I once played in a fairly competitive adult soccer league with my then-teenage stepson. I was terrible, but I played because he asked me to. (When your kids get older and ask you to do something with them, the first time you say no might be the last time you get asked.) I was trying to match the drollness of my "Wow" when my stepson stepped in, half-smile on his lips and full twinkle in his eyes, and rescued me by saying, "Come on, we need to get ready." Was Louis cocky? Certainly, but only on the surface. His $400 cleats, carbon fiber shin guards, and "I'm the king of the business world" introduction was an unconscious effort to protect his ego. His introduction said, "Hey, I might not turn out to be good at soccer, but out there in the real world, where it really matters, I am the Man." As we took the field before a game, a guy on the other team strutted over, probably picking me out because I was clearly the oldest player on the field. (There's a delightful sentence to write.)`,
-   
     teacherExp: [],
     experienceLists: [
         {
             id: 1,
             name: "Moan Media",
-            jobTitle: "fe",
+            jobTitle: "Front End Developer",
             timePeriod: "2018",
         },
         {
             id: 2,
             name: "Mona Media",
-            jobTitle: "be",
+            jobTitle: "Backend Developer",
             timePeriod: "2019",
         }
     ],
- 
+    youtubeUrl:'https://www.youtube.com/embed/w0Nc-d3gFiU',
+    showGuideModal:false,
 }
 
 const Schema = Yup.object().shape({

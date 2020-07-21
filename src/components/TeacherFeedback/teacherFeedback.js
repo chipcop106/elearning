@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom';
 import { randomId } from '../../utils';
 import TeacherComment from '../common/TeacherComment';
 import SkeletonFeedback from '~components/common/Skeleton/SkeletonFeedback';
-
+import { getFeedback, getOverviewFeedback } from '~src/api/teacherAPI';
 import {
     CSSTransition,
 } from 'react-transition-group';
 import styles from './teacherFeedback.module.scss';
+import Skeleton from 'react-loading-skeleton';
 const feedbackDemo = [
     {
         id: randomId(),
@@ -136,7 +137,7 @@ const FeedbackRow = ({ data: { id, stName, stAvatar, stFeedback, lessonTime, les
 
                             <div className="reply-box">
                                 <div className="form-group cmt-box">
-                                    <textarea rows={5} className="form-control" value={content} onChange={_onChange} placeholder="Feedback content..."/>
+                                    <textarea rows={5} className="form-control" value={content} onChange={_onChange} placeholder="Feedback content..." />
                                 </div>
                                 <div className="cmt-action">
                                     <a href={`#`} className="btn btn-primary mg-r-10" onClick={_onSubmit}>Submit</a>
@@ -150,6 +151,7 @@ const FeedbackRow = ({ data: { id, stName, stAvatar, stFeedback, lessonTime, les
 
                 {!isEditing && (
                     <div className="actions">
+                        <a href="teacherLessonDetail.html" className="btn btn-sm btn-warning mg-r-10" target="_blank" rel="noopener"><i className="fas fa-vote-yea mg-r-5" /> Detail lesson</a>
                         <a href={`#`} className="btn btn-sm btn-outline-twitter btn-icon btn-reply" onClick={_showReply}><i className="fas fa-reply" /> Reply</a>
                     </div>
                 )
@@ -205,32 +207,138 @@ const RenderCommentFeedback = ({ id, updateComment }) => {
 
 }
 
+const RenderSummary = ({ handFilterValue }) => {
+    const [overview, setOverview] = React.useState({});
+    const [isLoading, setIsLoading] = React.useState(true);
+
+    const fetchSummary = async () => {
+        setIsLoading(true);
+        try {
+            const res = await getOverviewFeedback();
+            res.Code === 1 && setOverview(res.Data);
+        } catch (error) {
+            console.log(error.message)
+        }
+        setIsLoading(false);
+    }
+
+    const _onChangeFilter = (e) => {
+        handFilterValue(e.target.value);
+    }
+
+
+    React.useEffect(() => {
+        console.log(overview);
+    }, [overview]);
+
+    React.useEffect(() => {
+        fetchSummary();
+    }, []);
+
+    return (
+
+        <div className="fb-summary-container">
+            <p className="tx-16">Last 100 Parent Feedback Average: <span className="tx-warning tx-20 tx-bold">{isLoading ? (<Skeleton width={15}/>) : (overview?.Avarage ?? '')}</span></p>
+            <p>List of teacher feedback has not been rated</p>
+            <div className="fb-summary">
+                <div className="fb-type">
+                    <div className="fb-radio">
+                        <label>
+                            <input type="radio" name="fbType" group="feedback" value="" defaultChecked onChange={_onChangeFilter} />
+                            <span>All feedbacks <span className="number">{overview.AllEvaluation}</span></span>
+                        </label>
+                    </div>
+                </div>
+                <div className="fb-type">
+                    <div className="fb-radio">
+                        <label>
+                            <input type="radio" name="fbType" group="feedback" value="5" onChange={_onChangeFilter} />
+                            <span>5 <i className="fa fa-star tx-warning"></i> Excellent <span className="number">{isLoading ? (<Skeleton width={15}/>) : (overview?.EvaluationRate5 ?? '')}</span></span>
+                        </label>
+                    </div>
+                </div>
+                <div className="fb-type">
+                    <div className="fb-radio">
+                        <label>
+                            <input type="radio" name="fbType" group="feedback" value="4" onChange={_onChangeFilter} />
+                            <span>4 <i className="fa fa-star tx-warning"></i> Good<span className="number">{isLoading ? (<Skeleton width={15}/>) : (overview?.EvaluationRate4 ?? '')}</span></span>
+                        </label>
+                    </div>
+                </div>
+                <div className="fb-type">
+                    <div className="fb-radio">
+                        <label>
+                            <input type="radio" name="fbType" group="feedback" value="3" onChange={_onChangeFilter} />
+                            <span>3 <i className="fa fa-star tx-warning"></i> Average<span className="number">{isLoading ? (<Skeleton width={15}/>) : (overview?.EvaluationRate3 ?? '')}</span></span>
+                        </label>
+                    </div>
+                </div>
+                <div className="fb-type">
+                    <div className="fb-radio">
+                        <label>
+                            <input type="radio" name="fbType" group="feedback" value="2" onChange={_onChangeFilter} />
+                            <span>2 <i className="fa fa-star tx-warning"></i> Bad<span className="number">{isLoading ? (<Skeleton width={15}/>) : (overview?.EvaluationRate2 ?? '')}</span></span>
+                        </label>
+                    </div>
+                </div>
+                <div className="fb-type">
+                    <div className="fb-radio">
+                        <label>
+                            <input type="radio" name="fbType" group="feedback" value="1" onChange={_onChangeFilter} />
+                            <span>2 <i className="fa fa-star tx-warning"></i> Very bad<span className="number">{isLoading ? (<Skeleton width={15}/>) : (overview?.EvaluationRate1 ?? '')}</span></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    )
+}
+
 const TeacherFeedback = () => {
-    const [averateRate, setAverateRate] = React.useState('4.5');
-    const [filterValue, setFilterValue] = React.useState('all');
+
+    const [filterValue, setFilterValue] = React.useState('');
     const [feedbacks, setFeedbacks] = React.useState(null);
     const [isLoading, setIsLoading] = React.useState(true);
+    const [pageNumber, setPageNumber] = React.useState(1);
     const [pageSize, setPageSize] = React.useState(null);
     const [totalResult, setTotalResult] = React.useState(null);
     const handleUpdateComment = (feedbackId, commentId, commentContent) => {
         dispatch({ type: 'UPDATE_COMMENT', payload: { feedbackId, commentId, commentContent } })
     }
 
-    const handFilterValue = (e) => {
-        setFilterValue(e.target.value);
-    }
-
     const fetchFeedback = async () => {
         setIsLoading(true);
-        setTimeout(() => {
-            setFeedbacks(feedbackDemo);
-            setIsLoading(false);
-        }, 1000);
+        try {
+            const res = await getFeedback({
+                Rate:filterValue !== '' ? parseInt(filterValue) : 0,
+                Page:pageNumber
+            });
+            res.Code === 1 && res.Data.length > 0 && setFeedbacks(res.Data.map(fb => {
+                return {
+                    ...fb,
+                    id: fb.StudentUID,
+                    stName: fb.StudentName,
+                    stAvatar: fb.StudentIMG,
+                    stFeedback: fb.Evaluation,
+                    lessonTime: '12/06/2020 10:30AM (GTM + 7)',
+                    lessonName: fb.Lession,
+                    rating: fb.Rate,
+                }
+            }));
+        } catch (error) {
+            setFeedbacks([]);
+            console.log(error.message);
+        }
+        setIsLoading(false);
     }
 
-    console.log('Feedback container Rendered');
     React.useEffect(() => {
-       fetchFeedback();
+        console.log(feedbacks);
+    }, [feedbacks])
+
+    React.useEffect(() => {
+        fetchFeedback();
     }, [filterValue])
 
     return (
@@ -239,54 +347,9 @@ const TeacherFeedback = () => {
                 <h3 className="mg-b-0 gradient-heading"><i className="fas fa-comment-dots" /> FEEDBACK</h3>
             </div>
             <div className="mg-t-30 feedback-container">
-                <div className="fb-summary-container">
-                    <p className="tx-16">Last 100 Parent Feedback Average: <span className="tx-warning tx-20 tx-bold">{averateRate}</span></p>
-                    <p className="tx-gray-500 tx-14">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus iure
-                    doloremque aperiam neque, tenetur harum soluta non pariatur explicabo sed ab vero assumenda dolore
-        molestias, dicta voluptates officiis error tempora?</p>
-                    <div className="fb-summary">
-                        <div className="fb-type">
-                            <div className="fb-radio">
-                                <label>
-                                    <input type="radio" name="fbType" group="feedback" value="all" defaultChecked onChange={handFilterValue} />
-                                    <span>All feedbacks <span className="number">882</span></span>
-                                </label>
-                            </div>
-                        </div>
-                        <div className="fb-type">
-                            <div className="fb-radio">
-                                <label>
-                                    <input type="radio" name="fbType" group="feedback" value="5" onChange={handFilterValue} />
-                                    <span>5 <i className="fa fa-star tx-warning"></i> Excellent <span className="number">882</span></span>
-                                </label>
-                            </div>
-                        </div>
-                        <div className="fb-type">
-                            <div className="fb-radio">
-                                <label>
-                                    <input type="radio" name="fbType" group="feedback" value="4" onChange={handFilterValue} />
-                                    <span>4 <i className="fa fa-star tx-warning"></i> Good<span className="number">10</span></span>
-                                </label>
-                            </div>
-                        </div>
-                        <div className="fb-type">
-                            <div className="fb-radio">
-                                <label>
-                                    <input type="radio" name="fbType" group="feedback" value="3" onChange={handFilterValue} />
-                                    <span>3 <i className="fa fa-star tx-warning"></i> Average<span className="number">2</span></span>
-                                </label>
-                            </div>
-                        </div>
-                        <div className="fb-type">
-                            <div className="fb-radio">
-                                <label>
-                                    <input type="radio" name="fbType" group="feedback" value="2" onChange={handFilterValue} />
-                                    <span>2 <i className="fa fa-star tx-warning"></i> Bad<span className="number">2</span></span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <RenderSummary
+                    handFilterValue={setFilterValue}
+                />
                 <div className="fb-list">
                     {
                         isLoading ? <SkeletonFeedback /> : (
@@ -304,7 +367,7 @@ const TeacherFeedback = () => {
                                     }}
                                 />)
                                 }
-                               {!!totalResult && totalResult >= pageSize && (
+                                {!!totalResult && totalResult >= pageSize && (
                                     <Pagination
                                         innerClass="pagination justify-content-end"
                                         activePage={pageNumber}

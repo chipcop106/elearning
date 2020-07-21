@@ -40,7 +40,7 @@ const TeacherBooking = () => {
             <div className="book__container mg-t-15">
                 <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
                     <h4 className="mg-b-0 gradient-heading"><i className="fas fa-address-card" /> BOOKING SCHEDULE</h4>
-                    <span className="tx-primary bg-gray-200 pd-5 rounded d-inline-block tx-medium"><i class="fas fa-globe-europe mg-r-5"></i>Timezone: GTM + 7</span>
+                    <span className="tx-primary bg-gray-200 pd-5 rounded d-inline-block tx-medium"><i className="fas fa-globe-europe mg-r-5"></i>Timezone: GTM + 7</span>
                 </div>
                 <div className="tab-navigation">
                     <ul className="list-tab" id="js-list-tab">

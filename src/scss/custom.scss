@@ -2437,6 +2437,7 @@ table.table-vcenter {
 
 .profile-sidebar {
     flex-shrink: 0;
+    min-width:300px;
 }
 
 #quick-chat-wrap {
@@ -6836,6 +6837,9 @@ input.time-only[readonly]{
             object-fit:cover;
             height:100%;
         }
+        .lds-ellipsis >div {
+            margin-left: 30px;
+        }
     }
     .teacher-info{
         margin-left:15px;
@@ -7129,7 +7133,6 @@ blockquote.messageText{
     }
 }
 
-
 .datetimepicker[readonly]{
     background:#fff;
 }
@@ -7141,7 +7144,7 @@ blockquote.messageText{
         }
     }
     &+ .foundations{
-        margin-top:60px;
+        margin-top:30px;
     }
 }
 
@@ -7196,6 +7199,7 @@ blockquote.messageText{
             img{
                 height:300px;
                 width:250px;
+                object-fit:contain
             }
         }
     }
@@ -7453,7 +7457,7 @@ blockquote.messageText{
             transition: opacity .3s linear;
         }
         &:after{
-            content:'\f093';
+            content:'\f03e';
             font-family:'Font Awesome 5 Free';
             font-size:60px;
             color:lighten($primary-color, 30%);
@@ -8032,6 +8036,9 @@ blockquote.messageText{
     align-items: center;
     justify-content: center;
     height: 100%;
+    .lds-ellipsis{
+        display:inline-block;
+    }
 
 }
 .book__calendar{
@@ -8053,7 +8060,7 @@ blockquote.messageText{
     background-color: rgba(0,0,0,.4);
 }
 .lds-ellipsis {
-    display: inline-block;
+    display: none;
     position: relative;
     width: 80px;
     height: 80px;

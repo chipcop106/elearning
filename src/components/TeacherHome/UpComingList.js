@@ -25,7 +25,7 @@ const UpComingList = () => {
 
     const fetchData = async () => {
         setIsLoading(true);
-        const res = await getUpcomingClass();
+        const res = await getUpcomingClass({Page:1});
         if (res.Code === 1 && res.Data) {
             setState(res.Data);
         }
@@ -42,8 +42,9 @@ const UpComingList = () => {
     }
 
     const refreshListUpcoming = (bookingId) => {
-        const newUpcomings = [...dashboardInfo.UpcomingLession].filter(item => item.BookingID !== bookingId);
-        setDashboardInfo({ ...dashboardInfo, UpcomingLession: newUpcomings });
+        const newUpcomings = [...state].filter(item => item.BookingID !== bookingId);
+        setState(newUpcomings);
+        console.log(bookingId);
     }
 
 
@@ -94,7 +95,7 @@ const UpComingList = () => {
             </div>
 
             <CancelBookingLessonModal
-                id={cancelData?.lessonId ?? ''}
+                BookingID={cancelData?.lessonId ?? ''}
                 name="Warning !!"
                 start={cancelData?.lessonStart ?? ''}
                 end={cancelData?.lessonEnd ?? ''}

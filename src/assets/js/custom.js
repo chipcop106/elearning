@@ -141,7 +141,10 @@ $(document).ready(function() {
         e.preventDefault();
         btnToggleMenu.classList.toggle('active');
     }
+    const menuOverlay =  document.querySelector('.menu-overlay');
+    if(menuOverlay){
+        menuOverlay.addEventListener('click',toggleMobileMenu);
+        btnToggleMenu.addEventListener('click',toggleMobileMenu);
+    }
 
-    document.querySelector('.menu-overlay').addEventListener('click',toggleMobileMenu);
-    btnToggleMenu.addEventListener('click',toggleMobileMenu);
 });

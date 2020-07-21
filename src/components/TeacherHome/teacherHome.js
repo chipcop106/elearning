@@ -7,7 +7,7 @@ import Skeleton from 'react-loading-skeleton';
 import Flatpickr from 'react-flatpickr';
 import TeacherSidebar from './TeacherSidebar';
 import UpComingList from './UpComingList';
-
+import { ToastContainer } from 'react-toastify';
 const DateTimeFormat = new Intl.DateTimeFormat('vi-VN', {
     dateStyle: 'short',
     month: "2-digit",
@@ -142,6 +142,17 @@ const TeacherHome = () => {
 
 
             <NoteForStudentModal />
+            <ToastContainer
+                position="top-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </>
     )
 }

@@ -31,7 +31,7 @@ const LessonDetail = () => {
 
   React.useEffect(() => {
     getAPI({
-      ElearnBookingID: 1,
+      BookingID: 1,
     })
   }, []);
 

@@ -46,9 +46,9 @@ const UpcomingRow = ({ data, showStudentModal }) => {
     )
 }
 
-const UpCommingTable = ({ showStudentModal }) => {
+const UpCommingTable = ({ updateSwiperHeight, showStudentModal }) => {
     const [isLoading, setIsLoading] = useState(true);
-    const [pageNumber, setPageNumber] = useState(0);
+    const [pageNumber, setPageNumber] = useState(1);
     const [data, setData] = useState(null);
 
     const loadUpcomingClasses = async () => {
@@ -60,6 +60,7 @@ const UpCommingTable = ({ showStudentModal }) => {
                 console.log('Code response khác 1');
             }
             setIsLoading(false);
+            updateSwiperHeight();
         } catch (error) {
             console.log(error);
             setIsLoading(false);

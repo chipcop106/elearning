@@ -97,6 +97,22 @@ export const getMissingFeedback = async (params) => {
     return result;
 }
 
+export const getFeedback = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/MissingFeedback', {
+            params: {
+                ...params,
+                UID:appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
 export const cancelSchedule = async (params) => {
     let result;
     try {
@@ -297,3 +313,20 @@ export const getMonthReport = async (params) => {
     }
     return result;
 }
+
+export const getOverviewFeedback = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/EvaluationOverview', {
+            params: {
+                ...params,
+                UID:appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
