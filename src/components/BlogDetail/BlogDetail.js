@@ -12,7 +12,7 @@ const BlogDetail = () => {
     setLoading(true);
     const res = await getNotificationDetailAPI(params);
     if(res.Code === 1) {
-      setState(res.Data)
+     setState(res.Data)
     }
     setLoading(false);
   }
@@ -39,15 +39,11 @@ const BlogDetail = () => {
             <div className="author-info">
               <a href={"#"} className="username"><span className="hasVerifiedBadge">{state.CreatedBy}</span></a>
               <div className="date-comment-view">
-                <span className="date"><span className="DateTime" title="11:20 ngày 2/10/19">{getFormattedDate(state.CreatedDate)}</span></span>
+                <span className="date"><span className="DateTime" title={moment(state.CreatedDate).format("LLLL")}>{getFormattedDate(state.CreatedDate)}</span></span>
               </div>
             </div>
           </div>
-          <article>
-            {
-              state.NotificationContent
-            }
-          </article>
+          <article> {state.NotificationContent} </article>
         </div>
       </div>
       }

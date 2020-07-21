@@ -98,7 +98,9 @@ const LessonUpcomingCard = ({
                 title="You can only cancel this lesson before start for 30 minutes !!"
                 onClick={(e) => handleCancelBooking(e, BookingID, LessionName, date, start, end)}
                 data-toggle="modal" data-target="#md-cancel-schedule"
-                data-placement="top"><i data-feather="x"></i> Cancel lesson</a>
+                data-placement="top">
+                  <i data-feather="x"></i> Cancel lesson
+                  </a>
               {/* <span className="tx-danger">Unavailable to cancel</span> */}
             </div>
           </div>

@@ -11,10 +11,11 @@ module.exports = {
     'Header': componentEnrtryPrefix + '/Header.js',
     'Footer': componentEnrtryPrefix + '/Footer.js',
     'login': componentEnrtryPrefix + 'Login/Login.js',
-    'forgotpassword': componentEnrtryPrefix + 'ForgotPassword/ForgotPassword.js',
     'signup': componentEnrtryPrefix + 'Signup/Signup.js',
+    'ProfileSidebar': componentEnrtryPrefix + '/ProfileSidebar.js',
+    'forgotpassword': componentEnrtryPrefix + 'ForgotPassword/ForgotPassword.js',
 
-     'teacherSupport': componentEnrtryPrefix + 'TeacherSupport/teacherSupport.js',
+   /*  'teacherSupport': componentEnrtryPrefix + 'TeacherSupport/teacherSupport.js',
     'teacherHome': componentEnrtryPrefix + 'TeacherHome/teacherHome.js',
     'teacherClassRooms': componentEnrtryPrefix + 'TeacherClassRooms/teacherClassRooms.js',
     'teacherBooking': componentEnrtryPrefix + 'TeacherBooking/teacherBooking.js',
@@ -22,26 +23,21 @@ module.exports = {
     'teacherReport': componentEnrtryPrefix + 'TeacherReport/teacherReport.js',
     'teacherPayment': componentEnrtryPrefix + 'TeacherPayment/teacherPayment.js',
     'teacherFeedback': componentEnrtryPrefix + 'TeacherFeedback/teacherFeedback.js',
-    'teacherProfile': componentEnrtryPrefix + 'TeacherProfile/teacherProfile.js',
-    'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/studentDashboard.js',
+    'teacherProfile': componentEnrtryPrefix + 'TeacherProfile/teacherProfile.js', */
     // 'DocumentSlider': componentEnrtryPrefix + 'TeacherLibrary/DocumentSlider.js',
     
-    'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js',
-    
-    'bookingLesson': componentEnrtryPrefix + 'StudentBooking/BookingLesson.js',
-    'teacherDetail': componentEnrtryPrefix + 'TeacherDetail/TeacherDetail.js',
-    
-    'ProfileSidebar': componentEnrtryPrefix + '/ProfileSidebar.js',
-    
-    'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/StudentDashboard.js',
-    
-    'feedback': componentEnrtryPrefix + 'Feedback/Feedback.js',
-    'lessonDetail': componentEnrtryPrefix + 'LessonDetail/LessonDetail.js',
-    'notification': componentEnrtryPrefix + 'Notification/Notification.js',
+
     'faq': componentEnrtryPrefix + 'Faq/Faq.js',
-    'lessonHistory': componentEnrtryPrefix + 'LessonHistory/LessonHistory.js',
-    'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js',
+    'feedback': componentEnrtryPrefix + 'Feedback/Feedback.js',
     'blogDetail': componentEnrtryPrefix + 'BlogDetail/BlogDetail.js',
+    'notification': componentEnrtryPrefix + 'Notification/Notification.js',
+    'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js',
+    'lessonDetail': componentEnrtryPrefix + 'LessonDetail/LessonDetail.js',
+    'lessonHistory': componentEnrtryPrefix + 'LessonHistory/LessonHistory.js',
+    'teacherDetail': componentEnrtryPrefix + 'TeacherDetail/TeacherDetail.js',
+    'bookingLesson': componentEnrtryPrefix + 'StudentBooking/BookingLesson.js',
+    'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js',
+    'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/StudentDashboard.js',
     'app': ['./src/scss/custom.scss', './src/assets/js/custom.js'], 
   },
   output: {

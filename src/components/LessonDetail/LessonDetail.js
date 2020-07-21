@@ -81,7 +81,7 @@ const LessonDetail = () => {
                 {
                   state.Rate==0 || state.Rate ? (<div className="st-rating">
                   <div className="cell text-left">
-                    <p className="st-noidung-rating">
+                    <div className="st-noidung-rating">
                       <div className="rating-stars">
                         <span className="empty-stars">
                           <i className="star fa fa-star"></i>
@@ -101,7 +101,7 @@ const LessonDetail = () => {
                       {state.Rate >= 4.5 &&
                       <span className="badge badge-light tx-success mg-l-5"><i
                         className="fa fa-check-circle"></i> Very Good</span>}
-                    </p>
+                    </div>
                   </div>
                 </div>):<p>Buổi học này chưa có đánh giá</p>
                 }
@@ -193,6 +193,7 @@ const LessonDetail = () => {
                 <h5 className="sub-title">Student Feedback</h5>
               </div>
               {
+               Object.keys(state).length === 0 ? "":(
                 state.StudentFeedback ? (
                   <div className="st-item-danhgia">
                     <p>{state.StudentFeedback}</p>
@@ -201,7 +202,7 @@ const LessonDetail = () => {
                   <button className="btn btn-primary mg-r-10"
                     data-toggle="modal"
                     data-target="#js-md-rate"
-                  >Leave Feedback</button></>)
+                  >Leave Feedback</button></>))
               }
             </div>
           </div>

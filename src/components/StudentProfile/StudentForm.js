@@ -39,10 +39,9 @@ const StudentForm = () => {
   const updatePassToastSuccess = () => toast("Update Password successful!", toastInit);
   const updatePassToastFail = () => toast("Update password fail, please retry!", toastInit);
 
-  const { register, handleSubmit, errors, setValue, control } = useForm();
+  const { register, handleSubmit, errors, getValues, setValue, control } = useForm();
 
   const onSubmit = data => {
-    console.log(data);
     let z = [];
        for(let i=0; i<data.SelectTarget.length; i++) {
         for(let j=0; j<listTarget.length; j++) {
@@ -164,7 +163,7 @@ const StudentForm = () => {
     getLanguage();
   }, [])
 
-  return !profile ? <>loading...</> : (
+  return !profile ? <></> : (
     <form id="form-account-profile" onSubmit={handleSubmit(onSubmit)}>
       <div className="form-account pd-y-15">
         <div className="student-avatar">
@@ -391,7 +390,7 @@ const StudentForm = () => {
           <div className="col-12">
             <div className="form-row  align-items-center ">
               <div className="form-group col-sm-3 col-label-fixed">
-                <p className="mg-b-0 tx-medium ">Bạn có yêu cầu gì với giáo viên không?</p>
+                <p className="mg-b-0 tx-medium ">Yêu cầu với giáo viên</p>
               </div>
               <div className="form-group col-sm-9">
                 <textarea id="" rows="3" className="form-control" placeholder="Your notes"
@@ -445,11 +444,19 @@ const StudentForm = () => {
                 <input type="password" className="form-control" placeholder=""
                   name="NewPass"
                   ref={register({
-                    validate: value => {
-                      if (passwordChange) {
-                        return value.length >= 6 || "Password must at least 6 characters"
+                    validate: {
+                      tooShort: value => {
+                        if (passwordChange) {
+                          return value.length >= 6 || "Password must at least 6 characters"
+                        }
+                        return true;
+                      },
+                      passDiff: value => {
+                        if (passwordChange) {
+                          return value !== getValues().OldPass || "New password must different from old password"
+                        }
+                        return true;
                       }
-                      return true;
                     }
                   })}
                   defaultValue={profile.NewPass} />

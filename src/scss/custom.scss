@@ -2437,6 +2437,12 @@ table.table-vcenter {
 
 .profile-sidebar {
     flex-shrink: 0;
+    @media screen and (min-width: 992px) {
+        max-width: 200px;
+    }
+    .avatar {
+        margin: 0 auto;
+    }
 }
 
 #quick-chat-wrap {

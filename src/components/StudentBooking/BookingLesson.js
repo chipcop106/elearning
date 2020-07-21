@@ -136,7 +136,6 @@ const BookingLesson = () => {
 
   const onSearch = (e) => {
     e.preventDefault();
-    console.log(state)
     let z = [];
     for (let i = 0; i < state.selectedLevelPurpose.length; i++) {
       for (let j = 0; j < state.levelPurpose.length; j++) {

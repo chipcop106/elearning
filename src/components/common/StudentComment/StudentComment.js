@@ -40,7 +40,6 @@ const StudentComment = ({ TeacherUID }) => {
     }
     else {
       /* Call API */
-      console.log(whoami)
        setCommentTooShort(null);
        let newListComment = [...state]
        newListComment.push({
