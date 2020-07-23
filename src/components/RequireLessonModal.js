@@ -25,7 +25,9 @@ const RequireLessonModal = ({
   start,
   end,
   DocumentName,
-  SkypeID, }) => {
+  SkypeID,
+  callback,
+  }) => {
   const [state, setState] = React.useState(initialState)
   const requireLesson = () => toast("Thank for your request!", toastInit);
   const requireLessonFail = () => toast("Some error happened, please retry!", toastInit);
@@ -37,6 +39,7 @@ const RequireLessonModal = ({
     if (result === 1) //Success 
     {
       requireLesson();
+      callback && callback(params.SpecialRequest, BookingID, TeacherUID);
     }
     else { //Fail
       requireLessonFail();

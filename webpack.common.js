@@ -26,18 +26,19 @@ module.exports = {
     'teacherProfile': componentEnrtryPrefix + 'TeacherProfile/teacherProfile.js', */
     // 'DocumentSlider': componentEnrtryPrefix + 'TeacherLibrary/DocumentSlider.js',
     
-    'bookingLesson': componentEnrtryPrefix + 'StudentBooking/BookingLesson.js',
-    /* 'faq': componentEnrtryPrefix + 'Faq/Faq.js',
+     'bookingLesson': componentEnrtryPrefix + 'StudentBooking/BookingLesson.js',
+    'faq': componentEnrtryPrefix + 'Faq/Faq.js', 
     'feedback': componentEnrtryPrefix + 'Feedback/Feedback.js',
-    'blogDetail': componentEnrtryPrefix + 'BlogDetail/BlogDetail.js',
+    'lessonDetail': componentEnrtryPrefix + 'LessonDetail/LessonDetail.js',
+     'blogDetail': componentEnrtryPrefix + 'BlogDetail/BlogDetail.js',
     'notification': componentEnrtryPrefix + 'Notification/Notification.js',
     'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js',
-    'lessonDetail': componentEnrtryPrefix + 'LessonDetail/LessonDetail.js',
+    
     'lessonHistory': componentEnrtryPrefix + 'LessonHistory/LessonHistory.js',
     'teacherDetail': componentEnrtryPrefix + 'TeacherDetail/TeacherDetail.js',
     
     'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js',
-    'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/StudentDashboard.js', */
+    'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/StudentDashboard.js',
     'app': ['./src/scss/custom.scss', './src/assets/js/custom.js'], 
   },
   output: {

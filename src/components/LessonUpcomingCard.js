@@ -30,7 +30,14 @@ const LessonUpcomingCard = ({
     e.preventDefault()
     onHandleCancelBooking(BookingID, LessionName, date, start, end)
   }
-  
+
+  console.log(start)
+  console.log(end)
+  console.log(date)
+  let now = new Date();
+  console.log(new Date("15/07/2020 06:00"))
+  console.log(moment(now).format("DD/MM/YYYY"))
+
   return (
     <li className="cr-item upcoming-lesson lesson-info" style={{position:'relvate'}}>
       <div className={`${lock.id === BookingID && lock.lock ? '':'d-none'}`} style={{zIndex:"99",position:"absolute",top:0,left:0,width:"100%",height:"100%"}}></div>
@@ -46,7 +53,7 @@ const LessonUpcomingCard = ({
           <div>
           <h5 className="mg-b-10 ">
             <span className="badge badge-warning">Incoming</span>{' '}
-            <a href={`lessonDetail.html?ID=${BookingID}`} className="course-name tx-bold">{LessionName}</a>
+            <a href={`lessonDetail.html?ID=${BookingID}`} className="course-name tx-bold">{DocumentName}</a>
           </h5>
           <div className="course-information tx-14">
             <span className="mg-r-15 tx-gray-600 tx-medium"><i className="fa fa-calendar tx-info mg-r-5"></i>
@@ -70,7 +77,7 @@ const LessonUpcomingCard = ({
                     <span className="file-ext">{`.${doc.split('.')[1]}`}</span>
                   </a>
                 ) */
-                <a href={LessionMaterial} target="_blank">{DocumentName}</a>
+                <a href={LessionMaterial} target="_blank">{LessionName}</a>
               }
             </div>
           </div>
@@ -95,7 +102,7 @@ const LessonUpcomingCard = ({
                   end,
                   DocumentName,
                   SkypeID)}>
-                <i className="fas fa-edit mg-r-5"></i> Checking lesson booking </a>
+                <i className="fas fa-edit mg-r-5"></i> Require teacher </a>
             </div>
             <div className="action-right">
               <a href={"#"} className="btn btn-sm btn-outline-danger d-flex justify-content-center align-items-center"

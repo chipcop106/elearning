@@ -17,12 +17,13 @@ export const getLessons = async () => {
     return result;
 }
 
-export const getUpcomingLessons = async () => {
+export const getUpcomingLessons = async (params) => {
     let result;
     try {
         let res = await instance.get(path + '/GetUpcomingLessions', {
             params: {
-                UID: appSettings.UID
+                UID: appSettings.UID,
+                Page: params.Page,
             }
         })
         result = res.data;
@@ -309,6 +310,38 @@ export const getAllStudentReviewAPI = async (params) => {
             params: {
                 UID: appSettings.UID,
                 TeacherUID: params.TeacherUID,
+                Page: params.Page,
+            }
+        })
+        result = res.data;
+    } catch (error) {
+        return error.message ? error.message : result = "";
+    }
+    return result;
+}
+
+export const getFeedbackOverviewAPI = async () => {
+    let result;
+    try {
+        let res = await instance.get(path + '/FeedbackOverview', {
+            params: {
+                UID: appSettings.UID
+            }
+        })
+        result = res.data;
+    } catch (error) {
+        return error.message ? error.message : result = "";
+    }
+    return result;
+}
+
+export const getListEvaluationAPI = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/FeedbackOverview', {
+            params: {
+                UID: appSettings.UID,
+                Rate: params.Rate,
                 Page: params.Page,
             }
         })

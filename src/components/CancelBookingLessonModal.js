@@ -59,7 +59,7 @@ const CancelBookingLessonModal = ({ BookingID, LessionName, date, start, end, st
           </button>
         </div>
         <div className="modal-body">
-          <p id="newCampaignTitle">Lesson Name: {LessionName || ''}</p>
+          <p id="newCampaignTitle">Lesson Name: <span className="tx-medium">{LessionName || ''}</span></p>
           <p>Date: <span id="js-date-time" className="tx-medium">{date || ''}</span></p>
           <p>Start time: <span id="js-start-time" className="tx-medium">{start || ''}</span></p>
           <p>End time: <span id="js-end-time" className="tx-medium">{end || ''}</span></p>

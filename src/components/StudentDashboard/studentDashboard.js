@@ -127,6 +127,14 @@ const Dashboard = () => {
     }
   }
 
+  const cbRequireLesson = (SpecialRequest, BookingID, TeacherUID) => {
+    let newState = {...state}
+      const index = newState.UpcomingLessions.findIndex
+        (item => item.BookingID === BookingID && item.TeacherUID === TeacherUID);
+      newState.UpcomingLessions[index].SpecialRequest = SpecialRequest;
+      setState(newState)
+  }
+
   const getAPI = async () => {
     setLoading(true);
     const res = await getLessons();
@@ -245,7 +253,8 @@ const Dashboard = () => {
               start={stateRequireLesson.start}
               end={stateRequireLesson.end}
               DocumentName={stateRequireLesson.DocumentName}
-              SkypeID={stateRequireLesson.SkypeID} />
+              SkypeID={stateRequireLesson.SkypeID}
+              callback={cbRequireLesson} />
 
             <CancelBookingLessonModal
               BookingID={stateCancelLesson.BookingID}
