@@ -71,7 +71,7 @@ const UpCommingTable = ({ showStudentModal }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [filterStatusAllClass, setFilterStatusAllClass] = React.useState(0);
     const [pageNumber, setPageNumber] = useState(1);
-    const [data, setData] = useState(null);
+    const [data, setData] = useState([]);
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
 
@@ -172,7 +172,7 @@ const UpCommingTable = ({ showStudentModal }) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {!!data && !!data.length > 0 && data.map(item => <AllClassRow key={`${item.BookingID}`} data={item} showStudentModal={showStudentModal} />)}
+                                    {!!data && !!data.length > 0 ? data.map(item => <AllClassRow key={`${item.BookingID}`} data={item} showStudentModal={showStudentModal} />) : (<tr><td colSpan={7}><span className="tx-danger d-block tx-center tx-medium tx-16">No classes.</span></td></tr>)}
                                 </tbody>
                             </table>
                         </div>

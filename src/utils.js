@@ -71,11 +71,10 @@ export const convertDateFromTo = (dateStr) => {
 }
 
 const getDifferentMinBetweenTime = (startDate, endDate) => {
-    const oneMinutes = 1000 * 60 * 60;
     const startTime = startDate.getTime();
     const endTime = endDate.getTime();
     const diffTime = endTime - startTime;
-    return Math.round(diffTime / oneMinutes);
+    return  Math.floor((diffTime/1000/60) << 0)
 };
 
 export const checkCancelTime = (startTime) => {

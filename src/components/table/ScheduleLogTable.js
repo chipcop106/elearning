@@ -76,7 +76,7 @@ const ScheduleLogTable = ({ showStudentModal }) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {!!data && !!data.length > 0 && data.map((item, index) => <OperationRow key={`${index}`} data={item} showStudentModal={showStudentModal} />)}
+                                    {!!data && !!data.length > 0 ? data.map((item, index) => <OperationRow key={`${index}`} data={item} showStudentModal={showStudentModal} />) : (<tr><td colSpan={6}><span className="tx-danger d-block tx-center tx-medium tx-16">No data found.</span></td></tr>)}
                                 </tbody>
                             </table>
                         </div>

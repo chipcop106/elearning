@@ -230,6 +230,9 @@ const bookingCalendar = () => {
     const triggerTodayCalendar = () => {
         setActiveDate(new Date());
     }
+    const allEventDidMount = (event, relatedEvents, revert) => {
+        console.log(event);
+    }
 
     const initCalendar = () => {
         //const createEventSlots
@@ -628,12 +631,12 @@ const bookingCalendar = () => {
         // console.log(calendar);
         if (!!calendar) {
             console.log('Event source updated', eventSource);
-            //  calendar.addEventSource(eventSource);
+            // calendar.addEventSource(eventSource);
             let eventsInstance = calendar.getEventSources();
+            console.log(eventsInstance);
             eventsInstance[0] && eventsInstance[0].remove();
             calendar.addEventSource(eventSource);
         }
-
     }, [eventSource]);
 
     useEffect(() => {

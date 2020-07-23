@@ -138,7 +138,7 @@ const BookingRequest = () => {
                                             handleCancelLesson={handleCancelLesson}
                                         />
                                     </div>) : (
-                                            <div className="empty-error tx-center mg-y-30 bg-white">
+                                            <div className="empty-error tx-center mg-y-30 bg-white mg-x-auto">
                                                 <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" />
                                                 <p className=" tx-danger tx-medium">You don't have any book lesson with student</p>
                                             </div>

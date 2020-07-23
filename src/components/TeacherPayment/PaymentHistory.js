@@ -102,7 +102,7 @@ const PaymentHistory = () => {
                             </tr>
                             </>
                         ) : (
-                            !!data && !!data.length > 0 && data.map((item,index) => <RenderRow key={`${index}`} data={item} />)
+                            !!data && !!data.length > 0 ? data.map((item,index) => <RenderRow key={`${index}`} data={item} />) : (<tr><td colSpan={3}><span className="tx-danger d-block tx-center tx-medium tx-16">No data found.</span></td></tr>)
                         )}
 
 

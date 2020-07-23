@@ -131,7 +131,7 @@ const TeacherSidebar = () => {
                     <div className="avatar avatar-xxl avatar-online"><img src="../assets/img/default-avatar.png" className="rounded-circle" alt="" /></div>
                     <h5 className="mg-b-2 tx-spacing--1 mg-t-15">{!isLoading ? state.FullName || '' : <Skeleton width={50} />}</h5>
                     <div className="d-flex mg-b-25 mg-t-15">
-                        <a className="btn btn-xs btn-primary mg-r-10" href={`teacherProfile.html`}><i class="far fa-id-card mg-r-5"></i> profile</a>
+                        <a className="btn btn-xs btn-primary mg-r-10" href={`teacherProfile.html`}><i className="far fa-id-card mg-r-5"></i> profile</a>
                         <button type="button" className="btn btn-xs btn-primary " onClick={showChangePasswordForm}><i className="fas fa-key mg-r-5" ></i> Change password</button>
                     </div>
                 </div>{/* col */}

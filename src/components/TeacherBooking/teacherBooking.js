@@ -66,9 +66,6 @@ const TeacherBooking = () => {
                             </div>
                             <div className="swiper-slide">
                                 <div className="slide-tab-content">
-                                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Asperiores minima
-                                    nesciunt unde exercitationem vitae quibusdam reiciendis rerum necessitatibus
-                                    ipsa aliquam praesentium totam modi tempore, illum sint vero eius aperiamcumque.</p>
                                     <ScheduleLogTable />
                                 </div>
                             </div>

@@ -13,7 +13,7 @@ import {
     getOtherCertificateOptions,
     getTeachingExperienceOptions,
     getTimeZone,
-    getLevelPurposeOptions
+    getListLevelPurpose
 
 } from '~src/api/optionAPI';
 
@@ -121,7 +121,7 @@ const TeacherForm = (props) => {
     const loadSelectOptionAPI = async () => {
             getEnglishProficiencyOptions().then((res) => setFieldValue('englishProficienOptions', res?.Data ?? []));
             getLevelOfEducationOptions().then((res) => setFieldValue('levelOfEducationOptions', res?.Data ?? []));
-            getLevelPurposeOptions().then((res) => setFieldValue('levelOfPurposeOptions', res?.Data ?? []));
+            getListLevelPurpose().then((res) => setFieldValue('levelOfPurposeOptions', res?.Data ?? []));
             getTeylCertificateOptions().then((res) => setFieldValue('teylCertificateOptions', res?.Data ?? []));
             getTeachingExperienceOptions().then((res) => setFieldValue('teacherExperiences', res?.Data ?? []));
             getOtherCertificateOptions().then((res) => setFieldValue('otherCertificateOptions', res?.Data ?? []));

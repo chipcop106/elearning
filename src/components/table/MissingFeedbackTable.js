@@ -49,7 +49,7 @@ const MissingFeedbackRow = ({ data }) => {
 const MissingFeedbackTable = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [pageNumber, setPageNumber] = useState(1);
-    const [data, setData] = useState(null);
+    const [data, setData] = useState([]);
 
     const loadMissingFeedback = async () => {
         try {
@@ -87,7 +87,7 @@ const MissingFeedbackTable = () => {
                                 </thead>
                                 {/*1 item*/}
                                 <tbody>
-                                    {!!data && !!data.length > 0 && data.map(item => <MissingFeedbackRow key={`${item.BookingID}`} data={item} />)}
+                                    {!!data && !!data.length > 0 ? data.map(item => <MissingFeedbackRow key={`${item.BookingID}`} data={item} />) : (<tr><td colSpan={4}><span className="tx-danger d-block tx-center tx-medium tx-16">No data found.</span></td></tr>)}
                                 </tbody>
                             </table>
                         </div>

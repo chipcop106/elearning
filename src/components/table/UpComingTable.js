@@ -96,7 +96,7 @@ const UpCommingTable = ({ updateSwiperHeight, showStudentModal }) => {
                                 {/*1 item*/}
                                 <tbody>
                                     {!!data && !!data.length > 0 ? data.map(item => <UpcomingRow key={`${item.BookingID}`} data={item} showStudentModal={showStudentModal} />) 
-                                    : (<tr><td colspan={5}><span className="tx-danger d-block tx-center tx-medium tx-16">No data found.</span></td></tr>)}
+                                    : (<tr><td colSpan={5}><span className="tx-danger d-block tx-center tx-medium tx-16">No upcoming classes.</span></td></tr>)}
                                 </tbody>
                             </table>
                         </div>

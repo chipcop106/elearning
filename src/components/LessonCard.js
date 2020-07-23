@@ -41,9 +41,9 @@ const LessonCard = (
 
                 <div className={`media-body   pos-relative ${!actionDisplay ? `pd-b-0-f` : ``}`}>
                     <h5 className="mg-b-10">
-                        {lessonStatus === 'finished' ? (
+                        {lessonStatus === 'Finished' ? (
                             <span className="badge badge-success  mg-r-10 pd-x-10 pd-y-5 tx-12">Finished</span>
-                        ) : lessonStatus === 'incoming' ? (
+                        ) : lessonStatus === 'Incoming' ? (
                             <span className="badge badge-warning  mg-r-10 pd-x-10 pd-y-5 tx-12">Incoming</span>
                         ) : (
                                     <span className="badge badge-warning  mg-r-10 pd-x-10 pd-y-5 tx-12">{lessonStatus}</span>
@@ -89,7 +89,7 @@ const LessonCard = (
                         </div>
                     )}
 
-                    {!!rating && lessonStatus === 'finished' && (
+                    {!!rating && lessonStatus === 'Finished' && (
                         <div className="course-rate mg-t-15">
                             <h6 className="mg-b-3">Rating lesson:</h6>
                             <div className="rating-wrap ">
@@ -107,7 +107,7 @@ const LessonCard = (
                     {actionDisplay === true && (
                         <div className="course-actions">
                             <div className="action-left">
-                                {lessonStatus === 'finished' ? (
+                                {lessonStatus === 'Finished' ? (
                                     <a href="lesson-detail.html" className="btn btn-sm btn-warning mg-r-10" target="_blank" rel="noopener"><i className="fas fa-vote-yea mg-r-5" /> Detail lesson</a>
                                 ) :
                                     !!studentNote ? (
@@ -125,11 +125,9 @@ const LessonCard = (
                                         )
 
                                 }
-
-
                             </div>
                             <div className="action-right">
-                                {lessonStatus !== 'finished' && (!!cancellable ? (
+                                {lessonStatus !== 'Finished' && (!!cancellable ? (
                                     <a href={`#`} onClick={_onClickCancel} className="btn btn-sm btn-outline-danger" data-toggle="tooltip" title="You can only cancel this lesson before start for 30 minutes !!" data-placement="top"><i data-feather="x"></i> Cancel lesson</a>
                                 ) : (
                                         <span className="tx-danger">Unavailable to cancel</span>

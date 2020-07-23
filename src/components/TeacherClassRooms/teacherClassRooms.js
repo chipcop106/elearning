@@ -62,13 +62,13 @@ const TeacherClassRooms = () => {
                         <div className="tab-navigation">
                             <ul className="list-tab" id="js-list-tab">
                                 <li className="tab-item">
-                                    <span className="tab-link active" data-index={0}>Upcoming classe</span>
+                                    <span className="tab-link active" data-index={0}>Upcoming classes</span>
                                 </li>
                                 <li className="tab-item">
                                     <span className="tab-link " data-index={1}>Missing feedback</span>
                                 </li>
                                 <li className="tab-item">
-                                    <span className="tab-link " data-index={2}>All Classed</span>
+                                    <span className="tab-link " data-index={2}>All Classes</span>
                                 </li>
                             </ul>
                         </div>
