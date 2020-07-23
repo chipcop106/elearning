@@ -11,7 +11,6 @@ module.exports = {
     'Header': componentEnrtryPrefix + '/Header.js',
     'Footer': componentEnrtryPrefix + '/Footer.js',
     'login': componentEnrtryPrefix + 'Login/Login.js',
-    'forgotpassword': componentEnrtryPrefix + 'ForgotPassword/ForgotPassword.js',
     'signup': componentEnrtryPrefix + 'Signup/Signup.js',
     'app': ['./src/scss/custom.scss', './src/assets/js/custom.js'],
     'teacherHome': componentEnrtryPrefix + 'TeacherHome/teacherHome.js',

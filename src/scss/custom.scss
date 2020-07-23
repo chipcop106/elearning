@@ -1770,15 +1770,6 @@ img {
     padding: 15px;
 }
 
-.blog-detail .profile-sidebar {
-    width: 300px;
-}
-
-@include media(992px) {
-    .blog-detail .profile-sidebar {
-        width: 100%;
-    }
-}
 
 .date-comment-view .comment:before {
     content: '•';
@@ -2437,7 +2428,12 @@ table.table-vcenter {
 
 .profile-sidebar {
     flex-shrink: 0;
-    min-width:300px;
+    @media screen and (min-width: 992px) {
+        max-width: 275px;
+    }
+    .avatar {
+        margin: 0 auto;
+    }
 }
 
 #quick-chat-wrap {
@@ -6952,9 +6948,6 @@ input.time-only[readonly]{
     }
     .col-time{
         white-space:nowrap;
-        >span{
-           
-        }
     }
     .col-info{
         padding-left:30px;
@@ -6988,8 +6981,7 @@ input.time-only[readonly]{
         }
     }
 }
-.empty-error{
-}
+
 #select2-target-select-results{
     .select2-results__option:before {
         content: "";
@@ -7518,9 +7510,7 @@ blockquote.messageText{
         
 
     }
-    .gv-situation-btn{
 
-    }
     .gv-datime-luong{
         margin: 15px 0;
     }
@@ -7688,10 +7678,6 @@ blockquote.messageText{
         
 }
 .clrm{
-    .clrm-notice{
-    
-        
-    }
     .clrm-icon{
         color: $primary-color;
         margin-right: 5px;
@@ -7774,9 +7760,6 @@ blockquote.messageText{
                         color: $red;
                     }
                 }
-                .clrm-status{
-
-                }
                 .clrm-a-bnt{
                     margin: 5px;
                     float: left;
@@ -7788,9 +7771,6 @@ blockquote.messageText{
                         color: lighten($color: #000000, $amount: 50%);
                     }
                 }
-                }
-                .clrm-print-btn{
-                    
                 }
             }
             
@@ -7987,9 +7967,6 @@ blockquote.messageText{
                     padding-bottom: 3px;
                     margin-bottom: 0;
                 }
-            }
-            .canhphai{
-                
             }
         }
     }

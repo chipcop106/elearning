@@ -1,7 +1,6 @@
 export const appSettings = {
     baseURL:'https://e-learn.monamedia.net/Api',
     key:'VnVOQG0zODlNb25hRGV2',
-    UID:1,
     colors:{
         second:'#fd5e8e',
         primary: '#fd7e14',
@@ -36,4 +35,5 @@ export const appSettings = {
         },
       
     }
+    UID: 1062,
 }

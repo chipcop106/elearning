@@ -122,3 +122,12 @@ body{
     width: 100%!important;
   }
 }
+
+#div-nationality {
+  .national-checkbox {
+    @media screen and (max-width: 768px) {
+      width: auto;
+      margin-right: 10px;
+    }
+  }
+}

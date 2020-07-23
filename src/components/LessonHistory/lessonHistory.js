@@ -126,8 +126,8 @@ const LessonHistory = () => {
         <tbody>
           {
             loading ? <SkeletonLessonHistoryCard /> :
-              !!data && Array.isArray(data) && data.length > 0 &&
-              data.map(item => <LessonItem
+              !!data && Array.isArray(data) && data.length > 0 ?
+                data.map(item => <LessonItem
                 key={item.CoursesID}
                 CoursesID={item.CoursesID}
                 DocumentID={item.DocumentID}
@@ -140,7 +140,8 @@ const LessonHistory = () => {
                 TeacherID={item.TeacherID}
                 Teacher={item.Teacher}
                 Status={item.Status}
-                StatusString={item.StatusString} />)
+                StatusString={item.StatusString} />):
+                <tr><td><h4 className="mg-t-15">Không có dữ liệu</h4></td></tr>
           }
         </tbody>
       </table>

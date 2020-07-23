@@ -10,7 +10,7 @@ const Faq = () => {
   const getAPI = async () => {
     setLoading(true);
     const res = await getFaqAPI();
-    if(res.Code === 1) {
+    if (res.Code === 1) {
       setState(res.Data)
     }
     setLoading(false);
@@ -33,28 +33,28 @@ const Faq = () => {
           <div id="accordion">
             {
               !!state && state.length > 0 && state.map((item, index) =>
-                !item.isHide ? <div className="card">
-                <div className="card-header" id={item.ID}>
-                  <h5 className="mb-0">
-                    <button
-                    className="btn btn-link collapsed"
-                    data-toggle="collapse"
-                    aria-expanded={index===0 ? 'true' : 'false'}
-                    data-target={`#collapse${item.ID}`}
-                    aria-controls={`collapse${item.ID}`}>
-                      {item.Title}
-                </button>
-                  </h5>
-                </div>
-                <div
-                data-parent="#accordion"
-                id={`collapse${item.ID}`}
-                className={`${index ===0 ? 'show' : ''} collapse`}
-                aria-labelledby={item.ID} >
-                  <div className="card-body" dangerouslySetInnerHTML={{ __html: item.FaqContent }}>
+                <div className="card">
+                  <div className="card-header" id={item.ID}>
+                    <h5 className="mb-0">
+                      <button
+                        className="btn btn-link collapsed"
+                        data-toggle="collapse"
+                        aria-expanded={index === 0 ? 'true' : 'false'}
+                        data-target={`#collapse${item.ID}`}
+                        aria-controls={`collapse${item.ID}`}>
+                        {item.Title}
+                      </button>
+                    </h5>
+                  </div>
+                  <div
+                    data-parent="#accordion"
+                    id={`collapse${item.ID}`}
+                    className={`${index === 0 ? 'show' : ''} collapse`}
+                    aria-labelledby={item.ID} >
+                    <div className="card-body" dangerouslySetInnerHTML={{ __html: item.FaqContent }}>
+                    </div>
                   </div>
                 </div>
-              </div>: ""
               )
             }
           </div>

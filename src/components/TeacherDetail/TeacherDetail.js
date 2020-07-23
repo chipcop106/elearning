@@ -105,14 +105,18 @@ const TeacherDetail = () => {
   }
 
   React.useEffect(() => {
+    let search = window.location.search;
+    let params = new URLSearchParams(search);
+    let ID = params.get('ID');
+
     getAPI({
-      TeacherUID: 1,
+      TeacherUID: ID,
     })
   }, [])
 
   return loading ? <SkeletonLessonCard /> : <>
     {
-      !!state && <div className="teacher__detail__wrap card-box">
+      !!state ? <div className="teacher__detail__wrap card-box">
         <div className="teacher__detail">
           <div className="teacher-header">
             <div className="teacher-avatar">
@@ -209,9 +213,8 @@ const TeacherDetail = () => {
           start={stateBookLesson.start}
           end={stateBookLesson.end}
           onBook={onBook} />
-
         <ToastContainer />
-      </div>
+      </div>:<h2>Không có dữ liệu</h2>
     }
   </>
 }

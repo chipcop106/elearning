@@ -33,8 +33,10 @@ const initialRatingLesson = {
 const initialRequireLesson = {
   BookingID: "",
   avatar: "",
+  TeacherUID: "",
   TeacherName: "",
   LessionName: "",
+  LessionMaterial: "",
   SpecialRequest: "",
   date: "",
   start: "",
@@ -54,7 +56,6 @@ const Dashboard = () => {
   const [stateRequireLesson, setStateRequireLesson] = React.useState(initialRequireLesson);
   const [loading, setLoading] = React.useState(false)
 
-
   const handleRatingLesson = (BookingID, TeacherUID, TeacherName) => {
     setStateRatingLesson({
       ...stateRatingLesson,
@@ -64,12 +65,14 @@ const Dashboard = () => {
     })
   }
 
-  const handleRequireLesson = (BookingID, avatar, TeacherName, LessionName, SpecialRequest, date, start, end, DocumentName, SkypeID) => {
+  const handleRequireLesson = (BookingID, avatar, TeacherUID, TeacherName, LessionMaterial, LessionName, SpecialRequest, date, start, end, DocumentName, SkypeID) => {
     setStateRequireLesson({
       ...stateRequireLesson,
       BookingID,
       avatar,
+      TeacherUID,
       TeacherName,
+      LessionMaterial,
       LessionName,
       SpecialRequest,
       date,
@@ -111,6 +114,16 @@ const Dashboard = () => {
           UpcomingLessions: newUpcomingLessions,
         })
       }
+    }
+  }
+
+  const cbRatingLesson = (result, message, rating, BookingID, TeacherUID) => {
+    if(result === 1) { //Rating Success
+      let newState = {...state}
+      const index = newState.LessionHistory.findIndex
+      (item => item.BookingID === BookingID && item.TeacherUID === TeacherUID);
+      newState.LessionHistory[index].Rate1 = rating;
+      setState(newState)
     }
   }
 
@@ -171,9 +184,10 @@ const Dashboard = () => {
                         <LessonUpcomingCard
                           key={item.BookingID}
                           BookingID={item.BookingID}
-                          teacherUID={item.TeacherUID}
+                          TeacherUID={item.TeacherUID}
                           TeacherName={item.TeacherName}
                           LessionName={item.LessionName}
+                          LessionMaterial={item.LessionMaterial}
                           SpecialRequest={item.SpecialRequest}
                           start={convertDateFromTo(item.ScheduleTimeVN).fromTime}
                           end={convertDateFromTo(item.ScheduleTimeVN).endTime}
@@ -202,12 +216,12 @@ const Dashboard = () => {
                           key={item.BookingID}
                           BookingID={item.BookingID}
                           TeacherUID={item.TeacherUID}
-                          TeacherName={item.TeacherName}
+                          TeacherName={item.Teacher}
                           LessionName={item.LessionName}
-                          start={convertDateFromTo(item.ScheduleTime).fromTime}
-                          end={convertDateFromTo(item.ScheduleTime).endTime}
-                          date={convertDateFromTo(item.ScheduleTime).date}
-                          Rate={item.Rate}
+                          start={convertDateFromTo(item.Schedule).fromTime}
+                          end={convertDateFromTo(item.Schedule).endTime}
+                          date={convertDateFromTo(item.Schedule).date}
+                          Rate={item.Rate1}
                           onHandleRatingLesson={handleRatingLesson} />)
                   }
                 </ul>
@@ -216,13 +230,16 @@ const Dashboard = () => {
             <RatingLessonModal
               BookingID={stateRatingLesson.BookingID}
               TeacherUID={stateRatingLesson.TeacherUID}
-              TeacherName={stateRatingLesson.TeacherName} />
+              TeacherName={stateRatingLesson.TeacherName}
+              callback={cbRatingLesson}/>
 
             <RequireLessonModal
               BookingID={stateRequireLesson.BookingID}
               avatar={stateRequireLesson.avatar}
+              TeacherUID={stateRequireLesson.TeacherUID}
               TeacherName={stateRequireLesson.TeacherName}
               LessionName={stateRequireLesson.LessionName}
+              LessionMaterial={stateRequireLesson.LessionMaterial}
               SpecialRequest={stateRequireLesson.SpecialRequest}
               date={stateRequireLesson.date}
               start={stateRequireLesson.start}

@@ -67,7 +67,7 @@ const PurchasedCourseCard = ({
                 status == "ongoing" ?
                   <a href="bookingLesson.html" className="btn btn-sm btn-primary mg-r-10" target="_blank" rel="noopener"><i className="fa fa-book mg-r-5" />
                 Book lessons</a> :
-                  <a href="#" className="btn btn-sm btn-warning mg-r-10" target="_blank" rel="noopener"><i className="fas fa-vote-yea mg-r-5" />
+                  <a href="lessonDetail.html" className="btn btn-sm btn-warning mg-r-10" target="_blank" rel="noopener"><i className="fas fa-vote-yea mg-r-5" />
                  Overview lesson</a>
               }
             </div>

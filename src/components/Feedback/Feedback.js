@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import StudentCommnetItem from "~components/common/StudentComment/StudentCommentItem";
 import SkeletonFeedback from "~components/common/Skeleton/SkeletonFeedback";
 import Pagination from "react-js-pagination";
 import styles from "~components/Feedback/Feedback.module.scss"
@@ -9,43 +10,47 @@ const initialState = {
   feedbacks: [
     {
       id: randomId(),
-      stName: 'Truong Van Lam',
-      stAvatar: 'https://i.pinimg.com/236x/aa/84/88/aa8488c0bdc927ac836586c004c7cb12.jpg',
-      stFeedback: 'This course is so great',
-      lessonTime: '12/06/2020 10:30AM',
-      lessonName: 'Lesson 6: ReactJS application',
-      rating: 3.5,
-      teacherComments: []
+      StudentUID: randomId(),
+      StudentName: 'Truong Van Lam',
+      StudentIMG: 'https://i.pinimg.com/236x/aa/84/88/aa8488c0bdc927ac836586c004c7cb12.jpg',
+      Evaluation: 'This course is so great',
+      CreatedDate: new Date(),
+      LessionName: 'Lesson 6: ReactJS application',
+      LessionID: randomId(),
+      Rate: 3.5,
     },
     {
       id: randomId(),
-      stName: 'Truong Van Lam',
-      stAvatar: 'https://i.pinimg.com/236x/aa/84/88/aa8488c0bdc927ac836586c004c7cb12.jpg',
-      stFeedback: 'This course is so great',
-      lessonTime: '12/06/2020 10:30AM',
-      lessonName: 'Lesson 6: ReactJS application',
-      rating: 5,
-      teacherComments: [],
+      StudentUID: randomId(),
+      StudentName: 'Truong Van Lam',
+      StudentIMG: 'https://i.pinimg.com/236x/aa/84/88/aa8488c0bdc927ac836586c004c7cb12.jpg',
+      Evaluation: 'This course is so great',
+      CreatedDate: new Date(),
+      LessionName: 'Lesson 6: ReactJS application',
+      LessionID: randomId(),
+      Rate: 5,
     },
     {
       id: randomId(),
-      stName: 'Hoang Van Thai',
-      stAvatar: 'https://i.pinimg.com/236x/aa/84/88/aa8488c0bdc927ac836586c004c7cb12.jpg',
-      stFeedback: 'This course is so great',
-      lessonTime: '12/06/2020 10:30AM',
-      lessonName: 'Lesson 6: ReactJS application',
-      rating: 4,
-      teacherComments: [],
+      StudentUID: randomId(),
+      StudentName: 'Hoang Van Thai',
+      StudentIMG: 'https://i.pinimg.com/236x/aa/84/88/aa8488c0bdc927ac836586c004c7cb12.jpg',
+      Evaluation: 'This course is so great',
+      CreatedDate: new Date(),
+      LessionName: 'Lesson 6: ReactJS application',
+      LessionID: randomId(),
+      Rate: 4,
     },
     {
       id: randomId(),
-      stName: 'Truong Van Lam',
-      stAvatar: 'https://i.pinimg.com/236x/aa/84/88/aa8488c0bdc927ac836586c004c7cb12.jpg',
-      stFeedback: 'Hello world',
-      lessonTime: '12/06/2020 10:30AM',
-      lessonName: 'Lesson 6: ReactJS application',
-      rating: 1,
-      teacherComments: []
+      StudentUID: randomId(),
+      StudentName: 'Truong Van Lam',
+      StudentIMG: 'https://i.pinimg.com/236x/aa/84/88/aa8488c0bdc927ac836586c004c7cb12.jpg',
+      Evaluation: 'Hello world',
+      CreatedDate: new Date(),
+      LessionName: 'Lesson 6: ReactJS application',
+      LessionID: randomId(),
+      Rate: 1,
     }
   ]
 }
@@ -60,9 +65,9 @@ const Feedback = () => {
 
   filteredState = filteredState.filter(item=>{
     if(filter === 0) return true;
-    else if(filter === 1) return item.rating === 5;
-    else if(filter === 2) return item.rating >= 3 && item.rating < 5;
-    else return item.rating <3
+    else if(filter === 1) return item.Rate === 5;
+    else if(filter === 2) return item.Rate >= 3 && item.Rate < 5;
+    else return item.Rate <3
   })
 
   const handlePageChange = (pageNumber) => {
@@ -89,39 +94,49 @@ const Feedback = () => {
           <div className="fb-summary">
             <div className="fb-type">
               <div className="fb-radio">
-                <label onClick={()=>setFilter(0)}>
+                <label>
                   <input type="radio" name="fbType" group="feedback" defaultChecked />
-                  <span>All comments <span className="number">{state.feedbacks.length}</span></span>
+                  <span>All feedbacks</span>
                 </label>
               </div>
             </div>
             <div className="fb-type">
               <div className="fb-radio">
-                <label onClick={()=>setFilter(1)}>
+                <label>
                   <input type="radio" name="fbType" group="feedback" />
-                  <span>Excellent <span className="number">
-                    {state.feedbacks.filter(item=>item.rating == 5).length}
-                    </span></span>
+                  <span><span className="number">5</span> <i className="star fa fa-star"></i></span>
                 </label>
               </div>
             </div>
             <div className="fb-type">
               <div className="fb-radio">
-                <label onClick={()=>setFilter(2)}>
+                <label>
                   <input type="radio" name="fbType" group="feedback" />
-                  <span>Good <span className="number">
-                    {state.feedbacks.filter(item=>item.rating >= 3 && item.rating < 5).length}
-                  </span></span>
+                  <span><span className="number">4</span> <i className="star fa fa-star"></i></span>
                 </label>
               </div>
             </div>
             <div className="fb-type">
               <div className="fb-radio">
-                <label onClick={()=>setFilter(3)}>
+                <label>
                   <input type="radio" name="fbType" group="feedback" />
-                  <span>Unsatosfactory <span className="number">
-                  {state.feedbacks.filter(item=>item.rating < 3).length}
-                  </span></span>
+                  <span><span className="number">3</span> <i className="star fa fa-star"></i></span>
+                </label>
+              </div>
+            </div>
+            <div className="fb-type">
+              <div className="fb-radio">
+                <label>
+                  <input type="radio" name="fbType" group="feedback" />
+                  <span><span className="number">2</span> <i className="star fa fa-star"></i></span>
+                </label>
+              </div>
+            </div>
+            <div className="fb-type">
+              <div className="fb-radio">
+                <label>
+                  <input type="radio" name="fbType" group="feedback" />
+                  <span><span className="number">1</span> <i className="star fa fa-star"></i></span>
                 </label>
               </div>
             </div>
@@ -132,48 +147,16 @@ const Feedback = () => {
             <div className="fb-list">
               {
                 !!filteredState && filteredState.length > 0 && filteredState.map(item =>
-                  <div className="fb-item" key={item.id}>
-                    <div className="fb-avatar">
-                      <img src={item.stAvatar} alt="avatar" className="avatar" />
-                    </div>
-                    <div className="fb-info">
-                      <div className="name-rating">
-                        <p className="name">{item.stName}</p>
-                        <div className="rating-wrap">
-                          <div className="rating-stars">
-                            <span className="empty-stars">
-                              <i className="star fa fa-star"></i>
-                              <i className="star fa fa-star"></i>
-                              <i className="star fa fa-star"></i>
-                              <i className="star fa fa-star"></i>
-                              <i className="star fa fa-star"></i>
-                            </span>
-                            <span className="filled-stars" style={{ width: `${item.rating * 20}%` }}>
-                              <i className="star fa fa-star"></i>
-                              <i className="star fa fa-star"></i>
-                              <i className="star fa fa-star"></i>
-                              <i className="star fa fa-star"></i>
-                              <i className="star fa fa-star"></i>
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="feedback-comment">
-                        <p className="">{item.stFeedback}</p>
-                      </div>
-                      <div className="metas">
-                        <div className="meta">Time: <span>{item.lessonTime}</span>
-                        </div>
-                        <div className="meta">
-                          {item.lessonName}
-                        </div>
-                      </div>
-                      <div className="readmore">
-                          <a href="lessonDetail.html">See Detail <i className="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                  </div>
-                )
+                  <StudentCommnetItem
+                  key={item.id}
+                  StudentUID={item.StudentUID}
+                  CreatedDate={item.CreatedDate}
+                  StudentName={item.StudentName}
+                  StudentIMG={item.StudentIMG}
+                  Evaluation={item.Evaluation}
+                  Rate={item.Rate}
+                  LessionName={item.LessionName}
+                  LessionID={item.LessionID}/>)
               }
             </div>
         }

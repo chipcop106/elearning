@@ -19,6 +19,10 @@ const LessonHistoryCard = ({
   const handleRatingLesson = (BookingID, TeacherUID, TeacherName) => {
     onHandleRatingLesson(BookingID, TeacherUID, TeacherName)
   }
+
+/*   React.useEffect(()=>{
+  },[Rate]) */
+
   return (
     <React.Fragment>
     <li className="cr-item lesson-history lesson-info">
@@ -58,7 +62,8 @@ const LessonHistoryCard = ({
           <div className="course-rate mg-t-15">
             <h6 className="mg-b-3">Rating lesson:</h6>
             <div className="rating-wrap ">
-              <div className="rating-stars">
+              {
+                Rate ? (<div className="rating-stars">
                 <span className="empty-stars">
                   <i className="star fa fa-star"></i>
                   <i className="star fa fa-star"></i>
@@ -73,12 +78,12 @@ const LessonHistoryCard = ({
                   <i className="star fa fa-star"></i>
                   <i className="star fa fa-star"></i>
                 </span>
-              </div>
-              <a href={"#"}
+              </div>):(<a href={"#"}
                 className="rate-now"
                 data-toggle="modal"
                 data-target="#js-md-rate"
-                onClick={()=>handleRatingLesson(BookingID, TeacherUID, TeacherName)}>Rating now!</a>
+                onClick={()=>handleRatingLesson(BookingID, TeacherUID, TeacherName)}>Rating now!</a>)
+              }
             </div>
           </div>
           </div>

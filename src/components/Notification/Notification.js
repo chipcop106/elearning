@@ -33,32 +33,31 @@ const Notification = () => {
   }, []);
 
 
-  return <React.Fragment>
+  return <>
     <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
       <h4 className="mg-b-0 gradient-heading"><i className="fas fa-bell" /> NOTIFICATION</h4>
     </div>
-    <div className="blog__wrapper">
-      <div className="row row-sm mg-b-25 blog-list">
-        {
-          !!state && Array.isArray(state) && state.length > 0 && state.map(item =>
-            <div className="col-md-6 col-lg-4 mg-t-20" key={item.NotificationID}>
-              {
-                loading ? <SkeletonNotification /> :
-                  <NotificationItem
-                    NotificationID={item.NotificationID}
-                    NotificationTitle={item.NotificationTitle}
-                    NotifictionIMG={item.NotifictionIMG}
-                    CreatedBy={item.CreatedBy}
-                    CreatedDate={item.CreatedDate}
-                    NotificationContent={item.NotificationContent}
-                    URL={item.URL} />
-              }
-            </div>
-          )
-        }
-      </div>
-      {
-        !!state && Array.isArray(state) && state.length > 0 &&
+    {
+      !!state && Array.isArray(state) && state.length > 0 ?
+      <div className="blog__wrapper">
+        <div className="row row-sm mg-b-25 blog-list">
+          {
+            state.map(item =>
+              <div className="col-md-6 col-lg-4 mg-t-20" key={item.NotificationID}>
+                {
+                  loading ? <SkeletonNotification /> :
+                    <NotificationItem
+                      NotificationID={item.NotificationID}
+                      NotificationTitle={item.NotificationTitle}
+                      NotifictionIMG={item.NotifictionIMG}
+                      CreatedBy={item.CreatedBy}
+                      CreatedDate={item.CreatedDate}
+                      NotificationContent={item.NotificationContent}
+                      URL={item.URL} />
+                }
+              </div>)
+          }
+        </div>
         <Pagination
           innerClass="pagination justify-content-center"
           activePage={page}
@@ -67,11 +66,10 @@ const Notification = () => {
           pageRangeDisplayed={3}
           itemClass="page-item"
           linkClass="page-link"
-          onChange={handlePageChange.bind(this)}
-        />
-      }
-    </div>
-  </React.Fragment>
+          onChange={handlePageChange.bind(this)} />
+      </div>:<h2>Không có dữ liệu</h2>
+    }
+  </>
 }
 
 ReactDOM.render(<Notification />, document.getElementById('react-notification'));

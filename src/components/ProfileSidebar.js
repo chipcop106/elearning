@@ -31,7 +31,7 @@ const ProfileSidebar = () => {
       <div className="user__infomation d-flex d-lg-block flex-wrap">
         <div className="col-sm-12 col-md-6 col-lg-12 mg-b-20">
           <div className="avatar avatar-xxl avatar-online"><img src={`${state.Avatar ? state.Avatar : '../assets/img/default-avatar.png'}`} className="rounded-circle" alt="" /></div>
-          <h5 className="mg-b-2 tx-spacing--1 mg-t-15">{state.FullName}</h5>
+          <h5 className="mg-b-2 tx-spacing--1 mg-t-15 text-break">{state.FullName}</h5>
         </div>{/* col */}
         <div className="col-sm-12 col-md-6 col-lg-12  ">
           <label className="tx-sans tx-10 tx-semibold tx-uppercase tx-color-01 tx-spacing-1 mg-b-15">Contact

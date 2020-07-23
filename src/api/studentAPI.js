@@ -40,7 +40,7 @@ export const getLessonHistory = async (params) => {
                 UID: appSettings.UID,
                 FromDate: params.FromDate,
                 ToDate: params.ToDate,
-               /*  Page: params.Page, */
+                Page: params.Page,
             }
         })
         result = res.data;
@@ -129,10 +129,30 @@ export const getNotificationDetailAPI = async (params) => {
     return result;
 }
 
+
+/* Lịch dạy của giáo viên theo tuần (teacherDetail) */
 export const getScheduleByTeacherUID = async (params) => {
     let result;
     try {
         let res = await instance.get(path + '/BookingScheduleByTeacherUID', {
+            params: {
+                UID: appSettings.UID,
+                TeacherUID: params.TeacherUID,
+                Date: params.Date
+            }
+        })
+        result = res.data;
+    } catch (error) {
+        return error.message ? error.message : result = "";
+    }
+    return result;
+}
+
+/* Lịch dạy của giáo viên theo ngày (bookingLesson) */
+export const GetScheduleTeacherAPI = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/GetScheduleTeacher', {
             params: {
                 UID: appSettings.UID,
                 TeacherUID: params.TeacherUID,
@@ -158,6 +178,7 @@ export const getListTeacher = async (params) => {
                 Date: params.Date,
                 Start: params.Start,
                 End: params.End,
+                Search: params.Search,
             }
         })
         result = res.data;
@@ -271,7 +292,6 @@ export const updateProfileAPI = async (params) => {
                 Target: params.Target,
                 Hobbits: params.Hobbits,
                 RequestWithTeacher: params.RequestWithTeacher,
-                PurposeLevel: params.PurposeLevel,
                 Avatar: params.Avatar,
             }
         })
