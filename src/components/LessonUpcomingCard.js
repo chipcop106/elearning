@@ -95,7 +95,7 @@ const LessonUpcomingCard = ({
                   end,
                   DocumentName,
                   SkypeID)}>
-                <i className="fas fa-edit mg-r-5"></i> Checking lesson booking </a>
+                <i className="fas fa-edit mg-r-5"></i> Require teacher </a>
             </div>
             <div className="action-right">
               <a href={"#"} className="btn btn-sm btn-outline-danger d-flex justify-content-center align-items-center"

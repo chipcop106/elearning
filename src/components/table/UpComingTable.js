@@ -61,10 +61,12 @@ const UpCommingTable = ({ updateSwiperHeight, showStudentModal }) => {
             }
             setIsLoading(false);
             updateSwiperHeight();
+            return;
         } catch (error) {
             console.log(error);
             setIsLoading(false);
         }
+        setData([]);
     }
 
     const _onClickPage = (e) => {
@@ -93,7 +95,8 @@ const UpCommingTable = ({ updateSwiperHeight, showStudentModal }) => {
                                 </thead>
                                 {/*1 item*/}
                                 <tbody>
-                                    {!!data && !!data.length > 0 && data.map(item => <UpcomingRow key={`${item.BookingID}`} data={item} showStudentModal={showStudentModal} />)}
+                                    {!!data && !!data.length > 0 ? data.map(item => <UpcomingRow key={`${item.BookingID}`} data={item} showStudentModal={showStudentModal} />) 
+                                    : (<tr><td colspan={5}><span className="tx-danger d-block tx-center tx-medium tx-16">No data found.</span></td></tr>)}
                                 </tbody>
                             </table>
                         </div>

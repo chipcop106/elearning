@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getUpcomingClass, cancelSchedule } from '~src/api/teacherAPI';
 import SkeletonLessonCard from '~components/common/Skeleton/SkeletonLessonCard';
 import { convertDateFromTo as cvDate, checkCancelTime } from '~src/utils';
-import CancelBookingLessonModal from '~components/CancelBookingLessonModal';
+import CancelBookingTeacher from '~components/CancelBookingTeacher';
 import LessonCard from '~components/LessonCard';
 const initialState = {
     FullName: 'Hoang Uyen Than',
@@ -18,7 +18,7 @@ const initialState = {
 
 
 const UpComingList = () => {
-    const [state, setState] = useState(initialState);
+    const [state, setState] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [cancelData, setCancelData] = useState(null);
     const [showCancel, setShowcancel] = useState(false);
@@ -28,6 +28,8 @@ const UpComingList = () => {
         const res = await getUpcomingClass({Page:1});
         if (res.Code === 1 && res.Data) {
             setState(res.Data);
+        }else{
+            setState([]);
         }
         setIsLoading(false);
     }
@@ -47,6 +49,9 @@ const UpComingList = () => {
         console.log(bookingId);
     }
 
+    useEffect(() => {
+        console.log({state});
+    }, [state]) 
 
     useEffect(() => {
         fetchData();
@@ -70,8 +75,8 @@ const UpComingList = () => {
                                         lessonStart={cvDate(lesson.ScheduleTimeVN).fromTime}
                                         lessonEnd={cvDate(lesson.ScheduleTimeVN).endTime}
                                         lessonStatus={lesson.LessonName}
-                                        // cancellable={checkCancelTime(cvDate(lesson.ScheduleTimeVN).dateObject)}
-                                        cancellable={true} //Only for test cancel action, use above code for production
+                                        cancellable={checkCancelTime(cvDate(lesson.ScheduleTimeVN).dateObject)}
+                                        // cancellable={true} //Only for test cancel action, use above code for production
                                         skypeId={lesson.SkypeID}
                                         studentNote={lesson.SpecialRequest}
                                         documents={[{
@@ -83,18 +88,19 @@ const UpComingList = () => {
                                         handleCancelLesson={handleCancelLesson}
                                     />
                                 </div>)
-                            ) : !!state && !!state.length === 0 &&
-                                <div className="empty-error tx-center mg-y-30 bg-white">
+                            ) : (
+                                <div className="empty-error tx-center mg-y-30 bg-white mg-x-auto">
                                     <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" />
                                     <p className=" tx-danger tx-medium">You don't have any book lesson with student</p>
                                 </div>
+                                )
                             }
                         </div>
                     )}
                 </div>
             </div>
 
-            <CancelBookingLessonModal
+            <CancelBookingTeacher
                 BookingID={cancelData?.lessonId ?? ''}
                 name="Warning !!"
                 start={cancelData?.lessonStart ?? ''}

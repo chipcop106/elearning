@@ -34,6 +34,6 @@ export const appSettings = {
             }
         },
       
-    }
+    },
     UID: 1062,
 }

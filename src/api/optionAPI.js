@@ -7,9 +7,8 @@ export const cancelLesson = async (params) => {
     try {
         let res = await instance.get(path + '/CancelSchedule',{
             params: {
+                ...params,
                 UID: appSettings.UID,
-                BookingID: params.BookingID,
-                Reason: params.Reason,
             }
         })
         result =  res.data;
@@ -19,7 +18,7 @@ export const cancelLesson = async (params) => {
     return result;
 }
 
-export const getListLevelPurpose = async (params) => {
+export const getLevelPurposeOptions = async (params) => {
     let result;
     try {
         let res = await instance.get(path + '/GetListLevelPurpose',{

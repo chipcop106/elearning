@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { getTeacherInfo } from '~src/api/teacherAPI';
 import Skeleton from 'react-loading-skeleton';
-import {Modal, Button} from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
 import { updatePassAPI } from '~src/api/optionAPI';
 import { toastInit } from "~src/utils"
 const initialState = {
@@ -20,58 +20,58 @@ const SummaryBlock = ({ imageUrl, title, value, isLoading }) => {
         <div className="d-flex align-items-center mg-b-15">
             {!isLoading ? (<span className="bg-gray-100 wd-50 ht-50 rounded-circle d-inline-flex align-items-center justify-content-center">
                 <img className="wd-30 ht-30 object-fit" src={imageUrl || '../assets/img/teacher.jpg'} />
-            </span>) : (<Skeleton circle={true} width={30} height={30}/>)}
-            
+            </span>) : (<Skeleton circle={true} width={30} height={30} />)}
+
             <div className="mg-l-10">
-                <p className="mg-b-0 tx-medium tx-20 tx-primary">{!isLoading ? (value) : (<Skeleton width={25}/>)} </p>
-                <p className="tx-gray-500 mg-b-0">{!isLoading ? (title) : (<Skeleton width={25}/>)}</p>
+                <p className="mg-b-0 tx-medium tx-20 tx-primary">{!isLoading ? (value) : (<Skeleton width={25} />)} </p>
+                <p className="tx-gray-500 mg-b-0">{!isLoading ? (title) : (<Skeleton width={25} />)}</p>
             </div>
         </div>
     )
 }
 
-const ModalChangePass = ({error, showPassword, hideChangePasswordForm, _onSubmitPassword }) => {
+const ModalChangePass = ({ error, showPassword, hideChangePasswordForm, _onSubmitPassword }) => {
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
 
     const _onSubmit = (e) => {
         e.preventDefault();
-        _onSubmitPassword({oldPassword, newPassword});
+        _onSubmitPassword({ oldPassword, newPassword });
     }
 
     return (
-        <Modal 
-        show={showPassword} 
-        onHide={hideChangePasswordForm}
-        size="sm"
+        <Modal
+            show={showPassword}
+            onHide={hideChangePasswordForm}
+            size="sm"
         >
-           <Modal.Header closeButton>
-           <Modal.Title>Change password</Modal.Title>
-           </Modal.Header>
-           <Modal.Body>
-               <div className="form-group">
-                   <div className="input-float">
-                       <input type="password" className="form-control" placeholder="Job title" onChange={(e) => setOldPassword(e.target.value)} defaultValue={''} />
-                       <label>Old password</label>
-                   </div>
-               </div>
-               <div className="form-group">
-                   <div className="input-float">
-                       <input type="password" className="form-control" placeholder="Job title" onChange={(e) => setNewPassword(e.target.value)} defaultValue={''} />
-                       <label>New password</label>
-                   </div>
-               </div>
-               {error && error !== '' && (<span className="tx-danger">{error}</span>)}
-           </Modal.Body>
-           <Modal.Footer>
-           <Button variant="primary" onClick={_onSubmit}>
-               Change
+            <Modal.Header closeButton>
+                <Modal.Title>Change password</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <div className="form-group">
+                    <div className="input-float">
+                        <input type="password" className="form-control" placeholder="Job title" onChange={(e) => setOldPassword(e.target.value)} defaultValue={''} />
+                        <label>Old password</label>
+                    </div>
+                </div>
+                <div className="form-group">
+                    <div className="input-float">
+                        <input type="password" className="form-control" placeholder="Job title" onChange={(e) => setNewPassword(e.target.value)} defaultValue={''} />
+                        <label>New password</label>
+                    </div>
+                </div>
+                {error && error !== '' && (<span className="tx-danger">{error}</span>)}
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="primary" onClick={_onSubmit}>
+                    Change
            </Button>
-           <Button variant="secondary" onClick={hideChangePasswordForm}>
-               Close
+                <Button variant="secondary" onClick={hideChangePasswordForm}>
+                    Close
            </Button>
-           </Modal.Footer>
-       </Modal>
+            </Modal.Footer>
+        </Modal>
     )
 }
 
@@ -89,32 +89,32 @@ const TeacherSidebar = () => {
     }
 
     const _onSubmitPassword = async (formData) => {
-        const {oldPassword, newPassword} = formData;
-        if(oldPassword === '' || newPassword === ''){
+        const { oldPassword, newPassword } = formData;
+        if (oldPassword === '' || newPassword === '') {
             setError('Password field must not empty !!');
             return;
         }
         setError(null);
         const res = await updatePassAPI({
-            UID:state.UID,
-            OldPass:oldPassword,
-            NewPass:newPassword
+            UID: state.UID,
+            OldPass: oldPassword,
+            NewPass: newPassword
         });
-        if(res.Code === 0){
+        if (res.Code === 0) {
             setError('Old password is not correct');
             return;
-        }else if(res.Code === 1){
+        } else if (res.Code === 1) {
             setError(null);
             hideChangePasswordForm();
             toast.success("Change password successful!", toastInit);
         }
-        
+
     }
 
     const fetchData = async () => {
         setIsLoading(true);
         const res = await getTeacherInfo();
-        if(res.Code === 1 && res.Data){
+        if (res.Code === 1 && res.Data) {
             setState(res.Data);
         }
         setIsLoading(false);
@@ -129,17 +129,18 @@ const TeacherSidebar = () => {
             <div className="mg-sm-r-30 mg-lg-r-0 d-sm-flex d-lg-block">
                 <div className="mg-b-20 mg-sm-x-30 mg-lg-x-0">
                     <div className="avatar avatar-xxl avatar-online"><img src="../assets/img/default-avatar.png" className="rounded-circle" alt="" /></div>
-                    <h5 className="mg-b-2 tx-spacing--1 mg-t-15">{!isLoading ? state.FullName || '' : <Skeleton width={50}/>}</h5>
+                    <h5 className="mg-b-2 tx-spacing--1 mg-t-15">{!isLoading ? state.FullName || '' : <Skeleton width={50} />}</h5>
+                    <div className="d-flex mg-b-25 mg-t-15">
+                        <a className="btn btn-xs btn-primary mg-r-10" href={`teacherProfile.html`}><i class="far fa-id-card mg-r-5"></i> profile</a>
+                        <button type="button" className="btn btn-xs btn-primary " onClick={showChangePasswordForm}><i className="fas fa-key mg-r-5" ></i> Change password</button>
+                    </div>
                 </div>{/* col */}
-                <div className="d-flex mg-b-25">
-                <a className="btn btn-xs btn-primary " href={`teacherProfile.html`}><i class="far fa-id-card mg-r-5"></i> Change profile</a>
-                  <button type="button" className="btn btn-xs btn-primary " onClick={showChangePasswordForm}><i className="fas fa-key mg-r-5" ></i> Change password</button>
-                </div>
+
                 <div >
                     <label className="tx-sans tx-10 tx-semibold tx-uppercase tx-color-01 tx-spacing-1 mg-b-15">Contact Information</label>
                     <ul className="list-unstyled profile-info-list mg-b-10">
-                        <li><i data-feather="phone" /><a href="tel:0987654321">{!isLoading ? state.Phone || '' : <Skeleton width={50}/>}</a></li>
-                        <li><i data-feather="mail" /><a href={`mailto:${state.Email || ''}`}>{!isLoading ? state.Email || '' : <Skeleton width={50}/>}</a>
+                        <li><i data-feather="phone" /><a href="tel:0987654321">{!isLoading ? state.Phone || '' : <Skeleton width={50} />}</a></li>
+                        <li><i data-feather="mail" /><a href={`mailto:${state.Email || ''}`}>{!isLoading ? state.Email || '' : <Skeleton width={50} />}</a>
                         </li>
                     </ul>
                 </div>{/* col */}
@@ -147,13 +148,13 @@ const TeacherSidebar = () => {
             <div >
                 <label className="tx-sans tx-10 tx-semibold tx-uppercase tx-color-01 tx-spacing-1 mg-b-15">Summary</label>
                 <div className="list-unstyled">
-                    <SummaryBlock imageUrl='../assets/img/time-in-class.png' title="Hours Classes" value="32" isLoading={isLoading}/>
-                    <SummaryBlock imageUrl='../assets/img/student.png' title="Student Members" value="172" isLoading={isLoading}/>
-                    <SummaryBlock imageUrl='../assets/img/exp.png' title="Days Experience" value="122" isLoading={isLoading}/>
+                    <SummaryBlock imageUrl='../assets/img/time-in-class.png' title="Hours Classes" value="32" isLoading={isLoading} />
+                    <SummaryBlock imageUrl='../assets/img/student.png' title="Student Members" value="172" isLoading={isLoading} />
+                    <SummaryBlock imageUrl='../assets/img/exp.png' title="Days Experience" value="122" isLoading={isLoading} />
 
                 </div>
             </div>{/* col */}
-            <ModalChangePass 
+            <ModalChangePass
                 error={error}
                 showPassword={showPassword}
                 _onSubmitPassword={_onSubmitPassword}

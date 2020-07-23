@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styles from '~components/LessonCard.module.scss';
-import CancelBookingLessonModal from '~components/CancelBookingLessonModal';
 const LessonCard = (
     {
         lessonId,

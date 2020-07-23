@@ -1,3 +1,12 @@
+var isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
+var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+if (isSafari && iOS) {
+    document.querySelector('body').classList.add('safari ios');
+} else if(isSafari) {
+    document.querySelector('body').classList.add('safari')
+}
+
 $(document).ready(function() {
     $('body').on('click', function() {
         $('.off-canvas').removeClass('show');
