@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { useForm, Controller } from "react-hook-form";
 
 import { getProfile } from "~src/api/studentAPI";
-import { getListLevelPurpose } from "~src/api/optionAPI";
 import { updateProfileAPI } from "~src/api/studentAPI";
 import { updatePassAPI } from "~src/api/optionAPI";
 import { getTimeZoneAPI } from "~src/api/optionAPI";
@@ -25,6 +24,17 @@ function validdateEmail(email) {
   return re.test(email);
 };
 
+const RenderListTimeZone = ({ list }) => {
+  return !!list && list.length > 0 && list.map((item, index) =>
+    <option key={index} value={item.ID}>{item.TimeZoneName}</option>
+  )
+}
+const RenderListLanguage = ({ list }) => {
+  return !!list && list.length > 0 && list.map((item, index) =>
+    <option key={index} value={item.ID}>{item.LanguageName}</option>
+  )
+}
+
 const StudentForm = () => {
   const [profile, setProfile] = React.useState(null);
   const [listLanguage, setListLanguage] = React.useState([]);
@@ -37,37 +47,36 @@ const StudentForm = () => {
   const updateProfileToastSuccess = () => toast("Update profile successful!", toastInit);
   const updateProfileToastFail = () => toast("Update profile fail, please retry!", toastInit);
   const updatePassToastSuccess = () => toast("Update Password successful!", toastInit);
-  const updatePassToastFail = () => toast("Update password fail, please retry!", toastInit);
+  const updatePassToastFail = (text) => toast(text, toastInit);
 
   const { register, handleSubmit, errors, getValues, setValue, control } = useForm();
 
   const onSubmit = data => {
     let z = [];
-       for(let i=0; i<data.SelectTarget.length; i++) {
-        for(let j=0; j<listTarget.length; j++) {
-          if(data.SelectTarget[i] === listTarget[j].TargetName) {
-            z.push(listTarget[j].ID);
-            break;
-          }
+    for (let i = 0; i < data.SelectTarget.length; i++) {
+      for (let j = 0; j < listTarget.length; j++) {
+        if (data.SelectTarget[i] === listTarget[j].TargetName) {
+          z.push(listTarget[j].ID);
+          break;
         }
       }
+    }
 
-      onUpdateProfileAPI({
-        ...data,
-        Avatar: avatar,
-        BirthDay: moment(data.BirthDay[0]).format("DD/MM/YYYY"),
-        Target: z.join(","),
-        Hobbits: data.PersonalPreference,
+    onUpdateProfileAPI({
+      ...data,
+      Avatar: avatar,
+      BirthDay: moment(data.BirthDay[0]).format("DD/MM/YYYY"),
+      Target: z.join(","),
+      Hobbits: data.PersonalPreference,
+    })
+
+    if (passwordChange) {
+      onUpdatePassAPI({
+        OldPass: data.OldPass,
+        NewPass: data.NewPass,
       })
-
-      if (passwordChange) {
-        onUpdatePassAPI({
-          OldPass: data.OldPass,
-          NewPass: data.NewPass,
-        })
-      }
+    }
   }
-
   const getAPI = async () => {
     try {
       const resProfile = await getProfile();
@@ -100,21 +109,18 @@ const StudentForm = () => {
     }
     catch { }
   }
-
   const getTimeZone = async () => {
     const res = await getTimeZoneAPI();
     if (res.Code === 1 && res.Data.length > 0) {
       setListTimeZone(res.Data);
     }
   }
-
   const getLanguage = async () => {
     const res = await getListLanguageAPI();
     if (res.Code === 1 && res.Data.length > 0) {
       setListLanguage(res.Data);
     }
   }
-
   const onUpdateProfileAPI = async (params) => {
     const res = await updateProfileAPI(params)
     if (res.Code === 1) {
@@ -124,21 +130,18 @@ const StudentForm = () => {
       updateProfileToastFail();
     }
   }
-
   const onUpdatePassAPI = async (params) => {
     const res = await updatePassAPI(params)
     if (res.Code === 1) {
       updatePassToastSuccess();
     }
     else {
-      updatePassToastFail();
+      updatePassToastFail(res.Message);
     }
   }
-
   const renderTarget = (options) => {
     return options.map(item => item.TargetName)
   }
-
   const handleUploadImage = async (e) => {
     let files = e.target.files
     if (!files) return;
@@ -156,14 +159,13 @@ const StudentForm = () => {
       }
     }
   }
-
   React.useEffect(() => {
     getAPI();
     getTimeZone();
     getLanguage();
   }, [])
 
-  return !profile ? <></> : (
+  return !!profile ? (
     <form id="form-account-profile" onSubmit={handleSubmit(onSubmit)}>
       <div className="form-account pd-y-15">
         <div className="student-avatar">
@@ -232,16 +234,16 @@ const StudentForm = () => {
                 <p className="mg-b-0 tx-medium">Language:</p>
               </div>
               <div className="form-group col-sm-9">
-                <select name="Language"
-                  ref={register}
-                  defaultValue={profile.Language}
-                  className="form-control">
-                  {
-                    !!listLanguage && listLanguage.length > 0 && listLanguage.map((item, index) =>
-                      <option key={index} value={item.ID}>{item.LanguageName}</option>
-                    )
-                  }
-                </select>
+                {
+                  !!listLanguage && listLanguage.length > 0 &&
+                  <select name="Language"
+                    ref={register}
+                    defaultValue={profile.Language ? profile.Language : "0"}
+                    className="form-control">
+                    < option value="0">Choose Language</option>
+                    <RenderListLanguage list={listLanguage} />
+                  </select>
+                }
               </div>
             </div>
           </div>
@@ -301,16 +303,16 @@ const StudentForm = () => {
                 <p className="mg-b-0 tx-medium">Timezone:</p>
               </div>
               <div className="form-group col-sm-9">
-                <select name="TimezoneID"
-                  ref={register}
-                  defaultValue={profile.TimeZoneID}
-                  className="form-control">
-                  {
-                    !!listTimeZone && listTimeZone.length > 0 && listTimeZone.map((item, index) =>
-                      <option key={index} value={item.ID}>{item.TimeZoneName}</option>
-                    )
-                  }
-                </select>
+                {
+                  !!listTimeZone && listTimeZone.length > 0 &&
+                  <select name="TimezoneID"
+                    ref={register}
+                    defaultValue={profile.TimeZone ? profile.TimeZone : "0"}
+                    className="form-control">
+                    <option value="0">Choose Time Zone</option>
+                    <RenderListTimeZone list={listTimeZone} />
+                  </select>
+                }
               </div>
             </div>
           </div>
@@ -472,7 +474,7 @@ const StudentForm = () => {
           <button type="submit" className="btn btn-primary rounded-pill">Save information</button>
         </div>
       </div>
-    </form >)
+    </form >) : <></>
 }
 
 export default StudentForm;

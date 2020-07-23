@@ -242,7 +242,7 @@ const BookingSchedule = ({ TeacherUID, handleBookLesson, handleCancelLesson, onB
       <span class="label-book booked"><i class="fas ${isPast ? "fa-check" : "fa-user-graduate"
     }"></i> ${isPast ? "FINISHED" : "BOOKED"}</span> 
       <p class="booking-name">${bookInfo.name}</p>
-      ${ minutesTilStart < 30 && minutesTilStart > 0 ? `
+      ${ minutesTilStart > 30 ? `
         <a href="javascript:;" class="fix-btn cancel-schedule"
         data-toggle="modal"
         data-target="#md-cancel-schedule"

@@ -17,7 +17,7 @@ const initialState = {
 const BookingLessonModal = ({
   style,
   StudyTimeID,
-  LessionName,
+  LessionName = "Lesson Name",
   TeacherUID,
   TeacherIMG,
   TeacherName,
@@ -27,6 +27,7 @@ const BookingLessonModal = ({
   end,
   note = null,
   documents = null,
+  BookingID,
   onBook,
 }) => {
 
@@ -77,7 +78,7 @@ const BookingLessonModal = ({
               <div className="cr-item lesson-info">
                 <div className="media">
                   <div className="teacher-information">
-                    <a className="teacher-avatar" href={"#"}>
+                    <a className="teacher-avatar" href={`teacherDetail.html?ID=${TeacherUID}`}>
                       <img src={TeacherIMG} className="teacher-image" alt="" />
                       <p className="course-teacher tx-14 tx-gray-800 tx-normal mg-b-0 tx-center mg-t-5 d-block">
                         {TeacherName}</p>
@@ -86,7 +87,7 @@ const BookingLessonModal = ({
                   <div className="media-body  mg-l-20 pos-relative pd-b-0-f">
                     <h5 className="mg-b-10">
                       <span className="badge badge-warning">Incoming</span>{' '}
-                      <a href="lessonDetail.html" className="course-name tx-bold">{LessionName}</a>
+                      <a href={`lessonDetail.html?ID=${BookingID}`} className="course-name tx-bold">{LessionName}</a>
                     </h5>
                     <div className="course-information tx-14">
                       <span className="mg-r-15 tx-gray-600 tx-medium"><i className="fa fa-calendar  tx-info mg-r-5"></i>

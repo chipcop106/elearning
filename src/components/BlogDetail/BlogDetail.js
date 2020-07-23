@@ -11,43 +11,48 @@ const BlogDetail = () => {
   const getAPI = async (params) => {
     setLoading(true);
     const res = await getNotificationDetailAPI(params);
-    if(res.Code === 1) {
-     setState(res.Data)
+    if (res.Code === 1) {
+      setState(res.Data)
     }
     setLoading(false);
   }
 
   React.useEffect(() => {
+    let search = window.location.search;
+    let params = new URLSearchParams(search);
+    let ID = params.get('ID');
     getAPI({
-      NotificationID: "1"
+      NotificationID: ID,
     });
   }, []);
 
   return (
-    loading ? <SkeletonBlogCard /> : <React.Fragment>
+    loading ? <SkeletonBlogCard /> : <>
       {
-        !!state && <div className="content-blog bd-0-f">
-        <div className="post-detail-cover">
-          <img src={state.NotifictionIMG} alt="banner" className="banner-img" />
-        </div>
-        <div className="post-content">
-          <div className="thread_title">
-            <span>{state.NotificationTitle}</span>
+        !!state ? <div className="content-blog bd-0-f">
+          <div className="post-detail-cover">
+            <img src={state.NotifictionIMG} alt="banner" className="banner-img" />
           </div>
-          <div className="author">
-            <a href={"#"} className="avatar"><img src={state.IMG ? state.IMG : "../assets/img/default-avatar.png"} alt="avatar" /></a>
-            <div className="author-info">
-              <a href={"#"} className="username"><span className="hasVerifiedBadge">{state.CreatedBy}</span></a>
-              <div className="date-comment-view">
-                <span className="date"><span className="DateTime" title={moment(state.CreatedDate).format("LLLL")}>{getFormattedDate(state.CreatedDate)}</span></span>
+          <div className="post-content">
+            <div className="thread_title">
+              <span>{state.NotificationTitle}</span>
+            </div>
+            <div className="author">
+              {/* <a href={"#"} className="avatar">
+              <img src={state.IMG ? state.IMG : "../assets/img/default-avatar.png"} alt="avatar" />
+              </a> */}
+              <div className="author-information">
+                <a href={"#"} className="username"><span className="hasVerifiedBadge">{state.CreatedBy}</span></a>
+                <div className="date-comment-view">
+                  <span className="date"><span className="DateTime" title={moment(state.CreatedDate).format("LLLL")}>{getFormattedDate(state.CreatedDate)}</span></span>
+                </div>
               </div>
             </div>
+            <article dangerouslySetInnerHTML={{ __html: state.NotificationContent }}></article>
           </div>
-          <article> {state.NotificationContent} </article>
-        </div>
-      </div>
+        </div>: <h2>Không có dữ liệu</h2>
       }
-    </React.Fragment>
+    </>
   )
 }
 

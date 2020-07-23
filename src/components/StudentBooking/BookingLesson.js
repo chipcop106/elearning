@@ -6,6 +6,8 @@ import { getListTeacher } from "~src/api/studentAPI";
 import { getListLevelPurpose } from "~src/api/optionAPI";
 
 import BookingLessonModal from "../BookingLessonModal";
+import ListNationModal from "~components/ListNationModal";
+
 import { nationMapToFlag } from "~src/utils"
 import { ToastContainer } from 'react-toastify'
 import Flatpickr from 'react-flatpickr';
@@ -14,7 +16,7 @@ import styles from '~components/StudentBooking/BookingLesson.module.scss';
 
 const initialState = {
   nation: [],
-  gender: "1,2,3",
+  gender: "0",
   levelPurpose: [],
   selectedLevelPurpose: [],
   date: moment(new Date()).format('DD/MM/YYYY'),
@@ -33,6 +35,7 @@ const initialBookLesson = {
   date: "",
   start: "",
   end: "",
+  BookingID: "",
 }
 
 const initialOnBookState = {
@@ -85,7 +88,7 @@ const BookingLesson = () => {
     }
   }
 
-  const onHandleBooking = (StudyTimeID, LessionName, TeacherUID, TeacherIMG, TeacherName, Rate, date, start, end) => {
+  const onHandleBooking = (StudyTimeID, LessionName, TeacherUID, TeacherIMG, TeacherName, Rate, date, start, end, BookingID) => {
     setStateBookLesson({
       ...stateBookLesson,
       StudyTimeID,
@@ -97,6 +100,7 @@ const BookingLesson = () => {
       date,
       start,
       end,
+      BookingID,
     })
   }
 
@@ -113,16 +117,8 @@ const BookingLesson = () => {
     dispatch({ type: "STATE_CHANGE", payload: { key, value } })
   }
 
-  const handleChangeNation = (e) => {
-    let key = "nation";
-    let array = [];
-    $('#div-nationality .national-checkbox input').each(function () {
-      if ($(this).is(':checked')) {
-        array.push($(this).next().text())
-      }
-    })
-    const value = array.join(",");
-    dispatch({ type: "STATE_CHANGE", payload: { key, value } })
+  const onSelectNation = (value) => {
+    dispatch({ type: "STATE_CHANGE", payload: { key: "nation", value } })
   }
 
   const onBook = (TeacherUID, StudyTimeID, studentName) => {
@@ -155,11 +151,10 @@ const BookingLesson = () => {
       Date: state.date,
       Start: state.startTime,
       End: state.endTime,
+      Search: state.searchText,
     });
   }
-
   const initCalendar = () => {
-    'use strict';
     const dateString = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thusday', 'Friday', 'Saturday'];
     const monthString = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
       'October', 'November', 'December'
@@ -299,7 +294,6 @@ const BookingLesson = () => {
   React.useEffect(() => {
     initCalendar();
     fetchListLevelPurpose({})
-
     $('#display-schedule').on('change', function () {
       if ($('#display-schedule').prop('checked') === true) {
         $('.tutor-schedule').slideDown();
@@ -312,8 +306,6 @@ const BookingLesson = () => {
       $('#div-nationality').modal();
     });
 
-    $('#div-nationality input').on('change', handleChangeNation.bind(this))
-    $('#div-nationality .legend-checkbox').on('click', handleChangeNation.bind(this))
     $(document).on("click", ".day-block", handleChangeDate.bind(this))
     $("#js-select-today").on("click", handleChangeDate.bind(this))
   }, []);
@@ -349,8 +341,8 @@ const BookingLesson = () => {
                 </div>
                 <div className="col-sm-6 col-md-3 item">
                   <select type="text" className="form-control " name="gender" onChange={handleChange}
-                    defaultValue="Gender">
-                    <option value="1,2,3">Gender</option>
+                    defaultValue="0">
+                    <option value="0">Gender</option>
                     <option value="1">Male</option>
                     <option value="2">Female</option>
                     <option value="3">Other</option>
@@ -466,7 +458,7 @@ const BookingLesson = () => {
                   !!teachersList && teachersList.length > 0 && teachersList.map(item =>
                     <li className="tutor" key={item.TeacherUID}>
                       <div className="totor-detail">
-                        <a href="teacherDetail.html" className="tutor-wrap">
+                        <a href={`teacherDetail.html?ID=${item.TeacherUID}`} className="tutor-wrap">
                           <span className="tutor-avatar">
                             <img src={item.TeacherIMG ? item.TeacherIMG: "../assets/img/default_avatar.png"} alt="" />
                           </span>
@@ -529,8 +521,10 @@ const BookingLesson = () => {
           date={stateBookLesson.date}
           start={stateBookLesson.start}
           end={stateBookLesson.end}
-          onBook={onBook} />
+          BookingID={stateBookLesson.BookingID}
+          onBook={onBook}/>
 
+          <ListNationModal selectNation={onSelectNation} />
         <ToastContainer />
       </div>
     </React.Fragment>

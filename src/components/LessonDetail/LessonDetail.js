@@ -14,31 +14,35 @@ const LessonDetail = () => {
   const getAPI = async (params) => {
     setLoading(true);
     const res = await getEvaluation(params);
-    if(res.Code === 1) {
+    if (res.Code === 1) {
       setState(res.Data)
     }
     setLoading(false);
   }
 
-  const onCallbackRating = (result, message) => {
+  const onCallbackRating = (result, message, rating, BookingID, TeacherUID) => {
     if (result === 1) {
       setState({
         ...state,
-        StudentFeedback: message,
+        StudentEvaluation: message,
       })
     }
   }
-
+  
   React.useEffect(() => {
+    let search = window.location.search;
+    let params = new URLSearchParams(search);
+    let ID = params.get('ID');
+
     getAPI({
-      ElearnBookingID: 9,
+      ElearnBookingID: ID,
     })
   }, []);
 
   return <React.Fragment>
     {
       loading ? <SkeletonLessonDetail /> :
-      <React.Fragment>
+        <React.Fragment>
           <div className="row">
             <div className="col-md-6 col-sm-12">
               {/* <!--thông tin buổi học--> */}
@@ -79,73 +83,54 @@ const LessonDetail = () => {
               <div className="st-thangdanhgia">
                 <h5 className="main-title">Rating</h5>
                 {
-                  state.Rate==0 || state.Rate ? (<div className="st-rating">
-                  <div className="cell text-left">
-                    <div className="st-noidung-rating">
-                      <div className="rating-stars">
-                        <span className="empty-stars">
-                          <i className="star fa fa-star"></i>
-                          <i className="star fa fa-star"></i>
-                          <i className="star fa fa-star"></i>
-                          <i className="star fa fa-star"></i>
-                          <i className="star fa fa-star"></i>
-                        </span>
-                        <span className="filled-stars" style={{ width: `${state.Rate * 20}%` }}>
-                          <i className="star fa fa-star"></i>
-                          <i className="star fa fa-star"></i>
-                          <i className="star fa fa-star"></i>
-                          <i className="star fa fa-star"></i>
-                          <i className="star fa fa-star"></i>
-                        </span>
+                  state.Rate == 0 || state.Rate ? (<div className="st-rating">
+                    <div className="cell text-left">
+                      <div className="st-noidung-rating">
+                        <div className="rating-stars">
+                          <span className="empty-stars">
+                            <i className="star fa fa-star"></i>
+                            <i className="star fa fa-star"></i>
+                            <i className="star fa fa-star"></i>
+                            <i className="star fa fa-star"></i>
+                            <i className="star fa fa-star"></i>
+                          </span>
+                          <span className="filled-stars" style={{ width: `${state.Rate * 20}%` }}>
+                            <i className="star fa fa-star"></i>
+                            <i className="star fa fa-star"></i>
+                            <i className="star fa fa-star"></i>
+                            <i className="star fa fa-star"></i>
+                            <i className="star fa fa-star"></i>
+                          </span>
+                        </div>
+                        {state.Rate >= 4.5 &&
+                          <span className="badge badge-light tx-success mg-l-5"><i
+                            className="fa fa-check-circle"></i> Very Good</span>}
                       </div>
-                      {state.Rate >= 4.5 &&
-                      <span className="badge badge-light tx-success mg-l-5"><i
-                        className="fa fa-check-circle"></i> Very Good</span>}
                     </div>
-                  </div>
-                </div>):<p>Buổi học này chưa có đánh giá</p>
+                  </div>) : <p>Buổi học này chưa có đánh giá</p>
                 }
               </div>
             </div>
           </div>
           <div className="review__wrap sec">
             <h5 className="main-title">Review</h5>
-            <div className="st-danhgianguphap  mg-b-30">
+            {/* <!--/Đánh giá ngữ pháp-->*/}
+            <div className="st-danhgianguphap">
               <div className="st-title-danhgia mg-b-15">
-                <h5 className="sub-title">Grammar:</h5>
+                <h5 className="sub-title">Grammar</h5>
               </div>
-              {
-                state.Grammar && Array.isArray(state.Grammar) && state.Grammar.length > 0 &&
-                state.Grammar.map(item =>
-                  <React.Fragment>
+              <div className="row">
+                {
+                  state.Grammar ? (<div className="col-12">
                     <div className="st-item-danhgia">
-                      <div className="row">
-                        <div className="col-6">
-                          <p><b>You said</b> </p>
-                        </div>
-                        <div className="col-6">
-                          <p><b>You should said</b></p>
-                        </div>
-                      </div>
-                    </div>
-                    <hr />
-                    <div className="st-item-danhgia">
-                      <div className="row">
-                        <div className="col-6">
-                          <p>This evening we went to the cinema </p>
-                        </div>
-                        <div className="col-6">
-                          <p>This evening we are going to the cinema </p>
-                        </div>
-                      </div>
-                    </div>
-                    <hr />
-                  </React.Fragment>
-                )
-              }
+                      <p>{state.Grammar}</p>
+                    </div></div>) : ""
+                }
+              </div>
             </div>
-            {/* <!--Đánh giá phát âm--> */}
-            <div className="st-danhgianguphap  mg-b-30">
+            {/* <!--/Đánh giá ngữ pháp-->
+                      <!--Đánh giá phát âm--> */}
+            <div className="st-danhgianguphap">
               <div className="st-title-danhgia mg-b-15">
                 <h5 className="sub-title">Pronounce</h5>
               </div>
@@ -159,22 +144,37 @@ const LessonDetail = () => {
               </div>
             </div>
             {/* <!--/Đánh giá phát âm-->
-                      <!--Từ cần ghi nhớ--> */}
-            <div className="st-danhgianguphap  mg-b-30">
+                      <!--Đánh giá từ vựng--> */}
+            <div className="st-danhgianguphap">
               <div className="st-title-danhgia mg-b-15">
-                <h5 className="sub-title">Memorize</h5>
+                <h5 className="sub-title">Vocabulary</h5>
+              </div>
+              <div className="row">
+                {
+                  state.Vocabulary ? (<div className="col-12">
+                    <div className="st-item-danhgia">
+                      <p>{state.Vocabulary}</p>
+                    </div></div>) : ""
+                }
+              </div>
+            </div>
+            {/* <!--/Đánh giá từ vựng-->
+                      <!--Từ cần ghi nhớ--> */}
+            <div className="st-danhgianguphap">
+              <div className="st-title-danhgia mg-b-15">
+                <h5 className="sub-title">Sentence Development And Speak</h5>
               </div>
               {
-                state.Vacabulary ? (
+                state.SentenceDevelopmentAndSpeak ? (
                   <div className="st-item-danhgia">
-                    <p>{state.Vacabulary}</p>
+                    <p>{state.SentenceDevelopmentAndSpeak}</p>
                   </div>
                 ) : ""
               }
             </div>
             {/* <!--/Từ cần ghi nhớ-->
                       <!--Đánh giá giáo viên--> */}
-            <div className="st-danhgianguphap  mg-b-30">
+            <div className="st-danhgianguphap">
               <div className="st-title-danhgia mg-b-15">
                 <h5 className="sub-title">General assessment</h5>
               </div>
@@ -188,26 +188,27 @@ const LessonDetail = () => {
             </div>
             {/* <!--/Đánh giá giáo viên-->
                       <!--Đánh giá học viên--> */}
-            <div className="st-danhgianguphap  mg-b-30">
+            <div className="st-danhgianguphap">
               <div className="st-title-danhgia mg-b-15">
                 <h5 className="sub-title">Student Feedback</h5>
               </div>
               {
-               Object.keys(state).length === 0 ? "":(
-                state.StudentFeedback ? (
-                  <div className="st-item-danhgia">
-                    <p>{state.StudentFeedback}</p>
-                  </div>
-                ) : (<><p>You are not leave feedback for this lesson</p>
-                  <button className="btn btn-primary mg-r-10"
-                    data-toggle="modal"
-                    data-target="#js-md-rate"
-                  >Leave Feedback</button></>))
+                Object.keys(state).length === 0 ? "" : (
+                  state.StudentEvaluation ? (
+                    <div className="st-item-danhgia">
+                      <p>{state.StudentEvaluation}</p>
+                    </div>
+                  ) : (<><p>You are not leave feedback for this lesson</p>
+                    <button className="btn btn-primary mg-r-10"
+                      data-toggle="modal"
+                      data-target="#js-md-rate"
+                    >Leave Feedback</button></>))
               }
             </div>
           </div>
           <RatingLessonModal
             BookingID={state.ElearnBookingID}
+            TeacherUID={state.TeacherUID}
             TeacherName={state.TeacherName}
             callback={onCallbackRating} />
         </React.Fragment>

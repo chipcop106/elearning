@@ -6,20 +6,18 @@ import { getAllStudentReviewAPI } from "~src/api/studentAPI";
 import styles from '~components/common/StudentComment/StudentComment.module.scss';
 /* import { isTouchCapable } from 'react-select/src/utils'; */
 
-const whoami = (localStorage.getItem("user")===null) ? {} :
+const whoami = (localStorage.getItem("user") === null) ? {} :
   JSON.parse(localStorage.getItem('user'));
 
 const StudentComment = ({ TeacherUID }) => {
   const [state, setState] = React.useState([]);
   const [page, setPage] = React.useState(1)
-  const [comment, setComment] = React.useState("");
-  const [commentTooShort, setCommentTooShort] = React.useState(null)
 
   const handlePageChange = (pageNumber) => {
     setPage(pageNumber);
     getCommentAPI({
       TeacherUID,
-      Page:pageNumber,
+      Page: pageNumber,
     })
   }
 
@@ -30,52 +28,14 @@ const StudentComment = ({ TeacherUID }) => {
     }
   }
 
-  const handleChange = (e) => {
-    setComment(e.target.value)
-  }
-  const onSubmit = (e) => {
-    e.preventDefault()
-    if (comment.length < 10) {
-      setCommentTooShort("Your comment must at least 10 characters")
-    }
-    else {
-      /* Call API */
-       setCommentTooShort(null);
-       let newListComment = [...state]
-       newListComment.push({
-         StudentUID: whoami.UID,
-         StudentName: whoami.FullName,
-         StudentIMG: whoami.Avatar,
-         CreatedDate: new Date(),
-         Evaluation: comment,
-       })
-       setState(newListComment)
-    }
-  }
-
-  React.useEffect(()=>{
+  React.useEffect(() => {
     getCommentAPI({
       TeacherUID,
-      Page:page,
+      Page: page,
     })
-  },[])
+  }, [])
   return (
     <div className="tc-comment-wrap bd-t-0-f mg-t-0-f pd-t-0-f">
-      <h5>Leave comment for this teacher:</h5>
-      <div className="leave-comment mg-b-30">
-        <div className="form-group cmt-box">
-          <textarea rows="5" className="form-control" value={state.comment} onChange={handleChange}></textarea>
-        </div>
-        {
-          commentTooShort && <p className="tx-danger">{commentTooShort}</p>
-        }
-        <div className="cmt-action">
-          <a href={"#"}
-            className="btn btn-primary mg-r-10" onClick={onSubmit}>Submit</a>
-          <a href={"#"}
-            className="btn btn-light btn-cancel-form">Cancel</a>
-        </div>
-      </div>
       <h6 className="mg-b-15">{state.length} student has comment for this teacher:</h6>
       <div className="comment__wrapper">
         {
@@ -99,8 +59,7 @@ const StudentComment = ({ TeacherUID }) => {
         pageRangeDisplayed={3}
         itemClass="page-item"
         linkClass="page-link"
-        onChange={handlePageChange.bind(this)}
-      />
+        onChange={handlePageChange.bind(this)} />
     </div>
   )
 }

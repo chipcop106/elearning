@@ -27,7 +27,7 @@ const RatingLessonModal = ({ BookingID, TeacherUID, TeacherName, callback }) => 
         else { //Fail
             ratingLessonError();
         }
-        callback && callback(result, state.message)
+        callback && callback(result, state.message, state.rating, BookingID, TeacherUID)
     }
 
     const handleChange = (e) => {

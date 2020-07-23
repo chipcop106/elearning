@@ -21,3 +21,19 @@
         }
     }
 }
+
+.lesson-info .course-rate .rate-now {
+    margin-left: 0!important;
+}
+
+.course-actions {
+    .action-right {
+        height: 100%;
+        @media screen and (max-width: 500px) {
+            height: auto;
+        }
+        a {
+            height: 100%;
+        }
+    }
+}
