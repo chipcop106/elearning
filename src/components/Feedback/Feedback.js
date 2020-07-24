@@ -10,7 +10,7 @@ import { getListEvaluationAPI } from "~src/api/studentAPI";
 import styles from "~components/Feedback/Feedback.module.scss"
 
 const initialState = [
-  {
+  /* {
     id: randomId(),
     StudentUID: randomId(),
     StudentName: 'Truong Van Lam',
@@ -53,17 +53,23 @@ const initialState = [
     LessionName: 'Lesson 6: ReactJS application',
     LessionID: randomId(),
     Rate: 1,
-  }
+  } */
 ]
 
 const Feedback = () => {
   const [overview, setOverview] = React.useState({});
   const [loading, setLoading] = React.useState(false);
+  const [loadingListEvaluation, setLoadingListEvaluation] = React.useState(false);
   const [page, setPage] = React.useState(1)
   const [feedback, setFeedback] = React.useState(initialState);
+  const [rate, setRate] = React.useState(0);
 
   const handlePageChange = (pageNumber) => {
     setPage(pageNumber);
+    _GetListEvaluationAPI({
+      Rate: rate,
+      Page: pageNumber,
+    })
   }
 
   const getOverViewAPI = async () => {
@@ -75,126 +81,151 @@ const Feedback = () => {
     setLoading(false);
   }
 
+  const _GetListEvaluationAPI = async (params) => {
+    setLoadingListEvaluation(true);
+    const res = await getListEvaluationAPI(params);
+    if (res.Code === 1) {
+      
+    }
+    setPage(params.Page);
+    setLoadingListEvaluation(false);
+  }
+
+  const fetchListEvaluation = (e, rateFilter) => {
+    setRate(rateFilter);
+    _GetListEvaluationAPI({
+      Rate: rateFilter,
+      Page: 1,
+    })
+  }
+
   React.useEffect(() => {
     getOverViewAPI();
   }, []);
 
-  return !loading && (
-    <>
-      <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
-        <h4 className="mg-b-0 gradient-heading"><i className="fas fa-comment-dots"></i>FEEDBACK</h4>
-      </div>
-      <div className="mg-t-30 feedback-container">
-        <div className="fb-summary-container">
-          <p className="tx-16">Last 100 Parent Feedback Average: <span className="tx-warning tx-20 tx-bold">{overview.Avarage}</span></p>
-          {/* <p className="tx-gray-500 tx-14">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus iure doloremque aperiam neque, tenetur harum soluta non pariatur explicabo sed ab vero assumenda dolore molestias, dicta voluptates officiis error tempora?</p> */}
-          <div className="fb-summary">
-            <div className="fb-type w-100">
-              <div className="fb-radio">
-                <label>
-                  <input type="radio" name="fbType" group="feedback" defaultChecked />
-                  <span>All feedbacks</span>
-                  <span className="number">{overview.AllEvaluation}</span>
-                </label>
-              </div>
-            </div>
-            <div className="fb-type">
-              <div className="fb-radio">
-                <label>
-                  <input type="radio" name="fbType" group="feedback" />
-                  <span>
-                    <i className="star fa fa-star"></i>
-                    <i className="star fa fa-star"></i>
-                    <i className="star fa fa-star"></i>
-                    <i className="star fa fa-star"></i>
-                    <i className="star fa fa-star"></i>
-                    <span className="number">{overview.EvaluationRate5}</span>
-                  </span>
-                </label>
-              </div>
-            </div>
-            <div className="fb-type">
-              <div className="fb-radio">
-                <label>
-                  <input type="radio" name="fbType" group="feedback" />
-                  <span>
-                    <i className="star fa fa-star"></i>
-                    <i className="star fa fa-star"></i>
-                    <i className="star fa fa-star"></i>
-                    <i className="star fa fa-star"></i>
-                    <span className="number">{overview.EvaluationRate4}</span>
-                  </span>
-                </label>
-              </div>
-            </div>
-            <div className="fb-type">
-              <div className="fb-radio">
-                <label>
-                  <input type="radio" name="fbType" group="feedback" />
-                  <span>
-                    <i className="star fa fa-star"></i>
-                    <i className="star fa fa-star"></i>
-                    <i className="star fa fa-star"></i>
-                    <span className="number">{overview.EvaluationRate3}</span>
-                  </span>
-                </label>
-              </div>
-            </div>
-            <div className="fb-type">
-              <div className="fb-radio">
-                <label>
-                  <input type="radio" name="fbType" group="feedback" />
-                  <span>
-                    <i className="star fa fa-star"></i>
-                    <i className="star fa fa-star"></i>
-                    <span className="number">{overview.EvaluationRate2}</span>
-                  </span>
-                </label>
-              </div>
-            </div>
-            <div className="fb-type">
-              <div className="fb-radio">
-                <label>
-                  <input type="radio" name="fbType" group="feedback" />
-                  <span>
-                    <i className="star fa fa-star"></i>
-                    <span className="number">{overview.EvaluationRate1}</span>
-                  </span>
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
+  return !loading && (<>
+    <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
+      <h4 className="mg-b-0 gradient-heading"><i className="fas fa-comment-dots"></i>FEEDBACK</h4>
+    </div>
+    <div className="mg-t-30 feedback-container">
+      <div className="fb-summary-container">
         {
-          loading ? <SkeletonFeedback /> :
-            <div className="fb-list">
-              {
-                !!feedback && feedback.length > 0 && feedback.map(item =>
-                  <StudentCommnetItem
-                    key={item.id}
-                    StudentUID={item.StudentUID}
-                    CreatedDate={item.CreatedDate}
-                    StudentName={item.StudentName}
-                    StudentIMG={item.StudentIMG}
-                    Evaluation={item.Evaluation}
-                    Rate={item.Rate}
-                    LessionName={item.LessionName}
-                    LessionID={item.LessionID} />)
-              }
-            </div>
+          overview && Object.keys(overview).length > 0 ? <>
+            <p className="tx-16">Last 100 Parent Feedback Average: <span className="tx-warning tx-20 tx-bold">{overview.Avarage}</span></p>
+            <div className="fb-summary">
+              <div className="fb-type w-100">
+                <div className="fb-radio">
+                  <label>
+                    <input type="radio" name="fbType" group="feedback" defaultChecked
+                      onClick={(e) => fetchListEvaluation(e, 0)} />
+                    <span>All feedbacks</span>
+                    <span className="number">{overview.AllEvaluation}</span>
+                  </label>
+                </div>
+              </div>
+              <div className="fb-type">
+                <div className="fb-radio">
+                  <label>
+                    <input type="radio" name="fbType" group="feedback"
+                      onClick={(e) => fetchListEvaluation(e, 5)} />
+                    <span>
+                      <i className="star fa fa-star"></i>
+                      <i className="star fa fa-star"></i>
+                      <i className="star fa fa-star"></i>
+                      <i className="star fa fa-star"></i>
+                      <i className="star fa fa-star"></i>
+                      <span className="number">{overview.EvaluationRate5}</span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+              <div className="fb-type">
+                <div className="fb-radio">
+                  <label>
+                    <input type="radio" name="fbType" group="feedback"
+                      onClick={(e) => fetchListEvaluation(e, 4)} />
+                    <span>
+                      <i className="star fa fa-star"></i>
+                      <i className="star fa fa-star"></i>
+                      <i className="star fa fa-star"></i>
+                      <i className="star fa fa-star"></i>
+                      <span className="number">{overview.EvaluationRate4}</span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+              <div className="fb-type">
+                <div className="fb-radio">
+                  <label>
+                    <input type="radio" name="fbType" group="feedback"
+                      onClick={(e) => fetchListEvaluation(e, 3)} />
+                    <span>
+                      <i className="star fa fa-star"></i>
+                      <i className="star fa fa-star"></i>
+                      <i className="star fa fa-star"></i>
+                      <span className="number">{overview.EvaluationRate3}</span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+              <div className="fb-type">
+                <div className="fb-radio">
+                  <label>
+                    <input type="radio" name="fbType" group="feedback"
+                      onClick={(e) => fetchListEvaluation(e, 2)} />
+                    <span>
+                      <i className="star fa fa-star"></i>
+                      <i className="star fa fa-star"></i>
+                      <span className="number">{overview.EvaluationRate2}</span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+              <div className="fb-type">
+                <div className="fb-radio">
+                  <label>
+                    <input type="radio" name="fbType" group="feedback"
+                      onClick={(e) => fetchListEvaluation(e, 1)} />
+                    <span>
+                      <i className="star fa fa-star"></i>
+                      <span className="number">{overview.EvaluationRate1}</span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div></> :
+            <span className="text-danger bold" style={{ fontSize: '16px' }}>Not data found</span>
         }
       </div>
-      <Pagination
-        innerClass="pagination justify-content-end mt-3"
-        activePage={page}
-        itemsCountPerPage={10}
-        totalItemsCount={450}
-        pageRangeDisplayed={3}
-        itemClass="page-item"
-        linkClass="page-link"
-        onChange={handlePageChange.bind(this)}
-      />
-    </>
+      {
+        loadingListEvaluation ? <SkeletonFeedback /> :
+          <div className="fb-list">
+            {
+              !!feedback && feedback.length > 0 && feedback.map(item =>
+                <StudentCommnetItem
+                  key={item.id}
+                  StudentUID={item.StudentUID}
+                  CreatedDate={item.CreatedDate}
+                  StudentName={item.StudentName}
+                  StudentIMG={item.StudentIMG}
+                  Evaluation={item.Evaluation}
+                  Rate={item.Rate}
+                  LessionName={item.LessionName}
+                  LessionID={item.LessionID} />)
+            }
+          </div>
+      }
+    </div>
+    <Pagination
+      innerClass="pagination justify-content-end mt-3"
+      activePage={page}
+      itemsCountPerPage={10}
+      totalItemsCount={450}
+      pageRangeDisplayed={3}
+      itemClass="page-item"
+      linkClass="page-link"
+      onChange={handlePageChange.bind(this)} />
+  </>
   )
 }
 

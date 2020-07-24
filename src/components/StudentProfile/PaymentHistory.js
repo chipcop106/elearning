@@ -69,7 +69,7 @@ const PaymentHistory = () => {
             </div>
           </div>
           <div className="code wd-sm-50p wd-100p">
-            <div className="reference-code card pd-15 wd-300 mg-x-auto">
+            <div className="reference-code card pd-15 mg-x-auto mw-300">
               <dl className="subscription-info ">
                 <dt>Referrence code:</dt>
                 <dd>

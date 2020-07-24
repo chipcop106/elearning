@@ -50,7 +50,7 @@ const BlogDetail = () => {
             </div>
             <article dangerouslySetInnerHTML={{ __html: state.NotificationContent }}></article>
           </div>
-        </div>: <h2>Không có dữ liệu</h2>
+        </div>: <span class="text-danger bold" style={{fontSize:'16px'}}>Not data found</span>
       }
     </>
   )

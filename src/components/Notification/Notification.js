@@ -7,6 +7,8 @@ import { getAllNotification } from "~src/api/studentAPI"
 
 const Notification = () => {
   const [page, setPage] = React.useState(1)
+  const [sizePerPage, setSizePerPage] = React.useState(0);
+  const [totalPage, setTotalPage] = React.useState(0);
   const [state, setState] = React.useState([])
   const [loading, setLoading] = React.useState(false)
 
@@ -22,6 +24,8 @@ const Notification = () => {
     const res = await getAllNotification(params);
     if (res.Code === 1) {
       setState(res.Data)
+      setSizePerPage(res.TotalResult);
+      setTotalPage(res.PageSize);
     }
     setLoading(false);
   }
@@ -61,13 +65,13 @@ const Notification = () => {
         <Pagination
           innerClass="pagination justify-content-center"
           activePage={page}
-          itemsCountPerPage={10}
-          totalItemsCount={450}
+          itemsCountPerPage={sizePerPage}
+          totalItemsCount={state.length}
           pageRangeDisplayed={3}
           itemClass="page-item"
           linkClass="page-link"
           onChange={handlePageChange.bind(this)} />
-      </div>:<h2>Không có dữ liệu</h2>
+      </div>: (!loading && <span className="text-danger bold" style={{fontSize:'16px'}}>Not data found</span>)
     }
   </>
 }

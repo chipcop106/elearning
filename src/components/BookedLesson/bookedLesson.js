@@ -6,7 +6,7 @@ import LessonUpcomingCard from "~components/LessonUpcomingCard"
 import CancelBookingLessonModal from "~components/CancelBookingLessonModal"
 import SkeletonLessonCard from "~components/common/Skeleton/SkeletonLessonCard"
 import { getUpcomingLessons } from "~src/api/studentAPI"
-import { convertDateFromTo } from "~src/utils.js"
+import { convertDateFromTo, checkCancelTime } from "~src/utils.js"
 import Pagination from "react-js-pagination";
 import { ToastContainer } from 'react-toastify'
 
@@ -35,10 +35,9 @@ const initialRequireLesson = {
 }
 
 const BookedLesson = () => {
-  const [state, setState] = React.useState({});
+  const [state, setState] = React.useState(null);
   const [page, setPage] = React.useState(1)
   const [sizePerPage, setSizePerPage] = React.useState(0);
-  const [totalPage, setTotalPage] = React.useState(0);
   const [lock, setLock] = React.useState({
     id: "",
     lock: false,
@@ -109,10 +108,10 @@ const BookedLesson = () => {
 
   const cbRequireLesson = (SpecialRequest, BookingID, TeacherUID) => {
     let newState = [...state]
-      const index = newState.findIndex
-        (item => item.BookingID === BookingID && item.TeacherUID === TeacherUID);
-      newState[index].SpecialRequest = SpecialRequest;
-      setState(newState)
+    const index = newState.findIndex
+      (item => item.BookingID === BookingID && item.TeacherUID === TeacherUID);
+    newState[index].SpecialRequest = SpecialRequest;
+    setState(newState)
   }
 
   const getAPI = async (params) => {
@@ -121,7 +120,6 @@ const BookedLesson = () => {
     if (res.Code === 1) {
       setState(res.Data)
       setSizePerPage(res.TotalResult);
-      setTotalPage(res.PageSize);
     }
     setLoading(false);
   }
@@ -132,80 +130,85 @@ const BookedLesson = () => {
     })
   }, []);
 
-  return <React.Fragment>
+  return <>
     <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
       <h4 className="mg-b-0 gradient-heading"><i className="fas fa-calendar-check" />BOOKED LESSON</h4>
     </div>
-    <div className="mg-t-30 feedback-container">
-    <div className="course-horizental mg-t-20 animated fadeInUp am-animation-delay-1">
-        {
-          !!state && !!state &&
-            state.length + state.length === 0 ? (
-              <div className="empty-error tx-center mg-y-30 cr-item bg-white">
-                <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" />
-                <p className=" tx-danger tx-medium">You don't have any lesson.</p>
-                <a href="bookingLesson.html" className="btn btn-primary">Book a lesson</a>
-              </div>) : ""
-        }
-        <ul className="list-wrap">
-          {
-            !!state && state.length > 0 &&
-            state.map(item => loading ? <SkeletonLessonCard key={item.BookingID} /> :
-              <LessonUpcomingCard
-                key={item.BookingID}
-                BookingID={item.BookingID}
-                TeacherUID={item.TeacherUID}
-                TeacherName={item.TeacherName}
-                LessionName={item.LessionName}
-                LessionMaterial={item.LessionMaterial}
-                start={convertDateFromTo(item.ScheduleTimeVN).fromTime}
-                end={convertDateFromTo(item.ScheduleTimeVN).endTime}
-                date={convertDateFromTo(item.ScheduleTimeVN).date}
-                SpecialRequest={item.SpecialRequest}
-                DocumentName={item.DocumentName}
-                SkypeID={item.SkypeID}
-                onHandleCancelBooking={handleCancelBooking}
-                onHandleRequireLesson={handleRequireLesson}
-                lock={lock} />)
-          }
-        </ul>
-      </div>
-    </div>
-    <Pagination
-      innerClass="pagination justify-content-end mt-3"
-      activePage={page}
-      itemsCountPerPage={sizePerPage}
-      totalItemsCount={state.length}
-      pageRangeDisplayed={3}
-      itemClass="page-item"
-      linkClass="page-link"
-      onChange={handlePageChange.bind(this)} />
+    {
+      !!state ? <>
+        <div className="mg-t-30 feedback-container">
+          <div className="course-horizental mg-t-20 animated fadeInUp am-animation-delay-1">
+            {
+              !!state && !!state &&
+                state.length + state.length === 0 ? (
+                  <div className="empty-error tx-center mg-y-30 cr-item bg-white">
+                    <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" />
+                    <p className=" tx-danger tx-medium">You don't have any lesson.</p>
+                    <a href="bookingLesson.html" className="btn btn-primary">Book a lesson</a>
+                  </div>) : ""
+            }
+            <ul className="list-wrap">
+              {
+                !!state && state.length > 0 &&
+                state.map(item => loading ? <SkeletonLessonCard key={item.BookingID} /> :
+                  <LessonUpcomingCard
+                    key={item.BookingID}
+                    BookingID={item.BookingID}
+                    TeacherUID={item.TeacherUID}
+                    TeacherName={item.TeacherName}
+                    LessionName={item.LessionName}
+                    LessionMaterial={item.LessionMaterial}
+                    start={convertDateFromTo(item.ScheduleTimeVN).fromTime}
+                    end={convertDateFromTo(item.ScheduleTimeVN).endTime}
+                    date={convertDateFromTo(item.ScheduleTimeVN).date}
+                    SpecialRequest={item.SpecialRequest}
+                    DocumentName={item.DocumentName}
+                    SkypeID={item.SkypeID}
+                    onHandleCancelBooking={handleCancelBooking}
+                    onHandleRequireLesson={handleRequireLesson}
+                    lock={lock}
+                    cancelable={checkCancelTime(convertDateFromTo(item.ScheduleTimeVN).dateObject)} />)
+              }
+            </ul>
+          </div>
+        </div>
+        <Pagination
+          innerClass="pagination justify-content-end mt-3"
+          activePage={page}
+          itemsCountPerPage={sizePerPage}
+          totalItemsCount={state.length}
+          pageRangeDisplayed={3}
+          itemClass="page-item"
+          linkClass="page-link"
+          onChange={handlePageChange.bind(this)} />
 
-    <RequireLessonModal
-      BookingID={stateRequireLesson.BookingID}
-      avatar={stateRequireLesson.avatar}
-      TeacherUID={stateRequireLesson.TeacherUID}
-      TeacherName={stateRequireLesson.TeacherName}
-      LessionName={stateRequireLesson.LessionName}
-      LessionMaterial={stateRequireLesson.LessionMaterial}
-      SpecialRequest={stateRequireLesson.SpecialRequest}
-      date={stateRequireLesson.date}
-      start={stateRequireLesson.start}
-      end={stateRequireLesson.end}
-      DocumentName={stateRequireLesson.DocumentName}
-      SkypeID={stateRequireLesson.SkypeID}
-      callback={cbRequireLesson}/>
+        <RequireLessonModal
+          BookingID={stateRequireLesson.BookingID}
+          avatar={stateRequireLesson.avatar}
+          TeacherUID={stateRequireLesson.TeacherUID}
+          TeacherName={stateRequireLesson.TeacherName}
+          LessionName={stateRequireLesson.LessionName}
+          LessionMaterial={stateRequireLesson.LessionMaterial}
+          SpecialRequest={stateRequireLesson.SpecialRequest}
+          date={stateRequireLesson.date}
+          start={stateRequireLesson.start}
+          end={stateRequireLesson.end}
+          DocumentName={stateRequireLesson.DocumentName}
+          SkypeID={stateRequireLesson.SkypeID}
+          callback={cbRequireLesson} />
 
-    <CancelBookingLessonModal
-      BookingID={stateCancelLesson.BookingID}
-      LessionName={stateCancelLesson.LessionName}
-      date={stateCancelLesson.date}
-      start={stateCancelLesson.start}
-      end={stateCancelLesson.end}
-      callback={cbCancelBooking} />
+        <CancelBookingLessonModal
+          BookingID={stateCancelLesson.BookingID}
+          LessionName={stateCancelLesson.LessionName}
+          date={stateCancelLesson.date}
+          start={stateCancelLesson.start}
+          end={stateCancelLesson.end}
+          callback={cbCancelBooking} />
 
-    <ToastContainer />
-  </React.Fragment>
+        <ToastContainer />
+      </> : <span class="text-danger bold" style={{ fontSize: '16px' }}>Some errors happened</span>
+    }
+  </>
 }
 
 ReactDOM.render(<BookedLesson />, document.getElementById('react-booked-lesson'));

@@ -33,7 +33,6 @@ const LessonDetail = () => {
     let search = window.location.search;
     let params = new URLSearchParams(search);
     let ID = params.get('ID');
-
     getAPI({
       ElearnBookingID: ID,
     })

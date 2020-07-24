@@ -17,16 +17,17 @@ const initialState = {
 const BookingLessonModal = ({
   style,
   StudyTimeID,
-  LessionName = "Lesson Name",
+  LessionName = "",
+  LessionMaterial = "",
   TeacherUID,
-  TeacherIMG,
+  TeacherIMG = "default-avatar.png",
   TeacherName,
   Rate,
   date,
   start,
   end,
-  note = null,
-  documents = null,
+  note = "",
+  DocumentName = "",
   BookingID,
   onBook,
 }) => {
@@ -79,7 +80,9 @@ const BookingLessonModal = ({
                 <div className="media">
                   <div className="teacher-information">
                     <a className="teacher-avatar" href={`teacherDetail.html?ID=${TeacherUID}`}>
-                      <img src={TeacherIMG} className="teacher-image" alt="" />
+                      <img src={TeacherIMG === "default-avatar.png" ?
+                                `../assets/img/${TeacherIMG}` : TeacherIMG }
+                      className="teacher-image" alt="" />
                       <p className="course-teacher tx-14 tx-gray-800 tx-normal mg-b-0 tx-center mg-t-5 d-block">
                         {TeacherName}</p>
                     </a>
@@ -103,8 +106,8 @@ const BookingLessonModal = ({
                     </div>
                     <div className="course-docs mg-t-15">
                       <h6 className="mg-b-3">Documents:</h6>
-                      <div className="docs-lists">
-                        {
+                      <div /* className="docs-lists" */>
+                        {/* {
                           !!documents && Array.isArray(documents) && documents.length > 0 &&
                           documents.map((doc, index) =>
                             <a key={index} href={"#"} className="file-doc"><i className="fa fa-file mg-r-3"></i>
@@ -112,7 +115,8 @@ const BookingLessonModal = ({
                               <span className="file-ext">{`.${doc.split('.')[1]}`}</span>
                             </a>
                           )
-                        }
+                        } */}
+                        <a href={LessionMaterial} target="_blank">{DocumentName}</a>
                       </div>
                     </div>
                     <div className="required-list mg-t-15 bd-t pd-t-15">

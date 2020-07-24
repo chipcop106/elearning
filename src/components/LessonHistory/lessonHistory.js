@@ -35,7 +35,7 @@ const LessonHistory = () => {
   const getAPI = async (params) => {
     setLoading(true);
     const res = await getLessonHistory(params);
-    if(res.Code === 1) {
+    if (res.Code === 1) {
       setData(res.Data)
     }
     setLoading(false);
@@ -128,20 +128,24 @@ const LessonHistory = () => {
             loading ? <SkeletonLessonHistoryCard /> :
               !!data && Array.isArray(data) && data.length > 0 ?
                 data.map(item => <LessonItem
-                key={item.CoursesID}
-                CoursesID={item.CoursesID}
-                DocumentID={item.DocumentID}
-                DocumentName={item.DocumentName}
-                DocumentDetailID={item.DocumentDetailID}
-                LessionName={item.LessionName}
-                start={convertDateFromTo(item.Schedule).fromTime}
-                end={convertDateFromTo(item.Schedule).endTime}
-                date={convertDateFromTo(item.Schedule).date}
-                TeacherID={item.TeacherID}
-                Teacher={item.Teacher}
-                Status={item.Status}
-                StatusString={item.StatusString} />):
-                <tr><td><h4 className="mg-t-15">Không có dữ liệu</h4></td></tr>
+                  key={item.CoursesID}
+                  CoursesID={item.CoursesID}
+                  DocumentID={item.DocumentID}
+                  DocumentName={item.DocumentName}
+                  DocumentDetailID={item.DocumentDetailID}
+                  LessionName={item.LessionName}
+                  start={convertDateFromTo(item.Schedule).fromTime}
+                  end={convertDateFromTo(item.Schedule).endTime}
+                  date={convertDateFromTo(item.Schedule).date}
+                  TeacherID={item.TeacherID}
+                  Teacher={item.Teacher}
+                  Status={item.Status}
+                  StatusString={item.StatusString} />) :
+                <tr>
+                  <td>
+                    <span className="text-danger bold" style={{ fontSize: '16px' }}>Not data found</span>
+                  </td>
+                </tr>
           }
         </tbody>
       </table>

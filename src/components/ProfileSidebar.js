@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SideMenu from "./SideMenu";
-import { getProfile } from "../api/studentAPI";
+import { getProfile } from "~src/api/studentAPI";
 
 const ProfileSidebar = () => {
   const [state, setState] = React.useState({})

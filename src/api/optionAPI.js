@@ -18,7 +18,7 @@ export const cancelLesson = async (params) => {
     return result;
 }
 
-export const getLevelPurposeOptions = async (params) => {
+export const getLevelPurposeOptions = async () => {
     let result;
     try {
         let res = await instance.get(path + '/GetListLevelPurpose',{

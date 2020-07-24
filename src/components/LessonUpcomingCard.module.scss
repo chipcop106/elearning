@@ -1,31 +1,3 @@
-@import '../scss/variable.scss';
-
-.rating-wrap {
-    .rating-stars {
-        position: relative;
-        display: inline-block;
-        .empty-stars {
-        color: #e1e1e1;
-        white-space: nowrap;
-        }
-        .filled-stars {
-        color: $primary-color;
-        position: absolute;
-        left: 0;
-        top: 0;
-        white-space: nowrap;
-        overflow: hidden;
-        }
-        i {
-            color:inherit;
-        }
-    }
-}
-
-.lesson-info .course-rate .rate-now {
-    margin-left: 0!important;
-}
-
 .cr-item {
     & > .media {
       flex-wrap: wrap;

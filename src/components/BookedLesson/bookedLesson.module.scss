@@ -1,93 +1,23 @@
-@import '../../scss/variable.scss';
+@import "../../scss/variable.scss";
 
 .rating-wrap {
-    .rating-stars {
-        position: relative;
-        display: inline-block;
-        .empty-stars {
-        color: #e1e1e1;
-        white-space: nowrap;
-        }
-        .filled-stars {
-        color: $primary-color;
-        position: absolute;
-        left: 0;
-        top: 0;
-        white-space: nowrap;
-        overflow: hidden;
-        }
-        i {
-            color:inherit;
-        }
+  .rating-stars {
+    position: relative;
+    display: inline-block;
+    .empty-stars {
+      color: #e1e1e1;
+      white-space: nowrap;
     }
-}
-
-.cr-item {
-    & > .media {
-      flex-wrap: wrap;
-      .media-body {
-        display: flex;
-        justify-content: space-between;
-        flex-direction: column;
-        padding-bottom: 0 !important;
-        .course-actions {
-          flex-wrap: wrap;
-          position: static;
-          .action-left {
-            width: 70%;
-            display: flex;
-            flex-wrap: wrap;
-            a:first-child {
-              width: calc(50% - 10px);
-              margin-right: 10px;
-            }
-            a:last-child {
-              width: 50%;
-            }
-          }
-          .action-right {
-            text-align: right;
-            width: calc(30% - 10px);
-            margin-left: 10px;
-          }
-          @media screen and (max-width: 500px) {
-            .action-left {
-              width: 100%;
-              a {
-                width: 100% !important;
-                margin: 5px 0 !important;
-              }
-            }
-            .action-right {
-              width: 100%;
-              margin: 5px 0;
-              a {
-                width: 100%;
-              }
-            }
-          }
-        }
-      }
-      @media screen and (max-width: 587px) {
-        .teacher-information {
-          width: 100%;
-          .teacher-avatar {
-            margin: 0 auto;
-          }
-        }
-        .media-body {
-          width: 100%;
-          padding-top: 15px;
-          margin-left: 0 !important;
-          h5 {
-            text-align: center;
-          }
-          @media screen and (max-width: 500px) {
-            .tx-medium {
-              display: inline-block;
-            }
-          }
-        }
-      }
+    .filled-stars {
+      color: $primary-color;
+      position: absolute;
+      left: 0;
+      top: 0;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    i {
+      color: inherit;
     }
   }
+}

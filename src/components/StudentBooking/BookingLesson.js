@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Select from 'react-select';
 import ListSchedule from "./ListSchedule"
 import { getListTeacher } from "~src/api/studentAPI";
-import { getListLevelPurpose } from "~src/api/optionAPI";
+import { getLevelPurposeOptions } from "~src/api/optionAPI";
 
 import BookingLessonModal from "../BookingLessonModal";
 import ListNationModal from "~components/ListNationModal";
@@ -79,8 +79,8 @@ const BookingLesson = () => {
     return options.map(item => item.PurposeLevelName)
   }
 
-  const fetchListLevelPurpose = async (params) => {
-    const res = await getListLevelPurpose(params);
+  const fetchListLevelPurpose = async () => {
+    const res = await getLevelPurposeOptions();
     if (res.Code === 1 && res.Data.length > 0) {
       let key = "levelPurpose";
       const value = res.Data;
@@ -144,7 +144,6 @@ const BookingLesson = () => {
       }
     }
 
-    setTeacherList([]);
     $('#display-schedule').prop('checked', false);
     getAPI({
       Nation: state.nation.length === 0 ? "" : state.nation,
@@ -156,6 +155,7 @@ const BookingLesson = () => {
       Search: state.searchText,
     });
   }
+
   const initCalendar = () => {
     const dateString = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thusday', 'Friday', 'Saturday'];
     const monthString = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
@@ -295,7 +295,7 @@ const BookingLesson = () => {
 
   React.useEffect(() => {
     initCalendar();
-    fetchListLevelPurpose({})
+    fetchListLevelPurpose();
     $('#display-schedule').on('change', function () {
       if ($('#display-schedule').prop('checked') === true) {
         $('.tutor-schedule').slideDown();

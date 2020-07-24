@@ -78,7 +78,9 @@ const RequireLessonModal = ({
                 <div className="media">
                   <div className="teacher-information">
                     <a className="teacher-avatar" href={`teacherDetail.html?ID=${TeacherUID}`}>
-                      <img src={`../assets/img/${avatar}`} className="teacher-image" alt="" />
+                      <img src={avatar === "default-avatar.png" ?
+                                `../assets/img/${avatar}` : avatar }
+                        className="teacher-image" alt="" />
                       <p className="course-teacher tx-14 tx-gray-800 tx-normal mg-b-0 tx-center mg-t-5 d-block">
                         {TeacherName}</p>
                     </a>

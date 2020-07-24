@@ -6,12 +6,10 @@ import { getAllStudentReviewAPI } from "~src/api/studentAPI";
 import styles from '~components/common/StudentComment/StudentComment.module.scss';
 /* import { isTouchCapable } from 'react-select/src/utils'; */
 
-const whoami = (localStorage.getItem("user") === null) ? {} :
-  JSON.parse(localStorage.getItem('user'));
-
 const StudentComment = ({ TeacherUID }) => {
   const [state, setState] = React.useState([]);
   const [page, setPage] = React.useState(1)
+  const [sizePerPage, setSizePerPage] = React.useState(0);
 
   const handlePageChange = (pageNumber) => {
     setPage(pageNumber);
@@ -25,6 +23,7 @@ const StudentComment = ({ TeacherUID }) => {
     const res = await getAllStudentReviewAPI(params);
     if (res.Code === 1) {
       setState(res.Data)
+      setSizePerPage(res.TotalResult);
     }
   }
 
@@ -54,8 +53,8 @@ const StudentComment = ({ TeacherUID }) => {
       <Pagination
         innerClass="pagination justify-content-end mt-3"
         activePage={page}
-        itemsCountPerPage={10}
-        totalItemsCount={450}
+        itemsCountPerPage={sizePerPage}
+        totalItemsCount={state.length}
         pageRangeDisplayed={3}
         itemClass="page-item"
         linkClass="page-link"

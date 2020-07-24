@@ -120,7 +120,8 @@ const TeacherDetail = () => {
         <div className="teacher__detail">
           <div className="teacher-header">
             <div className="teacher-avatar">
-              <img src={state.TeacherIMG} alt="avatar" />
+              <img src={state.TeacherIMG ? state.TeacherIMG : "../assets/img/default-avatar.png"}
+                alt="avatar" />
             </div>
             <div className="teacher-info">
               <div className="teacher-name">
@@ -214,7 +215,7 @@ const TeacherDetail = () => {
           end={stateBookLesson.end}
           onBook={onBook} />
         <ToastContainer />
-      </div>:<h2>Không có dữ liệu</h2>
+      </div>:<span className="text-danger bold" style={{fontSize:'16px'}}>Not data found</span>
     }
   </>
 }
