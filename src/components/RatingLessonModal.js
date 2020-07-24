@@ -48,6 +48,8 @@ const RatingLessonModal = ({ BookingID, TeacherUID, TeacherName, callback }) => 
         }
         else {
             /* Call API */
+            console.log(BookingID)
+            console.log(TeacherUID)
             fetchAPI({
                 BookingID,
                 TeacherUID,

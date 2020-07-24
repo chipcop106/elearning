@@ -4,12 +4,13 @@ import { getScheduleByTeacherUID } from "~src/api/studentAPI";
 
 
 let calendar;
+let mondayOfWeek = new Date(new Date().setDate(new Date().getDate() - new Date().getDay()+1));
 
 const BookingSchedule = ({ TeacherUID, handleBookLesson, handleCancelLesson, onBookStudyTimeID, onBookTeacherUID, onBookStudentName, onCancelId }) => {
 
   const [schedule, setSchedule] = React.useState([])
   const [loading, setLoading] = React.useState(false)
-  const [dateFetch, setDate] = React.useState(new Date())
+  const [dateFetch, setDate] = React.useState(mondayOfWeek)
 
   const bookLesson = (StudyTimeID, LessionName, date, start, end) => {
     handleBookLesson(StudyTimeID, LessionName, date, start, end)
@@ -109,7 +110,7 @@ const BookingSchedule = ({ TeacherUID, handleBookLesson, handleCancelLesson, onB
         //console.log(toggleStudent);
         $(args.el).tooltip({
           html: true,
-          title: `<p class="mg-b-5">${moment(event.start).format("dddd, MM / YYYY")}</p>
+          title: `<p class="mg-b-5">${moment(event.start).format("dddd, DD/MM/YYYY")}</p>
           <p class="mg-b-5">Start: ${moment(event.start).format("hh:mm A")}</p>
           <p class="mg-b-5">End: ${moment(event.end).format("hh:mm A")}</p>`,
           animation: false,
@@ -172,7 +173,9 @@ const BookingSchedule = ({ TeacherUID, handleBookLesson, handleCancelLesson, onB
             text: "Today",
             click: function () {
               calendar.today();
-              setDate(calendar.getDate())
+              let today = calendar.getDate();
+              /* Fetch data from Monday of this week */
+              setDate(new Date(today.setDate(today.getDate() - today.getDay() + 1)))
             }
           }
         },

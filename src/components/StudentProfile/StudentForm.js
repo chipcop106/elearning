@@ -55,7 +55,7 @@ const RenderListLanguage = ({ list }) => {
 const ModalChangePass = ({ error, showPassword, hideChangePasswordForm, _onSubmitPassword }) => {
   const [oldPassword, setOldPassword] = React.useState('');
   const [newPassword, setNewPassword] = React.useState('');
-
+  const [displayPassword, setDisplayPassword] = React.useState(false);
   const _onSubmit = (e) => {
     e.preventDefault();
     _onSubmitPassword({ oldPassword, newPassword });
@@ -72,14 +72,20 @@ const ModalChangePass = ({ error, showPassword, hideChangePasswordForm, _onSubmi
       <Modal.Body>
         <div className="form-group">
           <div className="input-float">
-            <input type="password" className="form-control" onChange={(e) => setOldPassword(e.target.value)} defaultValue={''} />
+            <input type={displayPassword ? "text": "password"} className="form-control" onChange={(e) => setOldPassword(e.target.value)} defaultValue={''} />
             <label>Old password</label>
           </div>
         </div>
         <div className="form-group">
           <div className="input-float">
-            <input type="password" className="form-control" onChange={(e) => setNewPassword(e.target.value)} defaultValue={''} />
+            <input type={displayPassword ? "text": "password"} className="form-control" onChange={(e) => setNewPassword(e.target.value)} defaultValue={''} />
             <label>New password</label>
+          </div>
+        </div>
+        <div className="form-group">
+          <div className="d-flex align-items-center">
+            <input type="checkbox" id="displaypassword" onChange={()=>setDisplayPassword(!displayPassword)}/>
+            <label className="mg-0 mg-l-5" htmlFor="displaypassword">Show password</label>
           </div>
         </div>
         {error && error !== '' && (<span className="tx-danger">{error}</span>)}
@@ -120,10 +126,17 @@ const StudentForm = () => {
   }
   const _onSubmitPassword = async (formData) => {
     const { oldPassword, newPassword } = formData;
+
     if (oldPassword === '' || newPassword === '') {
       setError('Password field must not empty !!');
       return;
     }
+
+    if (oldPassword === newPassword) {
+      setError('Old password must be different from new password !!');
+      return;
+    }
+
     setError(null);
     const res = await updatePassAPI({
       OldPass: oldPassword,
@@ -139,7 +152,6 @@ const StudentForm = () => {
     }
 
   }
-
   const onSubmit = data => {
     const array = data.SelectTarget.split(",");
     let z = [];

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import StudentCommnetItem from "~components/common/StudentComment/StudentCommentItem";
+import StudentCommentItem from "~components/common/StudentComment/StudentCommentItem";
 import SkeletonFeedback from "~components/common/Skeleton/SkeletonFeedback";
 import Pagination from "react-js-pagination";
 
@@ -10,7 +10,7 @@ import { getListEvaluationAPI } from "~src/api/studentAPI";
 import styles from "~components/Feedback/Feedback.module.scss"
 
 const initialState = [
-  /* {
+   {
     id: randomId(),
     StudentUID: randomId(),
     StudentName: 'Truong Van Lam',
@@ -53,7 +53,7 @@ const initialState = [
     LessionName: 'Lesson 6: ReactJS application',
     LessionID: randomId(),
     Rate: 1,
-  } */
+  } 
 ]
 
 const Feedback = () => {
@@ -92,6 +92,7 @@ const Feedback = () => {
   }
 
   const fetchListEvaluation = (e, rateFilter) => {
+    if(rateFilter === rate) return;
     setRate(rateFilter);
     _GetListEvaluationAPI({
       Rate: rateFilter,
@@ -101,6 +102,10 @@ const Feedback = () => {
 
   React.useEffect(() => {
     getOverViewAPI();
+    getListEvaluationAPI({
+      Rate: 0,
+      Page: 1,
+    })
   }, []);
 
   return !loading && (<>
@@ -202,7 +207,7 @@ const Feedback = () => {
           <div className="fb-list">
             {
               !!feedback && feedback.length > 0 && feedback.map(item =>
-                <StudentCommnetItem
+                <StudentCommentItem
                   key={item.id}
                   StudentUID={item.StudentUID}
                   CreatedDate={item.CreatedDate}

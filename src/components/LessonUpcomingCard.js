@@ -49,7 +49,7 @@ const LessonUpcomingCard = ({
           <div>
             <h5 className="mg-b-10 ">
               <span className="badge badge-warning">Incoming</span>{' '}
-              <a href={`lessonDetail.html?ID=${BookingID}`} className="course-name tx-bold">{DocumentName}</a>
+              <a href={`lessonDetail.html?ID=${BookingID}`} className="course-name tx-bold">{LessionName}</a>
             </h5>
             <div className="course-information tx-14">
               <span className="mg-r-15 tx-gray-600 tx-medium"><i className="fa fa-calendar tx-info mg-r-5"></i>
@@ -73,7 +73,7 @@ const LessonUpcomingCard = ({
                        <span className="file-ext">{`.${doc.split('.')[1]}`}</span>
                      </a>
                    ) */
-                  <a href={LessionMaterial} target="_blank">{LessionName}</a>
+                  <a href={LessionMaterial} target="_blank">{DocumentName}</a>
                 }
               </div>
             </div>

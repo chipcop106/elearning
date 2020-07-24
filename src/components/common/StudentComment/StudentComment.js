@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import StudentCommentItem from "./StudentCommentItem"
 import Pagination from "react-js-pagination";
 import { getAllStudentReviewAPI } from "~src/api/studentAPI";
-import styles from '~components/common/StudentComment/StudentComment.module.scss';
 /* import { isTouchCapable } from 'react-select/src/utils'; */
 
 const StudentComment = ({ TeacherUID }) => {

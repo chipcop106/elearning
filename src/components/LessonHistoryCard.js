@@ -10,6 +10,7 @@ const LessonHistoryCard = ({
   TeacherUID,
   TeacherName,
   LessionName,
+  Status,
   note = "",
   start,
   end,
@@ -17,11 +18,11 @@ const LessonHistoryCard = ({
   Rate
 }) => {
   const handleRatingLesson = (BookingID, TeacherUID, TeacherName) => {
+    console.log(BookingID)
+    console.log(TeacherUID)
+    console.log(TeacherName)
     onHandleRatingLesson(BookingID, TeacherUID, TeacherName)
   }
-
-  /*   React.useEffect(()=>{
-    },[Rate]) */
 
   return (
     <React.Fragment>
@@ -65,6 +66,8 @@ const LessonHistoryCard = ({
                 <h6 className="mg-b-3">Rating lesson:</h6>
                 <div className="rating-wrap ">
                   {
+                    Status === 3 || Status === 4 ?
+                    <span className="tx-danger" style={{fontSize:'16px'}}>This course were canceled.</span> :
                     Rate ? (<div className="rating-stars">
                       <span className="empty-stars">
                         <i className="star fa fa-star"></i>

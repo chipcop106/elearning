@@ -206,7 +206,7 @@ const BookedLesson = () => {
           callback={cbCancelBooking} />
 
         <ToastContainer />
-      </> : <span class="text-danger bold" style={{ fontSize: '16px' }}>Some errors happened</span>
+      </> : <span className="text-danger bold" style={{ fontSize: '16px' }}>Some errors happened</span>
     }
   </>
 }

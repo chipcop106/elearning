@@ -3,21 +3,26 @@ import Skeleton from "react-loading-skeleton";
 
 let styleWrapper = {
   margin: "5px",
-  padding: "15px 15px 15px 0",
+  padding: "15px",
   display: "flex",
   flexDirection: 'row',
   flexWrap: "wrap",
   borderRadius: "5px",
 }
+
+const widthScreen = window.innerWidth
+
 const SkeletonFeedback = () => {
   return (
     <section>
       <ul className="list" style={{ paddingLeft: '0' }}>
         <li className="card" style={styleWrapper}>
-          <div className="text-center" style={{ width: '20%' }}>
-            <Skeleton circle={true} height={100} width={100} />
+          <div className="text-center" style={{ width: widthScreen > 600 ? '100px': '60px' }}>
+            <Skeleton circle={true}
+            height={widthScreen > 600 ? 100: 60}
+            width={widthScreen > 600 ? 100: 60}/>
           </div>
-          <div style={{ width: '80%' }}>
+          <div style={{ width: `calc(100% - ${widthScreen > 600 ?100:60}px)`, paddingLeft: '15px' }}>
             <Skeleton className="mb-2" height={20} width={50} /><br />
             <Skeleton className="mb-2" height={70} width={`100%`} /><br />
             <Skeleton className="mb-2" height={20} width={`90%`} /><br />

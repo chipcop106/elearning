@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import styles from '~components/common/StudentComment/StudentCommentItem.module.scss';
 
 const StudentCommentItem = ({
   StudentUID,
