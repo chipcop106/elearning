@@ -103,7 +103,14 @@
 }
 
 .form-account .form-row .col-label-fixed {
-  flex-basis: 85px;
+  flex-basis: 100px;
+  max-width:100px;
+  @media screen and (max-width: 1170px) {
+    flex-basis: 100%;
+    flex-shrink: 0;
+    max-width: 100%; 
+    margin-bottom:5px;
+  }
   @media screen and (max-width: 576px) {
     flex-basis: auto;
   }

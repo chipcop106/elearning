@@ -12,32 +12,31 @@ module.exports = {
     'Footer': componentEnrtryPrefix + '/Footer.js',
     'login': componentEnrtryPrefix + 'Login/Login.js',
     'signup': componentEnrtryPrefix + 'Signup/Signup.js',
-    'ProfileSidebar': componentEnrtryPrefix + '/ProfileSidebar.js',
-    'forgotpassword': componentEnrtryPrefix + 'ForgotPassword/ForgotPassword.js',
-
-   /*  'teacherSupport': componentEnrtryPrefix + 'TeacherSupport/teacherSupport.js',
-    'teacherHome': componentEnrtryPrefix + 'TeacherHome/teacherHome.js',
-    'teacherClassRooms': componentEnrtryPrefix + 'TeacherClassRooms/teacherClassRooms.js',
+    'app': ['./src/scss/custom.scss', './src/assets/js/custom.js'],
     'teacherBooking': componentEnrtryPrefix + 'TeacherBooking/teacherBooking.js',
+    /* 'teacherHome': componentEnrtryPrefix + 'TeacherHome/teacherHome.js',
+    'teacherClassRooms': componentEnrtryPrefix + 'TeacherClassRooms/teacherClassRooms.js',
+    
     'teacherLibrary': componentEnrtryPrefix + 'TeacherLibrary/teacherLibrary.js',
+    'teacherSupport': componentEnrtryPrefix + 'TeacherSupport/teacherSupport.js',
     'teacherReport': componentEnrtryPrefix + 'TeacherReport/teacherReport.js',
     'teacherPayment': componentEnrtryPrefix + 'TeacherPayment/teacherPayment.js',
     'teacherFeedback': componentEnrtryPrefix + 'TeacherFeedback/teacherFeedback.js',
-    'teacherProfile': componentEnrtryPrefix + 'TeacherProfile/teacherProfile.js', */
+    'teacherProfile': componentEnrtryPrefix + 'TeacherProfile/teacherProfile.js',  */
     // 'DocumentSlider': componentEnrtryPrefix + 'TeacherLibrary/DocumentSlider.js',
-    
-     'bookingLesson': componentEnrtryPrefix + 'StudentBooking/BookingLesson.js',
+    'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js',
+    'bookingLesson': componentEnrtryPrefix + 'StudentBooking/BookingLesson.js',
     'faq': componentEnrtryPrefix + 'Faq/Faq.js', 
     'feedback': componentEnrtryPrefix + 'Feedback/Feedback.js',
     'lessonDetail': componentEnrtryPrefix + 'LessonDetail/LessonDetail.js',
-     'blogDetail': componentEnrtryPrefix + 'BlogDetail/BlogDetail.js',
+    'blogDetail': componentEnrtryPrefix + 'BlogDetail/BlogDetail.js',
     'notification': componentEnrtryPrefix + 'Notification/Notification.js',
     'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js',
-    
     'lessonHistory': componentEnrtryPrefix + 'LessonHistory/LessonHistory.js',
+    'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js',
     'teacherDetail': componentEnrtryPrefix + 'TeacherDetail/TeacherDetail.js',
     
-    'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js',
+    
     'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/StudentDashboard.js',
     'app': ['./src/scss/custom.scss', './src/assets/js/custom.js'], 
   },
@@ -58,6 +57,13 @@ module.exports = {
         test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
         loader: 'url-loader?limit=100000' 
       },
+      {
+        test: /\.(ttf|otf|eot|woff2?)$/,
+        loader: "file-loader",
+        options: {
+          name: 'fonts/[name].[ext]',
+        }
+      }
     ],
   
   },

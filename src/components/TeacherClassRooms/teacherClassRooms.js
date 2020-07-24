@@ -8,6 +8,7 @@ import AllClassesTable from '~components/table/AllClassesTable';
 import MissingFeedbackTable from '~components/table/MissingFeedbackTable';
 import StudentInformationModal from '~components/StudentInformationModal';
 
+let teacherInfoSwiper;
 
 const TeacherClassRooms = () => {
     const [studentId, setStudentId] = React.useState(null);
@@ -22,9 +23,36 @@ const TeacherClassRooms = () => {
         mdStudentInfo.current = false;
     }
 
+    const initSwiper = () => {
+        teacherInfoSwiper = new Swiper('.swiper-container', {
+            loop: false,
+            freeModeMomentum: false,
+            preventInteractionOnTransition: true,
+            simulateTouch: false,
+            autoHeight: true,
+        });
+        const listTab = document.getElementById('js-list-tab');
+        const tabLinks = listTab.querySelectorAll('.tab-link');
+        const swapTab = (e) => {
+            e.preventDefault();
+            const element = e.target;
+            const indexSlide = element.dataset?.index ?? 0;
+            teacherInfoSwiper.slideTo(indexSlide, 500, false);
+            [...tabLinks].map(link => link === element ? link.classList.add('active') : link.classList.remove('active'));
+        }
+        [...tabLinks].map(link => {
+            link.addEventListener('click', swapTab);
+        });
+    }
+
+    const updateHeight = () => {
+        teacherInfoSwiper.updateAutoHeight(500, false);
+    }
+
     React.useEffect(() => {
+        initSwiper();
         return unMountComponents;
-    }, [])
+    }, []);
 
     return (
         <>
@@ -50,21 +78,21 @@ const TeacherClassRooms = () => {
                                     {/*tab 1*/}
                                     <div className="swiper-slide">
                                         <div className="slide-tab-content">
-                                            <UpComingTable showStudentModal={showStudentModal}/>
+                                            <UpComingTable updateSwiperHeight={updateHeight} showStudentModal={showStudentModal}/>
                                         </div>
                                     </div>
                                     {/*/tab 1*/}
                                     {/*tab 2*/}
                                     <div className="swiper-slide">
                                         <div className="slide-tab-content">
-                                            <MissingFeedbackTable />
+                                            <MissingFeedbackTable updateSwiperHeight={updateHeight} />
                                         </div>
                                     </div>
                                     {/*/tab 2*/}
                                     {/*tab 3*/}
                                     <div className="swiper-slide">
                                         <div className="slide-tab-content">
-                                            <AllClassesTable showStudentModal={showStudentModal}/>
+                                            <AllClassesTable updateSwiperHeight={updateHeight} showStudentModal={showStudentModal}/>
                                         </div>
                                     </div>
                                     {/*/tab 3*/}

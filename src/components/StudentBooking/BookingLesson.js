@@ -131,6 +131,8 @@ const BookingLesson = () => {
   }
 
   const onSearch = (e) => {
+    console.log(state)
+    setTeacherList([]);
     e.preventDefault();
     let z = [];
     for (let i = 0; i < state.selectedLevelPurpose.length; i++) {

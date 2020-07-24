@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { cancelLessonAPI } from '../api/studentAPI';
+import { cancelLesson } from '../api/optionAPI';
 import { toast } from 'react-toastify';
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
 
-const CancelBookingLessonModal = ({ BookingID, LessionName, date, start, end, style, callback }) => {
+const CancelBookingTeacher = ({ BookingID, LessionName, date, start, end, style, callback }) => {
   const [reason, setReason] = React.useState("")
   const cancelToastSuccess = () => toast.success("Cancel lesson successful!", toastInit);
 
@@ -17,7 +17,7 @@ const CancelBookingLessonModal = ({ BookingID, LessionName, date, start, end, st
     /* start: -1 */
     let status = -1;
     callback && callback(params.BookingID, status)
-    const lessons = await cancelLessonAPI(params);
+    const lessons = await cancelLesson(params);
     status = lessons.Code; /* success:1 , fail: 0*/
     if (status === 1) {
       cancelToastSuccess()
@@ -59,7 +59,7 @@ const CancelBookingLessonModal = ({ BookingID, LessionName, date, start, end, st
           </button>
         </div>
         <div className="modal-body">
-          <p id="newCampaignTitle">Lesson Name: <span className="tx-medium">{LessionName || ''}</span></p>
+          <p id="newCampaignTitle">Lesson Name: {LessionName || ''}</p>
           <p>Date: <span id="js-date-time" className="tx-medium">{date || ''}</span></p>
           <p>Start time: <span id="js-start-time" className="tx-medium">{start || ''}</span></p>
           <p>End time: <span id="js-end-time" className="tx-medium">{end || ''}</span></p>
@@ -79,4 +79,4 @@ const CancelBookingLessonModal = ({ BookingID, LessionName, date, start, end, st
     </div>
   </div>
 }
-export default CancelBookingLessonModal;
+export default CancelBookingTeacher;

@@ -46,9 +46,9 @@ const UpcomingRow = ({ data, showStudentModal }) => {
     )
 }
 
-const UpCommingTable = ({ showStudentModal }) => {
+const UpCommingTable = ({ updateSwiperHeight, showStudentModal }) => {
     const [isLoading, setIsLoading] = useState(true);
-    const [pageNumber, setPageNumber] = useState(0);
+    const [pageNumber, setPageNumber] = useState(1);
     const [data, setData] = useState(null);
 
     const loadUpcomingClasses = async () => {
@@ -60,10 +60,13 @@ const UpCommingTable = ({ showStudentModal }) => {
                 console.log('Code response khác 1');
             }
             setIsLoading(false);
+            updateSwiperHeight();
+            return;
         } catch (error) {
             console.log(error);
             setIsLoading(false);
         }
+        setData([]);
     }
 
     const _onClickPage = (e) => {
@@ -92,7 +95,8 @@ const UpCommingTable = ({ showStudentModal }) => {
                                 </thead>
                                 {/*1 item*/}
                                 <tbody>
-                                    {!!data && !!data.length > 0 && data.map(item => <UpcomingRow key={`${item.BookingID}`} data={item} showStudentModal={showStudentModal} />)}
+                                    {!!data && !!data.length > 0 ? data.map(item => <UpcomingRow key={`${item.BookingID}`} data={item} showStudentModal={showStudentModal} />) 
+                                    : (<tr><td colspan={5}><span className="tx-danger d-block tx-center tx-medium tx-16">No data found.</span></td></tr>)}
                                 </tbody>
                             </table>
                         </div>

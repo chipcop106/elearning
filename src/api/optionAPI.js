@@ -7,9 +7,8 @@ export const cancelLesson = async (params) => {
     try {
         let res = await instance.get(path + '/CancelSchedule',{
             params: {
+                ...params,
                 UID: appSettings.UID,
-                BookingID: params.BookingID,
-                Reason: params.Reason,
             }
         })
         result =  res.data;
@@ -19,7 +18,7 @@ export const cancelLesson = async (params) => {
     return result;
 }
 
-export const getListLevelPurpose = async (params) => {
+export const getLevelPurposeOptions = async (params) => {
     let result;
     try {
         let res = await instance.get(path + '/GetListLevelPurpose',{
@@ -121,3 +120,143 @@ export const getListLanguageAPI = async () => {
     }
     return result;
 }
+
+
+export const getTimeZone = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/GetTimeZone',{
+            params: {
+                 UID: appSettings.UID
+            }
+        })
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+
+export const getEnglishProficiencyOptions = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/ListEnglishProficiency',{
+            params: {
+                 UID: appSettings.UID,
+            }
+        })
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const getLevelOfEducationOptions = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/ListLevelOfEducation',{
+            params: {
+                 UID: appSettings.UID,
+            }
+        })
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+
+
+export const getTesolCertificateOptions = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/ListTesolCertificate',{
+            params: {
+                 UID: appSettings.UID,
+            }
+        })
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const getTeylCertificateOptions = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/ListTeylCertificate',{
+            params: {
+                 UID: appSettings.UID,
+            }
+        })
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const getOtherCertificateOptions = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/ListOtherCertificate',{
+            params: {
+                 UID: appSettings.UID,
+            }
+        })
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const getTeachingExperienceOptions = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/ListTeachingExperience',{
+            params: {
+                 UID: appSettings.UID,
+            }
+        })
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const getLearningTargetOptions = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/ListTarget',{
+            params: {
+                 UID: appSettings.UID,
+            }
+        })
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const updatePassword = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/UpdatePass',{
+            params: {
+                 UID: appSettings.UID,
+            }
+        })
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+

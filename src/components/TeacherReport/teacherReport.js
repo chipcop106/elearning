@@ -1,8 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styles from '../TeacherReport/teacherReport.module.scss';
-
+import {getMonthReport} from '~src/api/teacherAPI';
+import Skeleton from 'react-loading-skeleton';
 const TeacherReport = () => {
+  const [isLoading, setIsloading] = React.useState(true);
+  const [state, setState] = React.useState(null);
+
+  const getMonthReportData = async () => {
+    const res = await getMonthReport();
+    if(res.Code === 1 && !!res.Data) setState(res.Data);
+    setIsloading(false);
+  }
+
+  React.useEffect(() => {
+    getMonthReportData();
+  },[]);
     return (
         <div>
   <div className="d-md-flex align-items-center justify-content-between mg-b-30">
@@ -25,11 +38,11 @@ const TeacherReport = () => {
               <ul className="feather">
                 <li className="rp-info">
                   <span className="label">Opened Slots</span>
-                  <span className="value">134</span>
+                  <span className="value">{isLoading ? <Skeleton width={25} /> : (!!state && state.OpenedSlots ? state.OpenedSlots : 0)}</span>
                 </li>
                 <li className="rp-info">
                   <span className="label">Finished Classes</span>
-                  <span className="value">100</span>
+                  <span className="value">{isLoading ? <Skeleton width={25} /> : (!!state && state.FinishedSlots ? state.FinishedSlots : 0)}</span>
                 </li>
               </ul>
             </div>
@@ -44,11 +57,11 @@ const TeacherReport = () => {
               <ul className="feather">
                 <li className="rp-info">
                   <span className="label">Teacher cancellation slots </span>
-                  <span className="value">34</span>
+                  <span className="value">{isLoading ? <Skeleton width={25} /> : (!!state && state.TeacherCancellationSlots ? state.TeacherCancellationSlots : 0)}</span>
                 </li>
                 <li className="rp-info">
                   <span className="label">Teacher noshow slots </span>
-                  <span className="value">04</span>
+                  <span className="value">{isLoading ? <Skeleton width={25} /> : (!!state && state.TeacherNoshowSlots ? state.TeacherNoshowSlots : 0)}</span>
                 </li>
               </ul>
             </div>
@@ -63,11 +76,11 @@ const TeacherReport = () => {
               <ul className="feather">
                 <li className="rp-info">
                   <span className="label">5 stars feedback rate </span>
-                  <span className="value">75%</span>
+                  <span className="value">{isLoading ? <Skeleton width={25} /> : (!!state && state.FiveStartFeedbackRate ? state.FiveStartFeedbackRate : 0)}</span>
                 </li>
                 <li className="rp-info">
                   <span className="label">Feedback submission rate </span>
-                  <span className="value">90%</span>
+                  <span className="value">{isLoading ? <Skeleton width={25} /> : (!!state && state.FeedbackSubmissionRate ? state.FeedbackSubmissionRate : 0)}</span>
                 </li>
               </ul>
             </div>

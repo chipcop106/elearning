@@ -2,7 +2,7 @@ import React from 'react';
 import {getStudentByUID} from '~src/api/teacherAPI';
 import Skeleton from 'react-loading-skeleton';
 const initialState = {
-    stImageUrl: '../assets/img/male.png',
+    stImageUrl: '../assets/img/default-avatar.png',
     stPhone:'',
     stEmail:'',
     stSkypeId:'',
@@ -24,6 +24,7 @@ const StudentInformationModal = React.forwardRef(({ studentId }, ref) => {
         const res = await getStudentByUID({StudentUID:studentId});
         if(res.Code !== 1) {
             setIsloading(false);
+            setState(initialState);
             return;
         };
         setState({

@@ -7,6 +7,8 @@ const merge = require('webpack-merge');
 const common = require('./webpack.common');
 const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
 const {
   CleanWebpackPlugin
 } = require('clean-webpack-plugin');
@@ -91,5 +93,8 @@ module.exports = merge(common,{
       { from: 'src/assets/fonts', to: 'css/fonts' },
     ],
   })
-  ].concat(teacherHTML).concat(accountHTML)
+  ].concat(teacherHTML).concat(accountHTML),
+  optimization: {
+    minimizer: [new UglifyJsPlugin()],
+  },
 });

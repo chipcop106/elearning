@@ -1,130 +1,30 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {randomId} from '~src/utils';
-
+import React, { useEffect, useState, useRef, memo } from 'react';
+import { randomId } from '~src/utils';
 import styles from './TeacherForm.module.scss';
+import Select from 'react-select'
+import { appSettings } from '~src/config';
+import {Modal, Button} from 'react-bootstrap';
+import {
+    uploadImageToServer,
+    getEnglishProficiencyOptions,
+    getLevelOfEducationOptions,
+    getTesolCertificateOptions,
+    getTeylCertificateOptions,
+    getOtherCertificateOptions,
+    getTeachingExperienceOptions,
+    getTimeZone,
+    getLevelPurposeOptions
 
-const validateRules = {
-    firstName: {
-        presence: true,
-    },
-}
-
-const initialState = {
-    avatar: "",
-    firstName: "Truong Hong",
-    lastName: "Anh",
-    skypeId: "mona.media",
-    phoneNumber: "0886706289",
-    location: "1",
-    state: "1",
-    postalCode: "10010",
-    timeZone: "1",
-    education: "2",
-    schoolName: "1",
-    major: "1",
-    englishProficiency: "3",
-    introduce: `While I have no soccer skills, I once played in a fairly competitive adult soccer league with my then-teenage stepson. I was terrible, but I played because he asked me to. (When your kids get older and ask you to do something with them, the first time you say no might be the last time you get asked.) I was trying to match the drollness of my "Wow" when my stepson stepped in, half-smile on his lips and full twinkle in his eyes, and rescued me by saying, "Come on, we need to get ready." Was Louis cocky? Certainly, but only on the surface. His $400 cleats, carbon fiber shin guards, and "I'm the king of the business world" introduction was an unconscious effort to protect his ego. His introduction said, "Hey, I might not turn out to be good at soccer, but out there in the real world, where it really matters, I am the Man." As we took the field before a game, a guy on the other team strutted over, probably picking me out because I was clearly the oldest player on the field. (There's a delightful sentence to write.)`,
-    teacherExperiences: [
-        {
-            id: 1,
-            title: 'I have taught in school/College/University/ or learning centers',
-            value: 'exp1',
-        },
-        {
-            id: 2,
-            title: 'I have home-schooling, volunteer, tutor, or other informal teaching experience.',
-            value: 'exp2',
-        },
-        {
-            id: 3,
-            title: 'None of the above',
-            value: 'exp3',
-        },
-    ],
-    selectTeacherExp: ['exp1', 'exp2'],
-    experienceLists: [
-        {
-            id: 1,
-            name: "Moan Media",
-            jobTitle: "fe",
-            timePeriod: "2018",
-        },
-        {
-            id: 2,
-            name: "Mona Media",
-            jobTitle: "be",
-            timePeriod: "2019",
-        }
-    ],
-    tesolCertificate: '1',
-    teylCertificate: '2',
-    otherCertificate: '2',
-}
-
-const reducer = (prevState, { type, payload }) => {
-    switch (type) {
-        case "STATE_CHANGE": {
-            return {
-                ...prevState,
-                [payload.key]: payload.value
-            }
-        }
-        case "ADD_EXPROW": {
-            return {
-                ...prevState,
-                experienceLists: [...prevState.experienceLists, payload]
-            }
-        }
-        case "DELETE_EXPROW": {
-            return {
-                ...prevState,
-                experienceLists: [...prevState.experienceLists].filter(exp => exp.id !== payload.id)
-            }
-        }
-        case "EXP_CHANGE": {
-            return {
-                ...prevState,
-                experienceLists: [...prevState.experienceLists].map(exp => (exp.id === payload.id) ? {
-                    ...exp,
-                    name: payload.name,
-                    jobTitle: payload.jobValue,
-                    timePeriod: payload.timePeriod
-                } : exp)
-            }
-        }
-        default: return prevState;
-            break;
-    }
-}
-
-const jobs = [{
-    id: 1,
-    title: 'Front End Developer',
-    value: 'fe',
-}, {
-    id: 2,
-    title: 'Backend Enginer',
-    value: 'be',
-}];
-
-const timeLists = [{
-    id: 1,
-    title: '2018',
-    value: '2018',
-}, {
-    id: 2,
-    title: '2019',
-    value: '2019',
-}];
-
-
+} from '~src/api/optionAPI';
 
 const RenderExpRow = ({ exp, handleStateChange, deleteRow }) => {
     const [name, setName] = React.useState(exp.name);
     const [jobValue, setJobValue] = React.useState(exp.jobTitle);
     const [timePeriod, setTimePeriod] = React.useState(exp.timePeriod);
-
+    const handleDeleteRow = (e) => {
+        e.preventDefault();
+        deleteRow(exp.id);
+    }
     React.useEffect(() => {
         handleStateChange({ id: exp.id, name, jobValue, timePeriod });
     }, [name, jobValue, timePeriod])
@@ -140,22 +40,19 @@ const RenderExpRow = ({ exp, handleStateChange, deleteRow }) => {
                 </div>
                 <div className="form-group col-md-3">
                     <div className="input-float">
-                        <select name="experienceLists" value={jobValue} onChange={(e) => setJobValue(e.target.value)} className="form-control">
-                            {[...jobs].map(job => <option value={job.value} key={`${job.id}`}>{job.title}</option>)}
-                        </select>
+                        <input type="text" className="form-control" placeholder="Job title" onChange={(e) => setJobValue(e.target.value)} defaultValue={jobValue} />
                         <label>Job Title</label>
                     </div>
                 </div>
                 <div className="form-group col-md-3">
                     <div className="input-float">
-                        <select name="experienceLists" value={timePeriod} onChange={(e) => setTimePeriod(e.target.value)} className="form-control">
-                            {[...timeLists].map(time => <option value={time.value} key={`${time.id}`}>{time.title}</option>)}
-                        </select>
+                        <input type="text" className="form-control" placeholder="Time period" onChange={(e) => setTimePeriod(e.target.value)} defaultValue={timePeriod} />
+
                         <label>Time period</label>
                     </div>
                 </div>
                 <div className="form-group col-md-3">
-                    <button className="delete-row tx-24 btn"><i className="fa fa-minus-circle tx-danger" onClick={() => deleteRow(exp.id)} /></button>
+                    <button className="delete-row tx-24 btn"><i className="fa fa-minus-circle tx-danger" onClick={handleDeleteRow} /></button>
                 </div>
             </div>
 
@@ -163,271 +60,378 @@ const RenderExpRow = ({ exp, handleStateChange, deleteRow }) => {
     </>
 }
 
-const TeacherForm = () => {
-    const [state, dispatch] = React.useReducer(reducer, initialState);
-    const avatarRef = React.createRef();
-    const inputFileRef = React.createRef();
+const TeacherForm = (props) => {
+    const { values, handleChange, setFieldValue, errors } = props;
+    const [uploading, setUpLoading] = useState(false);
+    const inputFileRef = useRef(true);
+    const showGuide = () => {
+        setFieldValue('showGuideModal',true);
+    }
 
-
-    const handleChange = (e) => {
-        const target = e.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const key = target.getAttribute("name");
-        dispatch({ type: "STATE_CHANGE", payload: { key, value } })
+    const hideGuide = () => {
+        setFieldValue('showGuideModal',false);
     }
 
     const handleExpRowChange = (rowState) => {
         const { id, name, jobValue, timePeriod } = rowState;
-        dispatch({ type: "EXP_CHANGE", payload: { id, name, jobValue, timePeriod } })
+        const newValue = [...values.experienceLists].map(exp => (exp.id === id) ? {
+            ...exp,
+            name: name,
+            jobTitle: jobValue,
+            timePeriod: timePeriod
+        } : exp)
+        setFieldValue('experienceLists', newValue);
     }
 
-    const handleSelect2 = (e) => {
-        const target = e.target;
-        const value = [];
-        [...target.children].map(option => {
-            if (option.selected) value.push(option.value);
-        });
-
-        const key = target.getAttribute("name");
-        dispatch({ type: "STATE_CHANGE", payload: { key, value } })
-    }
 
     const _handleSubmitForm = (e) => {
         e.preventDefault();
-        //Submit form
-        form === undefined && (form = document.getElementById('form-teacher-profile'))
-        const err = validate(form, validateRules);
-        !err && alert('submited');
 
     }
 
-    const _addExpRow = () => {
+    const _addExpRow = (e) => {
+        e.preventDefault();
         const rowData = {
             id: randomId(),
             name: "",
-            jobTitle: "fe",
-            timePeriod: "2018",
+            jobTitle: "",
+            timePeriod: "",
         };
-        dispatch({ type: "ADD_EXPROW", payload: rowData })
+        setFieldValue('experienceLists', [...values.experienceLists, rowData]);
     }
 
     const _deleteExpRow = (id) => {
-        dispatch({ type: "DELETE_EXPROW", payload: { id } })
+        setFieldValue('experienceLists', [...values.experienceLists].filter(exp => exp.id !== id));
     }
 
-    const handleUploadImage = () => {
-        const input = inputFileRef.current;
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                avatarRef.current.setAttribute('src', e.target.result);
+    const handleUploadImage = async () => {
+        setUpLoading(true);
+        try {
+            const input = inputFileRef.current;
+            if (input.files && input.files[0]) {
+                const res = await uploadImageToServer(input.files);
+                res.Code === 1 && res.Data.length > 0 && setFieldValue('avatar', res.Data[0].UrlIMG);
             }
-            reader.readAsDataURL(input.files[0]);
+        } catch (error) {
+            console.log(error?.message ?? 'Lỗi gọi api');
         }
-
+        setUpLoading(false);
     }
 
+    const loadSelectOptionAPI = async () => {
+            getEnglishProficiencyOptions().then((res) => setFieldValue('englishProficienOptions', res?.Data ?? []));
+            getLevelOfEducationOptions().then((res) => setFieldValue('levelOfEducationOptions', res?.Data ?? []));
+            getLevelPurposeOptions().then((res) => setFieldValue('levelOfPurposeOptions', res?.Data ?? []));
+            getTeylCertificateOptions().then((res) => setFieldValue('teylCertificateOptions', res?.Data ?? []));
+            getTeachingExperienceOptions().then((res) => setFieldValue('teacherExperiences', res?.Data ?? []));
+            getOtherCertificateOptions().then((res) => setFieldValue('otherCertificateOptions', res?.Data ?? []));
+            getTesolCertificateOptions().then((res) => setFieldValue('tesolCertificateOptions', res?.Data ?? []));
+            getTimeZone().then((res) => setFieldValue('timeZoneOptions', res?.Data ?? []));
+    };
 
-    React.useEffect(() => {
-        $(".js-select2").on('change', handleSelect2.bind(this));
-        return () => $(".js-select2").off('change', handleSelect2.bind(this));
-    }, [])
+    const cleanUp = () => {
+      //  avatarRef = null;
+      //  inputFileRef = null;
+    }
+
+    useEffect(() => {
+        loadSelectOptionAPI();
+        return cleanUp;
+    }, []);
+
 
     return (
-        <form id="form-teacher-profile">
-            <div className="teacher__detail__wrap card-box">
-                <div className="teacher__detail">
-                    <div className="teacher-header pos-relative">
-                        <div className="teacher-avatar">
-                            <div className="upload-container">
-                                <label className="upload-avatar">
-                                    <input ref={inputFileRef} type="file" accept="image/*" className="upload-box hidden d-none upload-file" onChange={handleUploadImage} />
-                                    <img ref={avatarRef} src="https://theamericanschool.edu.vn/wp-content/uploads/2020/01/Ms-Hong-Nguyen-Vietnamese.jpg" alt="avatar" className="image-holder" />
-                                </label>
+        <>
+            <form id="form-teacher-profile">
+                <div className="teacher__detail__wrap card-box">
+                    <div className="teacher__detail">
+                        <div className="teacher-header pos-relative">
+                            <div className={`teacher-avatar ${uploading ? 'loading-style' : ''}`}>
+                                <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+                                <div className="upload-container">
+                                    <label className="upload-avatar">
+                                        <input ref={inputFileRef} type="file" accept="image/*" className="upload-box hidden d-none upload-file" onChange={handleUploadImage} />
+                                        <img src={values?.avatar ?? '../assets/img/default-avatar.png'} alt="avatar" className="image-holder" />
+                                    </label>
+                                </div>
+                            </div>
+                            <div className="teacher-info flex-grow-1">
+                                <h5 className="mg-b-15">Basic Information</h5>
+                                <div className="form-row">
+                                    <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
+                                        <div className="input-float">
+                                            <input type="text" className={`form-control ${!!errors && errors.fullName ? 'error-form' : ''}`} placeholder="Full name *" name="fullName" onChange={handleChange} defaultValue={values.fullName} required />
+                                            <label>Full Name *</label>
+                                        </div>
+                                    </div>
+                                    <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
+                                        <div className="input-float">
+                                            <input type="text" className={`form-control ${!!errors && errors.skypeId ? 'error-form' : ''}`} placeholder="Skype ID *" name="skypeId" onChange={handleChange} defaultValue={values.skypeId} required />
+                                            <label>Skype ID *</label>
+                                        </div>
+                                    </div>
+                                    <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
+                                        <div className="input-float">
+                                            <input type="number" className={`form-control ${!!errors && errors.phoneNumber ? 'error-form' : ''}`} placeholder="Phone number *" name="phoneNumber" onChange={handleChange} defaultValue={values.phoneNumber} required />
+                                            <label>Phone Number *</label>
+                                        </div>
+                                    </div>
+                                    <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
+                                        <div className="input-float">
+                                            <Select
+                                                key={option => `${option.id}`}
+                                                isSearchable={false}
+                                                isLoading={values.locationOptions.length > 0 ? false : true}
+                                                loadingMessage={() => 'Select option is loading...'}
+                                                options={values.locationOptions}
+                                                getOptionLabel={option => `${option.name}`}
+                                                getOptionValue={option => `${option.value}`}
+                                                onChange={(values) => setFieldValue('location', values)}
+                                                styles={appSettings.selectStyle}
+                                                placeholder="Select your location..."
+                                            />
+                                            <label>Location</label>
+                                        </div>
+                                    </div>
+                                    <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
+                                        <div className="input-float">
+                                            <Select
+                                                key={option => `${option.id}`}
+                                                isSearchable={false}
+                                                isLoading={values.stateOptions.length > 0 ? false : true}
+                                                loadingMessage={() => 'Select option is loading...'}
+                                                options={values.stateOptions}
+                                                getOptionLabel={option => `${option.StateName}`}
+                                                getOptionValue={option => `${option.ID}`}
+                                                onChange={(values) => setFieldValue('state', values)}
+                                                styles={appSettings.selectStyle}
+                                                placeholder="Select state..."
+                                            />
+                                            <label>State *</label>
+                                        </div>
+                                    </div>
+                                    <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
+                                        <div className="input-float">
+                                            <input type="text" className="form-control" placeholder="Phone number *" name="postalCode" onChange={handleChange} defaultValue={values.postalCode} required />
+                                            <label>Postal Code</label>
+                                        </div>
+                                    </div>
+                                    <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
+                                        <div className="input-float">
+
+                                            <Select
+                                                key={option => `${option.id}`}
+                                                isSearchable={false}
+                                                isLoading={values.timeZoneOptions.length > 0 ? false : true}
+                                                loadingMessage={() => 'Loading options...'}
+                                                options={values.timeZoneOptions}
+                                                getOptionLabel={option => `${option.TimeZoneName}`}
+                                                getOptionValue={option => `${option.ID}`}
+                                                onChange={(values) => setFieldValue('timeZone', values)}
+                                                styles={appSettings.selectStyle}
+                                                placeholder="Select timezone..."
+                                            />
+                                            <label>Time zone *</label>
+                                        </div>
+                                    </div>
+                                    <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
+                                        <div className="input-float">
+                                            <Select
+                                                key={option => `${option.id}`}
+                                                isSearchable={false}
+                                                isLoading={values.levelOfPurposeOptions.length > 0 ? false : true}
+                                                loadingMessage={() => 'Loading options...'}
+                                                options={values.levelOfPurposeOptions}
+                                                getOptionLabel={option => `${option.PurposeLevelName}`}
+                                                getOptionValue={option => `${option.ID}`}
+                                                onChange={(values) => setFieldValue('levelOfPurpose', values)}
+                                                styles={appSettings.selectStyle}
+                                            />
+                                            <label>Level purpose</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h5 className="mg-b-15">Education Attainment</h5>
+                                <div className="form-row">
+                                    <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
+                                        <div className="input-float">
+                                            <Select
+                                                key={option => `${option.id}`}
+                                                isSearchable={false}
+                                                isLoading={values.levelOfEducationOptions.length > 0 ? false : true}
+                                                loadingMessage={() => 'Loading options...'}
+                                                options={values.levelOfEducationOptions}
+                                                getOptionLabel={option => `${option.LevelOfEducationName}`}
+                                                getOptionValue={option => `${option.ID}`}
+                                                onChange={(values) => setFieldValue('levelOfEducation', values)}
+                                                styles={appSettings.selectStyle}
+                                                placeholder="Select level..."
+                                            />
+                                            <label>Level of Education</label>
+                                        </div>
+                                    </div>
+                                    <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
+                                        <div className="input-float">
+                                            <input type="text" className={`form-control ${!!errors && errors.schoolName ? 'error-form' : ''}`} placeholder="School name" name="schoolName" onChange={handleChange} defaultValue={values.schoolName} />
+                                            <label>School name</label>
+                                        </div>
+                                    </div>
+                                    <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
+                                        <div className="input-float">
+                                            <Select
+                                                key={option => `${option.id}`}
+                                                isSearchable={false}
+                                                isLoading={values.levelOfEducationOptions.length > 0 ? false : true}
+                                                loadingMessage={() => 'Loading options...'}
+                                                options={values.majorOptions}
+                                                getOptionLabel={option => `${option.MajorName}`}
+                                                getOptionValue={option => `${option.ID}`}
+                                                onChange={(values) => setFieldValue('major', values)}
+                                                styles={appSettings.selectStyle}
+                                            />
+                                            <label>Major/Specialization *</label>
+                                        </div>
+                                    </div>
+                                    <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
+                                        <div className="input-float">
+                                            <Select
+                                                key={option => `${option.id}`}
+                                                isSearchable={false}
+                                                isLoading={values.englishProficienOptions.length > 0 ? false : true}
+                                                loadingMessage={() => 'Loading options...'}
+                                                options={values.englishProficienOptions}
+                                                getOptionLabel={option => `${option.EnglishProficiencyName}`}
+                                                getOptionValue={option => `${option.ID}`}
+                                                onChange={(values) => setFieldValue('englishProficiency', values)}
+                                                styles={appSettings.selectStyle}
+                                                placeholder="Select proficiency..."
+                                            />
+                                            <label>English proficiency</label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div className="teacher-info flex-grow-1">
-                            <h5 className="mg-b-15">Basic Information</h5>
-                            <div className="form-row">
-                                <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
-                                    <div className="input-float">
-                                        <input type="text" className="form-control" placeholder="First Name *" name="firstName" onChange={handleChange} defaultValue={state.firstName} required />
-                                        <label>First Name *</label>
-                                    </div>
-                                </div>
-                                <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
-                                    <div className="input-float">
-                                        <input type="text" className="form-control" placeholder="Last Name *" name="lastName" onChange={handleChange} defaultValue={state.lastName} required />
-                                        <label>Last Name *</label>
-                                    </div>
-                                </div>
-                                <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
-                                    <div className="input-float">
-                                        <input type="text" className="form-control" placeholder="Skype ID *" name="skypeId" onChange={handleChange} defaultValue={state.skypeId} required />
-                                        <label>Skype ID *</label>
-                                    </div>
-                                </div>
-                                <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
-                                    <div className="input-float">
-                                        <input type="number" className="form-control" placeholder="Phone number *" name="phoneNumber" onChange={handleChange} defaultValue={state.phoneNumber} required />
-                                        <label>Phone Number *</label>
-                                    </div>
-                                </div>
-                                <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
-                                    <div className="input-float">
-                                        <select className="form-control" value={state.location} name="location" onChange={handleChange}>
-                                            <option value="" disabled>Location</option>
-                                            <option value="1" >United States</option>
-                                        </select>
-                                        <label>Location</label>
-                                    </div>
-                                </div>
-                                <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
-                                    <div className="input-float">
-                                        <select className="form-control" value={state.state} name="state" onChange={handleChange}>
-                                            <option value="" disabled>State/Province/Region *</option>
-                                            <option value="1">New York</option>
-                                        </select>
-                                        <label>State *</label>
-                                    </div>
-                                </div>
-                                <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
-                                    <div className="input-float">
-                                        <input type="text" className="form-control" placeholder="Phone number *" name="postalCode" onChange={handleChange} defaultValue={state.postalCode} required />
-                                        <label>Postal Code</label>
-                                    </div>
-                                </div>
-                                <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
-                                    <div className="input-float">
-                                        <select className="form-control" name="timeZone" value={state.timeZone} onChange={handleChange}>
-                                            <option value="" disabled>Your current time zone *</option>
-                                            <option value="1">GTM +7</option>
-                                        </select>
-                                        <label>Time zone *</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <h5 className="mg-b-15">Education Attainment</h5>
-                            <div className="form-row">
-                                <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
-                                    <div className="input-float">
-                                        <select className="form-control" name="education" value={state.education} onChange={handleChange}>
-                                            <option value="" disabled>Highest Level of Education *</option>
-                                            <option value="1">High School Graduate</option>
-                                            <option value="2">Vocational Course</option>
-                                            <option value="3">College Student</option>
-                                            <option value="4">Bachelor's Degree</option>
-                                            <option value="5">Master's Degree</option>
-                                            <option value="6">PHD</option>
-                                            <option value="7">Associate Degree</option>
-                                        </select>
-                                        <label>Education</label>
-                                    </div>
-                                </div>
-                                <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
-                                    <div className="input-float">
-                                        <input type="text" className="form-control" placeholder="School name" name="schoolName" onChange={handleChange} defaultValue={state.schoolName} />
-                                        <label>School name</label>
-                                    </div>
-                                </div>
-                                <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
-                                    <div className="input-float">
-                                        <select className="form-control" name="major" value={state.major} onChange={handleChange}>
-                                            <option value="" disabled>Major/Specialization *</option>
-                                            <option value="1">Business Studies/Administration/Management</option>
-                                        </select>
-                                        <label>Major/Specialization *</label>
-                                    </div>
-                                </div>
-                                <div className="form-group col-12 col-sm-6 col-lg-4 col-xl-3">
-                                    <div className="input-float">
-                                        <select className="form-control" name="englishProficiency" value={state.englishProficiency} onChange={handleChange}>
-                                            <option value="" disabled>Please select your English proficiency *</option>
-                                            <option value="1">Native Speaker</option>
-                                            <option value="2">Proficient - C2</option>
-                                            <option value="3">Advanced - C1</option>
-                                            <option value="4">Upper Intermediate - B2</option>
-                                            <option value="5">Below Upper Intermediate - B1</option>
-                                        </select>
-                                        <label>English proficiency</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="teacher-body mg-t-0-f">
-                        <div className="tab-navigation-content bd-t pd-t-15">
-                            <div className="swiper-container" id="js-teacher__info">
-                                <div className="teacher__info-wrap">
-                                    <div className="content-block mg-b-30">
-                                        <h5 className="main-title">Introduce</h5>
+                        <div className="teacher-body mg-t-0-f">
+                            <div className="teacher__info-wrap">
+                                <div className="content-block mg-b-30">
+                                    <h5 className="main-title">Summary</h5>
+                                    <div className="mg-b-15">
+                                        <h5 className="sub-title"><i className="fas fa-file" /> Introduce</h5>
                                         <div className="introduce-content">
                                             <textarea className="form-control" rows={7} defaultValue={"While I have no soccer skills, I once played in a fairly competitive adult soccer league with my then-teenage stepson. I was terrible, but I played because he asked me to. (When your kids get older and ask you to do something with them, the first time you say no might be the last time you get asked.) I was trying to match the drollness of my \"Wow\" when my stepson stepped in, half-smile on his lips and full twinkle in his eyes, and rescued me by saying, \"Come on, we need to get ready.\" Was Louis cocky? Certainly, but only on the surface. His $400 cleats, carbon fiber shin guards, and \"I'm the king of the business world\" introduction was an unconscious effort to protect his ego. His introduction said, \"Hey, I might not turn out to be good at soccer, but out there in the real world, where it really matters, I am the Man.\" As we took the field before a game, a guy on the other team strutted over, probably picking me out because I was clearly the oldest player on the field. (There's a delightful sentence to write.)"} />
                                         </div>
                                     </div>
-                                    <div className="content-block">
-                                        <h5 className="main-title">CURRICULUM VITAE</h5>
+                                    <div className="mg-b-15">
+                                        <h5 className="sub-title"><i className="fas fa-video" /> Video introduce</h5>
                                         <div className="introduce-content">
-                                            <div className="teacher__content-block">
-                                                <h5 className="sub-title"><i className="fas fa-user-clock" /> Experience</h5>
-                                                <div className="form-groupselect-checkbox mg-b-30 mg-t-15">
-                                                    <h6>Teacher experience</h6>
+                                            <div className="input-group mg-t-15 mg-b-15">
+                                                <div className="input-group-prepend">
+                                                    <span className="input-group-text">Youtube embed</span>
+                                                </div>
+                                                <input type="text" className="form-control" placeholder="Youtube embed iframe src..." name="youtubeUrl" defaultValue={values.youtubeUrl} onChange={handleChange} />
+                                                <div className="input-group-append">
+                                                    <button className="input-group-text bg-primary tx-white" type="button" onClick={showGuide}><i className="far fa-question-circle mg-r-5"></i> How to get iframe url</button>
+                                                </div>
+                                            </div>
+                                            {
+                                                values?.youtubeUrl && values.youtubeUrl !== '' && <iframe width={560} height={315} src={values.youtubeUrl} frameBorder={0} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="content-block">
+                                    <h5 className="main-title">CURRICULUM VITAE</h5>
+                                    <div className="introduce-content">
+                                        <div className="teacher__content-block">
+                                            <h5 className="sub-title"><i className="fas fa-user-clock" /> Experience</h5>
+                                            <div className="form-groupselect-checkbox mg-b-30 mg-t-15">
+                                                <h6>Teacher experience</h6>
+                                                <div className="input-float">
+                                                    <Select
+                                                        key={option => `${option.id}`}
+                                                        isMulti={true}
+                                                        isSearchable={false}
+                                                        isLoading={values.teacherExperiences.length > 0 ? false : true}
+                                                        loadingMessage={() => 'Select option is loading...'}
+                                                        options={values.teacherExperiences}
+                                                        getOptionLabel={option => `${option.TeachingExperienceName}`}
+                                                        getOptionValue={option => `${option.ID}`}
+                                                        onChange={(values) => setFieldValue('teacherExp', values)}
+                                                        styles={appSettings.selectStyle}
+                                                        placeholder="Select experiences..."
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="teacher__content-block mg-b-30">
+                                            <h6> Fill in your teaching experience:</h6>
+                                            <div className="experience__list mg-t-15" id="js-exp-list">
+                                                {!!values.experienceLists && values.experienceLists.length > 0 && [...values.experienceLists].map(exp =>
+                                                    <RenderExpRow key={`${exp.id}`} handleStateChange={handleExpRowChange} exp={exp} deleteRow={_deleteExpRow} />
+                                                )}
+
+                                            </div>
+                                            <button type="button" className="btn btn-warning" id="js-add-row" onClick={_addExpRow}><i className="fa fa-plus" /> Add row</button>
+                                        </div>
+                                        <div className="teacher__content-block">
+                                            <h5 className="sub-title"><i className="fas fa-certificate" /> Certificate
+                    </h5>
+                                            <div className="row teacher__certificate pd-y-15">
+                                                <div className="form-group col-md-4">
                                                     <div className="input-float">
-                                                        <select value={state.selectTeacherExp} readOnly={true} name="selectTeacherExp" className="js-select2 form-control" multiple={true}>
-                                                            {!!state.teacherExperiences && state.teacherExperiences.length > 0 ? (
-                                                                state.teacherExperiences.map(exp => <option key={`${exp.id}`} value={exp.value}>{exp.title}</option>)
-                                                            ) : (<option value="">Loading option... </option>)}
 
-                                                        </select>
+                                                        <Select
+                                                            key={option => `${option.id}`}
+                                                            isMulti={true}
+                                                            isSearchable={false}
+                                                            isLoading={values.tesolCertificateOptions.length > 0 ? false : true}
+                                                            loadingMessage={() => 'Select option is loading...'}
+                                                            options={values.tesolCertificateOptions}
+                                                            getOptionLabel={option => `${option.TesolCertificateName}`}
+                                                            getOptionValue={option => `${option.ID}`}
+                                                            onChange={(values) => setFieldValue('tesolCertificate', values)}
+                                                            styles={appSettings.selectStyle}
+                                                        />
+                                                        <label>TESOL Certificate</label>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div className="teacher__content-block mg-b-30">
-                                                <h6> Fill in your teaching experience:</h6>
-                                                <div className="experience__list mg-t-15" id="js-exp-list">
-                                                    {!!state.experienceLists && state.experienceLists.length > 0 && [...state.experienceLists].map(exp =>
-                                                        <RenderExpRow key={`${exp.id}`} handleStateChange={handleExpRowChange} exp={exp} deleteRow={_deleteExpRow} />
-                                                    )}
+                                                <div className="form-group col-md-4">
+                                                    <div className="input-float">
+                                                        <Select
+                                                            key={option => `${option.id}`}
+                                                            isMulti={true}
+                                                            isSearchable={false}
+                                                            isLoading={values.teylCertificateOptions.length > 0 ? false : true}
+                                                            loadingMessage={() => 'Select option is loading...'}
+                                                            options={values.teylCertificateOptions}
+                                                            value={values.teylCertificate}
+                                                            getOptionLabel={option => `${option.TeylCertificateName}`}
+                                                            getOptionValue={option => `${option.ID}`}
+                                                            onChange={(values) => setFieldValue('teylCertificate', values)}
+                                                            styles={appSettings.selectStyle}
+                                                        />
 
+                                                        <label>TEYL Certificate</label>
+                                                    </div>
                                                 </div>
-                                                <button type="button" className="btn btn-warning" id="js-add-row" onClick={_addExpRow}><i className="fa fa-plus" /> Add row</button>
-                                            </div>
-                                            <div className="teacher__content-block">
-                                                <h5 className="sub-title"><i className="fas fa-certificate" /> Certificate
-                  </h5>
-                                                <div className="row teacher__certificate pd-y-15">
-                                                    <div className="form-group col-md-4">
-                                                        <div className="input-float">
-                                                            <select className="form-control" name="tesolCertificate" value={state.tesolCertificate} onChange={handleChange}>
-                                                                <option value="1">TESOL (Other)</option>
-                                                                <option value="2">TESOL (Full)</option>
-                                                                <option value="3">TESOL (Foundation)</option>
-                                                            </select>
-                                                            <label>TESOL Certificate</label>
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group col-md-4">
-                                                        <div className="input-float">
-                                                            <select className="form-control" name="teylCertificate" value={state.teylCertificate} onChange={handleChange}>
-                                                                <option value="1">TEYL (Other)</option>
-                                                                <option value="2">TEYL (51 Talk)</option>
-                                                            </select>
-                                                            <label>TEYL Certificate</label>
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group col-md-4">
-                                                        <div className="input-float">
-                                                            <select className="form-control" name="otherCertificate" value={state.otherCertificate} onChange={handleChange}>
-                                                                <option value="1">CELTA</option>
-                                                                <option value="2">LET</option>
-                                                                <option value="3">IELTS</option>
-                                                                <option value="4">TOEFL</option>
-                                                                <option value="5">TOEIC</option>
-                                                                <option value="6">TKT (4 Score)</option>
-                                                                <option value="7">CELTYL</option>
-                                                            </select>
-                                                            <label>Other Certificate</label>
-                                                        </div>
+                                                <div className="form-group col-md-4">
+                                                    <div className="input-float">
+
+                                                        <Select
+                                                            key={option => `${option.id}`}
+                                                            isMulti={true}
+                                                            isSearchable={false}
+                                                            isLoading={values.otherCertificateOptions.length > 0 ? false : true}
+                                                            loadingMessage={() => 'Select option is loading...'}
+                                                            options={values.otherCertificateOptions}
+                                                            value={values.otherCertificate}
+                                                            getOptionLabel={option => `${option.OtherCertificateName}`}
+                                                            getOptionValue={option => `${option.ID}`}
+                                                            onChange={(values) => setFieldValue('otherCertificate', values)}
+                                                            styles={appSettings.selectStyle}
+                                                        />
+                                                        <label>Other Certificate</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -435,17 +439,51 @@ const TeacherForm = () => {
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
+                    <div className="tx-left">
+                        <button type="button" className="btn btn-success" onClick={_handleSubmitForm}><i className="fa fa-save mg-r-5" /> Update information</button>
+                    </div>
                 </div>
-                <div className="tx-center">
-                    <button type="button" className="btn btn-success" onClick={_handleSubmitForm}><i className="fa fa-save mg-r-5" /> Update information</button>
-                </div>
-            </div>
-        </form>
+            </form>
+             <Modal 
+             show={values.showGuideModal} 
+             onHide={hideGuide}
+             size="lg"
+             >
+                <Modal.Header closeButton>
+                <Modal.Title>Các bước lấy embed nhúng của youtube</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div>
+                        <div className="mg-b-30">
+                            <h6 className="sub-title">Bước 1: Bấm vào nút chia sẻ bên dưới video</h6>
+                            <img src="../assets/img/step-1.png" alt="" className="img-responsive mg-t-10 wd-100p"/>
+                        </div>
+                        <div className="mg-b-30">
+                            <h6 className="sub-title">Bước 2: Click vào nút nhúng bên dưới</h6>
+                            <img src="../assets/img/step-2.png" alt="" className="img-responsive mg-t-10 wd-100p"/>
+                        </div>
+                        <div className="mg-b-30">
+                            <h6 className="sub-title">Bước 3: Copy đường dẫn bên trong thẻ (src="") </h6>
+                            <img src="../assets/img/step-3.png" alt="" className="img-responsive mg-t-10 wd-100p"/>
+                        </div>
+                        <div className="mg-b-30">
+                            <h6 className="sub-title">Bước 4: Dán vào khung đường dẫn bên dưới profile </h6>
+                            <p>Nếu xuất hiện khung video bên dưới tức là đường đã được thêm chính xác, nếu không hiển thị vui lòng làm lại theo đúng trình tự trên.</p>
+                            <img src="../assets/img/step-4.png" alt="" className="img-responsive mg-t-10 wd-100p"/>
+                        </div>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                <Button variant="secondary" onClick={hideGuide}>
+                    Close
+                </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
     )
 }
 
-
-const domContainer = document.getElementById('react-teacher-form');
-ReactDOM.render(<TeacherForm />, domContainer);
+export default memo(TeacherForm);

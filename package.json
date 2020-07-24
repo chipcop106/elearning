@@ -7,11 +7,15 @@
   "license": "MIT",
   "dependencies": {
     "@babel/polyfill": "^7.10.4",
+    "@tinymce/tinymce-react": "^3.6.0",
     "@hookform/resolvers": "^0.0.6",
     "axios": "^0.19.2",
     "core-js": "3",
     "formik": "^2.1.4",
+    "is-url": "^1.2.4",
+    "moment": "^2.27.0",
     "react": "^16.13.1",
+    "react-bootstrap": "^1.2.2",
     "react-dom": "^16.13.1",
     "react-flatpickr": "^3.10.1",
     "react-hook-form": "^6.0.8",
@@ -25,7 +29,7 @@
   },
   "scripts": {
     "watch": "webpack --watch",
-    "start": "webpack-dev-server --open --config webpack.dev.js",
+    "start": "webpack-dev-server --open --inline --hot --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
     "serve": "serve dist/"
   },
@@ -55,6 +59,7 @@
     "sass-resources-loader": "^2.0.3",
     "serve": "^11.3.2",
     "style-loader": "^1.2.1",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^4.1.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.12",

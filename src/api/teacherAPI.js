@@ -17,11 +17,28 @@ export const getTeacherDashboard = async (params = {}) => {
     return result;
 }
 
-export const getLibrary = async (params = {}) => {
+export const getListCategoryLibrary = async (params = {}) => {
     let result;
     try {
         let res = await instance.get(path + '/GetLibrary', {
             params:{
+                ...params,
+                UID:appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const getLibraryByCategoryID = async (params = {}) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/GetLibraryDetail', {
+            params:{
+                ...params,
                 UID:appSettings.UID
             }
         });
@@ -68,6 +85,22 @@ export const getMissingFeedback = async (params) => {
     let result;
     try {
         let res = await instance.get(path + '/GetListEvaluation', {
+            params: {
+                ...params,
+                UID:appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const getFeedback = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/MissingFeedback', {
             params: {
                 ...params,
                 UID:appSettings.UID
@@ -144,3 +177,156 @@ export const getStudentByUID = async (params) => {
     }
     return result;
 }
+
+// Params: string Date ? null, int UID ? 0, string Token ? null
+export const getPaymentInfo = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/GetPayment', {
+            params: {
+                ...params,
+                UID:appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+// Params: string Date ? null, int UID ? 0, string Token ? null
+export const getPaymentHistory = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/GetHistoryPayment', {
+            params: {
+                ...params,
+                UID:appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+// Params:  int ElearnBookingID, string Pronunciation, string Vacabulary, string Grammar, string SentenceDevelopmentAndSpeak, string Note, int UID ? 0, string Token ? null
+export const addEvaluation = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/AddEvaluation', {
+            params: {
+                ...params,
+                UID:appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+
+export const getTeacherInfo = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/GetTeacherProfile', {
+            params: {
+                ...params,
+                UID:appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+
+
+
+export const setEventAvailable = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/ScheduleAvailable', {
+            params: {
+                ...params,
+                UID:appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+
+export const setEventClose = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/CancelAvailable', {
+            params: {
+                ...params,
+                UID:appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const getListEventsOfWeek = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/BookingSchedule', {
+            params: {
+                ...params,
+                UID: appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const getMonthReport = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/GetStatistics', {
+            params: {
+                ...params,
+                UID:appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const getOverviewFeedback = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/EvaluationOverview', {
+            params: {
+                ...params,
+                UID:appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+

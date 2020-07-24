@@ -57,7 +57,7 @@ export const getEvaluation = async (params) => {
         let res = await instance.get(path + '/GetEvaluation', {
             params: {
                 UID: appSettings.UID,
-                ElearnBookingID: params.ElearnBookingID
+                BookingID: params.BookingID
             }
         })
         result = res.data;
