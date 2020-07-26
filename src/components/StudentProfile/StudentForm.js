@@ -60,9 +60,6 @@ const StudentForm = ({ tabDisplay }) => {
   const [avatar, setAvatar] = React.useState("");
   const [loadingAvatar, setLoadingAvatar] = React.useState(false);
 
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [error, setError] = React.useState('');
-
   const updateProfileToastSuccess = () => toast("Update profile successful!", toastInit);
   const updateProfileToastFail = () => toast("Update profile fail, please retry!", toastInit);
 
@@ -70,40 +67,6 @@ const StudentForm = ({ tabDisplay }) => {
     resolver: yupResolver(schema),
   });
 
-  const showChangePasswordForm = () => {
-    setShowPassword(true);
-  }
-  const hideChangePasswordForm = () => {
-    setShowPassword(false);
-  }
-  const _onSubmitPassword = async (formData) => {
-    const { oldPassword, newPassword } = formData;
-
-    if (oldPassword === '' || newPassword === '') {
-      setError('Password field must not empty !!');
-      return;
-    }
-
-    if (oldPassword === newPassword) {
-      setError('Old password must be different from new password !!');
-      return;
-    }
-
-    setError(null);
-    const res = await updatePassAPI({
-      OldPass: oldPassword,
-      NewPass: newPassword
-    });
-    if (res.Code === 0) {
-      setError('Old password is not correct');
-      return;
-    } else if (res.Code === 1) {
-      setError(null);
-      hideChangePasswordForm();
-      updatePassToastSuccess();
-    }
-
-  }
   const onSubmit = data => {
     const array = data.SelectTarget.split(",");
     let z = [];
