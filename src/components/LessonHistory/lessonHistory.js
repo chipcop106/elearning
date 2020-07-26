@@ -28,8 +28,12 @@ const reducer = (prevState, { type, payload }) => {
 
 const LessonHistory = () => {
   const [searchInput, dispatch] = React.useReducer(reducer, initialState);
-  const [data, setData] = React.useState({})
-  const [page, setPage] = React.useState(1)
+  const [data, setData] = React.useState({});
+
+  const [page, setPage] = React.useState(1);
+  const [sizePerPage, setSizePerPage] = React.useState(0);
+  const [totalPage, setTotalPage] = React.useState(0);
+
   const [loading, setLoading] = React.useState(false);
 
   const getAPI = async (params) => {
@@ -37,6 +41,8 @@ const LessonHistory = () => {
     const res = await getLessonHistory(params);
     if (res.Code === 1) {
       setData(res.Data)
+      setSizePerPage(res.TotalResult);
+      setTotalPage(res.PageSize);
     }
     setLoading(false);
   }
@@ -153,8 +159,8 @@ const LessonHistory = () => {
     <Pagination
       innerClass="pagination justify-content-end mt-3"
       activePage={page}
-      itemsCountPerPage={10}
-      totalItemsCount={450}
+      itemsCountPerPage={sizePerPage}
+      totalItemsCount={data.length}
       pageRangeDisplayed={3}
       itemClass="page-item"
       linkClass="page-link"

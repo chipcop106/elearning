@@ -26,14 +26,17 @@ const ProfileSidebar = () => {
     getAPI();
   }, []);
 
-  return loading ? <h2>Loading...</h2> : (
+  return loading ? <h2>Loading...</h2> : (<>
     <div className="profile-sidebar pd-lg-r-25">
+      <div className="sidebar-overplay"></div>
       <div className="user__infomation d-flex d-lg-block flex-wrap">
-        <div className="col-sm-12 col-md-6 col-lg-12 mg-b-20">
+        <div className="w-100">
           <div className="avatar avatar-xxl avatar-online"><img src={`${state.Avatar ? state.Avatar : '../assets/img/default-avatar.png'}`} className="rounded-circle" alt="" /></div>
-          <h5 className="mg-b-2 tx-spacing--1 mg-t-15 text-break">{state.FullName}</h5>
-        </div>{/* col */}
-        <div className="col-sm-12 col-md-6 col-lg-12  ">
+          <h5 className="mg-b-2 tx-spacing--1 mg-t-15 text-break" style={{lineHeight:'1.6em'}}>{state.FullName}</h5>
+          <span className="d-block w-100" style={{color:'#8392a5'}}>Học viên</span>
+          <label className="label-tag main-color">Active</label>
+        </div>
+       {/*  <div className="col-sm-12 col-md-6 col-lg-12  ">
           <label className="tx-sans tx-10 tx-semibold tx-uppercase tx-color-01 tx-spacing-1 mg-b-15">Contact
         Information</label>
           <ul className="list-unstyled profile-info-list mg-b-10">
@@ -41,21 +44,21 @@ const ProfileSidebar = () => {
             <li><i data-feather="phone" /><a href="tel:0987654321">{state.Phone}</a></li>
             <li><i data-feather="mail" /><a href={`mailto:${state.Email}`}>{state.Email}</a></li>
           </ul>
-        </div>{/* col */}
-        <div className="col-sm-12 col-md-6 col-lg-12 mg-t-20 mg-sm-t-0 mg-lg-t-25">
+        </div> */}
+        {/* <div className="col-sm-12 col-md-6 col-lg-12 mg-t-20 mg-sm-t-0 mg-lg-t-25">
           <div className="d-flex mg-b-25">
             <a className="btn btn-xs btn-primary flex-fill mg-r-2 bg-orange tx-white" href="bookingLesson.html">Book a Lesson</a>
           </div>
-        </div>
-      </div>{/* row */}
+        </div> */}
+      </div>
       <div className="user__navigation">
-        <div className="col-sm-6 col-md-5 col-lg-12 mg-t-20">
-          <label className="tx-sans tx-10 tx-semibold tx-uppercase tx-color-01 tx-spacing-1 mg-b-15">Navigation</label>
+        <div className="w-100">
+          {/* <label className="tx-sans tx-10 tx-semibold tx-uppercase tx-color-01 tx-spacing-1 mg-b-15">Navigation</label> */}
           <SideMenu />
         </div>
       </div>
     </div>
-  )
+  </>)
 }
 
 const domContainer = document.getElementById('js-component-profilesidebar');

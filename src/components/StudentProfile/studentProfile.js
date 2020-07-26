@@ -9,6 +9,7 @@ import styles from '~components/StudentProfile/StudentProfile.module.scss';
 
 const StudentProfile = () => {
   const [showTab, setShowTab] = React.useState(1);
+  const [showSubTab, setShowSubTab] = React.useState(1);
 
   return (
     <div className="teacher__detail__wrap card-box">
@@ -40,8 +41,17 @@ const StudentProfile = () => {
                   <div className="slide-tab-content">
                     <div className="content-block">
                       <div className="introduce-content mg-b-30">
-                        <h5 className="sub-title"><i className="fas fa-user" />Account</h5>
-                        <StudentForm />
+                        <h5 className="sub-title profile-tab-nav">
+                          <a href={"#"} className={`${showSubTab===1?'active':''}`}
+                          onClick={(e) => { e.preventDefault(); setShowSubTab(1)}}>
+                            <i className="fas fa-user"></i>Account
+                            </a>
+                          <a href={"#"} className={`${showSubTab===2?'active':''}`}
+                           onClick={(e) => { e.preventDefault(); setShowSubTab(2)}}>
+                            <i className="fas fa-lock"></i>Change password
+                            </a>
+                          </h5>
+                          <StudentForm tabDisplay={showSubTab}/>
                       </div>
                     </div>
                   </div>

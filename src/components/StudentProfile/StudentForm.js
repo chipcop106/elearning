@@ -9,7 +9,6 @@ import { uploadImageToServer } from "~src/api/optionAPI";
 import { getListTargetAPI } from "~src/api/optionAPI";
 import { getListLanguageAPI } from "~src/api/optionAPI";
 
-import { Modal, Button } from 'react-bootstrap';
 import { yupResolver } from '@hookform/resolvers';
 import * as Yup from "yup";
 
@@ -52,53 +51,7 @@ const RenderListLanguage = ({ list }) => {
     <option key={index} value={item.ID}>{item.LanguageName}</option>
   )
 }
-const ModalChangePass = ({ error, showPassword, hideChangePasswordForm, _onSubmitPassword }) => {
-  const [oldPassword, setOldPassword] = React.useState('');
-  const [newPassword, setNewPassword] = React.useState('');
-  const [displayPassword, setDisplayPassword] = React.useState(false);
-  const _onSubmit = (e) => {
-    e.preventDefault();
-    _onSubmitPassword({ oldPassword, newPassword });
-  }
-
-  return (
-    <Modal
-      show={showPassword}
-      onHide={hideChangePasswordForm}
-      size="sm">
-      <Modal.Header closeButton>
-        <Modal.Title>Change password</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <div className="form-group">
-          <div className="input-float">
-            <input type={displayPassword ? "text": "password"} className="form-control" onChange={(e) => setOldPassword(e.target.value)} defaultValue={''} />
-            <label>Old password</label>
-          </div>
-        </div>
-        <div className="form-group">
-          <div className="input-float">
-            <input type={displayPassword ? "text": "password"} className="form-control" onChange={(e) => setNewPassword(e.target.value)} defaultValue={''} />
-            <label>New password</label>
-          </div>
-        </div>
-        <div className="form-group">
-          <div className="d-flex align-items-center">
-            <input type="checkbox" id="displaypassword" onChange={()=>setDisplayPassword(!displayPassword)}/>
-            <label className="mg-0 mg-l-5" htmlFor="displaypassword">Show password</label>
-          </div>
-        </div>
-        {error && error !== '' && (<span className="tx-danger">{error}</span>)}
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="primary" onClick={_onSubmit}>Change</Button>
-        <Button variant="secondary" onClick={hideChangePasswordForm}>Close</Button>
-      </Modal.Footer>
-    </Modal>
-  )
-}
-
-const StudentForm = () => {
+const StudentForm = ({ tabDisplay }) => {
   const [profile, setProfile] = React.useState(null);
   const [listLanguage, setListLanguage] = React.useState([]);
   const [listTimeZone, setListTimeZone] = React.useState([]);
@@ -112,7 +65,6 @@ const StudentForm = () => {
 
   const updateProfileToastSuccess = () => toast("Update profile successful!", toastInit);
   const updateProfileToastFail = () => toast("Update profile fail, please retry!", toastInit);
-  const updatePassToastSuccess = () => toast("Update Password successful!", toastInit);
 
   const { register, handleSubmit, errors, getValues, setValue, control } = useForm({
     resolver: yupResolver(schema),
@@ -255,25 +207,34 @@ const StudentForm = () => {
     getLanguage();
   }, [])
 
-  return !!profile ? (<>
-    <form id="form-account-profile" onSubmit={handleSubmit(onSubmit)}>
+  return tabDisplay === 1 ? (!!profile ? (<>
+    <form id="form-account-profile" className="metronic-form" onSubmit={handleSubmit(onSubmit)}>
       <div className="form-account pd-y-15">
-        <div className="student-avatar">
-          <div className="upload-container">
-            <div className={`${loadingAvatar ? '' : 'd-none'} overlay`}>
-              <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
-            </div>
-            <label className="upload-avatar">
-              <input
-                type="file" accept="image/*"
-                className="upload-box hidden d-none upload-file"
-                onChange={handleUploadImage} />
-              <img id="avatar"
-                src={profile.Avatar ? profile.Avatar : "../assets/img/default-avatar.png"} />
-            </label>
-          </div>
-        </div>
         <div className="row mg-b-15">
+          <div className="col-12">
+            <div className="form-row  align-items-center ">
+              <div className="form-group col-sm-3 col-label-fixed">
+                <p className="mg-b-0 tx-medium ">Avatar: </p>
+              </div>
+              <div className="form-group col-sm-9">
+                <div className="student-avatar">
+                  <div className="upload-container">
+                    <div className={`${loadingAvatar ? '' : 'd-none'} overlay`}>
+                      <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+                    </div>
+                    <label className="upload-avatar">
+                      <input
+                        type="file" accept="image/*"
+                        className="upload-box hidden d-none upload-file"
+                        onChange={handleUploadImage} />
+                      <img id="avatar"
+                        src={profile.Avatar ? profile.Avatar : "../assets/img/default-avatar.png"} />
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="col-md-6">
             <div className="form-row align-items-center">
               <div className="form-group col-sm-3 col-label-fixed">
@@ -361,7 +322,7 @@ const StudentForm = () => {
                   name="Email"
                   ref={register()}
                   defaultValue={profile.Email}
-                  placeholder="Ex:example@com" />
+                  placeholder="Ex:example@domain.com" />
                 {
                   errors.Email &&
                   <span className="text-danger d-block mt-2">{errors.Email.message}</span>
@@ -490,13 +451,94 @@ const StudentForm = () => {
         </div>
       </div>
     </form >
-    <button type="button" className="btn btn-xs btn-primary " onClick={showChangePasswordForm}><i className="fas fa-key mg-r-5" ></i> Change password</button>
-    <ModalChangePass
-      error={error}
-      showPassword={showPassword}
-      _onSubmitPassword={_onSubmitPassword}
-      hideChangePasswordForm={hideChangePasswordForm} />
-  </>) : <></>
+  </>) : <></>) : <PasswordForm />;
+}
+const PasswordForm = () => {
+  const [oldPassword, setOldPassword] = React.useState('');
+  const [newPassword, setNewPassword] = React.useState('');
+  const [displayPassword, setDisplayPassword] = React.useState(false);
+  const [error, setError] = React.useState(null);
+
+  const updatePassToastSuccess = () => toast("Update Password successful!", toastInit);
+
+  const _onSubmit = (e) => {
+    e.preventDefault();
+
+    if (oldPassword === '' || newPassword === '') {
+      setError('Password field must not empty !!');
+      return;
+    }
+
+    if (oldPassword === newPassword) {
+      setError('Old password must be different from new password !!');
+      return;
+    }
+    setError(null);
+    _handleSubmitPassword();
+  }
+
+  const _handleSubmitPassword = async () => {
+    const res = await updatePassAPI({
+      OldPass: oldPassword,
+      NewPass: newPassword
+    });
+    if (res.Code === 0) {
+      setError('Old password is not correct');
+      return;
+    } else if (res.Code === 1) {
+      setError(null);
+      updatePassToastSuccess();
+      setOldPassword('');
+      setNewPassword('');
+    }
+  } 
+
+  return <form className="metronic-form change-password-form" onSubmit={_onSubmit}>
+    <div className="form-account pd-y-15">
+      <div className="row mg-b-15">
+        <div className="col-12">
+          <div className="form-row align-items-center ">
+            <div className="form-group col-sm-3 col-label-fixed">
+              <p className="mg-b-0 tx-medium">Current Password:</p>
+            </div>
+            <div className="form-group col-sm-9">
+              <input
+                type={displayPassword ? "text" : "password"}
+                className="form-control" name="OldPass"
+                onChange={(e) => setOldPassword(e.target.value)} value={oldPassword} />
+            </div>
+          </div>
+        </div>
+        <div className="col-12">
+          <div className="form-row align-items-center ">
+            <div className="form-group col-sm-3 col-label-fixed">
+              <p className="mg-b-0 tx-medium">New Password:</p>
+            </div>
+            <div className="form-group col-sm-9">
+              <input
+                type={displayPassword ? "text" : "password"}
+                className="form-control" name="NewPass"
+                onChange={(e) => setNewPassword(e.target.value)} value={newPassword} />
+            </div>
+          </div>
+        </div>
+        <div className="col-12">
+          <div className="form-row align-items-center ">
+            <div className="form-group pd-l-10">
+              <div className="d-flex align-items-center">
+                <input type="checkbox" id="displaypassword" onChange={() => setDisplayPassword(!displayPassword)} />
+                <label className="mg-0 mg-l-5" htmlFor="displaypassword">Show password</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        {error && error !== '' && (<span className="col-12 tx-danger">{error}</span>)}
+      </div>
+      <div className="tx-center">
+        <button type="submit" className="btn btn-primary rounded-pill">Save Change</button>
+      </div>
+    </div>
+  </form>
 }
 
 export default StudentForm;

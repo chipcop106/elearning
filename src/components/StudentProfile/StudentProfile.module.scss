@@ -72,7 +72,6 @@
   flex-shrink: 0;
   overflow: hidden;
   position: relative;
-  margin: 0 auto 15px auto;
   .upload-container {
     width: inherit;
     height: inherit;
@@ -187,4 +186,42 @@
 
 .mw-300 {
   max-width: 300px;
+}
+
+.metronic-form {
+  .form-control, .select__control, .form-control.flatpickr-input {
+    background-color:#F3F6F9;
+    border:none;
+    transition: .3s;
+    border-radius: 0.25rem;
+    &:focus {
+      background-color:#EBEDF3;
+      box-shadow: none;
+    }
+  }
+  .select__control--is-focused {
+    background-color:#EBEDF3;
+      box-shadow: none;
+  }
+}
+
+.change-password-form .form-account .form-row .col-label-fixed {
+  flex-basis: 120px;
+  max-width: 120px;
+}
+
+.sub-title.profile-tab-nav {
+  padding: 0;
+  a {
+    padding: 10px 15px;
+    display: inline-block;
+    border-bottom: 2px solid transparent;
+    transition: .3s;
+    &.active {
+      border-color: $primary-color;
+    }
+    &:hover {
+      color: $primary-color;
+    }
+  }
 }

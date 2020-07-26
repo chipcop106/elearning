@@ -1,6 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import styled from 'styled-components'
+
+import {BookOpen} from '@styled-icons/boxicons-regular/BookOpen'
+import {OpenBook} from '@styled-icons/entypo/OpenBook'
+
+import {CancelCircle} from '@styled-icons/icomoon/CancelCircle'
+
+import {TextDocument} from '@styled-icons/entypo/TextDocument'
+
+
+
 import LessonHistoryCard from "~components/LessonHistoryCard"
 import LessonUpcomingCard from "~components/LessonUpcomingCard"
 
@@ -16,6 +27,28 @@ import { ToastContainer } from 'react-toastify';
 
 import styles from "~components/StudentDashboard/StudentDashboard.module.scss";
 
+
+const BookOpenIcon = styled(BookOpen)`
+  color: #b5b5c3;
+  width: 30px;
+  height: 30px;
+`
+const OpenBookIcon = styled(OpenBook)`
+  color: #b5b5c3;
+  width: 30px;
+  height: 30px;
+`
+const CancelCircleIcon = styled(CancelCircle)`
+  color: #b5b5c3;
+  width: 30px;
+  height: 30px;
+`
+const TextDocumentIcon = styled(TextDocument)`
+  color: #b5b5c3;
+  width: 30px;
+  height: 30px;
+`
+
 const initialCancelLesson = {
   BookingID: "",
   LessionName: "",
@@ -23,13 +56,11 @@ const initialCancelLesson = {
   start: "",
   end: "",
 }
-
 const initialRatingLesson = {
   BookingID: "",
   TeacherUID: "",
   TeacherName: "",
 }
-
 const initialRequireLesson = {
   BookingID: "",
   avatar: "",
@@ -44,7 +75,6 @@ const initialRequireLesson = {
   DocumentName: "",
   SkypeID: "",
 }
-
 const Dashboard = () => {
   const [state, setState] = React.useState({});
   const [lock, setLock] = React.useState({
@@ -152,9 +182,10 @@ const Dashboard = () => {
     <div className="content content-fixed">
       <div className="container pd-x-0 pd-lg-x-10 pd-xl-x-0 dashboard-page">
         <div className="media d-block d-lg-flex">
+        <i className="fas fa-align-left fa-2x toggle-sidebar d-block d-lg-none"></i>
           <div id="js-component-profilesidebar"></div>
           <div className="media-body mg-t-30 mg-lg-t-0 pd-lg-x-10">
-            <div className="overall__summary">
+            {/* <div className="overall__summary">
               <ul className="top-step animated fadeInDown">
                 <li className="top-step-item "><span className="item-count">
                   {!!state.UpcomingLessions && !!state.LessionHistory &&
@@ -178,6 +209,87 @@ const Dashboard = () => {
                   <div className="item-title">Remaining Lessons</div>
                 </li>
               </ul>
+            </div> */}
+            <div className="overall__summary">
+              <div className="overall__summary-info d-flex flex-wrap pd-15">
+                <div className="course-img">
+                  <img src="https://preview.keenthemes.com/metronic/theme/html/demo7/dist/assets/media/project-logos/3.png" />
+                </div>
+                <div className="course-info pd-l-15">
+                  <a href="#" className="tx-bold">
+                    <span className="course-name">Course Name Course Name Course Name</span>
+                  </a>
+                  <i className="flaticon2-correct text-success icon-md ml-2"></i>
+                  <ul>
+                    <li><i className="fas fa-envelope pd-r-10"></i><a href="mailto:example@gmail.com">example@gmail.com</a></li>
+                    <li><i className="fas fa-lock pd-r-10"></i><a href="#">Some info</a></li>
+                    <li><i className="fas fa-map-marker pd-r-10"></i><a href="#">Some info</a></li>
+                  </ul>
+                  <div className="course-progress d-flex flex-wrap">
+                    <div className="start-date mg-r-15">
+                      <label className="d-block bold">Start Date</label>
+                      <label className="label-tag blue">07 MAY, 2020</label>
+                    </div>
+                    <div className="due-date mg-r-15">
+                      <label className="d-block bold">Due Date</label>
+                      <label className="label-tag pink">10 JUNE, 2021</label>
+                    </div>
+                    <div className="progress-course-bar">
+                      <label className="d-block bold">Progress</label>
+                      <div className="progress-bar-wrap">
+                        <div className="progress-bar-wrap-fill" style={{width:"20%"}}></div>
+                      </div>
+                      <span className="d-block bold mg-t-10">20%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="overall__summary-summary pd-15 d-flex flex-wrap justify-content-between">
+                <div className="left d-flex flex-wrap">
+                  <div className="summary-item">
+                    <BookOpenIcon />
+                      <div className="mg-l-10 title">
+                      <label className="d-block bold">Booked Lessons</label>
+                      <label className="d-block bold count">
+                        {!!state.UpcomingLessions && !!state.LessionHistory &&
+                    state.UpcomingLessions.length + state.LessionHistory.length}</label>
+                      </div>
+                  </div>
+                  <div className="summary-item">
+                  <OpenBookIcon />
+                      <div className="mg-l-10 title">
+                      <label className="d-block bold">Canceled Lessons</label>
+                      <label className="d-block bold count">{state.StudyProcess && state.StudyProcess.CancelLessions}</label>
+                      </div>
+                  </div>
+                  <div className="summary-item">
+                  <CancelCircleIcon />
+                      <div className="mg-l-10 title">
+                      <label className="d-block bold">Truant Lessons</label>
+                      <label className="d-block bold count">{state.StudyProcess && state.StudyProcess.NumberOfAbsences}</label>
+                      </div>
+                  </div>
+                  <div className="summary-item">
+                  <TextDocumentIcon />
+                      <div className="mg-l-10 title">
+                      <label className="d-block bold">Remaining Lessons</label>
+                      <label className="d-block bold count">{state.StudyProcess && state.StudyProcess.CompleteLessions}</label>
+                      </div>
+                  </div>
+                </div>
+                <div className="right">
+                <div className="summary-item">
+                  <div>
+                      <img src="https://images.unsplash.com/photo-1595534005229-688989c4bf82?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"/>
+                      <img src="https://images.unsplash.com/photo-1595534005229-688989c4bf82?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"/>
+                      <img src="https://images.unsplash.com/photo-1595534005229-688989c4bf82?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"/>
+                      <img src="https://images.unsplash.com/photo-1595534005229-688989c4bf82?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"/>
+                      <img src="https://images.unsplash.com/photo-1595534005229-688989c4bf82?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"/>
+                      <span className="other-person bold">5+</span>
+                  </div>
+                </div>
+                </div>
+              </div>
             </div>
             <div className="lesson mg-t-45 animated fadeInUp am-animation-delay-1">
               <div className="d-xl-flex align-items-center justify-content-between ">
