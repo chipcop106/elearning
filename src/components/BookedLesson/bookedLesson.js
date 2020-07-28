@@ -135,7 +135,7 @@ const BookedLesson = () => {
             {
               !!state && !!state &&
                 state.length + state.length === 0 ? (
-                  <div className="empty-error tx-center mg-y-30 cr-item bg-white">
+                  <div className="empty-error tx-center mg-y-30 cr-item bg-white pd-15 rounded-10 shadow">
                     <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" />
                     <p className=" tx-danger tx-medium">You don't have any lesson.</p>
                     <a href="bookingLesson.html" className="btn btn-primary">Book a lesson</a>
@@ -166,16 +166,17 @@ const BookedLesson = () => {
             </ul>
           </div>
         </div>
-        <Pagination
-          innerClass="pagination justify-content-end mt-3"
-          activePage={page}
-          itemsCountPerPage={pageSize}
-          totalItemsCount={totalResult}
-          pageRangeDisplayed={3}
-          itemClass="page-item"
-          linkClass="page-link"
-          onChange={handlePageChange.bind(this)} />
-
+        {
+           pageSize < totalResult && <Pagination
+           innerClass="pagination justify-content-end mt-3"
+           activePage={page}
+           itemsCountPerPage={pageSize}
+           totalItemsCount={totalResult}
+           pageRangeDisplayed={3}
+           itemClass="page-item"
+           linkClass="page-link"
+           onChange={handlePageChange.bind(this)} />
+        }
         <RequireLessonModal
           BookingID={stateRequireLesson.BookingID}
           avatar={stateRequireLesson.avatar}
@@ -200,7 +201,7 @@ const BookedLesson = () => {
           callback={cbCancelBooking} />
 
         <ToastContainer />
-      </> : <FETCH_ERRORS />
+      </> : (!loading && <FETCH_ERRORS />)
     }
   </>
 }

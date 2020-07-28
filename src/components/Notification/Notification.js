@@ -11,13 +11,15 @@ const Notification = () => {
   const [pageSize, setPageSize] = React.useState(0);
   const [totalResult, setTotalResult] = React.useState(0);
   const [state, setState] = React.useState([])
-  const [loading, setLoading] = React.useState(true)
+  const [loading, setLoading] = React.useState(false)
 
   const handlePageChange = (pageNumber) => {
-    setPage(pageNumber);
-    getAPI({
-      page: pageNumber,
-    });
+    if (page !== pageNumber) {
+      setPage(pageNumber);
+      getAPI({
+        page: pageNumber,
+      });
+    }
   }
 
   const getAPI = async (params) => {
@@ -37,7 +39,6 @@ const Notification = () => {
     });
   }, []);
 
-
   return <>
     <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
       <h4 className="mg-b-0 gradient-heading"><i className="fas fa-bell" /> NOTIFICATION</h4>
@@ -45,17 +46,8 @@ const Notification = () => {
     <div className="blog__wrapper">
       <div className="row row-sm mg-b-25 blog-list">
         {
-          loading ? <>
-            <div className="col-md-6 col-lg-4 mg-t-20">
-              <SkeletonNotification />
-            </div>
-            <div className="col-md-6 col-lg-4 mg-t-20">
-              <SkeletonNotification />
-            </div>
-            <div className="col-md-6 col-lg-4 mg-t-20">
-              <SkeletonNotification />
-            </div>
-          </> : !!state && Array.isArray(state) && state.length > 0 ?
+          loading ? <SkeletonNotification /> :
+          !!state && Array.isArray(state) && state.length > 0 ?
               state.map(item =>
                 <div className="col-md-6 col-lg-4 mg-t-20" key={item.NotificationID}>
                   <NotificationItem
@@ -70,16 +62,15 @@ const Notification = () => {
         }
       </div>
       {
-        !!state && Array.isArray(state) && state.length > 0 &&
-        <Pagination
-        innerClass="pagination justify-content-center"
-        activePage={page}
-        itemsCountPerPage={pageSize}
-        totalItemsCount={totalResult}
-        pageRangeDisplayed={3}
-        itemClass="page-item"
-        linkClass="page-link"
-        onChange={handlePageChange.bind(this)} />
+        pageSize < totalResult && <Pagination
+          innerClass="pagination justify-content-center"
+          activePage={page}
+          itemsCountPerPage={pageSize}
+          totalItemsCount={totalResult}
+          pageRangeDisplayed={3}
+          itemClass="page-item"
+          linkClass="page-link"
+          onChange={handlePageChange.bind(this)} />
       }
     </div>
   </>

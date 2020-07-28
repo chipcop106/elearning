@@ -272,7 +272,7 @@ const Dashboard = () => {
                 {
                   !!state.UpcomingLessions && !!state.UpcomingLessions &&
                     state.UpcomingLessions.length + state.UpcomingLessions.length === 0 ? (
-                      <div className="empty-error tx-center mg-y-30 cr-item bg-white rounded-10 pd-15">
+                      <div className="empty-error tx-center mg-y-30 cr-item bg-white rounded-10 pd-15 shadow">
                         <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" />
                         <p className=" tx-danger tx-medium">You don't have any lesson.</p>
                         <a href="bookingLesson.html" className="btn btn-primary">Book a lesson</a>

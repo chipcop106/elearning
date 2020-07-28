@@ -44,16 +44,11 @@ const ListSchedule = ({
   React.useEffect(() => {
     let newSchedule = [...scheduleList]
 
-    console.log(newSchedule)
-    console.log(onBookTeacherUID)
-    console.log(onBookStudyTimeID)
-    console.log(onBookDate)
-
     let index = newSchedule.findIndex(i =>
       i.StudyTimeID == onBookStudyTimeID &&
       i.TeacherUID == onBookTeacherUID &&
       moment(i.Start).format("DD/MM/YYYY") == onBookDate);
-      console.log(index)
+
     if (index !== -1) {
       newSchedule[index].bookStatus = true;
       newSchedule[index].bookInfo = {

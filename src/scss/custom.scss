@@ -2433,10 +2433,7 @@ body {
 .hl {
     color: $primary-color;
 }
-/* .media-body {
-   padding: 15px;s
-} */
-/* .media-body,  */#js-component-profilesidebar {
+#js-component-profilesidebar {
   background: #fff;
   border-radius: 10px;
 }
@@ -2482,15 +2479,13 @@ body {
             a {
                 display: block;
                 padding: 10px 50px;
-                &:hover {
+                &:hover, &.active {
                     color: $primary-color;
+                    background-color: #fff4de;
                 }
                 @media screen and (max-width: 500px) {
                     padding: 10px 20px;
                 }
-            }
-            &:hover {
-                background-color: #fff4de;
             }
         }
     }

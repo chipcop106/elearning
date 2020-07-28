@@ -27,7 +27,8 @@ module.exports = {
     'teacherFeedback': componentEnrtryPrefix + 'TeacherFeedback/teacherFeedback.js',
     'teacherProfile': componentEnrtryPrefix + 'TeacherProfile/teacherProfile.js',  */
     // 'DocumentSlider': componentEnrtryPrefix + 'TeacherLibrary/DocumentSlider.js',
-    'teacherDetail': componentEnrtryPrefix + 'TeacherDetail/TeacherDetail.js',
+    'notification': componentEnrtryPrefix + 'Notification/Notification.js',
+    /* 'teacherDetail': componentEnrtryPrefix + 'TeacherDetail/TeacherDetail.js',
     'faq': componentEnrtryPrefix + 'Faq/Faq.js', 
     'feedback': componentEnrtryPrefix + 'Feedback/Feedback.js',
     'bookingLesson': componentEnrtryPrefix + 'StudentBooking/BookingLesson.js',
@@ -36,8 +37,8 @@ module.exports = {
     'blogDetail': componentEnrtryPrefix + 'BlogDetail/BlogDetail.js',
     'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/StudentDashboard.js',
     'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js',
-    'notification': componentEnrtryPrefix + 'Notification/Notification.js',
-    'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js',
+    
+    'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js', */
     
     'app': ['./src/scss/custom.scss', './src/assets/js/custom.js'], 
   },
