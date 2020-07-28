@@ -17,8 +17,12 @@
 .pay-syn-title{
     font-weight:500;
     color:$primary-color;
-    font-size:16px;
+    font-size:1.25rem;
     padding-right:10px;
+    & + .pay-syn-money{
+        font-size: 1.25rem;
+        color: $primary-color;
+    }
 }
 .pay-syn-text{
     color:#97a3b9;

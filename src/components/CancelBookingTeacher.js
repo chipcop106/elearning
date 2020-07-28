@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
 
-const CancelBookingTeacher = ({ BookingID, LessionName, date, start, end, style, callback }) => {
+const CancelBookingTeacher = ({BookingID, LessionName, date, start, end, style, callback}) => {
   const [reason, setReason] = React.useState("")
   const cancelToastSuccess = () => toast.success("Cancel lesson successful!", toastInit);
 
@@ -50,7 +50,7 @@ const CancelBookingTeacher = ({ BookingID, LessionName, date, start, end, style,
 
   return <div style={style} className="modal fade effect-scale" id="md-cancel-schedule" tabIndex="-1" role="dialog" aria-labelledby="active-slot"
     aria-hidden="true">
-    <div className="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div className="modal-dialog modal-dialog-centered" role="document">
       <div className="modal-content">
         <div className="modal-header bg-danger">
           <h5 className="modal-title tx-white">Warning</h5>
@@ -59,12 +59,17 @@ const CancelBookingTeacher = ({ BookingID, LessionName, date, start, end, style,
           </button>
         </div>
         <div className="modal-body">
-          <p id="newCampaignTitle">Lesson Name: {LessionName || ''}</p>
+          <p id="newCampaignTitle">Lesson Name: <span className="tx-medium">{LessionName || ''}</span></p>
           <p>Date: <span id="js-date-time" className="tx-medium">{date || ''}</span></p>
-          <p>Start time: <span id="js-start-time" className="tx-medium">{start || ''}</span></p>
-          <p>End time: <span id="js-end-time" className="tx-medium">{end || ''}</span></p>
+          <div className="row">
+            <p className="col">Start time: <span id="js-start-time" className="tx-medium">{start || ''}</span></p>
+            <p className="col">End time: <span id="js-end-time" className="tx-medium">{end || ''}</span></p>
+          </div>
+      
           <div className="form-group">
-            <textarea style={{ width: '100%', height: '100px', border: '1px solid #555', padding: '5px' }}
+            <textarea 
+              rows={3}
+              className="form-control"
               placeholder="Reason"
               value={reason}
               onChange={(e) => setReason(e.target.value)}></textarea>
@@ -72,7 +77,7 @@ const CancelBookingTeacher = ({ BookingID, LessionName, date, start, end, style,
           <p className="tx-danger">Are you sure to cancel this lesson?</p>
         </div>
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-dismiss="modal">No</button>
+          <button type="button" className="btn btn-light" data-dismiss="modal">No</button>
           <button type="button" className="btn btn-primary" onClick={onSubmitCancelLesson}>Yes</button>
         </div>
       </div>

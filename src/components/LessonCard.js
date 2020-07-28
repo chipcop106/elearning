@@ -24,7 +24,7 @@ const LessonCard = (
 
     const _onClickCancel = (e) => {
         e.preventDefault();
-        handleCancelLesson({ lessonId, lessonDate, lessonStart, lessonEnd });
+        handleCancelLesson({ lessonId, lessonDate, lessonStart, lessonEnd, lessonName:courseName });
     }
 
     return (<>

@@ -5,3 +5,51 @@
     display:block;
 }
 
+.mg-t-30.feedback-container {
+    display: flex;
+    /* margin: 0 -15px; */
+}
+
+.feedback-container{
+
+
+
+.filter-sidebar {
+    width: 350px;
+    margin-right: 30px;
+}
+
+.fb-list {
+    flex-grow: 1;
+}
+
+.fb-summary {
+    display: block;
+}
+
+.fb-radio label {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.fb-radio input + span {
+    flex-grow: 1;
+}
+
+.fb-radio .number {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.fb-summary-container {
+    padding: 1.25rem;
+}
+
+.fb-summary .fb-type {
+    padding: 5px 0;
+}
+}

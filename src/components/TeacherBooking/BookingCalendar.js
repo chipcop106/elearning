@@ -285,7 +285,7 @@ const bookingCalendar = () => {
                 events.map(event => {
                     const eventDate = new Date(event.extendedProps.Start.split('T')[0]);
                     if(eventDate.getTime() === dateHD.getTime()){
-                        event.extendedProps.available === true && totalSlot++;
+                        (event.extendedProps.available === true || event.extendedProps.bookStatus === true) && totalSlot++;
                         event.extendedProps.bookStatus === true && bookedSlot++;
                     }
                 });
@@ -325,8 +325,7 @@ const bookingCalendar = () => {
 
 
         calendar = new FullCalendar.Calendar(calendarEl, {
-            height: 500,
-            themeSystem: 'bootstrap',
+            height: 550,
             expandRows: true,
             slotMinTime: "06:00",
             slotMaxTime: "23:00",
@@ -605,7 +604,8 @@ const bookingCalendar = () => {
         $('#md-cancel-slot').modal('hide');
         try {
             const res = await cancelLesson({
-                BookingID: data.BookingID
+                BookingID: data.BookingID,
+                ReasonCancleOfTeacher:data.reason
             });
             if (res.Code === 1) {
                 cancelBookedEvent(data);

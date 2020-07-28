@@ -64,7 +64,7 @@ const TeacherComment = ({ data: { id, teacherName, teacherAvatar, dateTime, comm
                         <textarea className="form-control" rows="5" onChange={_onChange} value={editContent} />
                         <div className="mg-t-10">
                             <button type="button" className="btn btn-primary mg-r-10 btn-sm" onClick={_saveEditComment}><i className="fa fa-save mg-r-5"></i> Save</button>
-                            <button type="button" className="btn btn-secondary btn-sm" onClick={_hideEditBox}><i className="fa fa-times mg-r-5"></i> Cancel</button>
+                            <button type="button" className="btn btn-light btn-sm" onClick={_hideEditBox}><i className="fa fa-times mg-r-5"></i> Cancel</button>
                         </div>
                     </div>)}
                     </>

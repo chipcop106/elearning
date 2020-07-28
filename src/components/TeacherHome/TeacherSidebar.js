@@ -126,7 +126,7 @@ const TeacherSidebar = () => {
 
     return (
         <>
-            <div className="mg-sm-r-30 mg-lg-r-0 d-sm-flex d-lg-block">
+            {/* <div className="mg-sm-r-30 mg-lg-r-0 d-sm-flex d-lg-block">
                 <div className="mg-b-20 mg-sm-x-30 mg-lg-x-0">
                     <div className="avatar avatar-xxl avatar-online"><img src="../assets/img/default-avatar.png" className="rounded-circle" alt="" /></div>
                     <h5 className="mg-b-2 tx-spacing--1 mg-t-15">{!isLoading ? state.FullName || '' : <Skeleton width={50} />}</h5>
@@ -134,8 +134,7 @@ const TeacherSidebar = () => {
                         <a className="btn btn-xs btn-primary mg-r-10" href={`teacherProfile.html`}><i className="far fa-id-card mg-r-5"></i> profile</a>
                         <button type="button" className="btn btn-xs btn-primary " onClick={showChangePasswordForm}><i className="fas fa-key mg-r-5" ></i> Change password</button>
                     </div>
-                </div>{/* col */}
-
+                </div>
                 <div >
                     <label className="tx-sans tx-10 tx-semibold tx-uppercase tx-color-01 tx-spacing-1 mg-b-15">Contact Information</label>
                     <ul className="list-unstyled profile-info-list mg-b-10">
@@ -143,7 +142,7 @@ const TeacherSidebar = () => {
                         <li><i data-feather="mail" /><a href={`mailto:${state.Email || ''}`}>{!isLoading ? state.Email || '' : <Skeleton width={50} />}</a>
                         </li>
                     </ul>
-                </div>{/* col */}
+                </div>
             </div>
             <div >
                 <label className="tx-sans tx-10 tx-semibold tx-uppercase tx-color-01 tx-spacing-1 mg-b-15">Summary</label>
@@ -153,7 +152,124 @@ const TeacherSidebar = () => {
                     <SummaryBlock imageUrl='../assets/img/exp.png' title="Days Experience" value="122" isLoading={isLoading} />
 
                 </div>
-            </div>{/* col */}
+            </div> */}
+            <div className="card card-custom gutter-b wd-100p">
+                {/*begin::Body*/}
+                <div className="card-body">
+                    {/*begin::Wrapper*/}
+                    <div className="d-flex justify-content-between flex-column h-100">
+                        {/*begin::Container*/}
+                        <div className="">
+                            {/*begin::Header*/}
+                            <div className="d-flex flex-column flex-center  tx-center">
+                                {/*begin::Symbol*/}
+                                <div className="symbol symbol-120 symbol-circle symbol-success overflow-hidden mg-b-15">
+                                    <span className="symbol-label">
+                                        <img src="../assets/img/default-avatar.png" className="avatar-xxl align-self-end" alt="" />
+                                    </span>
+                                </div>
+                                {/*end::Symbol*/}
+                                {/*begin::Username*/}
+                                <a href="#" className="card-title tx-primary tx-bolder tx-16">{!isLoading ? state.FullName || '' : <Skeleton width={50} />}</a>
+                                {/*end::Username*/}
+                                {/*begin::Info*/}
+                                <div className="d-flex justify-content-between align-items-center mg-b-5">
+                                    <span className="tx-medium">Phone:</span>
+                                    <a href="tel:0987654321" className="tx-gray-400">{!isLoading ? state.Phone || '' : <Skeleton width={50} />}</a>
+                                </div>
+                                <div className="d-flex justify-content-between align-items-center mg-b-15">
+                                    <span className="tx-medium">Email:</span>
+                                    <a href={`mailto:${state.Email || ''}`} className="tx-gray-400">{!isLoading ? state.Email || '' : <Skeleton width={50} />}</a>
+                                </div>
+                                
+                                {/*end::Info*/}
+                            </div>
+                            {/*end::Header*/}
+                            {/*begin::Body*/}
+                            <div className="pt-1">
+        
+                                {/*begin::Item*/}
+                                <div className="d-flex align-items-center pd-b-15">
+                                    {/*begin::Symbol*/}
+                                    <div className="symbol symbol-45 symbol-light mr-4">
+                                        <span className="align-items-center bg-primary-light d-flex ht-45 justify-content-center rounded-5 symbol-label wd-45">
+                                            <span className="svg-icon svg-icon-2x svg-icon-dark-50">
+                                                <i data-feather="user" className="tx-gray-400"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    {/*end::Symbol*/}
+                                    {/*begin::Text*/}
+                                    <div className="d-flex flex-column flex-grow-1">
+                                        <a href="#" className="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder">Student Members</a>
+                                        <span className="text-muted tx-gray-200 tx-normal">Student booked</span>
+                                    </div>
+                                    {/*end::Text*/}
+                                    {/*begin::label*/}
+                                    <span className="badge bg-gray-200 pd-y-10 tx-14 wd-35 mg-l-15">28</span>
+                                    {/*end::label*/}
+                                </div>
+                                {/*end::Item*/}
+                                {/*begin::Item*/}
+                                <div className="d-flex align-items-center pd-b-15">
+                                    {/*begin::Symbol*/}
+                                    <div className="symbol symbol-45 symbol-light mr-4">
+                                        <span className="align-items-center bg-primary-light d-flex ht-45 justify-content-center rounded-5 symbol-label wd-45">
+                                            <span className="svg-icon svg-icon-2x svg-icon-dark-50">
+                                                {/*begin::Svg Icon | path:/metronic/theme/html/demo7/dist/assets/media/svg/icons/Layout/Layout-4-blocks.svg*/}
+                                                <i data-feather="calendar" className="tx-gray-400"></i>
+                                                {/*end::Svg Icon*/}
+                                            </span>
+                                        </span>
+                                    </div>
+                                    {/*end::Symbol*/}
+                                    {/*begin::Text*/}
+                                    <div className="d-flex flex-column flex-grow-1">
+                                        <a href="#" className="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder">Hours Classes</a>
+                                        <span className="text-muted tx-gray-200 tx-normal">Finished classes</span>
+                                    </div>
+                                    {/*end::Text*/}
+                                    {/*begin::label*/}
+                                    <span className="badge bg-gray-200 pd-y-10 tx-14 wd-35 mg-l-15">7</span>
+                                    {/*end::label*/}
+                                </div>
+                                {/*end::Item*/}
+                                {/*begin::Item*/}
+                                <div className="d-flex align-items-center">
+                                    {/*begin::Symbol*/}
+                                    <div className="symbol symbol-45 symbol-light mr-4">
+                                        <span className="align-items-center bg-primary-light d-flex ht-45 justify-content-center rounded-5 symbol-label wd-45">
+                                            <span className="svg-icon svg-icon-2x svg-icon-dark-50">
+                                                {/*begin::Svg Icon | path:/metronic/theme/html/demo7/dist/assets/media/svg/icons/Home/Globe.svg*/}
+                                                <i data-feather="briefcase" className="tx-gray-400"></i>
+                                                {/*end::Svg Icon*/}
+                                            </span>
+                                        </span>
+                                    </div>
+                                    {/*end::Symbol*/}
+                                    {/*begin::Text*/}
+                                    <div className="d-flex flex-column flex-grow-1">
+                                        <a href="#" className="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder">Experience</a>
+                                        <span className="text-muted tx-gray-200 tx-normal">Days Experience</span>
+                                    </div>
+                                    {/*end::Text*/}
+                                    {/*begin::label*/}
+                                    <span className="badge bg-gray-200 pd-y-10 tx-14 wd-35 mg-l-15">30</span>
+                                    {/*end::label*/}
+                                </div>
+                                {/*end::Item*/}
+                            </div>
+                            {/*end::Body*/}
+                        </div>
+                        {/*eng::Container*/}
+                     
+                    </div>
+                    {/*end::Wrapper*/}
+                </div>
+                {/*end::Body*/}
+            </div>
+
+
             <ModalChangePass
                 error={error}
                 showPassword={showPassword}

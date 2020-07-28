@@ -236,10 +236,9 @@ const RenderSummary = ({ handFilterValue }) => {
     }, []);
 
     return (
-
+        <div className="filter-sidebar">
         <div className="fb-summary-container">
-            <p className="tx-16">Last 100 Parent Feedback Average: <span className="tx-warning tx-20 tx-bold">{isLoading ? (<Skeleton width={15}/>) : (overview?.Avarage ?? '')}</span></p>
-            <p>List of teacher feedback has not been rated</p>
+            <p className="tx-16">Last 100 Student Feedback Average: <span className="tx-primary tx-20 tx-bold">{isLoading ? (<Skeleton width={15}/>) : (overview?.Avarage ?? '')}</span></p>
             <div className="fb-summary">
                 <div className="fb-type">
                     <div className="fb-radio">
@@ -291,7 +290,7 @@ const RenderSummary = ({ handFilterValue }) => {
                 </div>
             </div>
         </div>
-
+</div>
     )
 }
 
@@ -342,9 +341,9 @@ const TeacherFeedback = () => {
     }, [filterValue])
 
     return (
-        <div>
+        <>
             <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
-                <h3 className="mg-b-0 gradient-heading"><i className="fas fa-comment-dots" /> FEEDBACK</h3>
+                <h3 className="text-dark font-weight-bold mg-b-0">Student Feedback</h3>
             </div>
             <div className="mg-t-30 feedback-container">
                 <RenderSummary
@@ -385,7 +384,7 @@ const TeacherFeedback = () => {
                     }
                 </div>
             </div>
-        </div>
+        </>
 
 
     )

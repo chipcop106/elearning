@@ -19,6 +19,7 @@ const StudentInformationModal = React.forwardRef(({ studentId }, ref) => {
     const [state, setState] = React.useState(initialState);
     const [isLoading, setIsloading] = React.useState(true);
     const loadStudentInfo = async () => {
+        setIsloading(true);
         if (!!!studentId) return;
         console.log('Load ajax modal student id: ', studentId);
         const res = await getStudentByUID({StudentUID:studentId});
@@ -60,7 +61,7 @@ const StudentInformationModal = React.forwardRef(({ studentId }, ref) => {
                             <div className="d-flex">
                                 <div className="flex-shrink-0 mg-r-15">
                                     {!isLoading ? (<img src={state.stImageUrl} className="avatar-xxl avatar-xl rounded" />) 
-                                    : (<Skeleton circle={true} height={50} width={50}/>)}
+                                    : (<Skeleton circle={true} height={100} width={100}/>)}
                                     
                                 </div>
                                 <div className="flex-grow-1">
@@ -133,7 +134,7 @@ const StudentInformationModal = React.forwardRef(({ studentId }, ref) => {
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-light" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>

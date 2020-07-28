@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { getLibraryByCategoryID } from '~src/api/teacherAPI';
 import LibraryCard from './../LibraryCard';
 import Skeleton from 'react-loading-skeleton';
-
+import styles from './DocumentSlide.module.scss'
 
 const SkeletonCourse = () => {
     return (
@@ -53,8 +53,8 @@ const DocumentSlider = ({ categoryID, slideTitle, moreLink, titleIcon }) => {
     return (
         <div className="foundations">
             <div className="d-xl-flex align-items-center justify-content-between mg-b-15">
-                <h3 className="mg-b-0 gradient-heading"><i className={`fas ${titleIcon} mg-r-10-f`}></i>{slideTitle}
-                </h3>
+                <h4 className="mg-b-0 gradient-heading"><i className={`fas ${titleIcon} mg-r-10-f`}></i>{slideTitle}
+                </h4>
                 {!!moreLink && (
                     <div className="more-btn">
                         <a href="#">More ›</a>

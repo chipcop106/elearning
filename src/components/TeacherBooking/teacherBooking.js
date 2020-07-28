@@ -39,40 +39,44 @@ const TeacherBooking = () => {
         <>
             <div className="book__container mg-t-15">
                 <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
-                    <h4 className="mg-b-0 gradient-heading"><i className="fas fa-address-card" /> BOOKING SCHEDULE</h4>
-                    <span className="tx-primary bg-gray-200 pd-5 rounded d-inline-block tx-medium"><i className="fas fa-globe-europe mg-r-5"></i>Timezone: GTM + 7</span>
+                    <h3 className="text-dark font-weight-bold">Booking Schedule</h3>
+                    <span className="tx-primary bg-white pd-y-5 pd-x-15 rounded d-inline-block tx-medium"><i className="fas fa-globe-europe mg-r-5"></i>Timezone: GTM + 7</span>
                 </div>
-                <div className="tab-navigation">
-                    <ul className="list-tab" id="js-list-tab">
-                        <li className="tab-item">
-                            <a href={`#`} className="tab-link active" data-index={0}>BOOK SCHEDULE</a>
-                        </li>
-                        <li className="tab-item">
-                            <a href={`#`} className="tab-link " data-index={1}>SCHEDULE LOG</a>
-                        </li>
-                        <li className="tab-item">
-                            <a href={`#`} className="tab-link " data-index={2}>BOOKING REQUEST</a>
-                        </li>
-                    </ul>
-                </div>
-                <div className="tab-navigation-content">
-                    <div className="swiper-container" id="js-teacher__info">
-                        <div className="teacher__info-wrap swiper-wrapper">
-                            <div className="swiper-slide">
-                                <div className="slide-tab-content">
-                                    
-                                    <BookingCalendar />
-                                </div>
-                            </div>
-                            <div className="swiper-slide">
-                                <div className="slide-tab-content">
-                                    <ScheduleLogTable />
-                                </div>
-                            </div>
-                            <div className="swiper-slide">
-                                <div className="slide-tab-content">
-                                    <div className="course-horizental">
-                                        <BookingRequest />
+                <div className="card card-custom">
+                    <div className="card-body">
+                        <div className="tab-navigation teacher-custom">
+                            <ul className="list-tab" id="js-list-tab">
+                                <li className="tab-item">
+                                    <a href={`#`} className="tab-link active" data-index={0}><i className="fas fa-calendar-alt mg-r-5"></i> BOOK SCHEDULE</a>
+                                </li>
+                                <li className="tab-item">
+                                    <a href={`#`} className="tab-link " data-index={1}><i className="fas fa-clock mg-r-5"></i> SCHEDULE LOG</a>
+                                </li>
+                                <li className="tab-item">
+                                    <a href={`#`} className="tab-link " data-index={2}><i className="fas fa-calendar-week mg-r-5"></i> BOOKING REQUEST</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div className="tab-navigation-content">
+                            <div className="swiper-container" id="js-teacher__info">
+                                <div className="teacher__info-wrap swiper-wrapper">
+                                    <div className="swiper-slide">
+                                        <div className="slide-tab-content">
+                                            
+                                            <BookingCalendar />
+                                        </div>
+                                    </div>
+                                    <div className="swiper-slide">
+                                        <div className="slide-tab-content">
+                                            <ScheduleLogTable />
+                                        </div>
+                                    </div>
+                                    <div className="swiper-slide">
+                                        <div className="slide-tab-content">
+                                            <div className="course-horizental">
+                                                <BookingRequest />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

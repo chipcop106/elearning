@@ -72,7 +72,7 @@ const CancelBookingLessonModal = ({ BookingID, LessionName, date, start, end, st
           <p className="tx-danger">Are you sure to cancel this lesson?</p>
         </div>
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-dismiss="modal">No</button>
+          <button type="button" className="btn btn-light" data-dismiss="modal">No</button>
           <button type="button" className="btn btn-primary" onClick={onSubmitCancelLesson}>Yes</button>
         </div>
       </div>

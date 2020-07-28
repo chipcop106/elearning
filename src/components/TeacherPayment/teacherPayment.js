@@ -8,14 +8,11 @@ const TeacherPayment = () => {
 
     return (
         <>
-         
+
             {/*title trang*/}
             <GridSalary />
 
-            <div className="pay-chitiet mg-t-30">
-                <h5 className="sub-title"><i className="fa fa-file mg-r-10"></i> PAYMENT HISTORY</h5>
-            </div>
-            <div className="payment__wrap mg-b-30">
+            <div className="payment__wrap mg-b-30 mg-t-30">
                 <PaymentHistory />
             </div>
         </>

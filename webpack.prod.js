@@ -93,8 +93,8 @@ module.exports = merge(common,{
       { from: 'src/assets/fonts', to: 'css/fonts' },
     ],
   })
-  ].concat(teacherHTML).concat(accountHTML),
-  optimization: {
-    minimizer: [new UglifyJsPlugin()],
-  },
+  ].concat(teacherHTML).concat(accountHTML)
+  // optimization: {
+  //   minimizer: [new UglifyJsPlugin()],
+  // },
 });

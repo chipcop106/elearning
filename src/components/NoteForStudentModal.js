@@ -44,7 +44,7 @@ const NoteForStudentModal = () => {
                                 </div>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" className="btn btn-light" data-dismiss="modal">Close</button>
                                 <button type="button" className="btn btn-primary">Add note</button>
                             </div>
                         </form>

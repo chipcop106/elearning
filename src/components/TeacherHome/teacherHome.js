@@ -8,11 +8,28 @@ import Flatpickr from 'react-flatpickr';
 import TeacherSidebar from './TeacherSidebar';
 import UpComingList from './UpComingList';
 import { ToastContainer } from 'react-toastify';
+import {appSettings} from '~src/config';
+import Select from 'react-select';
 const DateTimeFormat = new Intl.DateTimeFormat('vi-VN', {
     dateStyle: 'short',
     month: "2-digit",
     day: "2-digit",
 });
+
+const itemShowOptions = [
+    {
+        value:5,
+        label:'Last 5 lesson'
+    },
+    {
+        value:10,
+        label:'Last 10 lesson'
+    },
+    {
+        value:15,
+        label:'Last 15 lesson'
+    }
+]
 
 const SituationBlock = ({ title, value, unit, imageUrl, link, linkTitle, isLoading }) => {
     return (
@@ -36,7 +53,7 @@ const SituationBlock = ({ title, value, unit, imageUrl, link, linkTitle, isLoadi
 const TeacherHome = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [dashboardInfo, setDashboardInfo] = useState(null);
-
+    const [selectShow, setSelectShow] = useState(itemShowOptions[0]);
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
 
@@ -75,15 +92,15 @@ const TeacherHome = () => {
 
     return (
         <>
-            <div className="gv-pro">
-                <div className="row">
-                    <div className="col-lg-3 d-sm-flex d-lg-block">
+            <h3 className="text-dark font-weight-bold mg-b-30">My Dashboard</h3>
+            <div className="">
+                <div className="d-flex flex-wrap flex-xl-nowrap row--lg">
+                    <div className="wd-100p mg-xl-b-0 mg-b-30 wd-xl-350 pd-xl-x-15 d-sm-flex d-xl-block flex-shrink-0">
                         <TeacherSidebar />
                     </div>
-                    <div className="col-lg-9">
-                        <div className="gv-situation mg-t-30">
-                            <div className="mg-b-15 d-lg-flex align-items-center justify-content-between">
-                                <h3 className="gradient-heading mg-lg-b-0"><i className="fas fa-user-graduate  mg-r-10"></i> TEACHING SITUATION</h3>
+                    <div className="flex-grow-1 pd-xl-x-15 wd-100p">
+                        <div className="gv-situation mg-b-15">
+                            {/* <div className="mg-b-15 d-lg-flex align-items-center justify-content-between">
                                 <div className="form-row from-to-group" id="filter-time">
                                     <div className="wd-sm-200 col">
                                         <Flatpickr
@@ -115,26 +132,54 @@ const TeacherHome = () => {
                                         <button type="button" className="btn btn-info " onClick={_onFilterDate}><i className="fa fa-search" /></button>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="row mg-t-30">
-                                <div className="col-12 col-md-4 mg-b-10">
+                            </div> */}
+                            <div className="row">
+                                <div className="col-12 col-md-4 mg-b-15">
                                     <SituationBlock isLoading={isLoading} link={dashboardInfo?.OpenSlotURL} linkTitle="Manage slot" title="Open" value={dashboardInfo?.OpenSlot} unit="slots" imageUrl={'../assets/img/slot-open.png'} />
                                 </div>
-                                <div className="col-12 col-md-4  mg-b-10">
+                                <div className="col-12 col-md-4  mg-b-15">
                                     <SituationBlock isLoading={isLoading} link={dashboardInfo?.BookedSlotURl} linkTitle="Manage slot" title="Booked" value={dashboardInfo?.BookedSlot} unit="slots" imageUrl={'../assets/img/slot-booked.png'} />
                                 </div>
-                                <div className="col-12 col-md-4  mg-b-10">
+                                <div className="col-12 col-md-4  mg-b-15">
                                     <SituationBlock isLoading={isLoading} link={dashboardInfo?.FeedbackURL} linkTitle="View feedback" title="Missing" value={dashboardInfo?.Feedback} unit="Feedback" imageUrl={'../assets/img/missing-feedback.png'} />
                                 </div>
                             </div>
 
                         </div>
-
-                        <div className="gv-notice mg-t-45">
-                            <h3 className="gradient-heading "><i className="fas fa-fire-alt mg-r-10"></i> UP COMMING LESSON</h3>
-                            <UpComingList />
+                        <div className="row">
+                            <div className="col-lg-12">
+                            <div className="card card-custom">
+                                <div className="card-header align-items-center d-flex justify-content-between pd-x-20-f">
+                                    <div className="d-flex align-items-center">
+                                        <span className="tx-32 tx-gray-300"><i className="fas fa-calendar"></i></span>
+                                        <div className="mg-l-15">
+                                            <h5 className="mg-b-5">Upcoming lesson</h5>
+                                            <p className="tx-gray-300 mg-b-0">Next upcoming lesson with student</p>
+                                        </div>
+                                    </div>
+                                    <div className="wd-150">
+                                        <Select 
+                                            options={itemShowOptions}
+                                            styles={appSettings.selectStyle}
+                                            onChange={setSelectShow}
+                                            defaultValue={selectShow}
+                                        />
+                                    </div>
+                                   
+                                </div>
+                                <div className="card-body pd-x-10-f pd-y-15-f">
+                                    <div className="gv-notice">
+                                        <UpComingList itemShow={selectShow}/>
+                                    </div>
+                                </div>
+                            </div>
+                               
+                               
+                            </div>
+                           
                         </div>
-                        {/*Home*/}
+                     
+                       
                     </div>
                 </div>
             </div>

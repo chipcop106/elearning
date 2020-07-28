@@ -27,7 +27,7 @@ const TeacherLibrary = () => {
                     <div className="col-sm-12 col-ms-12 col-lg-4 col-xl-3 bannerAndSlide  mb-2 ">
                         <div className="banner">
                             <a href="#">
-                                <img src="../assets/img/library.png" alt="" className="img-banner" />
+                                <img src="../assets/img/library.svg" alt="" className="img-banner" />
                             </a>
                         </div>
                     </div>
