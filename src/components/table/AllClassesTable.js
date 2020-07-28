@@ -3,12 +3,28 @@ import SkeletonTable from '~components/common/Skeleton/SkeletonTable';
 import { getAllClass } from '~src/api/teacherAPI';
 import Pagination from 'react-js-pagination';
 import Flatpickr from "react-flatpickr";
-
+import Select from 'react-select';
+import {appSettings} from '~src/config'
 const DateTimeFormat = new Intl.DateTimeFormat('vi-VN', {
     dateStyle: 'short',
     month: "2-digit",
     day: "2-digit",
 });
+
+const statusOptions = [
+    {
+        value:0,
+        label:'All status'
+    },
+    {
+        value:1,
+        label:'Booked'
+    },
+    {
+        value:2,
+        label:'Finished'
+    }
+]
 
 const AllClassRow = ({ data, showStudentModal }) => {
     const {
@@ -69,7 +85,7 @@ const AllClassRow = ({ data, showStudentModal }) => {
 
 const UpCommingTable = ({ showStudentModal }) => {
     const [isLoading, setIsLoading] = useState(true);
-    const [filterStatusAllClass, setFilterStatusAllClass] = React.useState(0);
+    const [filterStatusAllClass, setFilterStatusAllClass] = React.useState(statusOptions[0]);
     const [pageNumber, setPageNumber] = useState(1);
     const [data, setData] = useState([]);
     const [fromDate, setFromDate] = useState('');
@@ -111,14 +127,20 @@ const UpCommingTable = ({ showStudentModal }) => {
     return (
         <>
             <div className="d-flex align-items-center justify-content-between mg-b-15">
-                <div>
-                    <select name="language" id=""
+                <div className="wd-150">
+                    <Select 
+                        options={statusOptions}
+                        defaultValue={filterStatusAllClass}
+                        onChange={setFilterStatusAllClass}
+                        styles={appSettings.selectStyle}
+                    />
+                    {/* <select name="language" id=""
                         value={filterStatusAllClass}
                         className="form-control" onChange={_changeFilterStatusAllClass}>
                         <option value="0">All status</option>
                         <option value="1">Booked</option>
                         <option value="2">Finished</option>
-                    </select>
+                    </select> */}
                 </div>
                 <div className="form-row from-to-group" id="filter-time">
                     <div className="wd-sm-200 col">

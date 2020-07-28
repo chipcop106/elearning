@@ -37,6 +37,7 @@ const initialOnBookState = {
   TeacherUID: "",
   StudyTimeID: "",
   studentName: "",
+  date: "",
 }
 
 const initialOnCancelState = {
@@ -67,7 +68,8 @@ const TeacherDetail = () => {
       ...stateBookLesson,
       StudyTimeID,
       LessionName,
-      TeacherUID: state.TeacherUID,
+      /* TeacherUID: state.TeacherUID, */
+      TeacherUID: 1071,
       TeacherIMG: state.TeacherIMG,
       TeacherName: state.TeacherName,
       date,
@@ -76,12 +78,13 @@ const TeacherDetail = () => {
     })
   }
 
-  const onBook = (TeacherUID, StudyTimeID, studentName) => {
+  const onBook = (TeacherUID, StudyTimeID, studentName, date) => {
     setOnBookState({
       ...onBookState,
       TeacherUID,
       StudyTimeID,
-      studentName
+      studentName,
+      date,
     })
   }
 
@@ -116,11 +119,12 @@ const TeacherDetail = () => {
 
   return loading ? <SkeletonLessonCard /> : <>
     {
-      !!state ? <div className="teacher__detail__wrap card-box">
+      !!state ? <div className="teacher__detail__wrap shadow card-box">
         <div className="teacher__detail">
           <div className="teacher-header">
             <div className="teacher-avatar">
-              <img src={state.TeacherIMG} alt="avatar" />
+              <img src={state.TeacherIMG ? state.TeacherIMG : "../assets/img/default-avatar.png"}
+                alt="avatar" />
             </div>
             <div className="teacher-info">
               <div className="teacher-name">
@@ -136,7 +140,7 @@ const TeacherDetail = () => {
                   data-toggle="modal"
                   data-target="#js-video-modal"
                   data-src={state.LinkVideoIntroduce}
-                  className="tx-primary" id="video-teacher"><i className="fas fa-play-circle "></i>Xem video giới thiệu</a>
+                  className="tx-primary" id="video-teacher"><i className="fas fa-play-circle mg-r-5"></i>Xem video giới thiệu</a>
                 <p className="mg-b-0 mg-t-10">{state.IntroduceContent}</p>
               </div>
             </div>
@@ -147,17 +151,20 @@ const TeacherDetail = () => {
                 <li className="tab-item">
                   <a href={"#"} className={`${showTab === 1 ? 'active' : ''} tab-link`}
                     data-index="0"
-                    onClick={(e) => { e.preventDefault(); setShowTab(1) }}>TEACHER INFORMATION</a>
+                    onClick={(e) => { e.preventDefault(); setShowTab(1) }}>
+                      <i className="fas fa-user mg-r-5"></i>TEACHER INFORMATION</a>
                 </li>
                 <li className="tab-item">
                   <a href={"#"} className={`${showTab === 2 ? 'active' : ''} tab-link`}
                     data-index="1"
-                    onClick={(e) => { e.preventDefault(); setShowTab(2) }}>BOOKING SCHEDULE</a>
+                    onClick={(e) => { e.preventDefault(); setShowTab(2) }}>
+                      <i className="fas fa-calendar mg-r-5"></i>BOOKING SCHEDULE</a>
                 </li>
                 <li className="tab-item">
                   <a href={"#"} className={`${showTab === 3 ? 'active' : ''} tab-link`}
                     data-index="2"
-                    onClick={(e) => { e.preventDefault(); setShowTab(3) }}>STUDENT COMMENT</a>
+                    onClick={(e) => { e.preventDefault(); setShowTab(3) }}>
+                      <i className="fas fa-comment mg-r-5"></i>STUDENT COMMENT</a>
                 </li>
               </ul>
             </div>
@@ -179,6 +186,7 @@ const TeacherDetail = () => {
                         onBookStudyTimeID={onBookState.StudyTimeID}
                         onBookTeacherUID={onBookState.TeacherUID}
                         onBookStudentName={onBookState.studentName}
+                        onBookDate={onBookState.date}
                         onCancelId={onCancelState.id}
                         handleBookLesson={onHandleBookLesson}
                         handleCancelLesson={onHandleCancelLesson} />
@@ -214,7 +222,7 @@ const TeacherDetail = () => {
           end={stateBookLesson.end}
           onBook={onBook} />
         <ToastContainer />
-      </div>:<h2>Không có dữ liệu</h2>
+      </div>:<span className="text-danger bold" style={{fontSize:'16px'}}>Not data found</span>
     }
   </>
 }

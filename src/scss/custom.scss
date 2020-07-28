@@ -2426,12 +2426,153 @@ table.table-vcenter {
     }
 }
 
+/* Student CSS */
+body {
+    background-color: #f2f3f7;
+}
+.hl {
+    color: $primary-color;
+}
+/* .media-body {
+   padding: 15px;s
+} */
+/* .media-body,  */#js-component-profilesidebar {
+  background: #fff;
+  border-radius: 10px;
+}
+.metronic-form {
+    .form-control, .select__control, .form-control.flatpickr-input {
+      background-color:#F3F6F9;
+      border:none;
+      transition: .3s;
+      border-radius: 0.25rem;
+      &:focus {
+        background-color:#EBEDF3;
+        box-shadow: none;
+      }
+    }
+    .select__control--is-focused {
+      background-color:#EBEDF3;
+        box-shadow: none;
+    }
+}
 .profile-sidebar {
     flex-shrink: 0;
+    padding: 30px 15px 15px 15px;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 10px;
+    .avatar {
+        margin: 0 auto;
+    }
     @media screen and (min-width: 992px) {
         max-width: 275px;
     }
+    @media screen and (max-width: 991px) {
+        padding: 15px;
+        height:100%;
+        border-radius: 0;
+    }
+    .profile-info-list {
+        li {
+            margin-bottom: 5px;
+            cursor:pointer;
+            transition: .3s;
+            border-radius: 5px;
+            a {
+                display: block;
+                padding: 10px 50px;
+                &:hover {
+                    color: $primary-color;
+                }
+                @media screen and (max-width: 500px) {
+                    padding: 10px 20px;
+                }
+            }
+            &:hover {
+                background-color: #fff4de;
+            }
+        }
+    }
+    .label-tag {
+        padding-top: 1px;
+        padding-bottom: 1px;
+    }
 }
+.toggle-sidebar {
+    cursor: pointer;
+    font-size: 24px;
+    color: #868686;
+}
+.label-tag {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: 500;
+    &.blue {
+      color: #3699ff;
+      background-color: #e1f0ff;
+    }
+    &.pink {
+      color: #f64e60;
+      background-color: #ffe2e5;
+    }
+}
+.main-color {
+    color:$primary-color;
+    background-color: #fff4de;
+}
+#js-component-profilesidebar {
+    position: relative;
+    margin-right: 30px;
+    min-width: 250px;
+    @media screen and (max-width: 991px) {
+        max-width: 275px;
+        margin: 0 auto;
+        position: fixed;
+        height: 100%;
+        z-index: 9;
+        top: 0;
+        border-radius: 0!important;
+        left: -275px;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        transition: .3s;
+        .sidebar-overplay {
+            position: fixed;
+            z-index: -1;
+            width:100%;
+            height:100%;
+            background-color: rgba(0,0,0,.4);
+            top: 0;
+            left: -100%;
+            transition: .3s;
+        }
+        &.active {
+            left:0;
+            overflow: auto;
+            .sidebar-overplay {
+                left:0;
+            }
+            .profile-sidebar .profile-info-list li {
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+.select__multi-value {
+    background-color: $primary-color !important;
+    .select__multi-value__label {
+      color: #fff;
+      font-size: 13px !important;
+    }
+    .select__multi-value__remove {
+      color: #fff;
+      &:hover {
+        background-color: inherit !important;
+        cursor: pointer;
+      }
+    }
+}
+/* End Student CSS */
 
 #quick-chat-wrap {
     .sidenav {
@@ -6950,8 +7091,8 @@ input.time-only[readonly]{
         width: 0;
         height: 0;
         border-left: 8px solid $primary-color;
-        border-right: 8px solid #ffffff;
-        border-top: 15px solid #ffffff;
+        border-right: 8px solid transparent;
+        border-top: 15px solid transparent;
         border-bottom: 16px solid $primary-color;
     }
 }

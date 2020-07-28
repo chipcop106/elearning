@@ -1,14 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-const whoami = (localStorage.getItem("user") === null) ? {} :
-  JSON.parse(localStorage.getItem('user'));
+import styles from '~components/common/StudentComment/StudentCommentItem.module.scss';
 
 const StudentCommentItem = ({
   StudentUID,
   CreatedDate,
   StudentName,
-  StudentIMG,
+  StudentIMG = "default-avatar.png",
   Evaluation,
   Rate,
   LessionName,
@@ -17,7 +15,9 @@ const StudentCommentItem = ({
   return (
     <div className="fb-item">
       <div className="fb-avatar">
-        <img src={StudentIMG} alt="avatar" className="avatar" />
+        <img src={StudentIMG === "default-avatar.png" ? 
+        `../assets/img/${StudentIMG}` : StudentIMG }
+        alt="avatar" className="avatar" />
       </div>
       <div className="fb-info">
         <div className="name-rating">

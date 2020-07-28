@@ -9,10 +9,13 @@ const ListSchedule = ({
   TeacherName,
   Rate,
   date,
+  Start,
+  End,
   handleBooking,
   onBookTeacherUID,
   onBookStudyTimeID,
-  onBookStudentName
+  onBookStudentName,
+  onBookDate,
 }) => {
   const [scheduleList, setSchedule] = React.useState([])
   const [loading, setLoading] = React.useState(false)
@@ -33,23 +36,37 @@ const ListSchedule = ({
     getAPI({
       TeacherUID,
       Date: date,
+      Start,
+      End,
     })
   }, [])
 
   React.useEffect(() => {
     let newSchedule = [...scheduleList]
-    let index = newSchedule.findIndex
-    (i => i.StudyTimeID == onBookStudyTimeID && i.TeacherUID == onBookTeacherUID);
+
+    console.log(newSchedule)
+    console.log(onBookTeacherUID)
+    console.log(onBookStudyTimeID)
+    console.log(onBookDate)
+
+    let index = newSchedule.findIndex(i =>
+      i.StudyTimeID == onBookStudyTimeID &&
+      i.TeacherUID == onBookTeacherUID &&
+      moment(i.Start).format("DD/MM/YYYY") == onBookDate);
+      console.log(index)
     if (index !== -1) {
       newSchedule[index].bookStatus = true;
       newSchedule[index].bookInfo = {
-        name:onBookStudentName
+        name: onBookStudentName
       };
       setSchedule(newSchedule);
     }
-  }, [onBookTeacherUID, onBookStudyTimeID, onBookStudentName])
+  }, [onBookTeacherUID, onBookStudyTimeID, onBookStudentName, onBookDate])
 
-  return <>
+  return loading ? <div className="overlay">
+    <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+    </div>
+: <>
     {
       !!scheduleList && !!learnTime && learnTime.length > 0 && learnTime.map((item, index) => {
         let bookedFilter = scheduleList.filter(item => item.bookStatus)

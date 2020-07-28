@@ -33,6 +33,21 @@ export const getListLevelPurpose = async (params) => {
     return result;
 }
 
+export const getLevelPurposeOptions = async () => {
+    let result;
+    try {
+        let res = await instance.get(path + '/GetListLevelPurpose',{
+            params: {
+                UID: appSettings.UID,
+            }
+        })
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
 export const updatePassAPI = async (params) => {
     let result;
     try {

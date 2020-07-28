@@ -9,19 +9,27 @@ import styles from '~components/StudentProfile/StudentProfile.module.scss';
 
 const StudentProfile = () => {
   const [showTab, setShowTab] = React.useState(1);
+  const [showSubTab, setShowSubTab] = React.useState(1);
 
   return (
     <div className="teacher__detail__wrap card-box">
       <div className="teacher__detail">
-        <div className="teacher-body">
+        <div className="teacher-body mg-t-0-f">
           <div className="tab-navigation">
             <ul className="list-tab" id="js-list-tab">
               <li className="tab-item">
                 <a href={"#"} className={`${showTab === 1 ? 'active' : ''} tab-link`}
                   data-index={0}
-                  onClick={(e) => { e.preventDefault(); setShowTab(1) }}>ACCOUNT INFO</a>
+                  onClick={(e) => { e.preventDefault(); setShowTab(1) }}>
+                    <i className="fas fa-user mg-r-5"></i>ACCOUNT INFO</a>
               </li>
               <li className="tab-item">
+                <a href={"#"} className={`${showTab === 2 ? 'active' : ''} tab-link`}
+                  data-index={0}
+                  onClick={(e) => { e.preventDefault(); setShowTab(2) }}>
+                    <i className="fas fa-lock mg-r-5"></i>CHANGE PASSWORD</a>
+              </li>
+             {/*  <li className="tab-item">
                 <a href={"#"} className={`${showTab === 2 ? 'active' : ''} tab-link`}
                   data-index={1}
                   onClick={(e) => { e.preventDefault(); setShowTab(2) }}>PURCHASED COURSE</a>
@@ -30,23 +38,32 @@ const StudentProfile = () => {
                 <a href={"#"} className={`${showTab === 3 ? 'active' : ''} tab-link`}
                   data-index={2}
                   onClick={(e) => { e.preventDefault(); setShowTab(3) }}>PAYMENT HISTORY</a>
-              </li>
+              </li> */}
             </ul>
           </div>
           <div className="tab-navigation-content">
             <div className="swiper-container" id="js-teacher__info">
               <div className="teacher__info-wrap swiper-wrapper">
-              <div className={`${showTab===1?'active':''} swiper-slide`}>
+                <div className="swiper-slide active">
                   <div className="slide-tab-content">
                     <div className="content-block">
                       <div className="introduce-content mg-b-30">
-                        <h5 className="sub-title"><i className="fas fa-user" />Account</h5>
-                        <StudentForm />
+                       {/*  <h5 className="sub-title profile-tab-nav">
+                          <a href={"#"} className={`${showSubTab===1?'active':''}`}
+                          onClick={(e) => { e.preventDefault(); setShowSubTab(1)}}>
+                            <i className="fas fa-user"></i>Account
+                            </a>
+                          <a href={"#"} className={`${showSubTab===2?'active':''}`}
+                           onClick={(e) => { e.preventDefault(); setShowSubTab(2)}}>
+                            <i className="fas fa-lock"></i>Change password
+                            </a>
+                          </h5> */}
+                          <StudentForm tabDisplay={showTab}/>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className={`${showTab===2?'active':''} swiper-slide`}>
+                {/* <div className={`${showTab===2?'active':''} swiper-slide`}>
                   <div className="slide-tab-content">
                     <div className="purchased-tab">
                       <PurchasedCourseList />
@@ -59,7 +76,7 @@ const StudentProfile = () => {
                       <PaymentHistory />
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

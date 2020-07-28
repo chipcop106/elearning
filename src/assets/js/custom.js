@@ -156,4 +156,10 @@ $(document).ready(function() {
         btnToggleMenu.addEventListener('click',toggleMobileMenu);
     }
 
+    $('.toggle-sidebar').on('click', function(){
+        $('#js-component-profilesidebar').addClass('active');
+    })
+    $(document).on('click','.sidebar-overplay',function(){
+        $('#js-component-profilesidebar').removeClass('active');
+    })
 });

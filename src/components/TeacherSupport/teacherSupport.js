@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { randomId } from "~src/utils"
 import TeacherSupportModal from "~components/TeacherSupportModal"
 import { ToastContainer } from 'react-toastify';
-
+import SupportDetail from './SupportDetail';
 import styles from "~components/TeacherSupport/teacherSupport.module.scss"
 
 const initialState = [{
@@ -28,80 +28,107 @@ const initialState = [{
   time: new Date(),
   status: 3,
 }]
+
+
 const TeacherSupport = () => {
   const [state, setState] = React.useState(initialState);
   const [filter, setFilter] = React.useState(0);
+  const [showDetail, setShowDetail] = React.useState(false);
+  const [detailId, setDetailId] = React.useState(0);
   let filteredState = [...state]
   if (filter !== 0) {
     filteredState = filteredState.filter(item => item.status === filter)
   }
+
+  const showDetailBox = (id) =>{
+    setDetailId(id)
+    setShowDetail(true);
+  }
+
+  const hideDetailBox = () =>{
+    console.log('hide nè');
+    setShowDetail(false);
+  }
+
   return (
     <div className="sup">
+      <div className="d-md-flex justify-content-between align-items-center mg-b-30">
+        <h3 className="tx-bold tx-dark mg-md-b-0">Support Center</h3>
+        <button type="button" className="btn btn-primary"
+          data-toggle="modal"
+          data-target="#md-teacher-support"
+          id="contactsub"><i className="fa fa-plus mg-r-10"></i>Ticket</button>
+      </div>
+
       <div className="row">
-        <div className="col-4">
-          <h5 className="main-title">Support Center</h5>
-          <div className="sub-menu">
-            <p className={`${filter === 0 && 'active'}`}>
-              <a className="btn" onClick={() => setFilter(0)}>Tất Cả</a>
-            </p>
-            <p className={`${filter === 1 && 'active'}`}>
-              <a className="btn" onClick={() => setFilter(1)}>Đã trả lời</a>
-            </p>
-            <p className={`${filter === 2 && 'active'}`}>
-              <a className="btn" onClick={() => setFilter(2)}>Đang xử lý</a>
-            </p>
-            <p className={`${filter === 3 && 'active'}`}>
-              <a className="btn" onClick={() => setFilter(3)}>Đã hủy</a>
-            </p>
+        <div className="col-md-4">
+          <div className="card card-custom">
+            <div className="sub-menu card-body">
+              <p className={`${filter === 0 && 'active'} d-flex align-items-center justify-content-between`}>
+                <a className="link" onClick={() => setFilter(0)}>Tất Cả</a>
+                <span className="badge badge-primary-light rounded-circle d-inline-block pd-0 ht-30 wd-30">10</span>
+              </p>
+              <p className={`${filter === 1 && 'active'} d-flex align-items-center justify-content-between`}>
+                <a className="link" onClick={() => setFilter(1)}>Đã trả lời</a>
+                <span className="badge badge-primary-light rounded-circle d-inline-block pd-0 ht-30 wd-30">10</span>
+              </p>
+              <p className={`${filter === 2 && 'active'} d-flex align-items-center justify-content-between`}>
+                <a className="link" onClick={() => setFilter(2)}>Đang xử lý</a>
+                <span className="badge badge-primary-light rounded-circle d-inline-block pd-0 ht-30 wd-30">10</span>
+              </p>
+              <p className={`${filter === 3 && 'active'} d-flex align-items-center justify-content-between`}>
+                <a className="link" onClick={() => setFilter(3)}>Đã hủy</a>
+                <span className="badge badge-primary-light rounded-circle d-inline-block pd-0 ht-30 wd-30">10</span>
+              </p>
+            </div>
           </div>
         </div>
-        <div className="col-8">
-          <div className="d-flex justify-content-between mg-b-30">
-          <div className="d-xl-flex align-items-center justify-content-between">
-              <h4 className="gradient-heading"> <i className="fas fa-address-card" /> Danh sách yêu cầu hỗ trợ</h4>
-            </div>
-          <button className="btn btn-primary"
-            data-toggle="modal"
-            data-target="#md-teacher-support"
-            id="contactsub">Contact Support</button>
-          </div>
-            <div className="table-responsive mg-b-15">
-              <table className="table">
-                <thead className="thead-light">
-                  <tr>
-                    <th>Người gửi</th>
-                    <th>Tiêu đề</th>
-                    <th>Ngày gửi</th>
-                    <th>Trạng thái</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    !!filteredState && filteredState.length > 0 && filteredState.map(item =>
-                      <tr key={item.id}>
-                        <td>
-                          <span><a className="sup-item-table-ten">{item.nguoigui}</a></span>
-                        </td>
-                        <td> <span><a className="sup-item-table-tieude">{item.tieude}</a></span><br /></td>
-                        <td>
-                          <span className="sup-item-table-gio">{moment(item.time).format("DD/MM/YYYY HH:mm")}</span> <br />
-                        </td>
-                        <td>
-                          <span className={`badge badge-${
-                            item.status === 1 ? 'success' :
-                              item.status === 2 ? "warning" : "danger"} pd-5`}>
-                            {
-                              item.status === 1 ? "Đã trả lời" :
-                                item.status === 2 ? "Đang xử lý" : "Đã hủy"
-                            }
-                          </span>
-                        </td>
-                      </tr>)
-                  }
-                </tbody>
-              </table>
+        <div className="col-md-8">
+          <div className="card card-custom">
+            <div className="card-body">
+              {showDetail ? <SupportDetail 
+                onClickBack={hideDetailBox}
+                detailId={detailId}
+              /> : (
+                <div className="table-responsive mg-b-15">
+                  <table className="table table-custom table-borderless">
+                    <thead >
+                      <tr>
+                        <th>Tiêu đề</th>
+                        <th>Ngày gửi</th>
+                        <th>Trạng thái</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        !!filteredState && filteredState.length > 0 && filteredState.map(item =>
+                          <tr key={`${item.id}`}>
+                            <td> <span><a href="#" onClick={() => showDetailBox(item.id)} className="sup-item-table-tieude">{item.tieude}</a></span><br /></td>
+                            <td>
+                              <span className="sup-item-table-gio">{moment(item.time).format("DD/MM/YYYY HH:mm")}</span> <br />
+                            </td>
+                            <td>
+                              <span className={`badge badge-${
+                                item.status === 1 ? 'success' :
+                                  item.status === 2 ? "warning" : "danger"} pd-5 tx-12 wd-75`}>
+                                {
+                                  item.status === 1 ? "Đã trả lời" :
+                                    item.status === 2 ? "Đang xử lý" : "Đã hủy"
+                                }
+                              </span>
+                            </td>
+                          </tr>)
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              )
+              }
+
+
             </div>
           </div>
+        </div>
       </div>
 
       <TeacherSupportModal />

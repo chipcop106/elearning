@@ -4,11 +4,14 @@ import NotificationItem from './NotificationItem';
 import SkeletonNotification from "~components/common/Skeleton/SkeletonNotification";
 import Pagination from "react-js-pagination";
 import { getAllNotification } from "~src/api/studentAPI"
+import { NOT_DATA_FOUND } from "~components/common/Constant/message"
 
 const Notification = () => {
-  const [page, setPage] = React.useState(1)
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(0);
+  const [totalResult, setTotalResult] = React.useState(0);
   const [state, setState] = React.useState([])
-  const [loading, setLoading] = React.useState(false)
+  const [loading, setLoading] = React.useState(true)
 
   const handlePageChange = (pageNumber) => {
     setPage(pageNumber);
@@ -22,6 +25,8 @@ const Notification = () => {
     const res = await getAllNotification(params);
     if (res.Code === 1) {
       setState(res.Data)
+      setPageSize(res.PageSize);
+      setTotalResult(res.TotalResult)
     }
     setLoading(false);
   }
@@ -37,38 +42,46 @@ const Notification = () => {
     <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
       <h4 className="mg-b-0 gradient-heading"><i className="fas fa-bell" /> NOTIFICATION</h4>
     </div>
-    {
-      !!state && Array.isArray(state) && state.length > 0 ?
-      <div className="blog__wrapper">
-        <div className="row row-sm mg-b-25 blog-list">
-          {
-            state.map(item =>
-              <div className="col-md-6 col-lg-4 mg-t-20" key={item.NotificationID}>
-                {
-                  loading ? <SkeletonNotification /> :
-                    <NotificationItem
-                      NotificationID={item.NotificationID}
-                      NotificationTitle={item.NotificationTitle}
-                      NotifictionIMG={item.NotifictionIMG}
-                      CreatedBy={item.CreatedBy}
-                      CreatedDate={item.CreatedDate}
-                      NotificationContent={item.NotificationContent}
-                      URL={item.URL} />
-                }
-              </div>)
-          }
-        </div>
+    <div className="blog__wrapper">
+      <div className="row row-sm mg-b-25 blog-list">
+        {
+          loading ? <>
+            <div className="col-md-6 col-lg-4 mg-t-20">
+              <SkeletonNotification />
+            </div>
+            <div className="col-md-6 col-lg-4 mg-t-20">
+              <SkeletonNotification />
+            </div>
+            <div className="col-md-6 col-lg-4 mg-t-20">
+              <SkeletonNotification />
+            </div>
+          </> : !!state && Array.isArray(state) && state.length > 0 ?
+              state.map(item =>
+                <div className="col-md-6 col-lg-4 mg-t-20" key={item.NotificationID}>
+                  <NotificationItem
+                    NotificationID={item.NotificationID}
+                    NotificationTitle={item.NotificationTitle}
+                    NotifictionIMG={item.NotifictionIMG}
+                    CreatedBy={item.CreatedBy}
+                    CreatedDate={item.CreatedDate}
+                    NotificationContent={item.NotificationContent}
+                    URL={item.URL} />
+                </div>) : <div className="col-12"><NOT_DATA_FOUND /></div>
+        }
+      </div>
+      {
+        !!state && Array.isArray(state) && state.length > 0 &&
         <Pagination
-          innerClass="pagination justify-content-center"
-          activePage={page}
-          itemsCountPerPage={10}
-          totalItemsCount={450}
-          pageRangeDisplayed={3}
-          itemClass="page-item"
-          linkClass="page-link"
-          onChange={handlePageChange.bind(this)} />
-      </div>:<h2>Không có dữ liệu</h2>
-    }
+        innerClass="pagination justify-content-center"
+        activePage={page}
+        itemsCountPerPage={pageSize}
+        totalItemsCount={totalResult}
+        pageRangeDisplayed={3}
+        itemClass="page-item"
+        linkClass="page-link"
+        onChange={handlePageChange.bind(this)} />
+      }
+    </div>
   </>
 }
 

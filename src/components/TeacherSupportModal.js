@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { toast } from 'react-toastify';
-import 'react-toastify/scss/main.scss'
-import { toastInit } from "~src/utils"
+import 'react-toastify/scss/main.scss';
+import { toastInit } from "~src/utils";
+import { REQUEST_SUCCESS, FILL_ALL } from '~components/common/Constant/toast';
+
 import styles from "~components/TeacherSupportModal.module.scss"
 
 const initialState = {
@@ -14,8 +16,8 @@ const initialState = {
 
 const TeacherSupportModal = () => {
     const [state, setState] = React.useState(initialState);
-    const submitSuccess = () => toast("Thank you!", toastInit);
-    const submitAlert = () => toast("Please fill all information!", toastInit);
+    const submitSuccess = () => toast.success(REQUEST_SUCCESS, toastInit);
+    const submitAlert = () => toast.warn(FILL_ALL, toastInit);
     const handleChange = (e) => {
         const target = e.target;
         const value = target.type === "file" ? target.files[0] : target.value;

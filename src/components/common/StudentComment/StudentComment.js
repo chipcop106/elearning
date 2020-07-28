@@ -3,15 +3,13 @@ import ReactDOM from 'react-dom';
 import StudentCommentItem from "./StudentCommentItem"
 import Pagination from "react-js-pagination";
 import { getAllStudentReviewAPI } from "~src/api/studentAPI";
-import styles from '~components/common/StudentComment/StudentComment.module.scss';
 /* import { isTouchCapable } from 'react-select/src/utils'; */
-
-const whoami = (localStorage.getItem("user") === null) ? {} :
-  JSON.parse(localStorage.getItem('user'));
 
 const StudentComment = ({ TeacherUID }) => {
   const [state, setState] = React.useState([]);
   const [page, setPage] = React.useState(1)
+  const [pageSize, setPageSize] = React.useState(0);
+  const [totalResult, setTotalResult] = React.useState(0);
 
   const handlePageChange = (pageNumber) => {
     setPage(pageNumber);
@@ -25,6 +23,8 @@ const StudentComment = ({ TeacherUID }) => {
     const res = await getAllStudentReviewAPI(params);
     if (res.Code === 1) {
       setState(res.Data)
+      setPageSize(res.PageSize);
+      setTotalResult(res.TotalResult)
     }
   }
 
@@ -54,8 +54,8 @@ const StudentComment = ({ TeacherUID }) => {
       <Pagination
         innerClass="pagination justify-content-end mt-3"
         activePage={page}
-        itemsCountPerPage={10}
-        totalItemsCount={450}
+        itemsCountPerPage={pageSize}
+        totalItemsCount={totalResult}
         pageRangeDisplayed={3}
         itemClass="page-item"
         linkClass="page-link"

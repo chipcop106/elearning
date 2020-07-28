@@ -1,15 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { getScheduleByTeacherUID } from "~src/api/studentAPI";
+import { FETCH_ERRORS } from "~components/common/Constant/message";
 
 
 let calendar;
+let mondayOfWeek = new Date(new Date().setDate(new Date().getDate() - new Date().getDay()+1));
 
-const BookingSchedule = ({ TeacherUID, handleBookLesson, handleCancelLesson, onBookStudyTimeID, onBookTeacherUID, onBookStudentName, onCancelId }) => {
+const BookingSchedule = ({ TeacherUID, handleBookLesson, handleCancelLesson, onBookStudyTimeID, onBookTeacherUID, onBookStudentName, onBookDate, onCancelId }) => {
 
   const [schedule, setSchedule] = React.useState([])
   const [loading, setLoading] = React.useState(false)
-  const [dateFetch, setDate] = React.useState(new Date())
+  const [dateFetch, setDate] = React.useState(mondayOfWeek)
 
   const bookLesson = (StudyTimeID, LessionName, date, start, end) => {
     handleBookLesson(StudyTimeID, LessionName, date, start, end)
@@ -109,7 +111,7 @@ const BookingSchedule = ({ TeacherUID, handleBookLesson, handleCancelLesson, onB
         //console.log(toggleStudent);
         $(args.el).tooltip({
           html: true,
-          title: `<p class="mg-b-5">${moment(event.start).format("dddd, MM / YYYY")}</p>
+          title: `<p class="mg-b-5">${moment(event.start).format("dddd, DD/MM/YYYY")}</p>
           <p class="mg-b-5">Start: ${moment(event.start).format("hh:mm A")}</p>
           <p class="mg-b-5">End: ${moment(event.end).format("hh:mm A")}</p>`,
           animation: false,
@@ -172,7 +174,9 @@ const BookingSchedule = ({ TeacherUID, handleBookLesson, handleCancelLesson, onB
             text: "Today",
             click: function () {
               calendar.today();
-              setDate(calendar.getDate())
+              let today = calendar.getDate();
+              /* Fetch data from Monday of this week */
+              setDate(new Date(today.setDate(today.getDate() - today.getDay() + 1)))
             }
           }
         },
@@ -199,7 +203,7 @@ const BookingSchedule = ({ TeacherUID, handleBookLesson, handleCancelLesson, onB
               (new Date(item.Start).getDate() === args.date.getDate()) &&
               (new Date(item.Start).getMonth() === args.date.getMonth()) &&
               (new Date(item.Start).getFullYear() === args.date.getFullYear()) &&
-              item.available
+              ( item.available || item.bookInfo )
             ) {
               count++;
               if (item.bookStatus) slot++
@@ -208,7 +212,7 @@ const BookingSchedule = ({ TeacherUID, handleBookLesson, handleCancelLesson, onB
           const days = args.date.getDay();
           const d = args.date.getDate();
           const html = `<span class="hd-date">${d} </span><span class="hd-day">${dayNamesShort[days]}
-          </span><div class="slot"> <span class="hl">${slot}</span> / <span class="hl">${count}</span>
+          </span><div class="slot pd-3"> <span class="hl">${slot}</span> / <span class="hl">${count}</span>
           </div>`;
           return { html };
         },
@@ -357,26 +361,42 @@ const BookingSchedule = ({ TeacherUID, handleBookLesson, handleCancelLesson, onB
   }, [schedule])
 
   React.useEffect(() => {
-    let newSchedule = [...schedule]
+    /* let newSchedule = [...schedule]
+
     let index = newSchedule.findIndex(i => 
-    i.StudyTimeID == onBookStudyTimeID && i.TeacherUID == onBookTeacherUID);
+    i.StudyTimeID == onBookStudyTimeID &&
+    i.TeacherUID == onBookTeacherUID &&
+    onBookDate == moment(i.Start).format("DD/MM/YYYY"));
+
     if (index !== -1) {
       newSchedule[index].bookStatus = true;
-      newSchedule[index].bookInfo.name = onBookStudentName;
-      setSchedule(newSchedule);
-    }
-  }, [onBookStudyTimeID, onBookTeacherUID, onBookStudentName])
+      newSchedule[index].bookInfo = {
+        name: onBookStudentName
+      };
 
+      setSchedule(newSchedule);
+    } */
+    getAPI({
+      TeacherUID,
+      Date: moment(dateFetch).format("DD/MM/YYYY"),
+    });
+  }, [onBookStudyTimeID, onBookTeacherUID, onBookStudentName, onBookDate])
 
   React.useEffect(() => {
+    /* console.log(onCancelId);
     let newSchedule = [...schedule]
-    let index = newSchedule.findIndex(i => i.StudyTimeID == onCancelId);
+    console.log(newSchedule);
+    let index = newSchedule.findIndex(i => i.BookingID == onCancelId);
+    console.log(index);
     if (index !== -1) {
       newSchedule[index].bookStatus = false;
       setSchedule(newSchedule);
-    }
+    } */
+    getAPI({
+      TeacherUID,
+      Date: moment(dateFetch).format("DD/MM/YYYY"),
+    });
   }, [onCancelId])
-
 
   return (
     <React.Fragment>
@@ -384,8 +404,12 @@ const BookingSchedule = ({ TeacherUID, handleBookLesson, handleCancelLesson, onB
         <div className={`${loading ? '' : 'd-none'} overlay`}>
           <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
         </div>
-        <div id="js-book-calendar" className="fc fc-unthemed fc-ltr"
-          height="500"></div>
+        {
+         /*  !!schedule && schedule.length > 0 ?
+          <div id="js-book-calendar" className="fc fc-unthemed fc-ltr" height="500"></div> :
+          <FETCH_ERRORS /> */
+          <div id="js-book-calendar" className="fc fc-unthemed fc-ltr" height="500"></div>
+        }
       </div>
       <div className="note mg-t-30">
         <h5 className="sub-title"> <i className="fas fa-sticky-note"></i>Notes:</h5>

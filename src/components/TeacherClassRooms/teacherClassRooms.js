@@ -56,19 +56,22 @@ const TeacherClassRooms = () => {
 
     return (
         <>
-            <div className="teacher__detail__wrap card-box">
-                <div className="teacher__detail">
-                    <div className="teacher-body">
+            <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
+                <h3 className="text-dark font-weight-bold mg-b-0">Classrooms</h3>
+            </div>
+            <div className="teacher__detail__wrap card card-custom">
+                <div className="teacher__detail card-body">
+                    <div className="teacher-body mg-t-0-f">
                         <div className="tab-navigation">
                             <ul className="list-tab" id="js-list-tab">
                                 <li className="tab-item">
-                                    <span className="tab-link active" data-index={0}>Upcoming classes</span>
+                                    <span className="tab-link active" data-index={0}><i className="far fa-calendar-alt"></i> Upcoming classes</span>
                                 </li>
                                 <li className="tab-item">
-                                    <span className="tab-link " data-index={1}>Missing feedback</span>
+                                    <span className="tab-link " data-index={1}><i className="far fa-comment-alt"></i> Missing feedback</span>
                                 </li>
                                 <li className="tab-item">
-                                    <span className="tab-link " data-index={2}>All Classes</span>
+                                    <span className="tab-link " data-index={2}><i className="far fa-calendar-check"></i> All Classes</span>
                                 </li>
                             </ul>
                         </div>
@@ -78,7 +81,7 @@ const TeacherClassRooms = () => {
                                     {/*tab 1*/}
                                     <div className="swiper-slide">
                                         <div className="slide-tab-content">
-                                            <UpComingTable updateSwiperHeight={updateHeight} showStudentModal={showStudentModal}/>
+                                            <UpComingTable updateSwiperHeight={updateHeight} showStudentModal={showStudentModal} />
                                         </div>
                                     </div>
                                     {/*/tab 1*/}
@@ -92,7 +95,7 @@ const TeacherClassRooms = () => {
                                     {/*tab 3*/}
                                     <div className="swiper-slide">
                                         <div className="slide-tab-content">
-                                            <AllClassesTable updateSwiperHeight={updateHeight} showStudentModal={showStudentModal}/>
+                                            <AllClassesTable updateSwiperHeight={updateHeight} showStudentModal={showStudentModal} />
                                         </div>
                                     </div>
                                     {/*/tab 3*/}
@@ -102,7 +105,7 @@ const TeacherClassRooms = () => {
                     </div>
                 </div>
             </div>
-       
+
             <StudentInformationModal
                 ref={mdStudentInfo}
                 // stImageUrl={studentInfo.stImageUrl}
