@@ -35,20 +35,43 @@ const TeacherSupport = () => {
   const [filter, setFilter] = React.useState(0);
   const [showDetail, setShowDetail] = React.useState(false);
   const [detailId, setDetailId] = React.useState(0);
-  let filteredState = [...state]
+  let filteredState = [...state];
   if (filter !== 0) {
     filteredState = filteredState.filter(item => item.status === filter)
   }
 
+  const pushHistoryState = (id) => {
+    if(typeof window == undefined) return;
+    const history = window.history;
+    history.pushState({id:id},'Ticket detail', `${window.location.pathname}?id=${id}`);
+  }
+
   const showDetailBox = (id) =>{
     setDetailId(id)
+    pushHistoryState(id)
     setShowDetail(true);
+  }
+
+  const _handlefilter = (index) => {
+    hideDetailBox();
+    setFilter(index)
   }
 
   const hideDetailBox = () =>{
     console.log('hide nè');
     setShowDetail(false);
+    window.history.pushState(null,'Teacher Support', `${window.location.pathname}`);
   }
+
+  const checkDetailUrl = () => {
+    if(typeof window == undefined) return;
+    const params = new URLSearchParams(window.location.search); 
+    params.has('id') && showDetailBox(params.get('id'));
+  }
+
+  React.useEffect(() =>{
+    checkDetailUrl();
+  },[]);
 
   return (
     <div className="sup">
@@ -65,19 +88,19 @@ const TeacherSupport = () => {
           <div className="card card-custom">
             <div className="sub-menu card-body">
               <p className={`${filter === 0 && 'active'} d-flex align-items-center justify-content-between`}>
-                <a className="link" onClick={() => setFilter(0)}>Tất Cả</a>
+                <a className="link" onClick={() => _handlefilter(0)}>Tất Cả</a>
                 <span className="badge badge-primary-light rounded-circle d-inline-block pd-0 ht-30 wd-30">10</span>
               </p>
               <p className={`${filter === 1 && 'active'} d-flex align-items-center justify-content-between`}>
-                <a className="link" onClick={() => setFilter(1)}>Đã trả lời</a>
+                <a className="link" onClick={() => _handlefilter(1)}>Đã trả lời</a>
                 <span className="badge badge-primary-light rounded-circle d-inline-block pd-0 ht-30 wd-30">10</span>
               </p>
               <p className={`${filter === 2 && 'active'} d-flex align-items-center justify-content-between`}>
-                <a className="link" onClick={() => setFilter(2)}>Đang xử lý</a>
+                <a className="link" onClick={() => _handlefilter(2)}>Đang xử lý</a>
                 <span className="badge badge-primary-light rounded-circle d-inline-block pd-0 ht-30 wd-30">10</span>
               </p>
               <p className={`${filter === 3 && 'active'} d-flex align-items-center justify-content-between`}>
-                <a className="link" onClick={() => setFilter(3)}>Đã hủy</a>
+                <a className="link" onClick={() => _handlefilter(3)}>Đã hủy</a>
                 <span className="badge badge-primary-light rounded-circle d-inline-block pd-0 ht-30 wd-30">10</span>
               </p>
             </div>

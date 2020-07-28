@@ -36,7 +36,7 @@ const StudentComment = ({ TeacherUID }) => {
   }, [])
   return (
     <div className="tc-comment-wrap bd-t-0-f mg-t-0-f pd-t-0-f">
-      <h6 className="mg-b-15">{state.length} student has comment for this teacher:</h6>
+      <h6 className="mg-b-15">{totalResult} student has comment for this teacher:</h6>
       <div className="comment__wrapper">
         {
           !!state && state.length > 0 && state.map((item, index) =>
@@ -51,15 +51,18 @@ const StudentComment = ({ TeacherUID }) => {
               Lession={item.Lession} />)
         }
       </div>
-      <Pagination
-        innerClass="pagination justify-content-end mt-3"
-        activePage={page}
-        itemsCountPerPage={pageSize}
-        totalItemsCount={totalResult}
-        pageRangeDisplayed={3}
-        itemClass="page-item"
-        linkClass="page-link"
-        onChange={handlePageChange.bind(this)} />
+      {
+        pageSize < totalResult &&
+        <Pagination
+          innerClass="pagination justify-content-end mt-3"
+          activePage={page}
+          itemsCountPerPage={pageSize}
+          totalItemsCount={totalResult}
+          pageRangeDisplayed={3}
+          itemClass="page-item"
+          linkClass="page-link"
+          onChange={handlePageChange.bind(this)} />
+      }
     </div>
   )
 }

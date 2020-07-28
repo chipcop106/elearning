@@ -2,16 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 const LessonItem = ({
-  CoursesID,
+  BookingID,
   DocumentID,
-  DocumentName,
   DocumentDetailID,
+  DocumentName,
   LessionName,
   start,
   end,
   date,
-  TeacherID,
-  Teacher,
+  TeacherUID,
+  TeacherName,
   Status,
   StatusString,
 }) => {
@@ -24,9 +24,9 @@ const LessonItem = ({
       <span>{end}</span> */}
       {LessionName}
     </td>
-    <td><a href={`teacherDetail.html?ID=${TeacherID}`}>{Teacher}</a></td>
+    <td><a href={`teacherDetail.html?ID=${TeacherUID}`}>{TeacherName}</a></td>
     <td><span className="tx-success">{StatusString}</span></td>
-    <td><a href="lessonDetail.html" className="btn btn-primary">Detail</a></td>
+    <td><a href={`lessonDetail.html?ID=${BookingID}`} className="btn btn-primary">Detail</a></td>
   </tr>
 }
 

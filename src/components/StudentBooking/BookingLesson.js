@@ -4,6 +4,7 @@ import Select from 'react-select';
 import ListSchedule from "./ListSchedule"
 import { getListTeacher } from "~src/api/studentAPI";
 import { getLevelPurposeOptions } from "~src/api/optionAPI";
+import Pagination from "react-js-pagination";
 
 import BookingLessonModal from "../BookingLessonModal";
 import ListNationModal from "~components/ListNationModal";
@@ -65,6 +66,10 @@ const BookingLesson = () => {
   const [onBookState, setOnBookState] = React.useState(initialOnBookState)
   const [stateBookLesson, setStateBookLesson] = React.useState(initialBookLesson);
 
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(0);
+  const [totalResult, setTotalResult] = React.useState(0);
+
   let learnTime = [];
 
   const getAPI = async (params) => {
@@ -72,6 +77,8 @@ const BookingLesson = () => {
     const res = await getListTeacher(params);
     if (res.Code === 1 && res.Data.length > 0) {
       setTeacherList(res.Data);
+      setPageSize(res.PageSize);
+      setTotalResult(res.TotalResult)
     }
     setLoading(false);
   }
@@ -112,6 +119,13 @@ const BookingLesson = () => {
     dispatch({ type: "STATE_CHANGE", payload: { key, value } })
   }
 
+  const handlePageChange = (pageNumber) => {
+    if (page !== pageNumber) {
+      setPage(pageNumber);
+      onSearch(null, pageNumber)
+    }
+  }
+
   const handleChangeDate = (e) => {
     let key = "date";
     let value = $("#date-selected").val().split(", ")[1]
@@ -132,10 +146,8 @@ const BookingLesson = () => {
     })
   }
 
-  const onSearch = (e) => {
-    console.log(state)
-    setTeacherList([]);
-    e.preventDefault();
+  const onSearch = (e, page) => {
+    e && e.preventDefault();
     let z = [];
     if (!!state.selectedLevelPurpose)
       for (let i = 0; i < state.selectedLevelPurpose.length; i++) {
@@ -156,6 +168,7 @@ const BookingLesson = () => {
       Start: state.startTime,
       End: state.endTime,
       Search: state.searchText,
+      Page: page,
     });
   }
 
@@ -436,7 +449,8 @@ const BookingLesson = () => {
                   <input className="form-control" name="searchText" type="text" placeholder="..." onChange={handleChange} />
                 </div>
                 <div className="col-sm-4 item search-btn-group">
-                  <a href={"#"} className="submit-search btn btn-primary btn-block" onClick={onSearch}>
+                  <a href={"#"} className="submit-search btn btn-primary btn-block"
+                    onClick={(e) => onSearch(e,1)}>
                   <i className="fa fa-search mg-r-5"></i>Search</a>
                 </div>
               </div>
@@ -515,6 +529,17 @@ const BookingLesson = () => {
                     </li>)
                 }
               </ul>
+              {
+                pageSize < totalResult && <Pagination
+                innerClass="pagination justify-content-end mt-3"
+                activePage={page}
+                itemsCountPerPage={pageSize}
+                totalItemsCount={totalResult}
+                pageRangeDisplayed={3}
+                itemClass="page-item"
+                linkClass="page-link"
+                onChange={handlePageChange.bind(this)} />
+              }
             </div>
           </div>
         </div>

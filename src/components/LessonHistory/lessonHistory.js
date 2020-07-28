@@ -136,7 +136,7 @@ const LessonHistory = () => {
               !!data && Array.isArray(data) && data.length > 0 ?
                 data.map(item => <LessonItem
                   key={item.CoursesID}
-                  CoursesID={item.CoursesID}
+                  BookingID={item.BookingID}
                   DocumentID={item.DocumentID}
                   DocumentName={item.DocumentName}
                   DocumentDetailID={item.DocumentDetailID}
@@ -144,12 +144,12 @@ const LessonHistory = () => {
                   start={convertDateFromTo(item.Schedule).fromTime}
                   end={convertDateFromTo(item.Schedule).endTime}
                   date={convertDateFromTo(item.Schedule).date}
-                  TeacherID={item.TeacherID}
-                  Teacher={item.Teacher}
+                  TeacherUID={item.TeacherUID}
+                  TeacherName={item.TeacherName}
                   Status={item.Status}
                   StatusString={item.StatusString} />) :
                 <tr>
-                  <td>
+                  <td colSpan={5}>
                     <NOT_DATA_FOUND />
                   </td>
                 </tr>
@@ -158,8 +158,7 @@ const LessonHistory = () => {
       </table>
     </div>
     {
-      !!data && Array.isArray(data) && data.length > 0 ?
-      <Pagination
+      pageSize < totalResult && <Pagination
         innerClass="pagination justify-content-end mt-3"
         activePage={page}
         itemsCountPerPage={pageSize}
@@ -167,9 +166,8 @@ const LessonHistory = () => {
         pageRangeDisplayed={3}
         itemClass="page-item"
         linkClass="page-link"
-        onChange={handlePageChange.bind(this)} /> : ""
+        onChange={handlePageChange.bind(this)} />
     }
-    
   </React.Fragment>
 }
 

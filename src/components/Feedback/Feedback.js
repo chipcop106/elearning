@@ -65,15 +65,17 @@ const Feedback = () => {
   const [pageSize, setPageSize] = React.useState(0);
   const [totalResult, setTotalResult] = React.useState(0);
 
-  const [feedback, setFeedback] = React.useState(initialState);
+  const [feedback, setFeedback] = React.useState([]);
   const [rate, setRate] = React.useState(0);
 
   const handlePageChange = (pageNumber) => {
-    setPage(pageNumber);
-    _GetListEvaluationAPI({
-      Rate: rate,
-      Page: pageNumber,
-    })
+    if(page !== pageNumber) {
+      setPage(pageNumber);
+      _GetListEvaluationAPI({
+        Rate: rate,
+        Page: pageNumber,
+      })
+    }
   }
 
   const getOverViewAPI = async () => {
@@ -89,9 +91,9 @@ const Feedback = () => {
     setLoadingListEvaluation(true);
     const res = await getListEvaluationAPI(params);
     if (res.Code === 1) {
-      /*  */
+      setFeedback(res.Data);
       setPageSize(res.PageSize);
-      setTotalResult(res.TotalResult)
+      setTotalResult(res.TotalResult);
     }
     setPage(params.Page);
     setLoadingListEvaluation(false);
@@ -212,7 +214,7 @@ const Feedback = () => {
         loadingListEvaluation ? <SkeletonFeedback /> :
           <div className="fb-list">
             {
-              !!feedback && feedback.length > 0 && feedback.map(item =>
+              !!feedback && feedback.length > 0 ? feedback.map(item =>
                 <StudentCommentItem
                   key={item.id}
                   StudentUID={item.StudentUID}
@@ -222,20 +224,22 @@ const Feedback = () => {
                   Evaluation={item.Evaluation}
                   Rate={item.Rate}
                   LessionName={item.LessionName}
-                  LessionID={item.LessionID} />)
+                  LessionID={item.LessionID} />): <NOT_DATA_FOUND />
             }
           </div>
       }
     </div>
-    <Pagination
-      innerClass="pagination justify-content-end mt-3"
-      activePage={page}
-      itemsCountPerPage={pageSize}
-      totalItemsCount={totalResult}
-      pageRangeDisplayed={3}
-      itemClass="page-item"
-      linkClass="page-link"
-      onChange={handlePageChange.bind(this)} />
+    {
+       pageSize < totalResult && <Pagination
+       innerClass="pagination justify-content-end mt-3"
+       activePage={page}
+       itemsCountPerPage={pageSize}
+       totalItemsCount={totalResult}
+       pageRangeDisplayed={3}
+       itemClass="page-item"
+       linkClass="page-link"
+       onChange={handlePageChange.bind(this)} />
+    }
   </>
   )
 }

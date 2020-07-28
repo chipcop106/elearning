@@ -34,6 +34,7 @@ const initialState = {
 const SupportDetail = ({onClickBack, detailId}) => {
     const [state, setState] = React.useState(null);
     const [isLoading, setIsLoading] = React.useState(true);
+    
     const getDetail = async () => {
         setIsLoading(true);
         //Call API

@@ -182,6 +182,7 @@ export const getListTeacher = async (params) => {
                 Start: params.Start,
                 End: params.End,
                 Search: params.Search,
+                Page: params.Page,
             }
         })
         result = res.data;
