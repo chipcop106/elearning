@@ -16,11 +16,9 @@
             display: flex;
             flex-wrap: wrap;
             a:first-child {
-              width: calc(50% - 10px);
               margin-right: 10px;
             }
             a:last-child {
-              width: 50%;
             }
           }
           .action-right {

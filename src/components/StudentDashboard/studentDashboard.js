@@ -181,7 +181,7 @@ const Dashboard = () => {
         <div className="media d-block d-lg-flex">
           <i className="fas fa-align-left fa-2x toggle-sidebar d-block d-lg-none mg-b-15"></i>
           <div id="js-component-profilesidebar"></div>
-          <div className="">
+          <div className="media-body body__content">
             <div className="overall__summary pd-15">
               <div className="overall__summary-info d-flex flex-wrap pd-b-15">
                 <div className="course-img">
@@ -193,21 +193,20 @@ const Dashboard = () => {
                   </a>
                   <i className="flaticon2-correct text-success icon-md ml-2"></i>
                   <ul>
-                    <li><i className="fas fa-envelope pd-r-10"></i><a href="mailto:example@gmail.com">example@gmail.com</a></li>
-                    <li><i className="fas fa-lock pd-r-10"></i><a href="#">Some info</a></li>
-                    <li><i className="fas fa-map-marker pd-r-10"></i><a href="#">Some info</a></li>
+                    <li className="mg-r-20"><i className="fas fa-calendar pd-r-5"></i><span>Start: 20/04/2020</span></li>
+                    <li><i className="fas fa-calendar pd-r-5"></i><span>Expired: 20/07/2020</span></li>
                   </ul>
                   <div className="course-progress d-flex flex-wrap">
-                    <div className="start-date mg-r-15">
-                      <label className="d-block bold">Start Date</label>
+                    <div className="start-date mg-r-15 mg-md-r-30">
+                      <label className="d-block tx-gray-500">Start Date</label>
                       <label className="label-tag blue">07 MAY, 2020</label>
                     </div>
-                    <div className="due-date mg-r-15">
-                      <label className="d-block bold">Due Date</label>
+                    <div className="due-date mg-r-15 mg-md-r-30">
+                      <label className="d-block tx-gray-500">Due Date</label>
                       <label className="label-tag pink">10 JUNE, 2021</label>
                     </div>
                     <div className="progress-course-bar">
-                      <label className="d-block bold">Progress</label>
+                      <label className="d-block tx-gray-500">Progress</label>
                       <div className="progress-bar-wrap">
                         <div className="progress-bar-wrap-fill" style={{ width: "20%" }}></div>
                       </div>
@@ -217,11 +216,11 @@ const Dashboard = () => {
                 </div>
               </div>
               <div className="overall__summary-summary pd-t-15 d-flex flex-wrap justify-content-between">
-                <div className="left d-flex flex-wrap">
+                <div className="left d-flex flex-wrap flex-grow-1">
                   <div className="summary-item">
                     <BookOpenIcon />
                     <div className="mg-l-10 title">
-                      <label className="d-block bold">Booked Lessons</label>
+                      <label className="d-block tx-gray-500">Booked Lessons</label>
                       <label className="d-block bold count">
                         {!!state.UpcomingLessions && !!state.LessionHistory &&
                           state.UpcomingLessions.length + state.LessionHistory.length}</label>
@@ -230,26 +229,26 @@ const Dashboard = () => {
                   <div className="summary-item">
                     <OpenBookIcon />
                     <div className="mg-l-10 title">
-                      <label className="d-block bold">Canceled Lessons</label>
+                      <label className="d-block tx-gray-500">Canceled Lessons</label>
                       <label className="d-block bold count">{state.StudyProcess && state.StudyProcess.CancelLessions}</label>
                     </div>
                   </div>
                   <div className="summary-item">
                     <CancelCircleIcon />
                     <div className="mg-l-10 title">
-                      <label className="d-block bold">Truant Lessons</label>
+                      <label className="d-block tx-gray-500">Truant Lessons</label>
                       <label className="d-block bold count">{state.StudyProcess && state.StudyProcess.NumberOfAbsences}</label>
                     </div>
                   </div>
                   <div className="summary-item">
                     <TextDocumentIcon />
                     <div className="mg-l-10 title">
-                      <label className="d-block bold">Remaining Lessons</label>
+                      <label className="d-block tx-gray-500">Remaining Lessons</label>
                       <label className="d-block bold count">{state.StudyProcess && state.StudyProcess.CompleteLessions}</label>
                     </div>
                   </div>
                 </div>
-                <div className="right">
+                {/* <div className="right">
                   <div className="summary-item">
                     <div>
                       <img src="https://images.unsplash.com/photo-1595534005229-688989c4bf82?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" />
@@ -260,7 +259,7 @@ const Dashboard = () => {
                       <span className="other-person bold">5+</span>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
             {
