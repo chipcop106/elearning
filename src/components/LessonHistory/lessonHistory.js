@@ -7,6 +7,7 @@ import { convertDateFromTo } from "~src/utils.js"
 import SkeletonLessonHistoryCard from "~components/common/Skeleton/SkeletonLessonHistoryCard";
 import Flatpickr from 'react-flatpickr';
 import styles from "~components/LessonHistory/lessonHistory.module.scss"
+import { NOT_DATA_FOUND } from "~components/common/Constant/message"
 
 const initialState = {
   fromDate: "",
@@ -31,8 +32,8 @@ const LessonHistory = () => {
   const [data, setData] = React.useState({});
 
   const [page, setPage] = React.useState(1);
-  const [sizePerPage, setSizePerPage] = React.useState(0);
-  const [totalPage, setTotalPage] = React.useState(0);
+  const [pageSize, setPageSize] = React.useState(0);
+  const [totalResult, setTotalResult] = React.useState(0);
 
   const [loading, setLoading] = React.useState(false);
 
@@ -41,8 +42,8 @@ const LessonHistory = () => {
     const res = await getLessonHistory(params);
     if (res.Code === 1) {
       setData(res.Data)
-      setSizePerPage(res.TotalResult);
-      setTotalPage(res.PageSize);
+      setPageSize(res.PageSize);
+      setTotalResult(res.TotalResult)
     }
     setLoading(false);
   }
@@ -85,7 +86,7 @@ const LessonHistory = () => {
 
   return <React.Fragment>
     <div className="fb-summary-container pd-x-20-f pd-b-0-f pd-t-20-f ">
-      <form action="" method="get" className="st-date" onSubmit={onSubmit}>
+      <form action="" method="get" className="st-date metronic-form" onSubmit={onSubmit}>
         <div className="row">
           <div className="col-12 col-sm-6 col-md-4 form-group">
             <Flatpickr
@@ -149,23 +150,26 @@ const LessonHistory = () => {
                   StatusString={item.StatusString} />) :
                 <tr>
                   <td>
-                    <span className="text-danger bold" style={{ fontSize: '16px' }}>Not data found</span>
+                    <NOT_DATA_FOUND />
                   </td>
                 </tr>
           }
         </tbody>
       </table>
     </div>
-    <Pagination
-      innerClass="pagination justify-content-end mt-3"
-      activePage={page}
-      itemsCountPerPage={sizePerPage}
-      totalItemsCount={data.length}
-      pageRangeDisplayed={3}
-      itemClass="page-item"
-      linkClass="page-link"
-      onChange={handlePageChange.bind(this)}
-    />
+    {
+      !!data && Array.isArray(data) && data.length > 0 ?
+      <Pagination
+        innerClass="pagination justify-content-end mt-3"
+        activePage={page}
+        itemsCountPerPage={pageSize}
+        totalItemsCount={totalResult}
+        pageRangeDisplayed={3}
+        itemClass="page-item"
+        linkClass="page-link"
+        onChange={handlePageChange.bind(this)} /> : ""
+    }
+    
   </React.Fragment>
 }
 

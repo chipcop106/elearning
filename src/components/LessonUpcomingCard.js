@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import styles from "~components/LessonUpcomingCard.module.scss";
+
 const LessonUpcomingCard = ({
   BookingID,
   avatar = "default-avatar.png",
@@ -47,7 +49,7 @@ const LessonUpcomingCard = ({
         </div>
         <div className="media-body mg-l-20 pos-relative">
           <div>
-            <h5 className="mg-b-10 ">
+            <h5 className="mg-b-10 mg-t-10 mg-sm-t-0">
               <span className="badge badge-warning">Incoming</span>{' '}
               <a href={`lessonDetail.html?ID=${BookingID}`} className="course-name tx-bold">{LessionName}</a>
             </h5>

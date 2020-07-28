@@ -20,6 +20,14 @@ import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
 
 import { getFormattedDate } from "~src/utils";
+import {
+  FETCH_ERROR,
+  CHANGE_PASSWORD_SUCCESS,
+  FILL_PASSWORD,
+  INCORRECT_PASSWORD,
+  DIFFERENT_PASSWORD,
+  UPDATE_PROFILE_SUCCESS
+} from "~components/common/Constant/toast"
 
 const schema = Yup.object().shape({
   FullName: Yup.string()
@@ -60,8 +68,8 @@ const StudentForm = ({ tabDisplay }) => {
   const [avatar, setAvatar] = React.useState("");
   const [loadingAvatar, setLoadingAvatar] = React.useState(false);
 
-  const updateProfileToastSuccess = () => toast("Update profile successful!", toastInit);
-  const updateProfileToastFail = () => toast("Update profile fail, please retry!", toastInit);
+  const updateProfileToastSuccess = () => toast.success(UPDATE_PROFILE_SUCCESS, toastInit);
+  const updateProfileToastFail = () => toast.error(FETCH_ERROR, toastInit);
 
   const { register, handleSubmit, errors, getValues, setValue, control } = useForm({
     resolver: yupResolver(schema),
@@ -408,9 +416,14 @@ const StudentForm = ({ tabDisplay }) => {
               </div>
             </div>
           </div>
-        </div>
-        <div className="tx-center">
-          <button type="submit" className="btn btn-primary rounded-pill">Save information</button>
+          <div className="col-12">
+            <div className="form-row  align-items-center ">
+              <div className="form-group col-sm-3 col-label-fixed"></div>
+              <div className="form-group col-sm-9">
+                <button type="submit" className="btn btn-primary rounded">Save information</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </form >
@@ -422,18 +435,18 @@ const PasswordForm = () => {
   const [displayPassword, setDisplayPassword] = React.useState(false);
   const [error, setError] = React.useState(null);
 
-  const updatePassToastSuccess = () => toast("Update Password successful!", toastInit);
+  const updatePassToastSuccess = () => toast.success(CHANGE_PASSWORD_SUCCESS, toastInit);
 
   const _onSubmit = (e) => {
     e.preventDefault();
 
     if (oldPassword === '' || newPassword === '') {
-      setError('Password field must not empty !!');
+      setError(FILL_PASSWORD);
       return;
     }
 
     if (oldPassword === newPassword) {
-      setError('Old password must be different from new password !!');
+      setError(DIFFERENT_PASSWORD);
       return;
     }
     setError(null);
@@ -446,7 +459,7 @@ const PasswordForm = () => {
       NewPass: newPassword
     });
     if (res.Code === 0) {
-      setError('Old password is not correct');
+      setError(INCORRECT_PASSWORD);
       return;
     } else if (res.Code === 1) {
       setError(null);
@@ -454,7 +467,7 @@ const PasswordForm = () => {
       setOldPassword('');
       setNewPassword('');
     }
-  } 
+  }
 
   return <form className="metronic-form change-password-form" onSubmit={_onSubmit}>
     <div className="form-account pd-y-15">
@@ -486,19 +499,24 @@ const PasswordForm = () => {
           </div>
         </div>
         <div className="col-12">
-          <div className="form-row align-items-center ">
-            <div className="form-group pd-l-10">
-              <div className="d-flex align-items-center">
-                <input type="checkbox" id="displaypassword" onChange={() => setDisplayPassword(!displayPassword)} />
-                <label className="mg-0 mg-l-5" htmlFor="displaypassword">Show password</label>
-              </div>
+          <div className="form-group pd-l-2">
+            <div className="custom-control custom-checkbox">
+              <input type="checkbox" className="custom-control-input" id="displaypassword"
+                onChange={() => setDisplayPassword(!displayPassword)} />
+              <label className="custom-control-label" htmlFor="displaypassword">Show password</label>
             </div>
           </div>
         </div>
-        {error && error !== '' && (<span className="col-12 tx-danger">{error}</span>)}
-      </div>
-      <div className="tx-center">
-        <button type="submit" className="btn btn-primary rounded-pill">Save Change</button>
+        {error && error !== '' && (<span className="col-12 tx-danger mg-b-5">{error}</span>)}
+        <div className="col-12">
+          <div className="form-row align-items-center ">
+            <div className="form-group col-sm-3 col-label-fixed">
+            </div>
+            <div className="form-group col-sm-9">
+              <button type="submit" className="btn btn-primary">Save Change</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </form>

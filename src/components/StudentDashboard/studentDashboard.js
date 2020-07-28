@@ -3,14 +3,10 @@ import ReactDOM from 'react-dom';
 
 import styled from 'styled-components'
 
-import {BookOpen} from '@styled-icons/boxicons-regular/BookOpen'
-import {OpenBook} from '@styled-icons/entypo/OpenBook'
-
-import {CancelCircle} from '@styled-icons/icomoon/CancelCircle'
-
-import {TextDocument} from '@styled-icons/entypo/TextDocument'
-
-
+import { BookOpen } from '@styled-icons/boxicons-regular/BookOpen'
+import { OpenBook } from '@styled-icons/entypo/OpenBook'
+import { CancelCircle } from '@styled-icons/icomoon/CancelCircle'
+import { TextDocument } from '@styled-icons/entypo/TextDocument'
 
 import LessonHistoryCard from "~components/LessonHistoryCard"
 import LessonUpcomingCard from "~components/LessonUpcomingCard"
@@ -20,6 +16,7 @@ import RequireLessonModal from "~components/RequireLessonModal"
 import CancelBookingLessonModal from "~components/CancelBookingLessonModal"
 
 import SkeletonLessonCard from '~components/common/Skeleton/SkeletonLessonCard';
+import { NOT_DATA_FOUND } from '~components/common/Constant/message';
 
 import { convertDateFromTo, checkCancelTime } from "~src/utils.js"
 import { getLessons } from "~src/api/studentAPI";
@@ -182,36 +179,11 @@ const Dashboard = () => {
     <div className="content content-fixed">
       <div className="container pd-x-0 pd-lg-x-10 pd-xl-x-0 dashboard-page">
         <div className="media d-block d-lg-flex">
-        <i className="fas fa-align-left fa-2x toggle-sidebar d-block d-lg-none"></i>
+          <i className="fas fa-align-left fa-2x toggle-sidebar d-block d-lg-none mg-b-15"></i>
           <div id="js-component-profilesidebar"></div>
-          <div className="media-body mg-t-30 mg-lg-t-0 pd-lg-x-10">
-            {/* <div className="overall__summary">
-              <ul className="top-step animated fadeInDown">
-                <li className="top-step-item "><span className="item-count">
-                  {!!state.UpcomingLessions && !!state.LessionHistory &&
-                    state.UpcomingLessions.length + state.LessionHistory.length}
-                </span>
-                  <div className="item-title">Booked Lessons</div>
-                </li>
-                <li className="top-step-item "><span className="item-count">
-                  {state.StudyProcess && state.StudyProcess.CancelLessions}
-                </span>
-                  <div className="item-title">Canceled Lessons</div>
-                </li>
-                <li className="top-step-item "><span className="item-count">
-                  {state.StudyProcess && state.StudyProcess.NumberOfAbsences}
-                </span>
-                  <div className="item-title">Truant Lessons</div>
-                </li>
-                <li className="top-step-item "><span className="item-count">
-                  {state.StudyProcess && state.StudyProcess.CompleteLessions}
-                </span>
-                  <div className="item-title">Remaining Lessons</div>
-                </li>
-              </ul>
-            </div> */}
-            <div className="overall__summary">
-              <div className="overall__summary-info d-flex flex-wrap pd-15">
+          <div className="">
+            <div className="overall__summary pd-15">
+              <div className="overall__summary-info d-flex flex-wrap pd-b-15">
                 <div className="course-img">
                   <img src="https://preview.keenthemes.com/metronic/theme/html/demo7/dist/assets/media/project-logos/3.png" />
                 </div>
@@ -237,136 +209,136 @@ const Dashboard = () => {
                     <div className="progress-course-bar">
                       <label className="d-block bold">Progress</label>
                       <div className="progress-bar-wrap">
-                        <div className="progress-bar-wrap-fill" style={{width:"20%"}}></div>
+                        <div className="progress-bar-wrap-fill" style={{ width: "20%" }}></div>
                       </div>
                       <span className="d-block bold mg-t-10">20%</span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="overall__summary-summary pd-15 d-flex flex-wrap justify-content-between">
+              <div className="overall__summary-summary pd-t-15 d-flex flex-wrap justify-content-between">
                 <div className="left d-flex flex-wrap">
                   <div className="summary-item">
                     <BookOpenIcon />
-                      <div className="mg-l-10 title">
+                    <div className="mg-l-10 title">
                       <label className="d-block bold">Booked Lessons</label>
                       <label className="d-block bold count">
                         {!!state.UpcomingLessions && !!state.LessionHistory &&
-                    state.UpcomingLessions.length + state.LessionHistory.length}</label>
-                      </div>
+                          state.UpcomingLessions.length + state.LessionHistory.length}</label>
+                    </div>
                   </div>
                   <div className="summary-item">
-                  <OpenBookIcon />
-                      <div className="mg-l-10 title">
+                    <OpenBookIcon />
+                    <div className="mg-l-10 title">
                       <label className="d-block bold">Canceled Lessons</label>
                       <label className="d-block bold count">{state.StudyProcess && state.StudyProcess.CancelLessions}</label>
-                      </div>
+                    </div>
                   </div>
                   <div className="summary-item">
-                  <CancelCircleIcon />
-                      <div className="mg-l-10 title">
+                    <CancelCircleIcon />
+                    <div className="mg-l-10 title">
                       <label className="d-block bold">Truant Lessons</label>
                       <label className="d-block bold count">{state.StudyProcess && state.StudyProcess.NumberOfAbsences}</label>
-                      </div>
+                    </div>
                   </div>
                   <div className="summary-item">
-                  <TextDocumentIcon />
-                      <div className="mg-l-10 title">
+                    <TextDocumentIcon />
+                    <div className="mg-l-10 title">
                       <label className="d-block bold">Remaining Lessons</label>
                       <label className="d-block bold count">{state.StudyProcess && state.StudyProcess.CompleteLessions}</label>
-                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className="right">
-                <div className="summary-item">
-                  <div>
-                      <img src="https://images.unsplash.com/photo-1595534005229-688989c4bf82?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"/>
-                      <img src="https://images.unsplash.com/photo-1595534005229-688989c4bf82?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"/>
-                      <img src="https://images.unsplash.com/photo-1595534005229-688989c4bf82?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"/>
-                      <img src="https://images.unsplash.com/photo-1595534005229-688989c4bf82?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"/>
-                      <img src="https://images.unsplash.com/photo-1595534005229-688989c4bf82?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"/>
+                  <div className="summary-item">
+                    <div>
+                      <img src="https://images.unsplash.com/photo-1595534005229-688989c4bf82?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" />
+                      <img src="https://images.unsplash.com/photo-1595534005229-688989c4bf82?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" />
+                      <img src="https://images.unsplash.com/photo-1595534005229-688989c4bf82?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" />
+                      <img src="https://images.unsplash.com/photo-1595534005229-688989c4bf82?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" />
+                      <img src="https://images.unsplash.com/photo-1595534005229-688989c4bf82?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" />
                       <span className="other-person bold">5+</span>
+                    </div>
                   </div>
                 </div>
+              </div>
+            </div>
+            {
+              !state ? <NOT_DATA_FOUND /> : <>
+              <div className="lesson mg-t-45 animated fadeInUp am-animation-delay-1">
+                <div className="d-xl-flex align-items-center justify-content-between ">
+                  <h4 className="mg-b-0 gradient-heading"><i className="fas fa-fire"></i>UPCOMING LESSON</h4>
+                </div>
+                {
+                  !!state.UpcomingLessions && !!state.UpcomingLessions &&
+                    state.UpcomingLessions.length + state.UpcomingLessions.length === 0 ? (
+                      <div className="empty-error tx-center mg-y-30 cr-item bg-white rounded-10 pd-15">
+                        <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" />
+                        <p className=" tx-danger tx-medium">You don't have any lesson.</p>
+                        <a href="bookingLesson.html" className="btn btn-primary">Book a lesson</a>
+                      </div>) : ""
+                }
+                <div className="course-horizental mg-t-20">
+                  <ul className="list-wrap">
+                    {
+                      loading ? <SkeletonLessonCard /> :
+                        !!state.UpcomingLessions && state.UpcomingLessions.length > 0 &&
+                        state.UpcomingLessions.map(item =>
+                          <LessonUpcomingCard
+                            key={item.BookingID}
+                            BookingID={item.BookingID}
+                            TeacherUID={item.TeacherUID}
+                            TeacherName={item.TeacherName}
+                            LessionName={item.LessionName}
+                            LessionMaterial={item.LessionMaterial}
+                            SpecialRequest={item.SpecialRequest}
+                            start={convertDateFromTo(item.ScheduleTimeVN).fromTime}
+                            end={convertDateFromTo(item.ScheduleTimeVN).endTime}
+                            date={convertDateFromTo(item.ScheduleTimeVN).date}
+                            DocumentName={item.DocumentName}
+                            SkypeID={item.SkypeID}
+                            onHandleCancelBooking={handleCancelBooking}
+                            onHandleRequireLesson={handleRequireLesson}
+                            lock={lock}
+                            cancelable={checkCancelTime(convertDateFromTo(item.ScheduleTimeVN).dateObject)} />)
+                    }
+                  </ul>
                 </div>
               </div>
-            </div>
-            <div className="lesson mg-t-45 animated fadeInUp am-animation-delay-1">
-              <div className="d-xl-flex align-items-center justify-content-between ">
-                <h4 className="mg-b-0 gradient-heading"><i className="fas fa-fire"></i>UPCOMING LESSON</h4>
+              <div className="lesson mg-t-45 animated fadeInUp am-animation-delay-2">
+                <div className="d-xl-flex align-items-center justify-content-between ">
+                  <h4 className="mg-b-0 gradient-heading"><i className="fas fa-file"></i>LESSON HISTORY</h4>
+                  <a href={"lessonHistory.html"} className="link">View all history</a>
+                </div>
+                {
+                  !!state.LessionHistory && !!state.LessionHistory &&
+                    state.LessionHistory.length + state.LessionHistory.length === 0 ? (
+                      <span className="text-danger bold" style={{fontSize:'16px'}}>You don't finish any lesson</span>) : ""
+                }
+                <div className="course-horizental mg-t-20">
+                  <ul className="list-wrap">
+                    {
+                      loading ? <SkeletonLessonCard /> :
+                        !!state.LessionHistory && state.LessionHistory.length > 0 &&
+                        state.LessionHistory.map(item =>
+                          <LessonHistoryCard
+                            key={item.BookingID}
+                            BookingID={item.BookingID}
+                            TeacherUID={item.TeacherUID}
+                            TeacherName={item.Teacher}
+                            LessionName={item.LessionName}
+                            Status={item.Status}
+                            start={convertDateFromTo(item.Schedule).fromTime}
+                            end={convertDateFromTo(item.Schedule).endTime}
+                            date={convertDateFromTo(item.Schedule).date}
+                            Rate={item.Rate1}
+                            onHandleRatingLesson={handleRatingLesson} />)
+                    }
+                  </ul>
+                </div>
               </div>
-              {
-                !!state.UpcomingLessions && !!state.UpcomingLessions &&
-                  state.UpcomingLessions.length + state.UpcomingLessions.length === 0 ? (
-                    <div className="empty-error tx-center mg-y-30 cr-item bg-white">
-                      <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" />
-                      <p className=" tx-danger tx-medium">You don't have any lesson.</p>
-                      <a href="bookingLesson.html" className="btn btn-primary">Book a lesson</a>
-                    </div>) : ""
-              }
-              <div className="course-horizental mg-t-20">
-                <ul className="list-wrap">
-                  {
-                    loading ? <SkeletonLessonCard /> :
-                      !!state.UpcomingLessions && state.UpcomingLessions.length > 0 &&
-                      state.UpcomingLessions.map(item =>
-                        <LessonUpcomingCard
-                          key={item.BookingID}
-                          BookingID={item.BookingID}
-                          TeacherUID={item.TeacherUID}
-                          TeacherName={item.TeacherName}
-                          LessionName={item.LessionName}
-                          LessionMaterial={item.LessionMaterial}
-                          SpecialRequest={item.SpecialRequest}
-                          start={convertDateFromTo(item.ScheduleTimeVN).fromTime}
-                          end={convertDateFromTo(item.ScheduleTimeVN).endTime}
-                          date={convertDateFromTo(item.ScheduleTimeVN).date}
-                          DocumentName={item.DocumentName}
-                          SkypeID={item.SkypeID}
-                          onHandleCancelBooking={handleCancelBooking}
-                          onHandleRequireLesson={handleRequireLesson}
-                          lock={lock}
-                          cancelable={checkCancelTime(convertDateFromTo(item.ScheduleTimeVN).dateObject)} />)
-                  }
-                </ul>
-              </div>
-            </div>
-            <div className="lesson mg-t-45 animated fadeInUp am-animation-delay-2">
-              <div className="d-xl-flex align-items-center justify-content-between ">
-                <h4 className="mg-b-0 gradient-heading"><i className="fas fa-file"></i>LESSON HISTORY</h4>
-                <a href={"lessonHistory.html"} className="link">View all history</a>
-              </div>
-              {
-                !!state.LessionHistory && !!state.LessionHistory &&
-                  state.LessionHistory.length + state.LessionHistory.length === 0 ? (
-                    <div className="empty-error tx-center mg-y-30 cr-item bg-white">
-                      <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" />
-                      <p className=" tx-danger tx-medium">You don't have any lesson.</p>
-                      <a href="bookingLesson.html" className="btn btn-primary">Book a lesson</a>
-                    </div>) : ""
-              }
-              <div className="course-horizental mg-t-20">
-                <ul className="list-wrap">
-                  {
-                    loading ? <SkeletonLessonCard /> :
-                      !!state.LessionHistory && state.LessionHistory.length > 0 &&
-                      state.LessionHistory.map(item =>
-                        <LessonHistoryCard
-                          key={item.BookingID}
-                          BookingID={item.BookingID}
-                          TeacherUID={item.TeacherUID}
-                          TeacherName={item.Teacher}
-                          LessionName={item.LessionName}
-                          Status={item.Status}
-                          start={convertDateFromTo(item.Schedule).fromTime}
-                          end={convertDateFromTo(item.Schedule).endTime}
-                          date={convertDateFromTo(item.Schedule).date}
-                          Rate={item.Rate1}
-                          onHandleRatingLesson={handleRatingLesson} />)
-                  }
-                </ul>
-              </div>
-            </div>
+              </>
+            }
             <RatingLessonModal
               BookingID={stateRatingLesson.BookingID}
               TeacherUID={stateRatingLesson.TeacherUID}

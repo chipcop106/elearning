@@ -157,7 +157,9 @@ export const GetScheduleTeacherAPI = async (params) => {
             params: {
                 UID: appSettings.UID,
                 TeacherUID: params.TeacherUID,
-                Date: params.Date
+                Date: params.Date,
+                Start: params.Start,
+                End: params.End,
             }
         })
         result = res.data;

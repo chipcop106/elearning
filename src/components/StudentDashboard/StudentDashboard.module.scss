@@ -1,16 +1,11 @@
 @import "../../scss/variable.scss";
 
 .overall__summary {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
   label {
     margin: 0;
-  }
-  ul.top-step {
-    flex-wrap: wrap;
-  }
-  @media screen and (max-width: 500px) {
-    .top-step-item {
-      width: calc(50% - 10px);
-    }
   }
 }
 
@@ -22,8 +17,8 @@
     height: 1px;
     background-color: #b5b5c3;
     top: 100%;
-    left: 15px;
-    width: calc(100% - 30px);
+    left: 0;
+    width: 100%;
   }
   
   .course-img {

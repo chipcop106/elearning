@@ -18,9 +18,6 @@ const LessonHistoryCard = ({
   Rate
 }) => {
   const handleRatingLesson = (BookingID, TeacherUID, TeacherName) => {
-    console.log(BookingID)
-    console.log(TeacherUID)
-    console.log(TeacherName)
     onHandleRatingLesson(BookingID, TeacherUID, TeacherName)
   }
 
@@ -40,7 +37,7 @@ const LessonHistoryCard = ({
           </div>
           <div className="media-body mg-l-20 pos-relative">
             <div>
-              <h5 className="mg-b-10">
+              <h5 className="mg-b-10 mg-t-10 mg-sm-t-0">
                 <span className="badge badge-success">Finished</span>{' '}
                 <a href="lessonDetail.html" className="course-name tx-bold">
                   {LessionName}
@@ -94,7 +91,7 @@ const LessonHistoryCard = ({
             </div>
             <div className="course-actions mg-t-15">
               <div className="action-left">
-                <a href="lessonDetail.html" className="btn btn-sm btn-warning mg-r-10" target="_blank"
+                <a href={`lessonDetail.html?ID=${BookingID}`} className="btn btn-sm btn-warning mg-r-10" target="_blank"
                   rel="noopener">
                   <i className="fas fa-vote-yea mg-r-5"></i> <span>Detail lesson</span></a>
               </div>

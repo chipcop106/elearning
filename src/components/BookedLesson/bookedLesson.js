@@ -9,6 +9,7 @@ import { getUpcomingLessons } from "~src/api/studentAPI"
 import { convertDateFromTo, checkCancelTime } from "~src/utils.js"
 import Pagination from "react-js-pagination";
 import { ToastContainer } from 'react-toastify'
+import { FETCH_ERRORS } from "~components/common/Constant/message"
 
 import styles from '~components/BookedLesson/bookedLesson.module.scss'
 
@@ -37,7 +38,9 @@ const initialRequireLesson = {
 const BookedLesson = () => {
   const [state, setState] = React.useState(null);
   const [page, setPage] = React.useState(1)
-  const [sizePerPage, setSizePerPage] = React.useState(0);
+  const [pageSize, setPageSize] = React.useState(0);
+  const [totalResult, setTotalResult] = React.useState(0);
+
   const [lock, setLock] = React.useState({
     id: "",
     lock: false,
@@ -46,14 +49,12 @@ const BookedLesson = () => {
   const [stateRequireLesson, setStateRequireLesson] = React.useState(initialRequireLesson);
 
   const [loading, setLoading] = React.useState(false);
-
   const handlePageChange = (pageNumber) => {
     setPage(pageNumber);
     getAPI({
       Page: pageNumber,
     })
   }
-
   const handleRequireLesson = (BookingID, avatar, TeacherUID, TeacherName, LessionMaterial, LessionName, SpecialRequest, date, start, end, DocumentName, SkypeID) => {
     setStateRequireLesson({
       ...stateRequireLesson,
@@ -71,7 +72,6 @@ const BookedLesson = () => {
       SkypeID
     })
   }
-
   const handleCancelBooking = (BookingID, LessionName, date, start, end) => {
     setStateCancelLesson({
       ...stateCancelLesson,
@@ -82,7 +82,6 @@ const BookedLesson = () => {
       end
     })
   }
-
   const cbCancelBooking = (id, result) => {
     if (result === -1) //Start Call API, lock the card
     {
@@ -97,15 +96,12 @@ const BookedLesson = () => {
         lock: false
       })
       if (result === 1) { //If cancel lesson success
-        let newUpcomingLessions = [...state.UpcomingLessions].filter(item => item.BookingID !== id)
-        setState({
-          ...state,
-          UpcomingLessions: newUpcomingLessions,
-        })
+        let newUpcomingLessions = [...state];
+        newUpcomingLessions = newUpcomingLessions.filter(item => item.BookingID !== id)
+        setState(newUpcomingLessions)
       }
     }
   }
-
   const cbRequireLesson = (SpecialRequest, BookingID, TeacherUID) => {
     let newState = [...state]
     const index = newState.findIndex
@@ -113,13 +109,13 @@ const BookedLesson = () => {
     newState[index].SpecialRequest = SpecialRequest;
     setState(newState)
   }
-
   const getAPI = async (params) => {
     setLoading(true);
     const res = await getUpcomingLessons(params);
     if (res.Code === 1) {
       setState(res.Data)
-      setSizePerPage(res.TotalResult);
+      setPageSize(res.PageSize);
+      setTotalResult(res.TotalResult)
     }
     setLoading(false);
   }
@@ -131,13 +127,11 @@ const BookedLesson = () => {
   }, []);
 
   return <>
-    <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
-      <h4 className="mg-b-0 gradient-heading"><i className="fas fa-calendar-check" />BOOKED LESSON</h4>
-    </div>
+      <h4 className="mg-b-30 gradient-heading"><i className="fas fa-calendar-check" />BOOKED LESSON</h4>
     {
       !!state ? <>
-        <div className="mg-t-30 feedback-container">
-          <div className="course-horizental mg-t-20 animated fadeInUp am-animation-delay-1">
+        <div className="feedback-container">
+          <div className="course-horizental animated fadeInUp am-animation-delay-1">
             {
               !!state && !!state &&
                 state.length + state.length === 0 ? (
@@ -175,8 +169,8 @@ const BookedLesson = () => {
         <Pagination
           innerClass="pagination justify-content-end mt-3"
           activePage={page}
-          itemsCountPerPage={sizePerPage}
-          totalItemsCount={state.length}
+          itemsCountPerPage={pageSize}
+          totalItemsCount={totalResult}
           pageRangeDisplayed={3}
           itemClass="page-item"
           linkClass="page-link"
@@ -206,7 +200,7 @@ const BookedLesson = () => {
           callback={cbCancelBooking} />
 
         <ToastContainer />
-      </> : <span className="text-danger bold" style={{ fontSize: '16px' }}>Some errors happened</span>
+      </> : <FETCH_ERRORS />
     }
   </>
 }

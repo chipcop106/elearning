@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
 import { requestLessonAPI } from '~src/api/studentAPI';
+import { FETCH_ERROR, REQUEST_SUCCESS, FILL_NOTES } from '~components/common/Constant/toast';
 
 import styles from "~components/RequireLessonModal.module.scss";
 
@@ -29,9 +30,9 @@ const RequireLessonModal = ({
   callback,
   }) => {
   const [state, setState] = React.useState(initialState)
-  const requireLesson = () => toast("Thank for your request!", toastInit);
-  const requireLessonFail = () => toast("Some error happened, please retry!", toastInit);
-  const requireLessonAlert = () => toast("Please fill your note", toastInit);
+  const requireLesson = () => toast.success(REQUEST_SUCCESS, toastInit);
+  const requireLessonFail = () => toast.error(FETCH_ERROR, toastInit);
+  const requireLessonAlert = () => toast.warn(FILL_NOTES, toastInit);
 
   const fetchAPI = async (params) => {
     const res = await requestLessonAPI(params);

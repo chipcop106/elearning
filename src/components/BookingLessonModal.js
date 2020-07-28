@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
 import { bookingLessonAPI } from "~src/api/studentAPI";
+import { FETCH_ERROR, BOOKING_SUCCESS, FILL_NOTES } from '~components/common/Constant/toast';
 
 import styles from '~components/BookingLessonModal.module.scss';
 
@@ -34,15 +35,15 @@ const BookingLessonModal = ({
 
   const [state, setState] = React.useState(initialState);
 
-  const bookingToast = () => toast("Book lesson successful!", toastInit);
-  const bookingToastFail = () => toast("Some errors happened, please retry!", toastInit);
-  const bookingToastAlert = () => toast("Plesea fill note!", toastInit);
+  const bookingToast = () => toast.success(BOOKING_SUCCESS, toastInit);
+  const bookingToastFail = () => toast.error(FETCH_ERROR, toastInit);
+  const bookingToastAlert = () => toast.warn(FILL_NOTES, toastInit);
 
   const fetchAPI = async (params) => {
-    const res = await bookingLessonAPI(params)
+    const res = await bookingLessonAPI(params);
     if (res.Code === 1) {
       bookingToast();
-      onBook(TeacherUID, StudyTimeID, whoami.FullName);
+      onBook(TeacherUID, StudyTimeID, whoami.FullName, date);
     }
     else {
       bookingToastFail();

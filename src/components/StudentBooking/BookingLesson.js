@@ -42,6 +42,7 @@ const initialOnBookState = {
   TeacherUID: "",
   StudyTimeID: "",
   studentName: "",
+  date: "",
 }
 
 const reducer = (prevState, { type, payload }) => {
@@ -121,12 +122,13 @@ const BookingLesson = () => {
     dispatch({ type: "STATE_CHANGE", payload: { key: "nation", value } })
   }
 
-  const onBook = (TeacherUID, StudyTimeID, studentName) => {
-     setOnBookState({
+  const onBook = (TeacherUID, StudyTimeID, studentName, date) => {
+    setOnBookState({
       ...onBookState,
       TeacherUID,
       StudyTimeID,
-      studentName
+      studentName,
+      date,
     })
   }
 
@@ -135,14 +137,15 @@ const BookingLesson = () => {
     setTeacherList([]);
     e.preventDefault();
     let z = [];
-    for (let i = 0; i < state.selectedLevelPurpose.length; i++) {
-      for (let j = 0; j < state.levelPurpose.length; j++) {
-        if (state.selectedLevelPurpose[i] === state.levelPurpose[j].PurposeLevelName) {
-          z.push(state.levelPurpose[j].ID);
-          break;
+    if (!!state.selectedLevelPurpose)
+      for (let i = 0; i < state.selectedLevelPurpose.length; i++) {
+        for (let j = 0; j < state.levelPurpose.length; j++) {
+          if (state.selectedLevelPurpose[i] === state.levelPurpose[j].PurposeLevelName) {
+            z.push(state.levelPurpose[j].ID);
+            break;
+          }
         }
       }
-    }
 
     $('#display-schedule').prop('checked', false);
     getAPI({
@@ -313,13 +316,14 @@ const BookingLesson = () => {
   }, []);
 
   return (
-    <React.Fragment>
+    <>
       <div className={`${loading ? '' : 'd-none'} overlay`}>
         <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
       </div>
       <div className="d-xl-flex align-items-center justify-content-between ">
-        <h4 className="mg-b-0 gradient-heading"><i className="fas fa-calendar-alt"></i> BOOKING LESSON</h4>
+        <h4 className="mg-b-30 d-block gradient-heading"><i className="fas fa-calendar-alt"></i> BOOKING LESSON</h4>
       </div>
+      <div className="media-body-wrap pd-15 shadow">
       <p className="mg-b-0 mg-t-15">Select one day:</p>
       <div className="calendar__picker swiper-container">
         <div className="calendar-slider swiper-wrapper">
@@ -330,7 +334,7 @@ const BookingLesson = () => {
         </div>
       </div>
       <a href="#" className="btn btn-danger" id="js-select-today"><i className="fa fa-calendar mg-r-5"></i>Select today</a>
-      <div className="filter-group-wrap">
+      <div className="filter-group-wrap metronic-form">
         <div className="filter-group pd-t-20">
           <div className="filter-row row">
             <div className="left col-md-2">
@@ -424,7 +428,7 @@ const BookingLesson = () => {
         <div className="filter-group pd-t-20">
           <div className="filter-row row">
             <div className="left col-md-2">
-              <h5>Search</h5>
+              <h5>SEARCH</h5>
             </div>
             <div className="right col-md-10">
               <div className="form-row">
@@ -433,7 +437,7 @@ const BookingLesson = () => {
                 </div>
                 <div className="col-sm-4 item search-btn-group">
                   <a href={"#"} className="submit-search btn btn-primary btn-block" onClick={onSearch}>
-                    Search</a>
+                  <i className="fa fa-search mg-r-5"></i>Search</a>
                 </div>
               </div>
             </div>
@@ -462,7 +466,7 @@ const BookingLesson = () => {
                       <div className="totor-detail">
                         <a href={`teacherDetail.html?ID=${item.TeacherUID}`} className="tutor-wrap">
                           <span className="tutor-avatar">
-                            <img src={item.TeacherIMG ? item.TeacherIMG: "../assets/img/default_avatar.png"} alt="" />
+                            <img src={item.TeacherIMG ? item.TeacherIMG : "../assets/img/default_avatar.png"} alt="" />
                           </span>
                           <div className="tutor-infomation pd-5">
                             <div className="tutor-info">
@@ -495,12 +499,15 @@ const BookingLesson = () => {
                               onBookStudyTimeID={onBookState.StudyTimeID}
                               onBookTeacherUID={onBookState.TeacherUID}
                               onBookStudentName={onBookState.studentName}
+                              onBookDate={onBookState.date}
                               learnTime={learnTime}
                               TeacherUID={item.TeacherUID}
                               TeacherIMG={item.TeacherIMG}
                               TeacherName={item.TeacherName}
                               Rate={item.Rate}
                               date={state.date}
+                              Start={state.startTime}
+                              End={state.endTime}
                               handleBooking={onHandleBooking} />
                           </ul>
                         </div>
@@ -524,12 +531,13 @@ const BookingLesson = () => {
           start={stateBookLesson.start}
           end={stateBookLesson.end}
           BookingID={stateBookLesson.BookingID}
-          onBook={onBook}/>
+          onBook={onBook} />
 
-          <ListNationModal selectNation={onSelectNation} />
+        <ListNationModal selectNation={onSelectNation} />
         <ToastContainer />
       </div>
-    </React.Fragment>
+      </div>
+    </>
   )
 }
 

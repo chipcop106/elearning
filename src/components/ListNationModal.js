@@ -13,7 +13,9 @@ const RenderListNation = ({ list }) => {
       <legend className="legend-checkbox">
         <div className="custom-control custom-checkbox">
           <input type="checkbox" className="custom-control-input" id={`${key}-main`} />
-          <label className="custom-control-label" htmlFor={`${key}-0`}>{key}</label>
+          <label className="custom-control-label" htmlFor={`${key}-0`}>
+            {key==="NorthAmerica"?"North America": key }
+            </label>
         </div>
       </legend>
       {

@@ -1,8 +1,5 @@
 @import "../../scss/variable.scss";
 
-.hl {
-  color: $primary-color;
-}
 .fc th {
   &.fc-col-header-cell {
     position: relative;
@@ -20,7 +17,6 @@
       right: 0;
       bottom: 0;
       font-size: 12px;
-      padding: 3px;
       color: #aaa;
       line-height: 1;
       border-top: 1px solid #e1e1e1;
@@ -149,10 +145,17 @@
 @media screen and (max-width: 500px) {
   .tab-navigation {
     .tab-item {
+      width: calc(100% / 3);
       .tab-link {
+        padding: 5px;
         font-size: 0.75rem;
         text-align: center;
       }
     }
   }
+}
+.teacher__detail__wrap {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 15px;
 }

@@ -35,5 +35,5 @@ export const appSettings = {
         },
       
     },
-    UID: 1062,
+    UID: 1071,
 }

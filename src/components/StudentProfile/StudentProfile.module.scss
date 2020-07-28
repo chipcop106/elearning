@@ -17,25 +17,6 @@
   }
 }
 
-.select__control--is-focused {
-  border-color: hsl(0, 0%, 80%) !important;
-  box-shadow: none !important;
-}
-.select__multi-value {
-  background-color: $primary-color !important;
-  .select__multi-value__label {
-    color: #fff;
-    font-size: 13px !important;
-  }
-  .select__multi-value__remove {
-    color: #fff;
-    &:hover {
-      background-color: inherit !important;
-      cursor: pointer;
-    }
-  }
-}
-
 .flatpickr-wrapper {
   width: 100%;
 }
@@ -188,26 +169,13 @@
   max-width: 300px;
 }
 
-.metronic-form {
-  .form-control, .select__control, .form-control.flatpickr-input {
-    background-color:#F3F6F9;
-    border:none;
-    transition: .3s;
-    border-radius: 0.25rem;
-    &:focus {
-      background-color:#EBEDF3;
-      box-shadow: none;
-    }
-  }
-  .select__control--is-focused {
-    background-color:#EBEDF3;
-      box-shadow: none;
-  }
-}
-
 .change-password-form .form-account .form-row .col-label-fixed {
-  flex-basis: 120px;
-  max-width: 120px;
+  flex-basis: 130px;
+  max-width: 130px;
+  @media screen and (max-width: 1170px) {
+    flex-basis: auto;
+    max-width: none;
+  }
 }
 
 .sub-title.profile-tab-nav {
@@ -224,4 +192,8 @@
       color: $primary-color;
     }
   }
+}
+.media-body-wrap {
+  background-color: #fff;
+  border-radius: 5px;
 }

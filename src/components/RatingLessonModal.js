@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
 import { ratingLessonAPI } from '~src/api/studentAPI';
+import { FETCH_ERROR, RATING_SUCCESS, FILL_RATING, FILL_FEEDBACK } from '~components/common/Constant/toast';
 
 const initialState = {
     rating: 0,
@@ -12,10 +13,10 @@ const initialState = {
 const RatingLessonModal = ({ BookingID, TeacherUID, TeacherName, callback }) => {
 
     const [state, setState] = React.useState(initialState)
-    const ratingLesson = () => toast("Thank for your rating!", toastInit);
-    const ratingLessonError = () => toast("Some error happened, please retry!", toastInit);
-    const ratingLessonAlert1 = () => toast("You must rating it", toastInit);
-    const ratingLessonAlert2 = () => toast("Please leave your feedback", toastInit);
+    const ratingLesson = () => toast.success(RATING_SUCCESS, toastInit);
+    const ratingLessonError = () => toast.error(FETCH_ERROR, toastInit);
+    const ratingLessonAlert1 = () => toast.warn(FILL_RATING, toastInit);
+    const ratingLessonAlert2 = () => toast.warn(FILL_FEEDBACK, toastInit);
 
     const fetchAPI = async (params) => {
         const res = await ratingLessonAPI(params);

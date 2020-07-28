@@ -8,7 +8,8 @@ import { getAllStudentReviewAPI } from "~src/api/studentAPI";
 const StudentComment = ({ TeacherUID }) => {
   const [state, setState] = React.useState([]);
   const [page, setPage] = React.useState(1)
-  const [sizePerPage, setSizePerPage] = React.useState(0);
+  const [pageSize, setPageSize] = React.useState(0);
+  const [totalResult, setTotalResult] = React.useState(0);
 
   const handlePageChange = (pageNumber) => {
     setPage(pageNumber);
@@ -22,7 +23,8 @@ const StudentComment = ({ TeacherUID }) => {
     const res = await getAllStudentReviewAPI(params);
     if (res.Code === 1) {
       setState(res.Data)
-      setSizePerPage(res.TotalResult);
+      setPageSize(res.PageSize);
+      setTotalResult(res.TotalResult)
     }
   }
 
@@ -52,8 +54,8 @@ const StudentComment = ({ TeacherUID }) => {
       <Pagination
         innerClass="pagination justify-content-end mt-3"
         activePage={page}
-        itemsCountPerPage={sizePerPage}
-        totalItemsCount={state.length}
+        itemsCountPerPage={pageSize}
+        totalItemsCount={totalResult}
         pageRangeDisplayed={3}
         itemClass="page-item"
         linkClass="page-link"

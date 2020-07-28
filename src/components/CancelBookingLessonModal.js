@@ -4,14 +4,13 @@ import { cancelLessonAPI } from '../api/studentAPI';
 import { toast } from 'react-toastify';
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
+import { FETCH_ERROR, CANCEL_BOOKING_SUCCESS, FILL_REASON } from '~components/common/Constant/toast';
 
 const CancelBookingLessonModal = ({ BookingID, LessionName, date, start, end, style, callback }) => {
   const [reason, setReason] = React.useState("")
-  const cancelToastSuccess = () => toast.success("Cancel lesson successful!", toastInit);
-
-  const cancelToastFail = () => toast.error("Cancel lesson fail, some errors happened!", toastInit);
-
-  const reasonTooShortAlert = () => toast("Please fill the reason!", toastInit);
+  const cancelToastSuccess = () => toast.success(CANCEL_BOOKING_SUCCESS, toastInit);
+  const cancelToastFail = () => toast.error(FETCH_ERROR, toastInit);
+  const reasonTooShortAlert = () => toast.warn(FILL_REASON, toastInit);
 
   const getAPI = async (params) => {
     /* start: -1 */
@@ -34,6 +33,7 @@ const CancelBookingLessonModal = ({ BookingID, LessionName, date, start, end, st
       reasonTooShortAlert()
     }
     else {
+      console.log(BookingID)
       getAPI({
         BookingID,
         ReasonCancel: reason

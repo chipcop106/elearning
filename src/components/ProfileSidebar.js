@@ -26,7 +26,9 @@ const ProfileSidebar = () => {
     getAPI();
   }, []);
 
-  return loading ? <h2>Loading...</h2> : (<>
+  return loading ? <div className="overlay">
+  <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+  </div> : (<>
     <div className="profile-sidebar pd-lg-r-25">
       <div className="sidebar-overplay"></div>
       <div className="user__infomation d-flex d-lg-block flex-wrap">

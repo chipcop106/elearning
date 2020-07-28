@@ -6,6 +6,7 @@ import Pagination from "react-js-pagination";
 
 import { getFeedbackOverviewAPI } from "~src/api/studentAPI";
 import { getListEvaluationAPI } from "~src/api/studentAPI";
+import { NOT_DATA_FOUND } from "~components/common/Constant/message"
 
 import styles from "~components/Feedback/Feedback.module.scss"
 
@@ -61,6 +62,9 @@ const Feedback = () => {
   const [loading, setLoading] = React.useState(false);
   const [loadingListEvaluation, setLoadingListEvaluation] = React.useState(false);
   const [page, setPage] = React.useState(1)
+  const [pageSize, setPageSize] = React.useState(0);
+  const [totalResult, setTotalResult] = React.useState(0);
+
   const [feedback, setFeedback] = React.useState(initialState);
   const [rate, setRate] = React.useState(0);
 
@@ -85,7 +89,9 @@ const Feedback = () => {
     setLoadingListEvaluation(true);
     const res = await getListEvaluationAPI(params);
     if (res.Code === 1) {
-      
+      /*  */
+      setPageSize(res.PageSize);
+      setTotalResult(res.TotalResult)
     }
     setPage(params.Page);
     setLoadingListEvaluation(false);
@@ -112,7 +118,7 @@ const Feedback = () => {
     <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
       <h4 className="mg-b-0 gradient-heading"><i className="fas fa-comment-dots"></i>FEEDBACK</h4>
     </div>
-    <div className="mg-t-30 feedback-container">
+    <div className="feedback-container">
       <div className="fb-summary-container">
         {
           overview && Object.keys(overview).length > 0 ? <>
@@ -199,7 +205,7 @@ const Feedback = () => {
                 </div>
               </div>
             </div></> :
-            <span className="text-danger bold" style={{ fontSize: '16px' }}>Not data found</span>
+            <NOT_DATA_FOUND />
         }
       </div>
       {
@@ -224,8 +230,8 @@ const Feedback = () => {
     <Pagination
       innerClass="pagination justify-content-end mt-3"
       activePage={page}
-      itemsCountPerPage={10}
-      totalItemsCount={450}
+      itemsCountPerPage={pageSize}
+      totalItemsCount={totalResult}
       pageRangeDisplayed={3}
       itemClass="page-item"
       linkClass="page-link"
