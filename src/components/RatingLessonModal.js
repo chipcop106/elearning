@@ -49,8 +49,6 @@ const RatingLessonModal = ({ BookingID, TeacherUID, TeacherName, callback }) => 
         }
         else {
             /* Call API */
-            console.log(BookingID)
-            console.log(TeacherUID)
             fetchAPI({
                 BookingID,
                 TeacherUID,
@@ -248,7 +246,7 @@ const RatingLessonModal = ({ BookingID, TeacherUID, TeacherName, callback }) => 
                                     </div>
                                 </div>
                             </div>
-                            <div className="row">
+                            <div className="row metronic-form">
                                 <div className="form-group col-12">
                                     <label>Ý kiến của bạn:</label>
                                     <textarea name="message" rows="5" className="form-control" onChange={handleChange} value={state.message}></textarea>

@@ -4,7 +4,7 @@ import { getMissingFeedback } from '~src/api/teacherAPI';
 import Pagination from "react-js-pagination";
 
 const MissingFeedbackRow = ({ data }) => {
-    const { ScheduleTimeVN, ScheduleTimeUTC, DocumentName, LessionName } = data;
+    const { BookingID, ScheduleTimeVN, ScheduleTimeUTC, DocumentName, LessionName } = data;
     return (
         <tr>
             <td className="clr-time">
@@ -38,7 +38,7 @@ const MissingFeedbackRow = ({ data }) => {
 
             </td>
             <td className="clr-actions">
-                <a href={`teacherLessonDetail.html`} className="btn btn-sm btn-warning rounded-5"><i className="fa fa-comment-alt clrm-icon" /> Feedback</a>
+                <a href={`/ElearnTeacher/Evaluation?ID=${data.BookingID}`} className="btn btn-sm btn-warning rounded-5"><i className="fa fa-comment-alt clrm-icon" /> Feedback</a>
             </td>
         </tr>
     )

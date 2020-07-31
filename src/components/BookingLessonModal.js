@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
-import { bookingLessonAPI } from "~src/api/studentAPI";
-import { FETCH_ERROR, BOOKING_SUCCESS, FILL_NOTES } from '~components/common/Constant/toast';
+import { bookingLessonAPI, getLessonBookAPI } from "~src/api/studentAPI";
+import { FETCH_ERROR, BOOKING_SUCCESS } from '~components/common/Constant/toast';
 
 import styles from '~components/BookingLessonModal.module.scss';
 
-const whoami = (localStorage.getItem("user")===null) ? {} :
+const whoami = (localStorage.getItem("user") === null) ? {} :
   JSON.parse(localStorage.getItem('user'));
 
 const initialState = {
@@ -34,10 +34,10 @@ const BookingLessonModal = ({
 }) => {
 
   const [state, setState] = React.useState(initialState);
+  const [bookState, setBookState] = React.useState(null);
 
   const bookingToast = () => toast.success(BOOKING_SUCCESS, toastInit);
   const bookingToastFail = () => toast.error(FETCH_ERROR, toastInit);
-  const bookingToastAlert = () => toast.warn(FILL_NOTES, toastInit);
 
   const fetchAPI = async (params) => {
     const res = await bookingLessonAPI(params);
@@ -50,101 +50,158 @@ const BookingLessonModal = ({
     }
   }
 
-  const handleBookingLesson = () => {
-    if (state.SpecialRequest.length <= 0) {
-      bookingToastAlert();
+  const getLessonToBookingAPI = async () => {
+    const res = await getLessonBookAPI();
+    if (res.Code === 1) {
+      setBookState({
+        ...res.Data,
+        Code: 1
+      });
     }
-    else {
-      fetchAPI({
-        TeacherUID,
-        Date: date,
-        StudyTimeID,
-        SpecialRequest: state.SpecialRequest,
-      })
-      $('#md-book-schedule').fadeOut(500, function () {
-        $('#md-book-schedule').modal('hide');
+    else if (res.Code === 0) {
+      setBookState({
+        Message: res.Message,
+        Code: 0,
       });
     }
   }
 
-  React.useEffect(()=>{
-    setState(initialState)
-  },[TeacherUID, StudyTimeID])
+  const handleBookingLesson = () => {
+    fetchAPI({
+      TeacherUID,
+      Date: date,
+      StudyTimeID,
+      DocumentID: bookState.DocumentID,
+      DocumentDetailID: bookState.ID,
+      SpecialRequest: state.SpecialRequest,
+    })
+    $('#md-book-schedule').fadeOut(500, function () {
+      $('#md-book-schedule').modal('hide');
+    });
+  }
 
-  return (
-    <div className="modal effect-scale" tabIndex="-1" role="dialog" id="md-book-schedule">
-      <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div className="modal-content">
-          <form action="" className="">
+  React.useEffect(() => {
+    setState(initialState)
+    feather.replace();
+  }, [TeacherUID, StudyTimeID])
+
+  React.useEffect(() => {
+    getLessonToBookingAPI();
+  }, [])
+
+  return !!bookState ? (
+    bookState.Code === 0 ?
+      <div className="modal fade effect-scale" id="md-book-schedule" tabIndex="-1" role="dialog" aria-labelledby="active-slot"
+        aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered modal-sm" role="document">
+          <div className="modal-content">
+            <div className="modal-header bg-danger">
+              <h5 className="modal-title tx-white">Warning</h5>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span className="tx-white" aria-hidden="true">&times;</span>
+              </button>
+            </div>
             <div className="modal-body">
-              <div className="cr-item lesson-info">
-                <div className="media">
-                  <div className="teacher-information">
-                    <a className="teacher-avatar" href={`teacherDetail.html?ID=${TeacherUID}`}>
-                      <img src={TeacherIMG === "default-avatar.png" ?
-                                `../assets/img/${TeacherIMG}` : TeacherIMG }
-                      className="teacher-image" alt="" />
-                      <p className="course-teacher tx-14 tx-gray-800 tx-normal mg-b-0 tx-center mg-t-5 d-block">
-                        {TeacherName}</p>
-                    </a>
-                  </div>
-                  <div className="media-body  mg-l-20 pos-relative pd-b-0-f">
-                    <h5 className="mg-b-10">
-                      <span className="badge badge-warning">Incoming</span>{' '}
-                      <a href={`lessonDetail.html?ID=${BookingID}`} className="course-name tx-bold">{LessionName}</a>
-                    </h5>
-                    <div className="course-information tx-14">
-                      <span className="mg-r-15 tx-gray-600 tx-medium"><i className="fa fa-calendar  tx-info mg-r-5"></i>
-                        {date}</span>
-                      <span className="mg-r-15 tx-gray-600 tx-medium"><i className="fa fa-clock  tx-info mg-r-5"></i>
-                        {`Start: ${start}`}</span>
-                      <span className="mg-r-15 tx-gray-600 tx-medium"><i className="fa fa-clock  tx-info mg-r-5"></i>
-                        {`End: ${end}`}</span>
+              <p className="tx-danger">{bookState.Message}</p>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      :
+      <div className="modal effect-scale" tabIndex="-1" role="dialog" id="md-book-schedule">
+        <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div className="modal-content">
+            <form action="" className="">
+              <div className="modal-body">
+                <div className="cr-item lesson-info">
+                  <div className="media">
+                    <div className="teacher-information">
+                      <a className="teacher-avatar" href={`teacherDetail?ID=${TeacherUID}`}>
+                        <img src={TeacherIMG === "default-avatar.png" ?
+                          `../assets/img/${TeacherIMG}` : TeacherIMG}
+                          className="teacher-image" alt="" />
+                        <p className="course-teacher tx-14 tx-gray-800 tx-normal mg-b-0 tx-center mg-t-5 d-block">
+                          {TeacherName}</p>
+                      </a>
                     </div>
-                    <div className="course-note mg-t-15">
-                      <h6 className="mg-b-3">Lesson notes:</h6>
-                      {note && <p className="tx-14 mg-b-0">{note}</p>}
-                    </div>
-                    <div className="course-docs mg-t-15">
-                      <h6 className="mg-b-3">Documents:</h6>
-                      <div /* className="docs-lists" */>
-                        {/* {
-                          !!documents && Array.isArray(documents) && documents.length > 0 &&
-                          documents.map((doc, index) =>
-                            <a key={index} href={"#"} className="file-doc"><i className="fa fa-file mg-r-3"></i>
-                              <span className="file-name">{doc.split('.')[0]}</span>
-                              <span className="file-ext">{`.${doc.split('.')[1]}`}</span>
-                            </a>
-                          )
-                        } */}
-                        <a href={LessionMaterial} target="_blank">{DocumentName}</a>
+                    <div className="media-body  mg-l-20 pos-relative pd-b-0-f">
+                      <h5 className="mg-b-10 d-flex align-items-center">
+                        <span className="badge badge-warning mg-r-5">Incoming</span>{' '}
+                        <a href={`ElearnStudent/lessonDetail?ID=${BookingID}`} className="no-hl course-name tx-bold">{bookState.LessionName}</a>
+                      </h5>
+                      <div className="course-information tx-14">
+                        <span className="mg-r-15 tx-gray-600 tx-medium d-inline-block">
+                          <i className="feather-16 mg-r-5" data-feather="calendar"></i>
+                          {date}</span>
+                        <span className="mg-r-15 tx-gray-600 tx-medium d-inline-block">
+                          <i className="feather-16 mg-r-5" data-feather="clock"></i>
+                          {`Start: ${start}`}</span>
+                        <span className="mg-r-15 tx-gray-600 tx-medium d-inline-block">
+                          <i className="feather-16 mg-r-5" data-feather="clock"></i>
+                          {`End: ${end}`}</span>
                       </div>
-                    </div>
-                    <div className="required-list mg-t-15 bd-t pd-t-15">
-                      <div className="required-text-box mg-t-15">
-                        <label className="tx-medium">Note for teachers:</label>
-                        <div className="form-group">
-                          <textarea name="message" id="" rows="4" className="form-control"
-                            placeholder="Note for teacher"
-                            value={state.SpecialRequest}
-                            onChange={(e) => setState({ SpecialRequest: e.target.value })}
-                          ></textarea>
+                      {
+                        note && <div className="course-note mg-t-15">
+                          <h6 className="mg-b-3">Lesson notes:</h6>
+                          <p className="tx-14 mg-b-0">{note}</p>
+                        </div>
+                      }
+                      {
+                        DocumentName && <div className="course-docs mg-t-15">
+                          <h6 className="mg-b-3">Documents:</h6>
+                          <div>
+                            <a href={LessionMaterial} target="_blank">{DocumentName}</a>
+                          </div>
+                        </div>
+                      }
+                      <div className="required-list mg-t-15 bd-t pd-t-15">
+                        <div className="required-text-box mg-t-15 metronic-form">
+                          <label className="tx-medium">Note for teachers:</label>
+                          <div className="form-group">
+                            <textarea name="message" id="" rows="4" className="form-control"
+                              placeholder="Note for teacher"
+                              value={state.SpecialRequest}
+                              onChange={(e) => setState({ SpecialRequest: e.target.value })}
+                            ></textarea>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-light" data-dismiss="modal">Close</button>
-              <button type="button" className="btn btn-primary" onClick={handleBookingLesson}>Book</button>
-            </div>
-          </form>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-light" data-dismiss="modal">Close</button>
+                <button type="button" className="btn btn-primary" onClick={handleBookingLesson}>Book</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
   )
+    :
+    <div className="modal fade effect-scale" id="md-book-schedule" tabIndex="-1" role="dialog" aria-labelledby="active-slot"
+      aria-hidden="true">
+      <div className="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div className="modal-content">
+          <div className="modal-header bg-danger">
+            <h5 className="modal-title tx-white">Warning</h5>
+            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+              <span className="tx-white" aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div className="modal-body">
+            <p className="tx-danger">Some errors happened, please retry!!</p>
+          </div>
+          <div className="modal-footer">
+            <button type="button" className="btn btn-primary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>;
 }
 
 export default BookingLessonModal;

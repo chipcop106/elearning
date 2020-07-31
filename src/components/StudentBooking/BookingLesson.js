@@ -147,6 +147,7 @@ const BookingLesson = () => {
   }
 
   const onSearch = (e, page) => {
+    setTeacherList([]);
     e && e.preventDefault();
     let z = [];
     if (!!state.selectedLevelPurpose)
@@ -346,7 +347,7 @@ const BookingLesson = () => {
           <button type="button" className="next-btn"><i className="fa fa-chevron-right" aria-hidden="true"></i></button>
         </div>
       </div>
-      <a href="#" className="btn btn-danger" id="js-select-today"><i className="fa fa-calendar mg-r-5"></i>Select today</a>
+      <a href="#" className="btn btn-danger mg-b-15" id="js-select-today"><i className="fa fa-calendar mg-r-5"></i>Select today</a>
       <div className="filter-group-wrap metronic-form">
         <div className="filter-group pd-t-20">
           <div className="filter-row row">
@@ -408,6 +409,7 @@ const BookingLesson = () => {
                       dateFormat: "H:i",
                       enableTime: true,
                       noCalendar: true,
+                      time_24hr: true,
                       minTime: "06:00",
                       maxTime: "23:00",
                       static: true,
@@ -425,6 +427,7 @@ const BookingLesson = () => {
                       dateFormat: "H:i",
                       enableTime: true,
                       noCalendar: true,
+                      time_24hr: true,
                       minTime: "06:00",
                       maxTime: "23:00",
                       static: true,
@@ -478,7 +481,7 @@ const BookingLesson = () => {
                   !!teachersList && teachersList.length > 0 && teachersList.map(item =>
                     <li className="tutor" key={item.TeacherUID}>
                       <div className="totor-detail">
-                        <a href={`teacherDetail.html?ID=${item.TeacherUID}`} className="tutor-wrap">
+                        <a href={`ElearnStudent/teacherDetail?ID=${item.TeacherUID}`} className="tutor-wrap">
                           <span className="tutor-avatar">
                             <img src={item.TeacherIMG ? item.TeacherIMG : "../assets/img/default_avatar.png"} alt="" />
                           </span>

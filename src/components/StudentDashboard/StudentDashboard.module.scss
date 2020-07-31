@@ -2,7 +2,7 @@
 
 .overall__summary {
   background-color: #fff;
-  border-radius: 10px;
+  border-radius: 5px;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
   label {
     margin: 0;
@@ -32,9 +32,6 @@
   }
   .course-info {
     width: calc(100% - 80px);
-    @media screen and (max-width: 500px) {
-      width: calc(100% - 80px);
-    }
     .course-name {
       font-size: 18px;
       white-space: unset;
@@ -58,6 +55,7 @@
       }
       .progress-course-bar {
         width: 300px;
+        max-width: calc(100% - 35px);
         .progress-bar-wrap {
           position: relative;
           width: 100%;
@@ -78,6 +76,17 @@
       & > * {
         margin-bottom: 10px;
       }
+      .progress-number {
+        position: absolute;
+        top: 12px;
+        left: calc(100% + 10px);
+      }
+    }
+    .date {
+      font-size: 15px;
+    }
+    .label {
+      color: #969696;
     }
   }
 }
@@ -106,7 +115,7 @@
     align-items: center;
     justify-content: center;
     width: auto;
-    flex:1;
+    flex: 1;
     .count {
       font-size: 20px;
     }
@@ -127,15 +136,15 @@
     .title {
       width: calc(100% - 40px);
     }
+    @media screen and (max-width: 768px) {
+      flex: auto;
+    }
   }
 }
 
-
-@include media(768px){
-  .overall__summary-summary{
-    .summary-item{
-      flex:auto;
-    }
+.student-summary-item {
+  .label {
+    color: #707070;
+    font-weight: 400;
   }
- 
 }

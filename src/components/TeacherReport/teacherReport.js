@@ -24,8 +24,10 @@ const TeacherReport = () => {
   const [state, setState] = React.useState(null);
   const [select, setSelect] = React.useState(timeOptions[0]);
   const getMonthReportData = async () => {
-    setIsloading(true)
-    const res = await getMonthReport();
+    setIsloading(true);
+    const res = await getMonthReport({
+      Type:select.value
+    });
     if (res.Code === 1 && !!res.Data) setState(res.Data);
     setIsloading(false);
   }

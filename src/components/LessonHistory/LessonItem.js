@@ -7,6 +7,7 @@ const LessonItem = ({
   DocumentDetailID,
   DocumentName,
   LessionName,
+  LessonDetail,
   start,
   end,
   date,
@@ -18,15 +19,16 @@ const LessonItem = ({
   return <tr>
     <td>{DocumentName}</td>
     <td>{date}</td>
-    <td className="tx-nowrap">
-      {/* <span>{start}</span>
-      <i className="fas fa-long-arrow-alt-right mg-x-2"></i>
-      <span>{end}</span> */}
+    <td style={{whiteSpace:"pre-line"}}>
       {LessionName}
     </td>
-    <td><a href={`teacherDetail.html?ID=${TeacherUID}`}>{TeacherName}</a></td>
+    <td><a href={`ElearnStudent/teacherDetail?ID=${TeacherUID}`}>{TeacherName}</a></td>
     <td><span className="tx-success">{StatusString}</span></td>
-    <td><a href={`lessonDetail.html?ID=${BookingID}`} className="btn btn-primary">Detail</a></td>
+    <td>
+      {
+        LessonDetail.split("ID=")[1] !== "0" && 
+        <a href={LessonDetail} className="btn btn-primary">Detail</a>
+      }</td>
   </tr>
 }
 

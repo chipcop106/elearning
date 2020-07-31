@@ -6,21 +6,10 @@ import { appSettings } from '~src/config';
 import { Modal, Button, Tab, Nav } from 'react-bootstrap';
 import Select from 'react-select'
 import { randomId } from '~src/utils';
-import { getTeacherIntroduce } from '~src/api/teacherAPI'
-import {
-    uploadImageToServer,
-    getEnglishProficiencyOptions,
-    getLevelOfEducationOptions,
-    getTimeZone,
-    getListLevelPurpose
-
-} from '~src/api/optionAPI';
+import { getTeacherIntroduce, updateTeacherIntroduce } from '~src/api/teacherAPI'
+import { toast } from 'react-toastify';
 
 
-const Schema = Yup.object().shape({
-    introduce: Yup.string().min(50, `Introduce must have minimum 50 characters..`)
-        .required('Introduce must have minimum 50 characters.. '),
-});
 
 const initialState = {
     isLoading: true,
@@ -48,9 +37,6 @@ const reducer = (prevState, { type, payload }) => {
 
 function TeacherIntroduce(props) {
     const [state, dispatch] = useReducer(reducer, initialState);
-    const { errors, register, handleSubmit, setValue } = useForm({
-        resolver: yupResolver(Schema),
-    });
     const setIsLoading = (value) => dispatch({ type: "SET_LOADING", payload: { value } });
     const updateState = (key, value) => dispatch({ type: 'UPDATE_STATE', payload: { key, value } });
     const setDefaultState = (data) => dispatch({ type: 'SET_DATA', payload: data });
@@ -65,13 +51,30 @@ function TeacherIntroduce(props) {
     const loadTeacherIntroduce = async () => {
         setIsLoading(true);
         const res = await getTeacherIntroduce();
-        res.Code === 1 ? setDefaultState(res.Data) : setDefaultState(initialState);
+        res.Code === 1 ? setDefaultState({
+            ...res.Data,
+            introduce:res.Data.Introduce,
+            youtubeUrl:res.Data.LinkVideo
+        }) : setDefaultState(initialState);
         setIsLoading(false);
     }
 
 
-    const _handleSubmit = (data) => {
-        console.log(data);
+    const _handleSubmit = async (e) => {
+        e.preventDefault();
+        const res = await updateTeacherIntroduce({
+            Introduce: state.introduce,
+            LinkVideo: state.youtubeUrl
+        });
+        res.Code === 1 && toast.success('Update introduce success !!', {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 2000
+        });
+        res.Code === 0 && toast.danger('Update introduce failed !!', {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 2000
+        });
+        console.log(e);
     }
 
 
@@ -80,14 +83,12 @@ function TeacherIntroduce(props) {
     }, [])
 
     return (
-        <form onSubmit={handleSubmit(d => _handleSubmit(d))}>
+        <form onSubmit={_handleSubmit}>
             <div className="content-block">
-
-
                 <div className="mg-b-30">
                     <h5 className="mg-b-15"><i className="fas fa-info-circle mg-r-5"></i>Summary</h5>
                     <div className="introduce-content">
-                        <textarea ref={register} name="introduce" className="form-control" rows={7} defaultValue={state.introduce} />
+                        <textarea name="introduce" className="form-control" value={state.introduce} rows={7} onChange={(e) => updateState('introduce',e.target.value)} />
                     </div>
                 </div>
                 <hr className="mg-b-30 mg-t-0" style={{borderStyle:'dashed'}}/>
@@ -98,7 +99,7 @@ function TeacherIntroduce(props) {
                             <div className="input-group-prepend">
                                 <span className="input-group-text">Youtube embed</span>
                             </div>
-                            <input type="text" className="form-control" placeholder="Youtube embed iframe src..." name="youtubeUrl" defaultValue={state.youtubeUrl} ref={register} onChange={(e) => updateState('youtubeUrl', e.target.value)} />
+                            <input type="text" className="form-control" placeholder="Youtube embed iframe src..." name="youtubeUrl" value={state.youtubeUrl} onChange={(e) => updateState('youtubeUrl', e.target.value)} />
                             <div className="input-group-append">
                                 <button className="input-group-text bg-primary tx-white" type="button" onClick={showGuide}><i className="far fa-question-circle mg-r-5"></i> How to get iframe url</button>
                             </div>

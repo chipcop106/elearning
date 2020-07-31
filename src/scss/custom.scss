@@ -1,5 +1,6 @@
 @import 'variable';
 @import 'dashforge';
+@import '../../node_modules/react-toastify/scss/main.scss';
 .table-ranking-teacher {
     table.table.ranking {
         border-collapse: collapse;
@@ -1782,6 +1783,7 @@ img {
 
     .card.card-event {
         height: 100%;
+        border-radius: 5px;
         box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, .14);
         @include transition(.2s);
 
@@ -2433,59 +2435,114 @@ body {
 .hl {
     color: $primary-color;
 }
+a.no-hl {
+    color: inherit;
+    &:hover {
+      color: #c35a02;
+    }
+}
+.tx-thumbnail {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box!important;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
 #js-component-profilesidebar {
   background: #fff;
   border-radius: 10px;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
+
 .metronic-form {
     .form-control, .select__control, .form-control.flatpickr-input {
-      background-color:#F3F6F9;
-      border:none;
+      background-color: lighten($primary-color, 44%);
+      border: none;
       transition: .3s;
       border-radius: 0.25rem;
       &:focus {
-        background-color:#EBEDF3;
+        background-color: lighten($primary-color, 43%);
         box-shadow: none;
       }
     }
     .select__control--is-focused {
-      background-color:#EBEDF3;
-        box-shadow: none;
+      background-color: lighten($primary-color, 43%);
+      box-shadow: none;
     }
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:hover:focus,
+    input:-webkit-autofill:focus:focus,
+    input:-webkit-autofill:active:focus {
+        box-shadow: 0 0 0px 1000px lighten($primary-color, 43%) inset;
+        -webkit-text-fill-color: $primary-color-dark;
+    }
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+        box-shadow: 0 0 0px 1000px lighten($primary-color, 44%) inset;
+        -webkit-text-fill-color: $primary-color-dark;
+    }
+}
+
+.media-body-wrap {
+    background: #fff;
+    border-radius: 5px;
 }
 .profile-sidebar {
     flex-shrink: 0;
-    padding: 30px 15px 15px 15px;
+    padding: 50px 0 0 0;
     text-align: center;
     background-color: #fff;
-    border-radius: 10px;
+    border-radius: 5px;
     .avatar {
         margin: 0 auto;
     }
     @media screen and (min-width: 992px) {
         max-width: 275px;
     }
-    @media screen and (max-width: 991px) {
-        padding: 15px;
+    @include media(991px) {
+        padding: 30px 0 0 0;
         height:100%;
         border-radius: 0;
     }
     .profile-info-list {
         li {
-            margin-bottom: 5px;
-            cursor:pointer;
+            margin-bottom: 0;
             transition: .3s;
-            border-radius: 5px;
             a {
                 display: block;
-                padding: 10px 50px;
-                &:hover, &.active {
-                    color: $primary-color;
-                    background-color: #fff4de;
+                padding: 10px 0 10px 20px;
+                text-align: left;
+                color: #606060;
+                font-weight: 500;
+                transition: .2s;
+            }
+            &:hover, &.active {
+                a {
+                    color: #fff;
+                    background-color: $primary-color;
+                    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
                 }
-                @media screen and (max-width: 500px) {
-                    padding: 10px 20px;
+                &:after {
+                    background-color: $primary-color!important;
                 }
+            }
+            &:not(:last-child) {
+               position: relative;
+               &:after {
+                   content: "";
+                   position: absolute;
+                   width: calc(100% - 10px);
+                   left: 5px;
+                   bottom: 0;
+                   height: 1px;
+                   background-color: #e1e1e1;
+                   transition: background-color .2s;
+               }
+            }
+            &:last-child {
+                margin-bottom: 0;
             }
         }
     }
@@ -2497,7 +2554,7 @@ body {
 .toggle-sidebar {
     cursor: pointer;
     font-size: 24px;
-    color: #868686;
+    color: lighten($primary-color, 10%);
 }
 .label-tag {
     padding: 5px 10px;
@@ -2516,11 +2573,16 @@ body {
     color:$primary-color;
     background-color: #fff4de;
 }
+.feather-16{
+    width: 16px;
+    height: 16px;
+}
+
 #js-component-profilesidebar {
     position: relative;
     margin-right: 30px;
     min-width: 250px;
-    @media screen and (max-width: 991px) {
+    @include media(991px) {
         max-width: 275px;
         margin: 0 auto;
         position: fixed;
@@ -2531,7 +2593,7 @@ body {
         left: -275px;
         box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
         transition: .3s;
-        .sidebar-overplay {
+        .sidebar-overlay {
             position: fixed;
             z-index: -1;
             width:100%;
@@ -2544,9 +2606,6 @@ body {
         &.active {
             left:0;
             overflow: auto;
-            .sidebar-overplay {
-                left:0;
-            }
             .profile-sidebar .profile-info-list li {
                 margin-bottom: 0;
             }
@@ -5912,7 +5971,7 @@ footer.footer {
     padding: 15px 30px;
     margin-bottom: 30px;
     box-shadow:0 2px 8px 0 rgba(0,0,0,.15);
-    border-radius: 8px;
+    border-radius: 5px;
 }
 
 .fb-summary {
@@ -5980,9 +6039,8 @@ footer.footer {
 
     .number {
         margin-left: 10px;
-        color: $second-color;
-        font-weight: 'bold';
-        font-style: 'italic'
+        font-weight: 500;
+        font-style: italic;
     }
 }
 .rating-wrap {
@@ -6003,8 +6061,7 @@ footer.footer {
     background: #fff;
     margin-bottom: 30px;
     box-shadow:0 2px 8px 0 rgba(0,0,0,.15);
-    border-radius: 8px;
-
+    border-radius: 5px;
     .fb-avatar {
         .avatar {
             width: 100px;
@@ -6636,8 +6693,8 @@ footer.footer {
         .cr-item{
             border-bottom:0;
             box-shadow:0 2px 8px 0 rgba(0,0,0,.15);
-            border-radius:8px;
             transition: all .2s ease;
+            border-radius: 5px;
             &:hover{
                 transform: translateY(-10px);
                 background:#fff;
@@ -6664,16 +6721,17 @@ footer.footer {
         overflow:hidden;
         width: 175px;
         .course-teacher{
-            background:$second-color;
+           /*  background:$second-color;
             background: rgb(253,126,20);
-background: linear-gradient(9deg, $primary-color 0%, $second-color 100%);
-            color:#fff;
+            background: linear-gradient(9deg, $primary-color 0%, $second-color 100%); 
+            color:#fff;*/
+            color: #000;
             font-weight:600;
             margin:0;
             padding:10px;
             max-width:100%;
             &:hover{
-                color:#fff;
+                color:#c35a02;
             }
         }
         .teacher-image{
@@ -7042,11 +7100,11 @@ input.time-only[readonly]{
         align-items:center;
         border-bottom:1px solid #e1e1e1;
     }
-    .tab-link{
+    .tab-link {
         text-transform:uppercase;
         letter-spacing:1px;
         color:#ccc;
-        padding:15px;
+        padding:10px 15px;
         display:block;
         position:relative;
         &:after {
@@ -7060,12 +7118,18 @@ input.time-only[readonly]{
             opacity: 0;
             @include transition(.2s);
         }
-
         &.active{
             color:$primary-color;
             &:after {
                 width: 100%;
                 opacity: 1;
+            }
+        }
+        @include media(768px) {
+            text-align: center;
+            i {
+            display: block;
+            margin-bottom: 10px;
             }
         }
     }
@@ -7269,7 +7333,8 @@ blockquote.messageText{
 .faq-container{
     counter-reset: title-count;
     .card{
-        border-radius:0;
+        border-radius:5px;
+        margin-bottom: 10px;
         counter-increment: title-count;
         &+.card{
             margin-top:-1px;

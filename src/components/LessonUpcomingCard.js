@@ -10,11 +10,11 @@ const LessonUpcomingCard = ({
   TeacherName,
   LessionName,
   LessionMaterial,
-  SpecialRequest,
+  SpecialRequest = null,
   start,
   end,
   date,
-  DocumentName,
+  DocumentName = null,
   SkypeID,
   onHandleCancelBooking,
   onHandleRequireLesson,
@@ -34,12 +34,16 @@ const LessonUpcomingCard = ({
     onHandleCancelBooking(BookingID, LessionName, date, start, end)
   }
 
+  React.useEffect(()=>{
+    feather.replace();
+  },[])
+
   return (
     <li className="cr-item upcoming-lesson lesson-info" style={{ position: 'relvate' }}>
       <div className={`${lock.id === BookingID && lock.lock ? '' : 'd-none'}`} style={{ zIndex: "99", position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}></div>
       <div className="media">
         <div className="teacher-information">
-          <a className="teacher-avatar" href={`teacherDetail.html?ID=${TeacherUID}`}>
+          <a className="teacher-avatar" href={`ElearnStudent/teacherDetail?ID=${TeacherUID}`}>
             <img src={avatar === "default-avatar.png" ?
               `../assets/img/${avatar}` : avatar}
               className="teacher-image" alt="" />
@@ -51,42 +55,42 @@ const LessonUpcomingCard = ({
           <div>
             <h5 className="mg-b-10 mg-t-10 mg-sm-t-0">
               <span className="badge badge-warning">Incoming</span>{' '}
-              <a href={`lessonDetail.html?ID=${BookingID}`} className="course-name tx-bold">{LessionName}</a>
+              <a href={`ElearnStudent/lessonDetail?ID=${BookingID}`}
+                className="no-hl course-name tx-bold">{LessionName}</a>
             </h5>
             <div className="course-information tx-14">
-              <span className="mg-r-15 tx-gray-600 tx-medium"><i className="fa fa-calendar tx-info mg-r-5"></i>
+              <span className="mg-r-15 tx-gray-600 tx-medium d-inline-block">
+                <i className="feather-16 mg-r-5" data-feather="calendar"></i>
                 {date}</span>
-              <span className="mg-r-15 tx-gray-600 tx-medium"><i className="fa fa-clock tx-info mg-r-5"></i>
+              <span className="mg-r-15 tx-gray-600 tx-medium d-inline-block">
+                 <i className="feather-16 mg-r-5" data-feather="clock"></i>
                 {`Start: ${start}`}</span>
-              <span className="mg-r-15 tx-gray-600 tx-medium"><i className="fa fa-clock tx-info mg-r-5"></i>
+              <span className="mg-r-15 tx-gray-600 tx-medium d-inline-block">
+                <i className="feather-16 mg-r-5" data-feather="clock"></i>
                 {`End: ${end}`}</span>
             </div>
-            <div className="course-note mg-t-15">
-              <h6 className="mg-b-3">Lesson notes:</h6>
+            {
+              SpecialRequest &&  <div className="course-note mg-t-15">
+              <h6 className="mg-b-3 tx-bold">Lesson notes:</h6>
               <p className="tx-14 mg-b-0">{SpecialRequest}</p>
             </div>
-            <div className="course-docs mg-t-15">
-              <h6 className="mg-b-3">Documents:</h6>
-              <div /* className="docs-list" */>
-                {
-                  /*  !!DocumentName && Array.isArray(DocumentName) && DocumentName.length > 0 && DocumentName.map((doc, index) =>
-                     <a key={index} href={"#"} className="file-doc"><i className="fa fa-file mg-r-3"></i>
-                       <span className="file-name">{doc.split('.')[0]}</span>
-                       <span className="file-ext">{`.${doc.split('.')[1]}`}</span>
-                     </a>
-                   ) */
-                  <a href={LessionMaterial} target="_blank">{DocumentName}</a>
-                }
-              </div>
+            }
+            {
+              !!DocumentName && <div className="course-docs mg-t-15">
+              <h6 className="mg-b-3 tx-bold">Documents:</h6>
+              <div> <a href={LessionMaterial} target="_blank">{DocumentName}</a></div>
             </div>
+            }
           </div>
           <div className="course-actions mg-t-15">
             <div className="action-left">
-              <a href={`https://www.skype.com/${SkypeID}`} className="btn btn-sm btn-info d-flex justify-content-center align-items-center" target="_blank"
-                rel="noopener">
-                <div><i className="fab fa-skype mg-r-5"></i> ID: <span className="tx-bold">{SkypeID}</span></div>
+              <a href={`https://www.skype.com/${SkypeID}`}
+                  className="btn btn-sm btn-info d-flex justify-content-center align-items-center tx-medium"
+                    target="_blank"
+                    rel="noopener">
+                <div><i className="fab fa-skype mg-r-5"></i>SKYPE</div>
               </a>
-              <a href={"#"} className="btn btn-sm btn-success" data-toggle="modal" data-target="#js-md-required"
+              <a href={"#"} className="btn btn-sm btn-success tx-medium" data-toggle="modal" data-target="#js-md-required"
                 onClick={() => handleRequireLesson(
                   BookingID,
                   avatar,
@@ -100,17 +104,17 @@ const LessonUpcomingCard = ({
                   end,
                   DocumentName,
                   SkypeID)}>
-                <i className="fas fa-edit mg-r-5"></i> Require teacher </a>
+                <i className="fas fa-edit mg-r-5"></i>REQUIRE TEACHER</a>
             </div>
             <div className="action-right">
               {
-                cancelable && <a href={"#"} className="btn btn-sm btn-outline-danger d-flex justify-content-center align-items-center"
+                cancelable && <a href={"#"} className="btn btn-sm btn-danger d-flex justify-content-center align-items-center tx-medium"
                   rel="noopener" data-toggle="tooltip"
                   title="You can only cancel this lesson before start for 30 minutes !!"
                   onClick={(e) => handleCancelBooking(e, BookingID, LessionName, date, start, end)}
                   data-toggle="modal" data-target="#md-cancel-schedule"
                   data-placement="top">
-                  <div><i data-feather="x"></i> Cancel lesson</div>
+                  <div>{/* <i data-feather="x-circle"></i> */}<i className="fas fa-times-circle"></i> CANCEL LESSON</div>
                 </a>
               }
             </div>

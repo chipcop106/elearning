@@ -6,18 +6,14 @@ import { Modal, Button, Tabs, Tab } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers';
 import { useForm } from 'react-hook-form';
-import { getTeacherExperience } from '~src/api/teacherAPI'
+import { getTeacherExperience, updateTeacherExperience } from '~src/api/teacherAPI'
 
 import {
-    uploadImageToServer,
-    getEnglishProficiencyOptions,
-    getLevelOfEducationOptions,
     getTesolCertificateOptions,
     getTeylCertificateOptions,
     getOtherCertificateOptions,
     getTeachingExperienceOptions,
-    getTimeZone,
-    getListLevelPurpose
+
 
 } from '~src/api/optionAPI';
 
@@ -32,6 +28,8 @@ const initialState = {
     otherCertificate: null,
     experienceLists: [],
     teacherExperiences: [],
+    optionLoaded:false,
+    teacherExp:null
 }
 
 const reducer = (prevState, { type, payload }) => {
@@ -41,7 +39,14 @@ const reducer = (prevState, { type, payload }) => {
             break;
         case "UPDATE_STATE":
             return { ...prevState, [payload.key]: payload.value }
-        default:
+            break;
+        case "DEFAULT_STATE":
+            return {
+                ...prevState,
+                ...payload
+            }
+            break;
+        default: return prevState;
             break;
     }
 }
@@ -106,10 +111,37 @@ const TeacherExperience = (props) => {
     }
 
 
-    const _handleSubmitForm = (e) => {
+    const _handleSubmitForm = async (e) => {
         //Ok submit
         e.preventDefault();
-        console.log(state);
+        const exps = [...state.experienceLists].map(exp => {
+            return {
+                ID:exp.idItem,
+                OrganizationName:exp.name,
+                JobTitle:exp.jobTitle,
+                TimePeriod:exp.timePeriod
+            }
+        });
+        try {
+            const params = {
+                Experience: !!state.teacherExp && state.teacherExp.length > 0 && state.teacherExp.length.map(exp => exp.ID) || null,
+                ExperienceObject:JSON.stringify(exps),
+                TesolCertificate:!!state.tesolCertificate && !!state.tesolCertificate.length > 0 && state.tesolCertificate.map(ce => ce.ID) || null,
+                TeylCertificate:!!state.teylCertificate && !!state.teylCertificate.length > 0 && state.teylCertificate.map(ce => ce.ID) || null,
+                OtherCertificate:!!state.otherCertificate && !!state.otherCertificate.length > 0 && state.otherCertificate.map(ce => ce.ID) || null
+            }
+            const res = await updateTeacherExperience(params);
+            res.Code === 1 && toast.success('Update experience success !!', {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 2000
+            });
+            res.Code === 0 && toast.danger('Update experience failed, please try again !!', {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 2000
+            });
+        } catch (error) {
+            console.log(error?.message ?? 'Lỗi tham số API, vui lòng kiểm tra lại !!');
+        }
     }
 
     const _addExpRow = (e) => {
@@ -119,6 +151,7 @@ const TeacherExperience = (props) => {
             name: "",
             jobTitle: "",
             timePeriod: "",
+            idItem: 0,
         };
         updateState('experienceLists', [...state.experienceLists, rowData]);
     }
@@ -127,17 +160,43 @@ const TeacherExperience = (props) => {
         updateState('experienceLists', [...state.experienceLists].filter(exp => exp.id !== id));
     }
 
+    const loadTeacherExperience = async () => {
+        setIsLoading(true);
+        const res = await getTeacherExperience();
+        res.Code === 1 ? dispatch({type:"DEFAULT_STATE", payload:{
+            ...state,
+            teacherExp:res.Data.TeacherExperience,
+            experienceLists:[...res.Data?.TeachingExperience ?? []].map(exp => {
+                return {
+                    id: randomId(),
+                    idItem:exp.ID,
+                    name: exp.OrganizationName,
+                    jobTitle: exp.JobTitle,
+                    timePeriod: exp.TimePeried
+                }
+            }),
+            teylCertificate:  res.Data?.TeylCertificate ?? null,
+            tesolCertificate: res.Data?.TesolCertificate ?? null,
+            otherCertificate: res.Data?.OtherCertificate ?? null
+        }}) : dispatch({type:"DEFAULT_STATE", payload:initialState});
+        setIsLoading(false);
+    }
 
     const loadSelectOptionAPI = async () => {
-        getTeylCertificateOptions().then((res) => updateState('teylCertificateOptions', res?.Data ?? []));
-        getTeachingExperienceOptions().then((res) => updateState('teacherExperiences', res?.Data ?? []));
-        getOtherCertificateOptions().then((res) => updateState('otherCertificateOptions', res?.Data ?? []));
-        getTesolCertificateOptions().then((res) => updateState('tesolCertificateOptions', res?.Data ?? []));
+        await getTeylCertificateOptions().then((res) => updateState('teylCertificateOptions', res?.Data ?? []));
+        await getTeachingExperienceOptions().then((res) => updateState('teacherExperiences', res?.Data ?? []));
+        await getOtherCertificateOptions().then((res) => updateState('otherCertificateOptions', res?.Data ?? []));
+        await getTesolCertificateOptions().then((res) => updateState('tesolCertificateOptions', res?.Data ?? []));
+        updateState('optionLoaded', true)
     };
 
     useEffect(() => {
         loadSelectOptionAPI();
     }, []);
+
+    useEffect(() => {
+        state.optionLoaded === true && loadTeacherExperience();
+    }, [state.optionLoaded]);
 
 
     return (
@@ -180,7 +239,7 @@ const TeacherExperience = (props) => {
                         <div className="teacher__content-block">
                             <h5 className="mg-b-15"><i className="fas fa-certificate mg-r-5"></i> Certificate</h5>
                             <div className="row teacher__certificate pd-y-15">
-                                <div className="form-group col-md-4">
+                                <div className="form-group col-12">
                                     <div className="input-float">
 
                                         <Select
@@ -194,11 +253,12 @@ const TeacherExperience = (props) => {
                                             getOptionValue={option => `${option.ID}`}
                                             onChange={(values) => updateState('tesolCertificate', values)}
                                             styles={appSettings.selectStyle}
+                                            menuPortalTarget={document.body}
                                         />
                                         <label>TESOL Certificate</label>
                                     </div>
                                 </div>
-                                <div className="form-group col-md-4">
+                                <div className="form-group col-12">
                                     <div className="input-float">
                                         <Select
                                             key={option => `${option.id}`}
@@ -212,12 +272,13 @@ const TeacherExperience = (props) => {
                                             getOptionValue={option => `${option.ID}`}
                                             onChange={(values) => updateState('teylCertificate', values)}
                                             styles={appSettings.selectStyle}
+                                            menuPortalTarget={document.body}
                                         />
 
                                         <label>TEYL Certificate</label>
                                     </div>
                                 </div>
-                                <div className="form-group col-md-4">
+                                <div className="form-group col-12">
                                     <div className="input-float">
 
                                         <Select
@@ -232,6 +293,7 @@ const TeacherExperience = (props) => {
                                             getOptionValue={option => `${option.ID}`}
                                             onChange={(values) => updateState('otherCertificate', values)}
                                             styles={appSettings.selectStyle}
+                                            menuPortalTarget={document.body}
                                         />
                                         <label>Other Certificate</label>
                                     </div>

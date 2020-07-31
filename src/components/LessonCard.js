@@ -48,7 +48,7 @@ const LessonCard = (
                         ) : (
                                     <span className="badge badge-warning  mg-r-10 pd-x-10 pd-y-5 tx-12">{lessonStatus}</span>
                                 )}
-                        <a href={`../account/lessonDetail.html`} className="course-name tx-bold">{courseName}</a>
+                        <a href={`/ElearnTeacher/Evaluation?ID=${lessonId}`} className="course-name tx-bold">{courseName}</a>
                         {!!studentName && (
                             <>
                                 <span className="tx-gray-400 tx-normal valign-middle mg-x-10">with</span>

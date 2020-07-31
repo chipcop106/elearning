@@ -104,7 +104,7 @@ const UpCommingTable = ({ showStudentModal }) => {
         try {
             const res = await getAllClass({
                 Page: parseInt(pageNumber),
-                Status: parseInt(filterStatusAllClass),
+                Status: parseInt(filterStatusAllClass.value),
                 fromDate: fromDate === '' ? fromDate : DateTimeFormat.format(new Date(fromDate)),
                 toDate: toDate === '' ? toDate : DateTimeFormat.format(new Date(toDate))
             });

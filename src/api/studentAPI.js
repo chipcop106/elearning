@@ -238,6 +238,8 @@ export const bookingLessonAPI = async (params) => {
                 Date: params.Date,
                 StudyTimeID: params.StudyTimeID,
                 SpecialRequest: params.SpecialRequest,
+                DocumentID: params.DocumentID,
+                DocumentDetailID: params.DocumentDetailID,
             }
         })
         result = res.data;
@@ -246,6 +248,22 @@ export const bookingLessonAPI = async (params) => {
     }
     return result;
 }
+
+export const getLessonBookAPI = async () => {
+    let result;
+    try {
+        let res = await instance.get(path + '/GetLessonBook', {
+            params: {
+                UID: appSettings.UID,
+            }
+        })
+        result = res.data;
+    } catch (error) {
+        return error.message ? error.message : result = "";
+    }
+    return result;
+}
+
 
 export const cancelLessonAPI = async (params) => {
     let result;
@@ -291,10 +309,11 @@ export const updateProfileAPI = async (params) => {
                 BirthDay: params.BirthDay,
                 Gender: params.Gender,
                 Language: params.Language,
-                TimezoneID: params.TimezoneID,
                 Address: params.Address,
                 Target: params.Target,
-                Hobbits: params.Hobbits,
+                SkypeID: params.SkypeID,
+                TimezoneID: params.TimeZoneID,
+                PersonalPreference: params.PersonalPreference,
                 RequestWithTeacher: params.RequestWithTeacher,
                 Avatar: params.Avatar,
             }
@@ -345,6 +364,22 @@ export const getListEvaluationAPI = async (params) => {
             params: {
                 UID: appSettings.UID,
                 Rate: params.Rate,
+                Page: params.Page,
+            }
+        })
+        result = res.data;
+    } catch (error) {
+        return error.message ? error.message : result = "";
+    }
+    return result;
+}
+
+export const getPaymentHistoryAPI = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/GetAllPaymentHistory', {
+            params: {
+                UID: appSettings.UID,
                 Page: params.Page,
             }
         })

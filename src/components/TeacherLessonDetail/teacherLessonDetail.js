@@ -93,8 +93,14 @@ const TeacherLessonDetail = () => {
 
     const getAPI = async () => {
         updateState('isLoading', true);
-        const evaluation = await getEvaluation({ ElearnBookingID: 1 });
-        updateState('lessonInfo', evaluation.Data);
+        try {
+            const params = getParamsUrl();
+            if(!params.has('ID')) return;
+            const evaluation = await getEvaluation({ BookingID: params.get('ID') });
+            evaluation.Code === 1 && updateState('lessonInfo', evaluation.Data);
+        } catch (error) {
+            console.log(error?.message ?? 'Lỗi gọi api, vui lòng xem lại tham số');
+        }
         updateState('isLoading', false);
     }
 
@@ -113,6 +119,12 @@ const TeacherLessonDetail = () => {
     React.useEffect(() => {
         console.log(state);
     }, [state]);
+
+    const getParamsUrl = () => {
+        if(typeof window == undefined) return;
+        const params = new URLSearchParams(window.location.search); 
+        return params;
+      }
 
     React.useEffect(() => {
         getAPI()

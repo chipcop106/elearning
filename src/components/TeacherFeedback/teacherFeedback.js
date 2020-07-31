@@ -284,7 +284,7 @@ const RenderSummary = ({ handFilterValue }) => {
                     <div className="fb-radio">
                         <label>
                             <input type="radio" name="fbType" group="feedback" value="1" onChange={_onChangeFilter} />
-                            <span>2 <i className="fa fa-star tx-warning"></i> Very bad<span className="number">{isLoading ? (<Skeleton width={15}/>) : (overview?.EvaluationRate1 ?? '')}</span></span>
+                            <span>1 <i className="fa fa-star tx-warning"></i> Very bad<span className="number">{isLoading ? (<Skeleton width={15}/>) : (overview?.EvaluationRate1 ?? '')}</span></span>
                         </label>
                     </div>
                 </div>

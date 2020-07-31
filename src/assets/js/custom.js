@@ -158,8 +158,10 @@ $(document).ready(function() {
 
     $('.toggle-sidebar').on('click', function(){
         $('#js-component-profilesidebar').addClass('active');
+        $(".sidebar-overlay").css("left", $("#js-component-profilesidebar").innerWidth() + "px");
     })
-    $(document).on('click','.sidebar-overplay',function(){
+    $(document).on('click','.sidebar-overlay',function(){
         $('#js-component-profilesidebar').removeClass('active');
+        $(this).css("left","-100%");
     })
 });

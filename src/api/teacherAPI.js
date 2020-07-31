@@ -365,7 +365,55 @@ export const getTeacherInfoProfile = async (params = {}) => {
 export const getTeacherIntroduce = async (params = {}) => {
     let result;
     try {
-        let res = await instance.get(path + '/GetTeacherIntroduce', {
+        let res = await instance.get(path + '/LoadSummary', {
+            params:{
+                ...params,
+                UID:appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const updateTeacherIntroduce = async (params = {}) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/UpdateSummary', {
+            params:{
+                ...params,
+                UID:appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const getTeacherExperience = async (params = {}) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/LoadCurriculum', {
+            params:{
+                ...params,
+                UID:appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const updateTeacherExperience = async (params = {}) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/UpdateTeachingExperience', {
             params:{
                 ...params,
                 UID:appSettings.UID
