@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import SideMenu from "./SideMenu";
 import { getProfile } from "~src/api/studentAPI";
+import SkeletonProfileSidebar from "~components/common/Skeleton/SkeletonProfileSidebar"
 
 const ProfileSidebar = () => {
   const [state, setState] = React.useState({})
@@ -17,24 +18,23 @@ const ProfileSidebar = () => {
       }));
     }
     setLoading(false);
-    feather.replace();
+
+    if($("#js-component-profilesidebar").hasClass("active")) {
+      $(".sidebar-overlay").css("left", $("#js-component-profilesidebar").innerWidth() + "px");
+    }
   }
 
   React.useEffect(() => {
     getAPI();
   }, []);
 
-  return loading ? <div className="overlay">
-  <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
-  </div> : (<>
+  return loading ? <SkeletonProfileSidebar />: (<>
     <div className="profile-sidebar pd-lg-r-25">
-      <div className="sidebar-overplay"></div>
+      <div className="sidebar-overlay"></div>
       <div className="user__infomation d-flex d-lg-block flex-wrap">
         <div className="w-100">
           <div className="avatar avatar-xxl avatar-online"><img src={`${state.Avatar ? state.Avatar : '../assets/img/default-avatar.png'}`} className="rounded-circle" alt="" /></div>
-          <h5 className="mg-b-2 tx-spacing--1 mg-t-15 text-break" style={{lineHeight:'1.6em'}}>{state.FullName}</h5>
-          <span className="d-block w-100" style={{color:'#8392a5'}}>Học viên</span>
-          <label className="label-tag main-color">Active</label>
+          <h5 className="bold tx-spacing--1 mg-t-15 text-break" style={{lineHeight:'1.6em'}}>{state.FullName}</h5>
         </div>
        {/*  <div className="col-sm-12 col-md-6 col-lg-12  ">
           <label className="tx-sans tx-10 tx-semibold tx-uppercase tx-color-01 tx-spacing-1 mg-b-15">Contact
@@ -47,7 +47,7 @@ const ProfileSidebar = () => {
         </div> */}
         {/* <div className="col-sm-12 col-md-6 col-lg-12 mg-t-20 mg-sm-t-0 mg-lg-t-25">
           <div className="d-flex mg-b-25">
-            <a className="btn btn-xs btn-primary flex-fill mg-r-2 bg-orange tx-white" href="bookingLesson.html">Book a Lesson</a>
+            <a className="btn btn-xs btn-primary flex-fill mg-r-2 bg-orange tx-white" href="ElearnStudent/bookingLesson">Book a Lesson</a>
           </div>
         </div> */}
       </div>

@@ -7,7 +7,7 @@ import CancelBookingLessonModal from "~components/CancelBookingLessonModal"
 import BookingLessonModal from "~components/BookingLessonModal"
 import SkeletonLessonCard from "~components/common/Skeleton/SkeletonLessonCard"
 
-import { nationMapToFlag } from '~src/utils'
+import { nationMapToFlag, randomId } from '~src/utils'
 import { getTeacherInfo } from "~src/api/studentAPI"
 
 import { ToastContainer } from 'react-toastify'
@@ -38,6 +38,7 @@ const initialOnBookState = {
   StudyTimeID: "",
   studentName: "",
   date: "",
+  randomProps: "",
 }
 
 const initialOnCancelState = {
@@ -68,10 +69,9 @@ const TeacherDetail = () => {
       ...stateBookLesson,
       StudyTimeID,
       LessionName,
-      /* TeacherUID: state.TeacherUID, */
-      TeacherUID: 1071,
-      TeacherIMG: state.TeacherIMG,
-      TeacherName: state.TeacherName,
+      TeacherUID: state && state.TeacherUID,
+      TeacherIMG: state && state.TeacherIMG,
+      TeacherName: state && state.TeacherName,
       date,
       start,
       end,
@@ -85,6 +85,7 @@ const TeacherDetail = () => {
       StudyTimeID,
       studentName,
       date,
+      randomProps: randomId(),
     })
   }
 
@@ -119,14 +120,15 @@ const TeacherDetail = () => {
 
   return loading ? <SkeletonLessonCard /> : <>
     {
-      !!state ? <div className="teacher__detail__wrap shadow card-box">
+     <div className="teacher__detail__wrap shadow card-box">
         <div className="teacher__detail">
           <div className="teacher-header">
             <div className="teacher-avatar">
-              <img src={state.TeacherIMG ? state.TeacherIMG : "../assets/img/default-avatar.png"}
+              <img src={!!state && state.TeacherIMG ? state.TeacherIMG : "../assets/img/default-avatar.png"}
                 alt="avatar" />
             </div>
-            <div className="teacher-info">
+            {
+              !!state && <div className="teacher-info">
               <div className="teacher-name">
                 <h5 className="name">{state.TeacherName}</h5>
                 <div className="nation">
@@ -144,24 +146,25 @@ const TeacherDetail = () => {
                 <p className="mg-b-0 mg-t-10">{state.IntroduceContent}</p>
               </div>
             </div>
+            }
           </div>
           <div className="teacher-body">
             <div className="tab-navigation">
-              <ul className="list-tab" id="js-list-tab">
-                <li className="tab-item">
-                  <a href={"#"} className={`${showTab === 1 ? 'active' : ''} tab-link`}
+              <ul className="list-tab align-items-stretch" id="js-list-tab">
+                <li className="tab-item h-auto">
+                  <a href={"#"} className={`${showTab === 1 ? 'active' : ''} tab-link h-100`}
                     data-index="0"
                     onClick={(e) => { e.preventDefault(); setShowTab(1) }}>
                       <i className="fas fa-user mg-r-5"></i>TEACHER INFORMATION</a>
                 </li>
-                <li className="tab-item">
-                  <a href={"#"} className={`${showTab === 2 ? 'active' : ''} tab-link`}
+                <li className="tab-item h-auto">
+                  <a href={"#"} className={`${showTab === 2 ? 'active' : ''} tab-link h-100`}
                     data-index="1"
                     onClick={(e) => { e.preventDefault(); setShowTab(2) }}>
                       <i className="fas fa-calendar mg-r-5"></i>BOOKING SCHEDULE</a>
                 </li>
-                <li className="tab-item">
-                  <a href={"#"} className={`${showTab === 3 ? 'active' : ''} tab-link`}
+                <li className="tab-item h-auto">
+                  <a href={"#"} className={`${showTab === 3 ? 'active' : ''} tab-link h-100`}
                     data-index="2"
                     onClick={(e) => { e.preventDefault(); setShowTab(3) }}>
                       <i className="fas fa-comment mg-r-5"></i>STUDENT COMMENT</a>
@@ -174,19 +177,20 @@ const TeacherDetail = () => {
                   <div className={`${showTab === 1 ? 'active' : ''} swiper-slide`}>
                     <div className="slide-tab-content">
                       <TeacherInformation
-                        IntroduceContent={state.IntroduceContent}
-                        Experience={state.Experience}
-                        Certificate={state.Certificate} />
+                        IntroduceContent={!!state && state.IntroduceContent}
+                        Experience={!!state && state.Experience}
+                        Certificate={!!state && state.Certificate} />
                     </div>
                   </div>
                   <div className={`${showTab === 2 ? 'active' : ''} swiper-slide`}>
                     <div className="slide-tab-content">
                       <BookingSchedule
-                        TeacherUID={state.TeacherUID}
+                        TeacherUID={!!state && state.TeacherUID}
                         onBookStudyTimeID={onBookState.StudyTimeID}
                         onBookTeacherUID={onBookState.TeacherUID}
                         onBookStudentName={onBookState.studentName}
                         onBookDate={onBookState.date}
+                        randomProps={onBookState.randomProps}
                         onCancelId={onCancelState.id}
                         handleBookLesson={onHandleBookLesson}
                         handleCancelLesson={onHandleCancelLesson} />
@@ -194,7 +198,7 @@ const TeacherDetail = () => {
                   </div>
                   <div className={`${showTab === 3 ? 'active' : ''} swiper-slide`}>
                     <div className="slide-tab-content">
-                      <StudentComment TeacherUID={state.TeacherUID}/>
+                      <StudentComment TeacherUID={!!state && state.TeacherUID}/>
                     </div>
                   </div>
                 </div>
@@ -222,7 +226,7 @@ const TeacherDetail = () => {
           end={stateBookLesson.end}
           onBook={onBook} />
         <ToastContainer />
-      </div>:<span className="text-danger bold" style={{fontSize:'16px'}}>Not data found</span>
+      </div>
     }
   </>
 }

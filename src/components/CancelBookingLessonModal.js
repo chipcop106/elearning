@@ -33,7 +33,6 @@ const CancelBookingLessonModal = ({ BookingID, LessionName, date, start, end, st
       reasonTooShortAlert()
     }
     else {
-      console.log(BookingID)
       getAPI({
         BookingID,
         ReasonCancel: reason
@@ -63,11 +62,14 @@ const CancelBookingLessonModal = ({ BookingID, LessionName, date, start, end, st
           <p>Date: <span id="js-date-time" className="tx-medium">{date || ''}</span></p>
           <p>Start time: <span id="js-start-time" className="tx-medium">{start || ''}</span></p>
           <p>End time: <span id="js-end-time" className="tx-medium">{end || ''}</span></p>
-          <div className="form-group">
-            <textarea style={{ width: '100%', height: '100px', border: '1px solid #555', padding: '5px' }}
-              placeholder="Reason"
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}></textarea>
+          <div className="metronic-form">
+            <div className="form-group">
+              <textarea style={{height: '100px'}}
+                className="form-control"
+                placeholder="Reason cancel"
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}></textarea>
+            </div>
           </div>
           <p className="tx-danger">Are you sure to cancel this lesson?</p>
         </div>

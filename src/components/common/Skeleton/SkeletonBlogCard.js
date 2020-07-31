@@ -8,7 +8,7 @@ let styleWrapper = {
 }
 let styleSection = {
     border: "1px solid #e1e1e1",
-    borderRadius: "10px",
+    borderRadius: "5px",
     padding: "10px",
 }
 const SkeletonBlogCard = () => {

@@ -3,16 +3,16 @@ import ReactDOM from 'react-dom';
 
 const TeacherInformation = ({ IntroduceContent, Experience, Certificate }) => {
   return <React.Fragment>
-      <div className="content-block">
+      <div className="content-block mg-b-15-f">
         <h5 className="main-title">Introduce</h5>
         <div className="introduce-content">{IntroduceContent}</div>
       </div>
-      <div className="content-block">
+      <div className="content-block mg-b-15-f">
         <h5 className="main-title">CURRICULUM VITAE</h5>
         <div className="introduce-content">
           <h5 className="sub-title"><i className="fas fa-user-clock"></i>
             Experience</h5>
-          <div className="table-responsive mg-b-30">
+          <div className="table-responsive mg-b-15">
             <table className="table table-borderless table-exp">
               <tbody>
                 {

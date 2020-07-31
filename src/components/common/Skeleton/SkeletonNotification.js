@@ -9,7 +9,8 @@ let styleWrapper = {
 let styleSection = {
   border: "1px solid #e1e1e1",
   borderRadius: "5px",
-  padding: "10px"
+  padding: "10px",
+  backgroundColor: "#fff",
 }
 const SkeletonNotification = () => {
   return (<>
@@ -19,12 +20,12 @@ const SkeletonNotification = () => {
           <section style={styleSection}>
             <div style={styleWrapper}>
               <div className="w-100 mb-3">
-                <Skeleton width={`100%`} height={100} />
+                <Skeleton width={`100%`} height={150} />
               </div>
               <div className="w-100 mb-1">
                 <Skeleton width={`100%`} height={30} />
               </div>
-              <div className="w-100 mb-1">
+              <div className="w-100 mb-2">
                 <Skeleton width={`80%`} height={20} />
               </div>
               <div className="w-100 mb-1">

@@ -1,19 +1,12 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
 
-const style = {
-  display: "flex",
-  justifyContent: "space-between",
-}
-const SkeletonLessonHistoryCard = () => {
+const SkeletonLessonHistoryCard = ({ column }) => {
   return (
     <tr>
-      <th><Skeleton height={40} /></th>
-      <th><Skeleton height={40} /></th>
-      <th><Skeleton height={40} /></th>
-      <th><Skeleton height={40} /></th>
-      <th><Skeleton height={40} /></th>
-      <th><Skeleton height={40} /></th>
+      {
+        Array(parseInt(column)).fill().map((item, index) => <th key={index}><Skeleton height={40} /></th>)
+      }
   </tr>
   );
 };

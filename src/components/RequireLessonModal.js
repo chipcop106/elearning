@@ -8,12 +8,6 @@ import { FETCH_ERROR, REQUEST_SUCCESS, FILL_NOTES } from '~components/common/Con
 
 import styles from "~components/RequireLessonModal.module.scss";
 
-const initialState = {
-  /* require: ["Require 1", "Require 2", "Require 3"],
-  selectedRequire: [], */
-  SpecialRequest: "",
-}
-
 const RequireLessonModal = ({
   BookingID,
   avatar = "default-avatar.png",
@@ -21,15 +15,15 @@ const RequireLessonModal = ({
   TeacherName,
   LessionMaterial,
   LessionName,
-  SpecialRequest,
+  SpecialRequest = "",
   date,
   start,
   end,
   DocumentName,
   SkypeID,
   callback,
-  }) => {
-  const [state, setState] = React.useState(initialState)
+}) => {
+  const [state, setState] = React.useState(SpecialRequest)
   const requireLesson = () => toast.success(REQUEST_SUCCESS, toastInit);
   const requireLessonFail = () => toast.error(FETCH_ERROR, toastInit);
   const requireLessonAlert = () => toast.warn(FILL_NOTES, toastInit);
@@ -48,14 +42,14 @@ const RequireLessonModal = ({
   }
 
   const onSubmitRequire = () => {
-    if (state.SpecialRequest.length <= 0) {
+    if (state.length <= 0) {
       requireLessonAlert();
     }
     else {
       /* Call API */
       fetchAPI({
         BookingID,
-        SpecialRequest: state.SpecialRequest,
+        SpecialRequest: state,
       })
       $('#js-md-required').fadeOut(500, function () {
         $('#js-md-required').modal('hide');
@@ -64,10 +58,12 @@ const RequireLessonModal = ({
   }
 
   React.useEffect(() => {
-    //$('.required-list ul li input').prop('checked', false);
-    setState(initialState)
-      //selectedRequire: []
+    setState(SpecialRequest)
   }, [BookingID]);
+
+  React.useEffect(()=>{
+    feather.replace();
+  },[])
 
   return (
     <div className="modal effect-scale" tabIndex="-1" role="dialog" id="js-md-required">
@@ -78,9 +74,9 @@ const RequireLessonModal = ({
               <div className="cr-item lesson-info">
                 <div className="media">
                   <div className="teacher-information">
-                    <a className="teacher-avatar" href={`teacherDetail.html?ID=${TeacherUID}`}>
+                    <a className="teacher-avatar" href={`ElearnStudent/teacherDetail?ID=${TeacherUID}`}>
                       <img src={avatar === "default-avatar.png" ?
-                                `../assets/img/${avatar}` : avatar }
+                        `../assets/img/${avatar}` : avatar}
                         className="teacher-image" alt="" />
                       <p className="course-teacher tx-14 tx-gray-800 tx-normal mg-b-0 tx-center mg-t-5 d-block">
                         {TeacherName}</p>
@@ -89,55 +85,40 @@ const RequireLessonModal = ({
                   <div className="media-body mg-l-20 pos-relative pd-b-0-f">
                     <h5 className="title mg-b-10 d-flex align-items-center">
                       <span className="badge badge-warning mg-r-5">Incoming</span>{' '}
-                      <a href={`lessonDetail.html?ID=${BookingID}`} className="course-name tx-bold">{LessionName}</a>
+                      <a href={`ElearnStudent/lessonDetail?ID=${BookingID}`} className="no-hl course-name tx-bold">{LessionName}</a>
                     </h5>
                     <div className="course-information tx-14">
-                      <span className="mg-r-15 tx-gray-600 tx-medium"><i className="fa fa-calendar  tx-info mg-r-5"></i>
+                      <span className="mg-r-15 tx-gray-600 tx-medium d-inline-block">
+                      <i className="feather-16 mg-r-5" data-feather="calendar"></i>
                         {date}</span>
-                      <span className="mg-r-15 tx-gray-600 tx-medium"><i className="fa fa-clock  tx-info mg-r-5"></i>
+                      <span className="mg-r-15 tx-gray-600 tx-medium d-inline-block">
+                        <i className="feather-16 mg-r-5" data-feather="clock"></i>
                         {`Start: ${start}`}</span>
-                      <span className="mg-r-15 tx-gray-600 tx-medium"><i className="fa fa-clock  tx-info mg-r-5"></i>
+                      <span className="mg-r-15 tx-gray-600 tx-medium d-inline-block">
+                        <i className="feather-16 mg-r-5" data-feather="clock"></i>
                         {`End: ${end}`}</span>
                     </div>
-                    <div className="course-note mg-t-15">
-                      <h6 className="mg-b-3">Lesson notes:</h6>
-                      <p className="tx-14 mg-b-0"> {SpecialRequest} </p>
-                    </div>
-                    <div className="course-docs mg-t-15">
-                      <h6 className="mg-b-3">Documents:</h6>
-                      <div /* className="docs-lists" */>
-                        {
-                         /*  !!DocumentName && Array.isArray(DocumentName) && DocumentName.length > 0 &&
-                          DocumentName.map((doc, index) =>
-                            <a key={index} href={"#"} className="file-doc"><i className="fa fa-file mg-r-3"></i>
-                              <span className="file-name">{doc.split('.')[0]}</span>
-                              <span className="file-ext">{`.${doc.split('.')[1]}`}</span>
-                            </a>
-                          ) */
-                          <a href={LessionMaterial} target="_blank">{DocumentName}</a>
-                        }
+                    {
+                      SpecialRequest && <div className="course-note mg-t-15">
+                        <h6 className="mg-b-3">Lesson notes:</h6>
+                        <p className="tx-14 mg-b-0"> {SpecialRequest} </p>
                       </div>
-                    </div>
+                    }
+                    {
+                      DocumentName && LessionMaterial && <div className="course-docs mg-t-15">
+                        <h6 className="mg-b-3">Documents:</h6>
+                        <div>
+                          <a href={LessionMaterial} target="_blank">{DocumentName}</a>
+                        </div>
+                      </div>
+                    }
                     <div className="required-list mg-t-15 bd-t pd-t-15">
-                      {/* <ul className="list list-unstyled pd-l-0">
-                        {
-                          !!state.require && state.require.length > 0 && state.require.map((item, index) =>
-                            <li key={index}>
-                              <div className="custom-control custom-checkbox">
-                                <input type="checkbox" id={`require-${index}`} name="selectedRequire" className="custom-control-input" onChange={handleChange} value={item} />
-                                <label className="custom-control-label" htmlFor={`require-${index}`}>{item}</label>
-                              </div>
-                            </li>
-                          )
-                        }
-                      </ul> */}
-                      <div className="required-text-box mg-t-15">
+                      <div className="required-text-box mg-t-15 metronic-form">
                         <label className="tx-medium">Note for teachers:</label>
                         <div className="form-group">
-                          <textarea name="message" id="" rows="4" className="form-control"
-                          placeholder="Note for teacher"
-                          value={state.SpecialRequest}
-                          onChange={(e)=>setState({...state,SpecialRequest:e.target.value})} ></textarea>
+                          <textarea name="message" rows="4" className="form-control"
+                            value={state}
+                            onChange={(e) => setState(e.target.value)} ></textarea>
                         </div>
                       </div>
                     </div>

@@ -33,7 +33,7 @@ const Faq = () => {
           <div id="accordion">
             {
               !!state && state.length > 0 && state.map((item, index) =>
-                <div className="card">
+                <div className="card" key={item.ID}>
                   <div className="card-header" id={item.ID}>
                     <h5 className="mb-0">
                       <button

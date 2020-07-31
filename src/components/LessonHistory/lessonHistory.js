@@ -132,7 +132,7 @@ const LessonHistory = () => {
         </thead>
         <tbody>
           {
-            loading ? <SkeletonLessonHistoryCard /> :
+            loading ? <SkeletonLessonHistoryCard column={6} /> :
               !!data && Array.isArray(data) && data.length > 0 ?
                 data.map(item => <LessonItem
                   key={item.CoursesID}
@@ -141,6 +141,7 @@ const LessonHistory = () => {
                   DocumentName={item.DocumentName}
                   DocumentDetailID={item.DocumentDetailID}
                   LessionName={item.LessionName}
+                  LessonDetail={item.LessonDetail}
                   start={convertDateFromTo(item.Schedule).fromTime}
                   end={convertDateFromTo(item.Schedule).endTime}
                   date={convertDateFromTo(item.Schedule).date}
@@ -148,8 +149,8 @@ const LessonHistory = () => {
                   TeacherName={item.TeacherName}
                   Status={item.Status}
                   StatusString={item.StatusString} />) :
-                <tr>
-                  <td>
+                <tr style={{backgroundColor: "transparent"}}>
+                  <td colSpan="6">
                     <NOT_DATA_FOUND />
                   </td>
                 </tr>

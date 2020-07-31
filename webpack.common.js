@@ -8,13 +8,10 @@ const appPaths = {
 module.exports = {
   entry: {
     "polyfill": "@babel/polyfill",
-    
     'Footer': componentEnrtryPrefix + '/Footer.js',
     'login': componentEnrtryPrefix + 'Login/Login.js',
     'signup': componentEnrtryPrefix + 'Signup/Signup.js',
     'app': ['./src/scss/custom.scss', './src/assets/js/custom.js'],
-    
-    
     'ProfileSidebar': componentEnrtryPrefix + '/ProfileSidebar.js',
     /* 'teacherHome': componentEnrtryPrefix + 'TeacherHome/teacherHome.js',
     'Header': componentEnrtryPrefix + '/Header.js',
@@ -27,19 +24,17 @@ module.exports = {
     'teacherFeedback': componentEnrtryPrefix + 'TeacherFeedback/teacherFeedback.js',
     'teacherProfile': componentEnrtryPrefix + 'TeacherProfile/teacherProfile.js',  */
     // 'DocumentSlider': componentEnrtryPrefix + 'TeacherLibrary/DocumentSlider.js',
-    'notification': componentEnrtryPrefix + 'Notification/Notification.js',
-    /* 'teacherDetail': componentEnrtryPrefix + 'TeacherDetail/TeacherDetail.js',
-    'faq': componentEnrtryPrefix + 'Faq/Faq.js', 
-    'feedback': componentEnrtryPrefix + 'Feedback/Feedback.js',
+    'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js',
+    'teacherDetail': componentEnrtryPrefix + 'TeacherDetail/TeacherDetail.js',
     'bookingLesson': componentEnrtryPrefix + 'StudentBooking/BookingLesson.js',
+    'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js',
     'lessonHistory': componentEnrtryPrefix + 'LessonHistory/LessonHistory.js',
     'lessonDetail': componentEnrtryPrefix + 'LessonDetail/LessonDetail.js',
-    'blogDetail': componentEnrtryPrefix + 'BlogDetail/BlogDetail.js',
     'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/StudentDashboard.js',
-    'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js',
-    
-    'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js', */
-    
+    'notification': componentEnrtryPrefix + 'Notification/Notification.js',
+    'faq': componentEnrtryPrefix + 'Faq/Faq.js', 
+    'feedback': componentEnrtryPrefix + 'Feedback/Feedback.js',
+    'blogDetail': componentEnrtryPrefix + 'BlogDetail/BlogDetail.js',
     'app': ['./src/scss/custom.scss', './src/assets/js/custom.js'], 
   },
   output: {

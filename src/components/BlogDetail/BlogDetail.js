@@ -32,7 +32,7 @@ const BlogDetail = () => {
     <nav aria-label="breadcrumb">
       <ol className="breadcrumb breadcrumb-style1 mg-b-30">
         <li className="breadcrumb-item tx-primary">
-          <a href="notification.html"><i className="fas fa-bell mg-r-5"></i> Notification</a></li>
+          <a href="ElearnStudent/notification"><i className="fas fa-bell mg-r-5"></i> Notification</a></li>
         {
           !!state && <li className="breadcrumb-item active"
             aria-current="page">{state.NotificationTitle}</li>
@@ -42,7 +42,7 @@ const BlogDetail = () => {
     {
       loading ? <SkeletonBlogCard /> : <>
         {
-          !!state ? <div className="content-blog pd-15 shadow">
+          !!state ? <div className="content-blog pd-15 shadow rounded-5">
             <div className="post-detail-cover">
               <img src={state.NotifictionIMG} alt="banner" className="banner-img" />
             </div>
@@ -55,7 +55,8 @@ const BlogDetail = () => {
               <img src={state.IMG ? state.IMG : "../assets/img/default-avatar.png"} alt="avatar" />
               </a> */}
                 <div className="author-information">
-                  <a href={"#"} className="username"><span className="hasVerifiedBadge">{state.CreatedBy}</span></a>
+                  <span className="main-color bg-transparent username">
+                    <span className="hasVerifiedBadge">{state.CreatedBy}</span></span>
                   <div className="date-comment-view">
                     <span className="date"><span className="DateTime" title={moment(state.CreatedDate).format("LLLL")}>{getFormattedDate(state.CreatedDate)}</span></span>
                   </div>

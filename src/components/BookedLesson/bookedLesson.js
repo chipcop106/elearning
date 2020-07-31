@@ -48,7 +48,8 @@ const BookedLesson = () => {
   const [stateCancelLesson, setStateCancelLesson] = React.useState(initialCancelLesson);
   const [stateRequireLesson, setStateRequireLesson] = React.useState(initialRequireLesson);
 
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
+  
   const handlePageChange = (pageNumber) => {
     setPage(pageNumber);
     getAPI({
@@ -112,7 +113,7 @@ const BookedLesson = () => {
   const getAPI = async (params) => {
     setLoading(true);
     const res = await getUpcomingLessons(params);
-    if (res.Code === 1) {
+     if (res.Code === 1) {
       setState(res.Data)
       setPageSize(res.PageSize);
       setTotalResult(res.TotalResult)
@@ -135,10 +136,10 @@ const BookedLesson = () => {
             {
               !!state && !!state &&
                 state.length + state.length === 0 ? (
-                  <div className="empty-error tx-center mg-y-30 cr-item bg-white pd-15 rounded-10 shadow">
+                  <div className="empty-error tx-center mg-y-30 cr-item bg-white pd-15 rounded-5 shadow">
                     <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" />
                     <p className=" tx-danger tx-medium">You don't have any lesson.</p>
-                    <a href="bookingLesson.html" className="btn btn-primary">Book a lesson</a>
+                    <a href="ElearnStudent/bookingLesson" className="btn btn-primary">Book a lesson</a>
                   </div>) : ""
             }
             <ul className="list-wrap">
