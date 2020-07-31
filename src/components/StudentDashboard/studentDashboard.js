@@ -192,10 +192,10 @@ const Dashboard = () => {
                     <span className="course-name">Course Name Course Name Course Name</span>
                   </a>
                   <i className="flaticon2-correct text-success icon-md ml-2"></i>
-                  <ul>
+                  {/* <ul>
                     <li className="mg-r-20"><i className="fas fa-calendar pd-r-5"></i><span>Start: 20/04/2020</span></li>
                     <li><i className="fas fa-calendar pd-r-5"></i><span>Expired: 20/07/2020</span></li>
-                  </ul>
+                  </ul> */}
                   <div className="course-progress d-flex flex-wrap">
                     <div className="start-date mg-r-15 mg-md-r-30">
                       <label className="d-block tx-gray-500">Start Date</label>

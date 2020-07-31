@@ -260,18 +260,4 @@ export const getLearningTargetOptions = async (params) => {
     return result;
 }
 
-export const updatePassword = async (params) => {
-    let result;
-    try {
-        let res = await instance.get(path + '/UpdatePass',{
-            params: {
-                 UID: appSettings.UID,
-            }
-        })
-        result =  res.data;
-    } catch (error) {
-        return error.message ? error.message: result = "";
-    }
-    return result;
-}
 

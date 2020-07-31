@@ -36,7 +36,7 @@ const CancelBookingTeacher = ({BookingID, LessionName, date, start, end, style, 
     else {
       getAPI({
         BookingID,
-        ReasonCancel: reason
+        ReasonCancleOfTeacher: reason
       })
       $('#md-cancel-schedule').fadeOut(500, function () {
         $('#md-cancel-schedule').modal('hide');

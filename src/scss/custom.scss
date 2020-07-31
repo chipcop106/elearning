@@ -6296,7 +6296,10 @@ footer.footer {
             border-color: transparent;
         }
         &.fc-event-past {
-            background-color: #d8d8d8;
+            background-color:#d8d8d8;
+            background-image: repeating-linear-gradient(-45deg,
+            transparent 0 2px,
+            #ccc 0 5px);
             border-color: #fff;
             .booking-name{
                 color:#777;
@@ -7043,7 +7046,7 @@ input.time-only[readonly]{
         text-transform:uppercase;
         letter-spacing:1px;
         color:#ccc;
-        padding:10px 15px;
+        padding:15px;
         display:block;
         position:relative;
         &:after {
@@ -7357,12 +7360,7 @@ blockquote.messageText{
 .bannerAndSlide{
     .banner{
         >a{
-            display:block;
-            img{
-                height:300px;
-                width:250px;
-                object-fit:contain
-            }
+         
         }
     }
 }
@@ -7534,6 +7532,11 @@ blockquote.messageText{
     position:absolute;
     right:0;
     top:0;
+}
+.group-float-label{
+    .form-group{
+        margin-bottom:30px;
+    }
 }
 .input-float {
     display:flex;
@@ -8347,3 +8350,8 @@ body{
     border-color:#e5e5e5;
 }
 
+.tab-navigation{
+    .tab-link{
+        cursor:pointer;
+    }
+}

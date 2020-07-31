@@ -151,8 +151,7 @@ const TeacherHome = () => {
                             <div className="card card-custom">
                                 <div className="card-header align-items-center d-flex justify-content-between pd-x-20-f">
                                     <div className="d-flex align-items-center">
-                                        <span className="tx-32 tx-gray-300"><i className="fas fa-calendar"></i></span>
-                                        <div className="mg-l-15">
+                                        <div className="">
                                             <h5 className="mg-b-5">Upcoming lesson</h5>
                                             <p className="tx-gray-300 mg-b-0">Next upcoming lesson with student</p>
                                         </div>

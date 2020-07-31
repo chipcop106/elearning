@@ -33,6 +33,22 @@ export const getListCategoryLibrary = async (params = {}) => {
     return result;
 }
 
+export const getListLibraryNew = async (params = {}) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/GetLibraryNew', {
+            params:{
+                ...params,
+                UID:appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
 export const getLibraryByCategoryID = async (params = {}) => {
     let result;
     try {
@@ -330,3 +346,34 @@ export const getOverviewFeedback = async (params) => {
     return result;
 }
 
+export const getTeacherInfoProfile = async (params = {}) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/LoadProfileTeacher', {
+            params:{
+                ...params,
+                UID:appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const getTeacherIntroduce = async (params = {}) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/GetTeacherIntroduce', {
+            params:{
+                ...params,
+                UID:appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}

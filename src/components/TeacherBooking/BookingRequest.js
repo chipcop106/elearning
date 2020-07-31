@@ -4,7 +4,7 @@ import SkeletonLessonCard from '../common/Skeleton/SkeletonLessonCard';
 import { getUpcomingClass } from '~src/api/teacherAPI';
 import { convertDateFromTo as cvDate, checkCancelTime } from '~src/utils';
 import Flatpickr from 'react-flatpickr';
-import CancelBookingLessonModal from '~components/CancelBookingLessonModal';
+import CancelBookingTeacher from '~components/CancelBookingTeacher';
 import Pagination from 'react-js-pagination';
 const BookingRequest = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -161,12 +161,13 @@ const BookingRequest = () => {
                     )}
                 </div>
             </div>
-            <CancelBookingLessonModal
-                id={cancelData?.lessonId ?? ''}
+            <CancelBookingTeacher
+                BookingID={cancelData?.lessonId ?? ''}
                 name="Warning !!"
                 start={cancelData?.lessonStart ?? ''}
                 end={cancelData?.lessonEnd ?? ''}
                 date={cancelData?.lessonDate ?? ''}
+                LessionName={cancelData?.lessonName ?? ''}
                 callback={refreshListUpcoming}
             />
         </>

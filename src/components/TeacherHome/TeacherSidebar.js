@@ -201,8 +201,8 @@ const TeacherSidebar = () => {
                                     {/*end::Symbol*/}
                                     {/*begin::Text*/}
                                     <div className="d-flex flex-column flex-grow-1">
-                                        <a href="#" className="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder">Student Members</a>
-                                        <span className="text-muted tx-gray-200 tx-normal">Student booked</span>
+                                        <span className="tx-dark text-hover-primary mb-1 font-size-lg tx-medium">Student Members</span>
+                                        <span className="text-muted tx-gray-400 tx-normal">Student booked</span>
                                     </div>
                                     {/*end::Text*/}
                                     {/*begin::label*/}
@@ -225,8 +225,8 @@ const TeacherSidebar = () => {
                                     {/*end::Symbol*/}
                                     {/*begin::Text*/}
                                     <div className="d-flex flex-column flex-grow-1">
-                                        <a href="#" className="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder">Hours Classes</a>
-                                        <span className="text-muted tx-gray-200 tx-normal">Finished classes</span>
+                                        <span className="tx-dark text-hover-primary mb-1 font-size-lg tx-medium">Hours Classes</span>
+                                        <span className="text-muted tx-gray-400 tx-normal">Finished classes</span>
                                     </div>
                                     {/*end::Text*/}
                                     {/*begin::label*/}
@@ -249,8 +249,8 @@ const TeacherSidebar = () => {
                                     {/*end::Symbol*/}
                                     {/*begin::Text*/}
                                     <div className="d-flex flex-column flex-grow-1">
-                                        <a href="#" className="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder">Experience</a>
-                                        <span className="text-muted tx-gray-200 tx-normal">Days Experience</span>
+                                        <span className="tx-dark text-hover-primary mb-1 font-size-lg tx-medium">Experience</span>
+                                        <span className="text-muted tx-gray-400 tx-normal">Days Experience</span>
                                     </div>
                                     {/*end::Text*/}
                                     {/*begin::label*/}

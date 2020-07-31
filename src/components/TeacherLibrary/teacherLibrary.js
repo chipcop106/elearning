@@ -4,11 +4,13 @@ import DocumentSlider from './DocumentSlider';
 import Skeleton from 'react-loading-skeleton';
 import {getListCategoryLibrary} from '~src/api/teacherAPI';
 
+
 const TeacherLibrary = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [categories, setCategories] = useState([]);
 
     const getCategories = async () => {
+        setIsLoading(true);
         const res = await getListCategoryLibrary();
         if(res.Code !== 1) return;
         setCategories(res.Data);
@@ -23,9 +25,9 @@ const TeacherLibrary = () => {
         <>
             <div className="library-wrap">
                 {/*s1*/}
-                <div className="row">
+                <div className="row mg-b-30">
                     <div className="col-sm-12 col-ms-12 col-lg-4 col-xl-3 bannerAndSlide  mb-2 ">
-                        <div className="banner">
+                        <div className="banner tx-center">
                             <a href="#">
                                 <img src="../assets/img/library.svg" alt="" className="img-banner" />
                             </a>
@@ -33,7 +35,7 @@ const TeacherLibrary = () => {
                     </div>
                     <div className="col-sm-12 col-ms-12 col-lg-8 col-xl-9 bannerAndSlide">
                         <div className="banner-slide">
-                            <DocumentSlider categoryID={2} slideTitle='New Cirriculum' />
+                            <DocumentSlider categoryID={2} slideTitle='New Cirriculum' getNewest={true} />
                             {/*/foundation*/}
                         </div>
                     </div>

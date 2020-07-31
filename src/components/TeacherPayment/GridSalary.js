@@ -4,82 +4,92 @@ import { getPaymentInfo } from '~src/api/teacherAPI';
 import Skeleton from 'react-loading-skeleton'
 import moment from 'moment';
 import Select from 'react-select';
-import {appSettings} from '~src/config';
+import { appSettings } from '~src/config';
+import NumberFormat from 'react-number-format';
 const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
 ];
 
+
+
+Date.prototype.addDays = function (dayAdd) {
+    this.setTime(this.getTime() + parseInt(dayAdd) * 24 * 60 * 60 * 1000);
+    return this;
+}
+
 const monthOptions = [
     {
-        value:0,
+        value: 0,
         label: 'January'
     },
     {
-        value:1,
+        value: 1,
         label: 'February'
     },
     {
-        value:2,
+        value: 2,
         label: 'March'
     },
     {
-        value:3,
+        value: 3,
         label: 'April'
     },
     {
-        value:4,
+        value: 4,
         label: 'May'
     },
     {
-        value:5,
+        value: 5,
         label: 'June'
     },
     {
-        value:6,
+        value: 6,
         label: 'July'
     },
     {
-        value:7,
+        value: 7,
         label: 'August'
     },
     {
-        value:8,
+        value: 8,
         label: 'September'
     },
     {
-        value:9,
+        value: 9,
         label: 'October'
     },
     {
-        value:10,
+        value: 10,
         label: 'November'
     },
     {
-        value:11,
+        value: 11,
         label: 'December'
     }
 ]
 
 const typeOptions = [{
-    value:1,
-    label:'The first 2 weeks'
-},{
-    value:2,
-    label:'2 weeks later'
+    value: 1,
+    label: 'The first 2 weeks'
+}, {
+    value: 2,
+    label: '2 weeks later'
 }]
 
 const now = new Date();
 
 const GridSalary = () => {
-    const [data, setData] = useState();
+    const [data, setData] = useState({});
     const [selectedSection, setSelectedSection] = useState(typeOptions[0]);
     const [month, setMonth] = useState(monthOptions[now.getMonth()]);
     const [isLoading, setIsLoading] = useState(true);
     const loadPaymentData = async () => {
         setIsLoading(true);
-        const res = await getPaymentInfo({ Date: moment(new Date()).format('DD/MM/YYYY'), TypeDate: parseInt(selectedSection.value) })
-        if (res.Code !== 1) return;
-        setData(res.Data);
+        const res = await getPaymentInfo({
+            Date: selectedSection === 1 ? moment(new Date(`${month.value + 1}/01/${now.getFullYear()}`), 'MM/DD/YYYY').format('DD/MM/YYYY')
+                : moment(new Date(`${month.value + 1}/16/${now.getFullYear()}`), 'MM/DD/YYYY').format('DD/MM/YYYY')
+        });
+        if (res.Code == 1) setData(res.Data);
         setIsLoading(false);
     }
 
@@ -95,12 +105,12 @@ const GridSalary = () => {
                     <div className="d-flex align-items-center">
                         <span className="pay-title-times mg-r-10 tx-16">{selectedSection == 1 ? '1st' : '2nd'} half of <span className="tx-primary tx-bold">{monthNames[month - 1]} {now.getFullYear()}</span></span>
                         <div className="mg-r-10 wd-200">
-                            <Select 
+                            <Select
                                 options={typeOptions}
                                 onChange={setSelectedSection}
                                 defaultValue={selectedSection}
                                 styles={appSettings.selectStyle}
-                                
+
                             />
                             {/* <select className="form-control" value={selectedSection} onChange={(event) => setSelectedSection(event.target.value)} >
                                 <option value="1">The first 2 weeks </option>
@@ -108,7 +118,7 @@ const GridSalary = () => {
                             </select> */}
                         </div>
                         <div className="wd-150">
-                            <Select 
+                            <Select
                                 options={monthOptions}
                                 onChange={setMonth}
                                 defaultValue={month}
@@ -137,19 +147,21 @@ const GridSalary = () => {
                             <div className="card-body">
                                 <div className="d-flex justify-content-between">
                                     <p className="pay-syn-title">Participation Incentives</p>
-                                    <p className="pay-syn-money">{!isLoading ? `${parseFloat(data.FinishedClass) + parseFloat(data.CourseDeduction)}$` : <Skeleton count={1} width={40} height={20} />}</p>
+
+                                    <p className="pay-syn-money">{!isLoading ? <NumberFormat value={`${parseFloat(data.FinishedClass) + parseFloat(data.CourseDeduction)}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={20} />}</p>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center">
                                     <p className="pay-syn-text">Total classes</p>
-                                    <p className="pay-syn-text">{!isLoading ? `${data.TotalClasses}` : <Skeleton count={1} width={40} height={15} />}</p>
+
+                                    <p className="pay-syn-text">{!isLoading ? <NumberFormat value={`${data.TotalClasses}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center">
                                     <p className="pay-syn-text">Finished class</p>
-                                    <p className="pay-syn-text">{!isLoading ? `${data.FinishedClass}$` : <Skeleton count={1} width={40} height={15} />}</p>
+                                    <p className="pay-syn-text">{!isLoading ? <NumberFormat value={`${data.FinishedClass}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center">
                                     <p className="pay-syn-text">Course deduction</p>
-                                    <p className="pay-syn-text">{!isLoading ? `${data.CourseDeduction}$` : <Skeleton count={1} width={40} height={15} />}</p>
+                                    <p className="pay-syn-text">{!isLoading ? <NumberFormat value={`${data.CourseDeduction}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
                                 </div>
                             </div>
                         </div>
@@ -159,19 +171,20 @@ const GridSalary = () => {
                             <div className="card-body">
                                 <div className="d-flex justify-content-between">
                                     <p className="pay-syn-title">Other Incentives</p>
-                                    <p className="pay-syn-money">{!isLoading ? `${parseFloat(data.TeacherRefferalFee) + parseFloat(data.NewStudentSignup) + parseFloat(data.Rewards)}$` : <Skeleton count={1} width={40} height={20} />}</p>
+
+                                    <p className="pay-syn-money">{!isLoading ? <NumberFormat value={`${parseFloat(data.TeacherRefferalFee) + parseFloat(data.NewStudentSignup) + parseFloat(data.Rewards)}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={20} />}</p>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center">
                                     <p className="pay-syn-text">Teacher Refferal Fee</p>
-                                    <p className="pay-syn-text">{!isLoading ? `${data.TeacherRefferalFee}$` : <Skeleton count={1} width={40} height={15} />}</p>
+                                    <p className="pay-syn-text">{!isLoading ? <NumberFormat value={`${data.TeacherRefferalFee}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center">
                                     <p className="pay-syn-text">New Student Signup</p>
-                                    <p className="pay-syn-text">{!isLoading ? `${data.NewStudentSignup}$` : <Skeleton count={1} width={40} height={15} />}</p>
+                                    <p className="pay-syn-text">{!isLoading ? <NumberFormat value={`${data.NewStudentSignup}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center">
                                     <p className="pay-syn-text">Rewards</p>
-                                    <p className="pay-syn-text">{!isLoading ? `${data.Rewards}$` : <Skeleton count={1} width={40} height={15} />}</p>
+                                    <p className="pay-syn-text">{!isLoading ? <NumberFormat value={`${data.Rewards}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
                                 </div>
                             </div>
                         </div>
@@ -181,19 +194,21 @@ const GridSalary = () => {
                             <div className="card-body">
                                 <div className="d-flex justify-content-between">
                                     <p className="pay-syn-title">Adjustments</p>
-                                    <p className="pay-syn-money">{!isLoading ? `${parseFloat(data.BaseSalary) + parseFloat(data.Additions) + parseFloat(data.Deductions)}$` : <Skeleton count={1} width={40} height={20} />}</p>
+                                    <p className="pay-syn-money">{!isLoading ? <NumberFormat value={`${parseFloat(data.BaseSalary) + parseFloat(data.Additions) + parseFloat(data.Deductions)}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={20} />}</p>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center">
                                     <p className="pay-syn-text">Base salary</p>
-                                    <p className="pay-syn-text">{!isLoading ? `${data.BaseSalary}$` : <Skeleton count={1} width={40} height={15} />}</p>
+                                    <p className="pay-syn-text">{!isLoading ? <NumberFormat value={`${data.BaseSalary}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center">
                                     <p className="pay-syn-text">Additions</p>
-                                    <p className="pay-syn-text">{!isLoading ? `${data.Additions}$` : <Skeleton count={1} width={40} height={15} />}</p>
+
+                                    <p className="pay-syn-text">{!isLoading ? <NumberFormat value={`${data.Additions}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center">
                                     <p className="pay-syn-text">Deductions</p>
-                                    <p className="pay-syn-text">{!isLoading ? `${data.Deductions}$` : <Skeleton count={1} width={40} height={15} />}</p>
+
+                                    <p className="pay-syn-text">{!isLoading ? <NumberFormat value={`${data.Deductions}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
                                 </div>
                             </div>
                         </div>
@@ -201,7 +216,7 @@ const GridSalary = () => {
                 </div>
 
             </div>
-            <h3 className="tx-right mg-t-15 tx-normal">Total salary: <span className="tx-primary tx-medium">{!isLoading ? `$${data.NetIncome}` : <Skeleton count={1} width={40} height={25} />}</span></h3>
+            <h3 className="tx-right mg-t-15 tx-normal">Total salary: <span className="tx-primary tx-medium">{!isLoading ? <NumberFormat value={`${data.NetIncome}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={25} />}</span></h3>
             {/*/Bang luong tong hop*/}
         </>
     )

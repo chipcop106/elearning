@@ -183,7 +183,7 @@ const bookingCalendar = () => {
         studentName: '',
         start: '',
         end: '',
-        date: ''
+        date: '',
     });
     // console.log(new Date().toLocateString());
 
@@ -517,7 +517,8 @@ const bookingCalendar = () => {
             ...event,
             available: true,
             bookStatus: false,
-            isEmptySlot: false
+            isEmptySlot: false,
+            OpenDayID:newProps.OpenDayID
         } : event)
         setEventSource(newSources);
     }
@@ -553,7 +554,10 @@ const bookingCalendar = () => {
                 StudyTimeID: data.StudyTimeID,
             });
             if (res.Code === 1) {
-                setAvailableEvent(data);
+                setAvailableEvent({
+                    ...data,
+                    OpenDayID:res?.Data?.ID ?? 0
+                });
                 toast.success('Open slot success', {
                     position: toast.POSITION.TOP_CENTER,
                     autoClose: 2000
@@ -574,6 +578,7 @@ const bookingCalendar = () => {
 
     const _closeSlot = async (data) => {
         setIsLoading(true);
+        console.log(data);
         $('#md-close-slot').modal('hide');
         try {
             const res = await setEventClose({
@@ -633,7 +638,6 @@ const bookingCalendar = () => {
             console.log('Event source updated', eventSource);
             // calendar.addEventSource(eventSource);
             let eventsInstance = calendar.getEventSources();
-            console.log(eventsInstance);
             eventsInstance[0] && eventsInstance[0].remove();
             calendar.addEventSource(eventSource);
         }

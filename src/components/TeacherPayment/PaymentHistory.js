@@ -3,12 +3,12 @@ import Flatpickr from 'react-flatpickr';
 import { getPaymentHistory } from '~src/api/teacherAPI';
 import Skeleton from 'react-loading-skeleton'
 import Pagination from 'react-js-pagination';
-
+import NumberFormat from 'react-number-format'
 
 const RenderRow = ({ data }) => {
     return (<tr>
         <td className="tx-left wd-150">{data.CreatedDate}</td>
-        <td className="tx-center">{data.Salary} $</td>
+        <td className="tx-center"><NumberFormat value={`${data.Salary}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /></td>
         <td className="tx-center">{data.Note}</td>
     </tr>)
 }

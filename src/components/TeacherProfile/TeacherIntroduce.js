@@ -1,0 +1,159 @@
+import React, { useState, useEffect, useReducer, useRef } from 'react'
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers';
+import { useForm } from 'react-hook-form';
+import { appSettings } from '~src/config';
+import { Modal, Button, Tab, Nav } from 'react-bootstrap';
+import Select from 'react-select'
+import { randomId } from '~src/utils';
+import { getTeacherIntroduce } from '~src/api/teacherAPI'
+import {
+    uploadImageToServer,
+    getEnglishProficiencyOptions,
+    getLevelOfEducationOptions,
+    getTimeZone,
+    getListLevelPurpose
+
+} from '~src/api/optionAPI';
+
+
+const Schema = Yup.object().shape({
+    introduce: Yup.string().min(50, `Introduce must have minimum 50 characters..`)
+        .required('Introduce must have minimum 50 characters.. '),
+});
+
+const initialState = {
+    isLoading: true,
+    showGuideModal: false,
+    youtubeUrl: 'https://www.youtube.com/embed/w0Nc-d3gFiU',
+    introduce: `While I have no soccer skills, I once played in a fairly competitive adult soccer league with my then-teenage stepson. I was terrible, but I played because he asked me to. (When your kids get older and ask you to do something with them, the first time you say no might be the last time you get asked.) I was trying to match the drollness of my \"Wow\" when my stepson stepped in, half-smile on his lips and full twinkle in his eyes, and rescued me by saying, \"Come on, we need to get ready.\" Was Louis cocky? Certainly, but only on the surface. His $400 cleats, carbon fiber shin guards, and \"I'm the king of the business world\" introduction was an unconscious effort to protect his ego. His introduction said, \"Hey, I might not turn out to be good at soccer, but out there in the real world, where it really matters, I am the Man.\" As we took the field before a game, a guy on the other team strutted over, probably picking me out because I was clearly the oldest player on the field. (There's a delightful sentence to write.`,
+}
+
+const reducer = (prevState, { type, payload }) => {
+    switch (type) {
+        case "SET_LOADING":
+            return { ...prevState, isLoading: payload.value }
+            break;
+        case "UPDATE_STATE":
+            return { ...prevState, [payload.key]: payload.value }
+            break;
+        case "SET_DATA":
+            return { ...prevState, ...payload }
+            break;
+        default:
+            return prevState;
+            break;
+    }
+}
+
+function TeacherIntroduce(props) {
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const { errors, register, handleSubmit, setValue } = useForm({
+        resolver: yupResolver(Schema),
+    });
+    const setIsLoading = (value) => dispatch({ type: "SET_LOADING", payload: { value } });
+    const updateState = (key, value) => dispatch({ type: 'UPDATE_STATE', payload: { key, value } });
+    const setDefaultState = (data) => dispatch({ type: 'SET_DATA', payload: data });
+    const showGuide = () => {
+        updateState('showGuideModal', true);
+    }
+
+    const hideGuide = () => {
+        updateState('showGuideModal', false);
+    }
+
+    const loadTeacherIntroduce = async () => {
+        setIsLoading(true);
+        const res = await getTeacherIntroduce();
+        res.Code === 1 ? setDefaultState(res.Data) : setDefaultState(initialState);
+        setIsLoading(false);
+    }
+
+
+    const _handleSubmit = (data) => {
+        console.log(data);
+    }
+
+
+    useEffect(() => {
+        loadTeacherIntroduce();
+    }, [])
+
+    return (
+        <form onSubmit={handleSubmit(d => _handleSubmit(d))}>
+            <div className="content-block">
+
+
+                <div className="mg-b-30">
+                    <h5 className="mg-b-15"><i className="fas fa-info-circle mg-r-5"></i>Summary</h5>
+                    <div className="introduce-content">
+                        <textarea ref={register} name="introduce" className="form-control" rows={7} defaultValue={state.introduce} />
+                    </div>
+                </div>
+                <hr className="mg-b-30 mg-t-0" style={{borderStyle:'dashed'}}/>
+                <div className="mg-b-30">
+                    <h5 className="mg-b-15"><i className="fab fa-youtube mg-r-5"></i>Video introduce</h5>
+                    <div className="introduce-content">
+                        <div className="input-group mg-t-15 mg-b-15">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text">Youtube embed</span>
+                            </div>
+                            <input type="text" className="form-control" placeholder="Youtube embed iframe src..." name="youtubeUrl" defaultValue={state.youtubeUrl} ref={register} onChange={(e) => updateState('youtubeUrl', e.target.value)} />
+                            <div className="input-group-append">
+                                <button className="input-group-text bg-primary tx-white" type="button" onClick={showGuide}><i className="far fa-question-circle mg-r-5"></i> How to get iframe url</button>
+                            </div>
+                        </div>
+                        <div className="mg-b-30">
+                        {
+                            state?.youtubeUrl && state.youtubeUrl !== '' && <iframe width={`100%`} height={450} src={state.youtubeUrl} frameBorder={0} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                        }
+                        </div>
+                    </div>
+                    <Modal
+                        show={state.showGuideModal}
+                        onHide={hideGuide}
+                        size="lg"
+                    >
+                        <Modal.Header closeButton>
+                            <Modal.Title>Các bước lấy embed nhúng của youtube</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <div>
+                                <div className="mg-b-30">
+                                    <h6 className="sub-title">Bước 1: Bấm vào nút chia sẻ bên dưới video</h6>
+                                    <img src="../assets/img/step-1.png" alt="" className="img-responsive mg-t-10 wd-100p" />
+                                </div>
+                                <div className="mg-b-30">
+                                    <h6 className="sub-title">Bước 2: Click vào nút nhúng bên dưới</h6>
+                                    <img src="../assets/img/step-2.png" alt="" className="img-responsive mg-t-10 wd-100p" />
+                                </div>
+                                <div className="mg-b-30">
+                                    <h6 className="sub-title">Bước 3: Copy đường dẫn bên trong thẻ (src="") </h6>
+                                    <img src="../assets/img/step-3.png" alt="" className="img-responsive mg-t-10 wd-100p" />
+                                </div>
+                                <div className="mg-b-30">
+                                    <h6 className="sub-title">Bước 4: Dán vào khung đường dẫn bên dưới profile </h6>
+                                    <p>Nếu xuất hiện khung video bên dưới tức là đường đã được thêm chính xác, nếu không hiển thị vui lòng làm lại theo đúng trình tự trên.</p>
+                                    <img src="../assets/img/step-4.png" alt="" className="img-responsive mg-t-10 wd-100p" />
+                                </div>
+                            </div>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="light" onClick={hideGuide}>
+                                Close
+                </Button>
+                        </Modal.Footer>
+                    </Modal>
+                </div>
+
+            </div>
+            <div className="tx-center mg-t-30">
+                <button className="btn btn-primary"><i className="fa fa-save mg-r-5"></i>Save information</button>
+            </div>
+        </form>
+    )
+}
+
+
+export default TeacherIntroduce
+

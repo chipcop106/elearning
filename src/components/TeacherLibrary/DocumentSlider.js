@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { getLibraryByCategoryID } from '~src/api/teacherAPI';
+import { getLibraryByCategoryID, getListLibraryNew } from '~src/api/teacherAPI';
 import LibraryCard from './../LibraryCard';
 import Skeleton from 'react-loading-skeleton';
 import styles from './DocumentSlide.module.scss'
@@ -14,7 +14,7 @@ const SkeletonCourse = () => {
     )
 }
 
-const DocumentSlider = ({ categoryID, slideTitle, moreLink, titleIcon }) => {
+const DocumentSlider = ({ categoryID, slideTitle, moreLink, titleIcon, getNewest = false }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [listItems, setListItems] = useState(null);
     const slideRef = useRef(true);
@@ -34,10 +34,11 @@ const DocumentSlider = ({ categoryID, slideTitle, moreLink, titleIcon }) => {
         });
     }
 
+    const getAPI = async () => await getNewest === true ? getListLibraryNew() : getLibraryByCategoryID({ CategoryLibraryID: categoryID }); 
+
     const getCourseLists = async () => {
-        const res = await getLibraryByCategoryID({ CategoryLibraryID: categoryID });
-        if (res.Code !== 1) return;
-        setListItems(res.Data);
+        const res = await getAPI();
+        res.Code === 1 &&  setListItems(res.Data);
         setIsLoading(false);
         initSwiper();
     }
@@ -82,7 +83,7 @@ const DocumentSlider = ({ categoryID, slideTitle, moreLink, titleIcon }) => {
                             {/* Additional required wrapper */}
                             <div className="swiper-wrapper">
                                 {listItems.map((item, index) => <LibraryCard
-                                    key={`${parseInt(item.ID) + index}`}
+                                    key={`${item.ID}`}
                                     title={item.LibraryName}
                                     imageUrl={item.BackgroundIMGThumbnails}
                                     urlDownload={item.LinkFile}

@@ -11,7 +11,7 @@ const LibraryCard = ({title, imageUrl, category, urlDownload }) =>{
                 <h5 className="py-2"> 
                     <a href={urlDownload} rel="noopener" target="_blank">{title}</a>
                 </h5>
-                <p className="smalltext-item-foundation">{category}</p>
+                <p className="smalltext-item-foundation mg-b-0">{category}</p>
             </div>
         </React.Fragment>
     )
