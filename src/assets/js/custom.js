@@ -164,4 +164,15 @@ $(document).ready(function() {
         $('#js-component-profilesidebar').removeClass('active');
         $(this).css("left","-100%");
     })
+    console.log($("header.navbar-header").innerHeight())
+
+    $(window).scroll(function() {
+      if(window.innerWidth >= 992)
+      {
+        if($(window).scrollTop() <= ($("header.navbar-header").innerHeight() + 30))
+        $("#js-component-profilesidebar").removeClass('fixed')
+        else
+        $("#js-component-profilesidebar").addClass('fixed')
+      }
+    })
 });

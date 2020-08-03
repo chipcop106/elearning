@@ -32,7 +32,7 @@ const Faq = () => {
         loading ? <SkeletonFaq /> :
           <div id="accordion">
             {
-              !!state && state.length > 0 && state.map((item, index) =>
+              !!state && state.length > 0 ? state.map((item, index) =>
                 <div className="card" key={item.ID}>
                   <div className="card-header" id={item.ID}>
                     <h5 className="mb-0">
@@ -55,7 +55,7 @@ const Faq = () => {
                     </div>
                   </div>
                 </div>
-              )
+              ): <span className="text-danger bold" style={{fontSize:'16px'}}>It's doesn't have any faq </span>
             }
           </div>
       }

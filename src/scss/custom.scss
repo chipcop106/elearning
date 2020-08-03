@@ -2450,8 +2450,12 @@ a.no-hl {
 }
 #js-component-profilesidebar {
   background: #fff;
-  border-radius: 10px;
+  border-radius: 5px;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  &.fixed {
+      position: sticky;
+      top: 90px;
+  }
 }
 
 .metronic-form {

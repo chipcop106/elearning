@@ -64,7 +64,7 @@ const BlogDetail = () => {
               </div>
               <article dangerouslySetInnerHTML={{ __html: state.NotificationContent }}></article>
             </div>
-          </div> : <NOT_DATA_FOUND />
+          </div> : <span className="text-danger bold" style={{fontSize:'16px'}}>It's doesn't have any blog </span>
         } </>
     }
   </div>

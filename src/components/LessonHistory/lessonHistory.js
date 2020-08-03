@@ -151,7 +151,11 @@ const LessonHistory = () => {
                   StatusString={item.StatusString} />) :
                 <tr style={{backgroundColor: "transparent"}}>
                   <td colSpan="6">
-                    <NOT_DATA_FOUND />
+                <span className="text-danger bold" style={{fontSize:'16px'}}>
+                  {
+                  `You don't have book any lesson ${searchInput.fromDate.length > 0 ? `from ${searchInput.fromDate}`:""}  ${searchInput.toDate.length > 0 ? `to ${searchInput.toDate}`:""}`
+                  }
+                  </span>
                   </td>
                 </tr>
           }

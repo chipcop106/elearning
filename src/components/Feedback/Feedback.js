@@ -224,7 +224,7 @@ const Feedback = () => {
                   Evaluation={item.Evaluation}
                   Rate={item.Rate}
                   LessionName={item.LessionName}
-                  LessionID={item.LessionID} />): <NOT_DATA_FOUND />
+                  LessionID={item.LessionID} />): <span className="text-danger bold" style={{fontSize:'16px'}}>It's doesn't have any feedback </span>
             }
           </div>
       }

@@ -4,7 +4,6 @@ import NotificationItem from './NotificationItem';
 import SkeletonNotification from "~components/common/Skeleton/SkeletonNotification";
 import Pagination from "react-js-pagination";
 import { getAllNotification } from "~src/api/studentAPI"
-import { NOT_DATA_FOUND } from "~components/common/Constant/message"
 
 const Notification = () => {
   const [page, setPage] = React.useState(1);
@@ -58,7 +57,7 @@ const Notification = () => {
                     CreatedDate={item.CreatedDate}
                     NotificationContent={item.NotificationContent}
                     URL={item.URL} />
-                </div>) : <div className="col-12"><NOT_DATA_FOUND /></div>
+                </div>) : <div className="col-12"><span className="text-danger bold" style={{fontSize:'16px'}}>It's doesn't have any blog </span></div>
         }
       </div>
       {
