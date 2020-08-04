@@ -51,7 +51,7 @@ const PurchasedCourseList = () => {
   }, []);
 
   
-  return <React.Fragment>
+  return <>
      <div className="subcription-title lh-base">
         <h5>Purchased course</h5>
         <ul className="mg-0">
@@ -118,8 +118,7 @@ const PurchasedCourseList = () => {
           pageRangeDisplayed={3}
           itemClass="page-item"
           linkClass="page-link"
-          onChange={handlePageChange.bind(this)}
-            />
-    </React.Fragment>
+          onChange={handlePageChange.bind(this)} />
+    </>
 }
 export default PurchasedCourseList;

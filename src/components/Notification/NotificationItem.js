@@ -5,7 +5,7 @@ import { getFormattedDate } from "~src/utils"
 const NotificationItem = ({
     NotificationID,
     NotificationTitle,
-    NotifictionIMG,
+    NotificationIMG,
     CreatedBy,
     CreatedDate,
     NotificationContent,
@@ -13,7 +13,7 @@ const NotificationItem = ({
 }) => {
     return (
         <div className="card card-event">
-            <img src={NotifictionIMG} className="card-img-top" alt="" />
+            <img src={NotificationIMG} className="card-img-top" alt="" />
             <div className="card-body tx-13">
                 <h5><a href={URL} className="tx-16">{NotificationTitle}</a></h5>
                 <p className="meta mg-t-5">

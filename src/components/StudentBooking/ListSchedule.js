@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { GetScheduleTeacherAPI } from "~src/api/studentAPI";
+import { toast } from 'react-toastify';
+import 'react-toastify/scss/main.scss'
+import { toastInit } from "~src/utils"
+import { BOOKING_SUCCESS } from '~components/common/Constant/toast';
 
 const ListSchedule = ({
   learnTime,
@@ -14,11 +18,12 @@ const ListSchedule = ({
   handleBooking,
   onBookTeacherUID,
   onBookStudyTimeID,
-  onBookStudentName,
   onBookDate,
 }) => {
   const [scheduleList, setSchedule] = React.useState([])
   const [loading, setLoading] = React.useState(false)
+  const bookingToast = () => toast.success(BOOKING_SUCCESS, toastInit);
+
 
   const onHandleBooking = (StudyTimeID, LessionName, TeacherUID,  TeacherIMG, TeacherName, Rate, date, start, end, BookingID) => {
     handleBooking(StudyTimeID, LessionName, TeacherUID,  TeacherIMG, TeacherName, Rate, date, start, end, BookingID)
@@ -51,12 +56,10 @@ const ListSchedule = ({
 
     if (index !== -1) {
       newSchedule[index].bookStatus = true;
-      newSchedule[index].bookInfo = {
-        name: onBookStudentName
-      };
       setSchedule(newSchedule);
+      bookingToast();
     }
-  }, [onBookTeacherUID, onBookStudyTimeID, onBookStudentName, onBookDate])
+  }, [onBookTeacherUID, onBookStudyTimeID, onBookDate])
 
   return loading ? <div className="overlay">
     <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>

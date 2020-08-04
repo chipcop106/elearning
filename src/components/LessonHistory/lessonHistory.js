@@ -48,13 +48,6 @@ const LessonHistory = () => {
     setLoading(false);
   }
 
-  const handleChange = (e) => {
-    const target = e.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const key = target.getAttribute("name");
-    dispatch({ type: "STATE_CHANGE", payload: { key, value } })
-  }
-
   const handlePageChange = (pageNumber) => {
     if (page !== pageNumber) {
       setPage(pageNumber);
@@ -84,7 +77,7 @@ const LessonHistory = () => {
     })
   }, []);
 
-  return <React.Fragment>
+  return <>
     <div className="fb-summary-container pd-x-20-f pd-b-0-f pd-t-20-f ">
       <form action="" method="get" className="st-date metronic-form" onSubmit={onSubmit}>
         <div className="row">
@@ -93,6 +86,7 @@ const LessonHistory = () => {
               placeholder="From date"
               options={{
                 dateFormat: "d/m/Y",
+                maxDate: searchInput.toDate,
                 static: true,
               }}
               className="form-control"
@@ -105,6 +99,7 @@ const LessonHistory = () => {
               placeholder="To date"
               options={{
                 dateFormat: "d/m/Y",
+                minDate: searchInput.fromDate,
                 static: true,
               }}
               className="form-control"
@@ -135,7 +130,7 @@ const LessonHistory = () => {
             loading ? <SkeletonLessonHistoryCard column={6} /> :
               !!data && Array.isArray(data) && data.length > 0 ?
                 data.map(item => <LessonItem
-                  key={item.CoursesID}
+                  key={item.BookingID}
                   BookingID={item.BookingID}
                   DocumentID={item.DocumentID}
                   DocumentName={item.DocumentName}
@@ -149,13 +144,18 @@ const LessonHistory = () => {
                   TeacherName={item.TeacherName}
                   Status={item.Status}
                   StatusString={item.StatusString} />) :
-                <tr style={{backgroundColor: "transparent"}}>
+                <tr style={{ backgroundColor: "transparent" }}>
                   <td colSpan="6">
-                <span className="text-danger bold" style={{fontSize:'16px'}}>
-                  {
-                  `You don't have book any lesson ${searchInput.fromDate.length > 0 ? `from ${searchInput.fromDate}`:""}  ${searchInput.toDate.length > 0 ? `to ${searchInput.toDate}`:""}`
-                  }
-                  </span>
+                    <span className="text-danger bold" style={{ fontSize: '16px' }}>
+                      {
+                        (searchInput.fromDate.length > 0 && searchInput.toDate.length > 0) ||
+                          (searchInput.fromDate.length == 0 && searchInput.toDate.length == 0) ?
+                          `You don't have book any lesson ${searchInput.fromDate.length > 0 ? `from ${searchInput.fromDate}` : ""}  ${searchInput.toDate.length > 0 ? `to ${searchInput.toDate}` : ""}` :
+                          searchInput.fromDate.length == 0 ?
+                            `You don't have book any lesson before ${searchInput.toDate}` :
+                            `You don't have book any lesson after ${searchInput.fromDate}`
+                      }
+                    </span>
                   </td>
                 </tr>
           }
@@ -173,7 +173,7 @@ const LessonHistory = () => {
         linkClass="page-link"
         onChange={handlePageChange.bind(this)} />
     }
-  </React.Fragment>
+  </>
 }
 
 ReactDOM.render(<LessonHistory />, document.getElementById('react-lesson-history'));

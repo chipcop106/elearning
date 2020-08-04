@@ -20,7 +20,7 @@ const Faq = () => {
     getAPI();
   }, []);
 
-  return <React.Fragment>
+  return <>
     <div className="faq-image tx-center">
       <img src="../assets/img/faq.svg" alt="faq" className="wd-300" />
     </div>
@@ -60,7 +60,7 @@ const Faq = () => {
           </div>
       }
     </div>
-  </React.Fragment>
+  </>
 }
 
 ReactDOM.render(<Faq />, document.getElementById('react-faq'));

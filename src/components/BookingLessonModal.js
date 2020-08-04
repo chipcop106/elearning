@@ -8,9 +8,6 @@ import { FETCH_ERROR, BOOKING_SUCCESS } from '~components/common/Constant/toast'
 
 import styles from '~components/BookingLessonModal.module.scss';
 
-const whoami = (localStorage.getItem("user") === null) ? {} :
-  JSON.parse(localStorage.getItem('user'));
-
 const initialState = {
   SpecialRequest: "",
 }
@@ -35,19 +32,12 @@ const BookingLessonModal = ({
 
   const [state, setState] = React.useState(initialState);
   const [bookState, setBookState] = React.useState(null);
-
-  const bookingToast = () => toast.success(BOOKING_SUCCESS, toastInit);
   const bookingToastFail = () => toast.error(FETCH_ERROR, toastInit);
 
   const fetchAPI = async (params) => {
     const res = await bookingLessonAPI(params);
-    if (res.Code === 1) {
-      bookingToast();
-      onBook(TeacherUID, StudyTimeID, whoami.FullName, date);
-    }
-    else {
-      bookingToastFail();
-    }
+    if (res.Code === 1) onBook && onBook(TeacherUID, StudyTimeID, date, res.Code);
+    else bookingToastFail();
   }
 
   const getLessonToBookingAPI = async () => {

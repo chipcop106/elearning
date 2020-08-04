@@ -52,7 +52,7 @@ const Notification = () => {
                   <NotificationItem
                     NotificationID={item.NotificationID}
                     NotificationTitle={item.NotificationTitle}
-                    NotifictionIMG={item.NotifictionIMG}
+                    NotificationIMG={item.NotificationIMG}
                     CreatedBy={item.CreatedBy}
                     CreatedDate={item.CreatedDate}
                     NotificationContent={item.NotificationContent}

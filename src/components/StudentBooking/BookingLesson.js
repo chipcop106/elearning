@@ -21,7 +21,7 @@ const initialState = {
   levelPurpose: [],
   selectedLevelPurpose: [],
   date: moment(new Date()).format('DD/MM/YYYY'),
-  startTime: "06:00",
+  startTime: `${new Date().getHours() + 1}:00`,
   endTime: "23:00",
   searchText: "",
 }
@@ -42,7 +42,6 @@ const initialBookLesson = {
 const initialOnBookState = {
   TeacherUID: "",
   StudyTimeID: "",
-  studentName: "",
   date: "",
 }
 
@@ -129,6 +128,12 @@ const BookingLesson = () => {
   const handleChangeDate = (e) => {
     let key = "date";
     let value = $("#date-selected").val().split(", ")[1]
+
+    if(moment(new Date()).format('DD/MM/YYYY') == value) {
+      dispatch({ type: "STATE_CHANGE", payload: { key:"startTime", value: `${new Date().getHours() + 1}:00` } })
+      dispatch({ type: "STATE_CHANGE", payload: { key:"endTime", value: "23:00" } })
+    }
+
     dispatch({ type: "STATE_CHANGE", payload: { key, value } })
   }
 
@@ -136,12 +141,11 @@ const BookingLesson = () => {
     dispatch({ type: "STATE_CHANGE", payload: { key: "nation", value } })
   }
 
-  const onBook = (TeacherUID, StudyTimeID, studentName, date) => {
+  const onBook = (TeacherUID, StudyTimeID, date) => {
     setOnBookState({
       ...onBookState,
       TeacherUID,
       StudyTimeID,
-      studentName,
       date,
     })
   }
@@ -410,7 +414,8 @@ const BookingLesson = () => {
                       enableTime: true,
                       noCalendar: true,
                       time_24hr: true,
-                      minTime: "06:00",
+                      minTime: state.date == moment(new Date()).format("DD/MM/YYYY") ?
+                      `${new Date().getHours() + 1}:00` : "06:00",
                       maxTime: "23:00",
                       static: true,
                     }}
@@ -428,7 +433,8 @@ const BookingLesson = () => {
                       enableTime: true,
                       noCalendar: true,
                       time_24hr: true,
-                      minTime: "06:00",
+                      minTime: state.date == moment(new Date()).format("DD/MM/YYYY") ?
+                      `${new Date().getHours() + 1}:00` : "06:00",
                       maxTime: "23:00",
                       static: true,
                     }}
@@ -507,7 +513,7 @@ const BookingLesson = () => {
                                 <div className="tutor-rate-point">{item.Rate.toFixed(1)}</div>
                               </div>
                             </div>
-                            <h6 className="mg-t-5"><span className={`flag-icon flag-icon-${nationMapToFlag(item.National)} flag-icon-squared`}></span>{item.TeacherName}</h6>
+                            <h6 className="mg-t-5"><span className={`flag-icon flag-icon-${item.National ? nationMapToFlag(item.National): "vn"} flag-icon-squared`}></span>{item.TeacherName}</h6>
                           </div>
                         </a>
                         <div className="tutor-schedule">
@@ -515,7 +521,6 @@ const BookingLesson = () => {
                             <ListSchedule
                               onBookStudyTimeID={onBookState.StudyTimeID}
                               onBookTeacherUID={onBookState.TeacherUID}
-                              onBookStudentName={onBookState.studentName}
                               onBookDate={onBookState.date}
                               learnTime={learnTime}
                               TeacherUID={item.TeacherUID}
