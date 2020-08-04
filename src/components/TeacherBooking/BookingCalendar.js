@@ -662,7 +662,13 @@ const bookingCalendar = () => {
                 <div className="time-zone"></div>
                 <div id="js-book-calendar" className="fc fc-unthemed fc-ltr" />
             </div>
-
+            <div className="notice pd-20 bg-primary-light rounded-5 mg-t-30">
+                <h5 className="mg-b-15"><i className="fas fa-file"></i> Notes:</h5>
+                <ul className="mg-b-0">
+                    <li>You can cancel lesson before time start 30 minutes.</li>
+                    <li>Student can cancel booked lesson before time start 30 minutes</li>
+                </ul>
+            </div>
             <ActiveSlotModal
                 data={activeModal}
                 handleOpenSlot={_openSlot}

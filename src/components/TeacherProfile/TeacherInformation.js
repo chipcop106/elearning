@@ -6,7 +6,8 @@ import { appSettings } from '~src/config';
 import { Modal, Button, Tabs, Tab } from 'react-bootstrap';
 import Select from 'react-select'
 import { randomId } from '~src/utils';
-import { getTeacherInfoProfile } from '~src/api/teacherAPI';
+import { getTeacherInfoProfile, updateTeacherInfoProfile } from '~src/api/teacherAPI';
+import { toast } from 'react-toastify'
 import {
     uploadImageToServer,
     getEnglishProficiencyOptions,
@@ -31,25 +32,24 @@ const Schema = Yup.object().shape({
 const optionState = {
     locationOptions: [
         {
-            id: 1,
-            name: 'New York',
-            value: 'NY',
+            ID: 1,
+            LocationName: 'Viet Nam'
         },
         {
-            id: 2,
-            name: 'Viet Nam',
-            value: 'VN',
-        },
+            ID: 2,
+            LocationName: 'Paraquay'
+        }
     ],
     stateOptions: [
         {
             ID: 1,
-            StateName: 'Viet Nam'
+            StateName: 'New York',
         },
         {
             ID: 2,
-            StateName: 'Paraquay'
-        }
+            StateName: 'Viet Nam',
+        },
+
     ],
     majorOptions: [
         {
@@ -112,13 +112,13 @@ const ProfileAvatar = (props) => {
         setIsLoading(true);
         try {
             const input = inputFileRef.current;
-            if (input.files && input.files[0]){
+            if (input.files && input.files[0]) {
                 const res = await uploadImageToServer(input.files);
-                if(res.Code === 1 && res.Data.length > 0) {
+                if (res.Code === 1 && res.Data.length > 0) {
                     props.updateAvatar('avatar', res.Data[0].UrlIMG);
-                } 
+                }
             }
-           
+
         } catch (error) {
             console.log(error?.message ?? 'Lỗi gọi api');
         }
@@ -166,23 +166,24 @@ function TeacherInformation() {
         try {
             const res = await getTeacherInfoProfile();
             if (res.Code === 1) {
-                setMultipleValue({
-                    avatar: res.Data.TeacherIMG,
-                    fullName: res.Data.FullName,
-                    skypeId: res.Data.SkypeID,
-                    phoneNumber: res.Data.Phone,
-                    levelOfPurpose: state.levelOfPurposeOptions[res.Data?.levelOfPurpose] ?? null,
-                    levelOfEducation: state.levelOfEducationOptions[res.Data?.LevelOfEducation] ?? null,
-                    state: state.stateOptions[res.Data?.State] ?? null,
-                    email: res.Data.Email,
-                    timeZone: state.timeZoneOptions.filter(time => time?.ID === res.Data.TimezoneID)[0] ?? null,
-                    schoolName: res.Data.SchoolName,
-                    major: state.majorOptions[res.Data?.Major] ?? null,
-                    englishProficien: state.englishProficienOptions[res.Data?.EnglishProficiency] ?? null,
-                    location: state.locationOptions[res.Data?.Location] ?? null,
-                });
+                const obj = {
+                    avatar: res.Data?.TeacherIMG ?? '',
+                    fullName: res.Data?.FullName ?? '',
+                    skypeId: res.Data?.SkypeID ?? '',
+                    phoneNumber: res.Data.Phone.toString() || '',
+                    levelOfPurpose:  JSON.parse(res.Data?.LevelPurpose ?? "[]"),
+                    levelOfEducation: [...state.levelOfEducationOptions].find((option, index) => option.ID === res.Data?.LevelOfEducation) ?? null,
+                    state: [...state.stateOptions].find((option, index) => option.ID === res.Data?.State) ?? null,
+                    email: res.Data?.Email ?? '',
+                    timeZone: [...state.timeZoneOptions].find((option, index) => option.ID === res.Data?.TimezoneID) ?? null,
+                    schoolName: res.Data?.SchoolName ?? '',
+                    major: [...state.majorOptions].find((option, index) => option.ID === res.Data?.Major) ?? null,
+                    englishProficien: [...state.englishProficienOptions].find((option, index) => option.ID === res.Data?.EnglishProficiency) ?? null,
+                    location: [...state.locationOptions].find((option, index) => option.ID === res.Data?.Location) ?? null
+                }
+                console.log(obj);
+                setMultipleValue(obj);
             }
-
         } catch (e) {
             console.log(e.message);
         }
@@ -190,22 +191,55 @@ function TeacherInformation() {
     }
 
     const loadSelectOptionAPI = async () => {
-        await getEnglishProficiencyOptions().then((res) => updateState('englishProficienOptions', res?.Data ?? []));
-        await getLevelOfEducationOptions().then((res) => updateState('levelOfEducationOptions', res?.Data ?? []));
-        await getListLevelPurpose().then((res) => updateState('levelOfPurposeOptions', res?.Data ?? []));
-        await getTimeZone().then((res) => updateState('timeZoneOptions', res?.Data ?? []));
-        setOptionLoaded(true);
+        try {
+            const [proficienRes, educationRes, purposeRes, timezoneRes] = await Promise.all([
+                getEnglishProficiencyOptions(),
+                getLevelOfEducationOptions(),
+                getListLevelPurpose(),
+                getTimeZone()
+            ]);
+            updateState('englishProficienOptions', proficienRes.Data ?? []);
+            updateState('levelOfEducationOptions', educationRes.Data ?? []);
+            updateState('levelOfPurposeOptions', purposeRes.Data ?? []);
+            updateState('timeZoneOptions', timezoneRes.Data ?? []);
+            setOptionLoaded(true);
+        } catch (err) {
+            console.log(err?.message ?? 'Call Promise all failed, check params again...')
+        }
     };
 
-    const _onSubmitInformation = (data, e) => {
+    const _onSubmitInformation = async (data, e) => {
         e.preventDefault();
         // console.log('Submiting');
         console.log(data);
+        try {
+            const res = await updateTeacherInfoProfile({
+                FullName: data?.fullName ?? '', // str
+                SkypeID: data?.skypeId ?? '', // str
+                Phone: data?.phoneNumber.toString() ?? '', // str
+                TimeZoneID: parseInt(data.timeZone?.ID ?? 0), // int
+                LevelPurpose: JSON.stringify(data?.levelOfPurpose) ?? '', // str arr
+                LevelOfEdacation: parseInt(data?.levelOfEducation.ID) ?? 0, // int
+                SchoolName: data?.schoolName ?? '', // str
+                Major: data?.major.ID ?? 0, // int
+                Proficiency: data?.englishProficien?.ID ?? 0, // int
+                EnglishProficiency: data?.englishProficien?.ID ?? 0, // int
+                Avatar: data?.avatar ?? '', // str
+                Location: data?.location?.ID ?? null,
+                State: data?.state?.ID ?? null,
+            });
+            res.Code === 1 && toast.success('Update introduce success !!', {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 2000
+            });
+            res.Code !== 1 && toast.error('Update introduce failed !!', {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 2000
+            });
+        } catch (err) {
+            console.log(err?.message ?? 'Call API updateTeacherInfoProfile failed, check params again...')
+        }
     }
-
-    useEffect(() => {
-        console.log(errors);
-    }, [errors])
 
     useEffect(() => {
         optionLoaded === true && loadTeacherInfo();
@@ -215,9 +249,6 @@ function TeacherInformation() {
         loadSelectOptionAPI();
     }, [])
 
-    useEffect(() => {
-        console.log('Lastest state', state);
-    }, [state])
 
     return (
         <>
@@ -231,7 +262,7 @@ function TeacherInformation() {
                 />
                 {/* <ProfileAvatar ref={register} name="avatar" avatar={getValues('avatar')} updateAvatar={setValue} /> */}
                 <div className="teacher-info mg-l-0-f mg-t-30">
-                    <h5 className="mg-b-15"><i className="fas fa-user mg-r-5"></i>Basic Information</h5>
+                    <h5 className="mg-b-20"><i className="fas fa-user mg-r-5"></i>Basic Information</h5>
                     <div className="row group-float-label">
                         <div className="form-group col-12 col-sm-6">
                             <div className="input-float">
@@ -247,17 +278,17 @@ function TeacherInformation() {
                         </div>
                         <div className="form-group col-12 col-sm-6">
                             <div className="input-float">
-                                <input type="number" className={`form-control ${!!errors && errors.phoneNumber ? 'error-form' : ''}`} placeholder="Phone number *" name="phoneNumber" ref={register} required />
+                                <input type="text" className={`form-control ${!!errors && errors.phoneNumber ? 'error-form' : ''}`} placeholder="Phone number *" name="phoneNumber" ref={register} required />
                                 <label>Phone Number *</label>
                             </div>
                         </div>
                         <div className="form-group col-12 col-sm-6">
                             <div className="input-float">
-                                <input type="text" className={`form-control ${!!errors && errors.email ? 'error-form' : ''}`} placeholder="Email *" name="email" ref={register} required  readOnly/>
+                                <input type="text" className={`form-control ${!!errors && errors.email ? 'error-form' : ''}`} placeholder="Email *" name="email" ref={register} required readOnly />
                                 <label>Email</label>
                             </div>
                         </div>
-                        <div className="form-group col-12 col-sm-6">
+                        <div className="form-group col-12 col-sm-6 col-lg-3">
                             <div className="input-float">
                                 <Controller
                                     as={
@@ -267,8 +298,8 @@ function TeacherInformation() {
                                             isLoading={state.locationOptions.length > 0 ? false : true}
                                             loadingMessage={() => 'Select option is loading...'}
                                             options={state.locationOptions}
-                                            getOptionLabel={option => `${option.name}`}
-                                            getOptionValue={option => `${option.value}`}
+                                            getOptionLabel={option => `${option.LocationName}`}
+                                            getOptionValue={option => `${option.ID}`}
                                             onChange={(values) => setValue('location', values)}
                                             styles={appSettings.selectStyle}
                                             placeholder="Select your location..."
@@ -280,7 +311,7 @@ function TeacherInformation() {
                                 <label>Location</label>
                             </div>
                         </div>
-                        <div className="form-group col-12 col-sm-6">
+                        <div className="form-group col-12 col-sm-6 col-lg-3">
                             <div className="input-float">
                                 <Controller
                                     as={
@@ -303,7 +334,7 @@ function TeacherInformation() {
                             </div>
                         </div>
 
-                        <div className="form-group col-12 col-sm-6">
+                        <div className="form-group col-12 col-sm-12 col-lg-6">
                             <div className="input-float">
                                 <Controller
                                     as={
@@ -318,7 +349,7 @@ function TeacherInformation() {
                                             onChange={(values) => setValue('timeZone', values)}
                                             styles={appSettings.selectStyle}
                                             placeholder="Select timezone..."
-
+                                            menuPortalTarget={document.body}
                                         />
                                     }
                                     control={control}
@@ -327,11 +358,12 @@ function TeacherInformation() {
                                 <label>Time zone *</label>
                             </div>
                         </div>
-                        <div className="form-group col-12 col-sm-6">
+                        <div className="form-group col-12 col-sm-12">
                             <div className="input-float">
                                 <Controller
                                     as={
                                         <Select
+                                            isMulti={true}
                                             key={option => `${option.id}`}
                                             isSearchable={false}
                                             isLoading={isLoading}
@@ -341,6 +373,7 @@ function TeacherInformation() {
                                             getOptionValue={option => `${option.ID}`}
                                             onChange={(values) => setValue('levelOfPurpose', values)}
                                             styles={appSettings.selectStyle}
+                                            menuPortalTarget={document.body}
                                         />
                                     }
                                     control={control}
@@ -351,7 +384,7 @@ function TeacherInformation() {
                         </div>
                     </div>
                     <hr className="mg-b-30 mg-t-0" style={{ borderStyle: 'dashed' }} />
-                    <h5 className="mg-b-15"><i className="fas fa-user-graduate mg-r-5"></i> Education Attainment</h5>
+                    <h5 className="mg-b-20"><i className="fas fa-user-graduate mg-r-5"></i> Education Attainment</h5>
                     <div className="row group-float-label">
                         <div className="form-group col-12 col-sm-6">
                             <div className="input-float">
@@ -368,6 +401,7 @@ function TeacherInformation() {
                                             onChange={(values) => setValue('levelOfEducation', values)}
                                             styles={appSettings.selectStyle}
                                             placeholder="Select level..."
+                                            menuPortalTarget={document.body}
                                         />
                                     }
                                     control={control}
@@ -396,6 +430,7 @@ function TeacherInformation() {
                                             getOptionValue={option => `${option.ID}`}
                                             onChange={(values) => setValue('major', values)}
                                             styles={appSettings.selectStyle}
+                                            menuPortalTarget={document.body}
                                         />
                                     }
                                     control={control}
@@ -419,6 +454,7 @@ function TeacherInformation() {
                                             onChange={(values) => setValue('englishProficiency', values)}
                                             styles={appSettings.selectStyle}
                                             placeholder="Select proficiency..."
+                                            menuPortalTarget={document.body}
                                         />
                                     }
                                     control={control}
@@ -430,7 +466,7 @@ function TeacherInformation() {
                     </div>
                 </div>
 
-                <div className="tx-center mg-t-30">
+                <div className="tx-center">
                     <button type="submit" className="btn btn-primary"><i className="fa fa-save mg-r-5"></i>Save information</button>
                 </div>
             </form>

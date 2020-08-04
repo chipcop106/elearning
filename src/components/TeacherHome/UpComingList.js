@@ -137,7 +137,7 @@ const UpComingList = ({itemShow}) => {
                                         </td>
                                     </tr>
                                 ) : !!state && state.length > 0 ? (
-                                    [...state].map((ls, index) => index <= itemShow.value  && (
+                                    [...state].map((ls, index) => index < itemShow.value  && (
                                         <tr key={`${index}`}>
                                             <td className="valign-middle tx-center">
                                                 <span className="avatar avatar-md d-inline-block ">
@@ -150,7 +150,7 @@ const UpComingList = ({itemShow}) => {
                                                     onClick={(e) => {
                                                         e.preventDefault();
                                                         showStudentModal(ls.StudentUID)
-                                                    }} className="tx-primary mg-b-5 d-inline-block"
+                                                    }} className="tx-primary mg-b-5 d-inline-block tx-black"
                                                 >
                                                     {ls.StudentName}
                                                 </a>

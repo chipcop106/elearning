@@ -108,13 +108,6 @@ const TeacherClassRooms = () => {
 
             <StudentInformationModal
                 ref={mdStudentInfo}
-                // stImageUrl={studentInfo.stImageUrl}
-                // stName={studentInfo.stName}
-                // stCourseLearning={studentInfo.stCourseLearning}
-                // stLastLesson={studentInfo.stLastLesson}
-                // stNation={studentInfo.stNation}
-                // stTimeZone={studentInfo.stTimeZone}
-                // stDescription={studentInfo.stDescription}
                 studentId={studentId}
             />
         </>

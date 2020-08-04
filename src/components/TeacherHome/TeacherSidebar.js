@@ -114,7 +114,7 @@ const TeacherSidebar = () => {
     const fetchData = async () => {
         setIsLoading(true);
         const res = await getTeacherInfo();
-        if (res.Code === 1 && res.Data) {
+        if (res.Code === 1 && res.Data.length > 0) {
             setState(res.Data);
         }
         setIsLoading(false);

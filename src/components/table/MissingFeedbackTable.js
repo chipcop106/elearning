@@ -27,13 +27,8 @@ const MissingFeedbackRow = ({ data }) => {
                 </div>
             </td>
             <td className="clr-feedbackStatus">
-                <div>
-                    <span className="tx-medium mg-r-5">Student:</span>
-                    <span className="tx-success">Done</span>
-                </div>
                 <div className="mg-b-5">
-                    <span className="tx-medium mg-r-5">Teacher:</span>
-                    <span className="tx-danger">Not feedback</span>
+                    <span className="tx-danger">Not feedback yet</span>
                 </div>
 
             </td>

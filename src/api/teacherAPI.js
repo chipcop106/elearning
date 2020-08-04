@@ -362,6 +362,24 @@ export const getTeacherInfoProfile = async (params = {}) => {
     return result;
 }
 
+export const updateTeacherInfoProfile = async (params = {}) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/UpdateInfo', {
+            params:{
+                ...params,
+                UID:appSettings.UID
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+
+
 export const getTeacherIntroduce = async (params = {}) => {
     let result;
     try {
@@ -418,6 +436,96 @@ export const updateTeacherExperience = async (params = {}) => {
                 ...params,
                 UID:appSettings.UID
             }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+
+
+export const getListSupport = async (params = {}) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/GetListSupport', {
+            params:{
+                ...params,
+                UID:appSettings.UID
+                //Param: int UID ? 0, string Token ? null, int Status ? 0, 
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const getOverviewSupport = async (params = {}) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/SupportOverview', {
+            params:{
+                ...params,
+                UID:appSettings.UID
+                //Param: int UID ? 0, string Token ? null
+            }
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const getTicketDetail = async (params = {}) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/GetSupportDetail', {
+            params:{
+                ...params,
+                UID:appSettings.UID
+            }
+            //Param:int ID, int UID ? 0, string Token ? null
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+
+
+export const addSupportTicket = async (params = {}) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/AddSupport', {
+            params:{
+                ...params,
+                UID:appSettings.UID
+            }
+            //Param:string SupportTitle, string SupportContent, int UID ? 0, string Token ? null
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+
+export const cancelTicketSupport = async (params = {}) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/CancelTicketSupport', {
+            params:{
+                ...params,
+                UID:appSettings.UID
+            }
+            //Param:string SupportTitle, string SupportContent, int UID ? 0, string Token ? null
         });
         result =  res.data;
     } catch (error) {

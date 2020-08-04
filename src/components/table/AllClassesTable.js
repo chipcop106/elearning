@@ -9,6 +9,7 @@ const DateTimeFormat = new Intl.DateTimeFormat('vi-VN', {
     dateStyle: 'short',
     month: "2-digit",
     day: "2-digit",
+    year: "numeric"
 });
 
 const statusOptions = [
@@ -76,14 +77,15 @@ const AllClassRow = ({ data, showStudentModal }) => {
                 <span className="tx-gray-500">IT PROBLEM</span> */}
             </td>
             <td className="clr-actions">
-                <a href={LessionMaterial} className="btn btn-sm btn-warning rounded-5 mg-r-10" target="_blank" rel="noopener"><i className="fa fa-book-open clrm-icon" /> Material</a>
+                {Status === 1 && <a href={LessionMaterial} className="btn btn-sm btn-warning rounded-5 mg-r-10" target="_blank" rel="noopener"><i className="fa fa-book-open clrm-icon" /> Material</a>}
                 {Status === 1 && <a href={`skype:${SkypeID}?chat`} className=" btn btn-sm btn-warning rounded-5"><i className="fab fa-skype clrm-icon" /> Enter Class</a>}
+                {Status === 2 && <a href={`/ElearnTeacher/EvaluationLesson?ID=${BookingID}`} className=" btn btn-sm btn-info rounded-5"><i className="fab fa-info-circle" /> Enter Class</a>}
             </td>
         </tr>
     )
 }
 
-const UpCommingTable = ({ showStudentModal }) => {
+const AllClassesTable = ({ updateSwiperHeight, showStudentModal }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [filterStatusAllClass, setFilterStatusAllClass] = React.useState(statusOptions[0]);
     const [pageNumber, setPageNumber] = useState(1);
@@ -114,12 +116,15 @@ const UpCommingTable = ({ showStudentModal }) => {
                 console.log('Code response khác 1');
             }
             setIsLoading(false);
+            updateSwiperHeight();
         } catch (error) {
             console.log(error);
             setIsLoading(false);
         }
     }
-
+    useEffect(() => {
+        console.log(filterStatusAllClass);
+    }, [filterStatusAllClass])
     useEffect(() => {
         loadAllClassesData();
     }, [pageNumber, filterStatusAllClass])
@@ -131,7 +136,7 @@ const UpCommingTable = ({ showStudentModal }) => {
                     <Select 
                         options={statusOptions}
                         defaultValue={filterStatusAllClass}
-                        onChange={setFilterStatusAllClass}
+                        onChange={(values) => setFilterStatusAllClass(values)}
                         styles={appSettings.selectStyle}
                     />
                     {/* <select name="language" id=""
@@ -219,4 +224,4 @@ const UpCommingTable = ({ showStudentModal }) => {
     )
 }
 
-export default UpCommingTable;
+export default AllClassesTable;

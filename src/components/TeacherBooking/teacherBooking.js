@@ -6,9 +6,13 @@ import ScheduleLogTable from '~components/table/ScheduleLogTable'
 import BookingRequest from './BookingRequest';
 import BookingCalendar from './BookingCalendar';
 import { ToastContainer } from 'react-toastify';
+import {getTeacherProfile} from '~src/api/teacherAPI';
+
+let teacherInfoSwiper;
 const TeacherBooking = () => {
+    const [timeZone, setTimeZone] = React.useState('');
     const initSwiper = () => {
-        const teacherInfoSwiper = new Swiper('.swiper-container', {
+        teacherInfoSwiper = new Swiper('.swiper-container', {
             loop: false,
             freeModeMomentum: false,
             preventInteractionOnTransition: true,
@@ -30,8 +34,18 @@ const TeacherBooking = () => {
         });
     }
 
+    const getProfile = async () =>{
+        const res = await getTeacherInfo();
+        res.Code === 1 && setTimeZone(res?.Data.TimeZoneString ?? '')
+    }
+
+    const updateHeight = () => {
+        teacherInfoSwiper.updateAutoHeight(500, false);
+    }
+
     React.useEffect(() => {
         initSwiper();
+        getProfile();
     }, []);
     
 
@@ -40,7 +54,7 @@ const TeacherBooking = () => {
             <div className="book__container mg-t-15">
                 <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
                     <h3 className="text-dark font-weight-bold">Booking Schedule</h3>
-                    <span className="tx-primary bg-white pd-y-5 pd-x-15 rounded d-inline-block tx-medium"><i className="fas fa-globe-europe mg-r-5"></i>Timezone: GTM + 7</span>
+                    <span className="tx-primary bg-white pd-y-10 pd-x-15 rounded d-inline-block tx-medium"><i className="fas fa-globe-europe mg-r-5"></i>Timezone: {timeZone}</span>
                 </div>
                 <div className="card card-custom">
                     <div className="card-body">
@@ -61,7 +75,7 @@ const TeacherBooking = () => {
                             <div className="swiper-container" id="js-teacher__info">
                                 <div className="teacher__info-wrap swiper-wrapper">
                                     <div className="swiper-slide">
-                                        <div className="slide-tab-content">
+                                        <div className="slide-tab-content pd-b-0-f">
                                             
                                             <BookingCalendar />
                                         </div>
@@ -74,7 +88,7 @@ const TeacherBooking = () => {
                                     <div className="swiper-slide">
                                         <div className="slide-tab-content">
                                             <div className="course-horizental">
-                                                <BookingRequest />
+                                                <BookingRequest updateSwiperHeight={updateHeight}/>
                                             </div>
                                         </div>
                                     </div>

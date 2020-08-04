@@ -4,8 +4,10 @@ import SkeletonTable from '~components/common/Skeleton/SkeletonTable';
 import { getUpcomingClass } from '~src/api/teacherAPI';
 import Pagination from "react-js-pagination";
 
+let pageSize = 0;
+
 const UpcomingRow = ({ data, showStudentModal }) => {
-    const { ScheduleTimeVN, ScheduleTimeUTC, StudentName, StudentUID, DocumentName, LessionName, SkypeID, StatusString, Status, LessionMaterial } = data;
+    const { ScheduleTimeVN, ScheduleTimeUTC, StudentName, StudentUID, DocumentName, LessionName, SkypeID, StatusString, Status, LessionMaterial, Gender } = data;
     return (
         <tr>
             <td className="clr-time">
@@ -29,7 +31,7 @@ const UpcomingRow = ({ data, showStudentModal }) => {
 
             </td>
             <td className="clr-student">
-                <a href={`#`} onClick={(e) => { e.preventDefault(); showStudentModal(StudentUID) }} className="clrm-studentname">{StudentName}<i className="fa fa-mars mg-l-10 clrm-icon-male" /></a>
+                <a href={`#`} onClick={(e) => { e.preventDefault(); showStudentModal(StudentUID) }} className="clrm-studentname">{StudentName}<i className={`fa fa-${Gender === 0 ? 'venus' : Gender === 1 ? 'mars' : 'genderless'} mg-l-10 clrm-icon-male`} /></a>
             </td>
             <td className="clr-status">
                 <span className={`badge badge-${Status === 1 ? 'warning' : 'success'} pd-5`}>{StatusString && StatusString.toString().toUpperCase()}</span>
@@ -56,6 +58,7 @@ const UpCommingTable = ({ updateSwiperHeight, showStudentModal }) => {
             const res = await getUpcomingClass({ Page: pageNumber });
             if (res?.Code && res.Code === 1) {
                 setData(res.Data);
+                pageSize = res.PageSize
             } else {
                 console.log('Code response khác 1');
             }
@@ -69,9 +72,6 @@ const UpCommingTable = ({ updateSwiperHeight, showStudentModal }) => {
         setData([]);
     }
 
-    const _onClickPage = (e) => {
-        const target = e.target;
-    }
 
     useEffect(() => {
         loadUpcomingClasses();
@@ -101,14 +101,14 @@ const UpCommingTable = ({ updateSwiperHeight, showStudentModal }) => {
                             </table>
                         </div>
 
-                        {!!data && !!data.length > 10 && (
+                        {!!data && !!data.length > pageSize && (
                             <Pagination
                                 innerClass="pagination"
                                 activePage={pageNumber}
                                 itemsCountPerPage={10}
                                 totalItemsCount={100}
                                 pageRangeDisplayed={5}
-                                onChange={_handlePageChange}
+                                onChange={(page) => setPageNumber(page)}
                                 itemClass="page-item"
                                 linkClass="page-link"
                                 activeClass="active"

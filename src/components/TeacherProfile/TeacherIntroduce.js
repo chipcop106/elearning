@@ -70,7 +70,7 @@ function TeacherIntroduce(props) {
             position: toast.POSITION.TOP_CENTER,
             autoClose: 2000
         });
-        res.Code === 0 && toast.danger('Update introduce failed !!', {
+        res.Code !== 1 && toast.error('Update introduce failed !!', {
             position: toast.POSITION.TOP_CENTER,
             autoClose: 2000
         });
@@ -88,7 +88,7 @@ function TeacherIntroduce(props) {
                 <div className="mg-b-30">
                     <h5 className="mg-b-15"><i className="fas fa-info-circle mg-r-5"></i>Summary</h5>
                     <div className="introduce-content">
-                        <textarea name="introduce" className="form-control" value={state.introduce} rows={7} onChange={(e) => updateState('introduce',e.target.value)} />
+                        <textarea name="introduce" className="form-control" value={state?.introduce ?? ''} rows={7} onChange={(e) => updateState('introduce',e.target.value)} />
                     </div>
                 </div>
                 <hr className="mg-b-30 mg-t-0" style={{borderStyle:'dashed'}}/>

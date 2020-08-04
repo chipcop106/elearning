@@ -82,9 +82,13 @@ const StudentInformationModal = React.forwardRef(({ studentId }, ref) => {
                                             {!isLoading ? (
                                                 <>
                                                 {state.stSex === 1 && <span className="valign-middle mg-r-5 tx-primary"><i className="fa fa-venus" /></span>}
-                                                {state.stSex === 2 && <span className="valign-middle mg-r-5 tx-primary"><i className="fa fa-venus" /></span>}
+                                                {state.stSex === 2 && <span className="valign-middle mg-r-5 tx-primary"><i className="fa fa-mars" /></span>}
                                                 {state.stSex === 3 && <span className="valign-middle mg-r-5 tx-primary"><i className="fa fa-genderless" /></span>}
-                                                <span>{state.stSex}</span>
+                                                <span>
+                                                {state.stSex === 1 && 'Female'}
+                                                {state.stSex === 2 && 'Male'}
+                                                {state.stSex === 3 && 'Genderless'}
+                                                </span>
                                             </>
                                             ) :   <Skeleton />}
                                             
@@ -107,14 +111,14 @@ const StudentInformationModal = React.forwardRef(({ studentId }, ref) => {
                                             <span>{!isLoading ? state.stEmail : <Skeleton />}</span>
                                         </div>
                                     </div>
-                                    <div className="d-flex mg-b-15">
+                                    {/* <div className="d-flex mg-b-15">
                                         <div className="wd-150 tx-medium">
                                             <span>Language:</span>
                                         </div>
                                         <div className="col">
                                             <span>{!isLoading ? state.stLanguage : <Skeleton />}</span>
                                         </div>
-                                    </div>
+                                    </div> */}
                                     
                                     <div className="d-flex mg-b-15">
                                         <div className="wd-150 tx-medium">

@@ -24,10 +24,6 @@ const itemShowOptions = [
     {
         value:10,
         label:'Last 10 lesson'
-    },
-    {
-        value:15,
-        label:'Last 15 lesson'
     }
 ]
 
@@ -84,8 +80,8 @@ const TeacherHome = () => {
     }
 
     React.useEffect(() => {
-        console.log(dashboardInfo);
-    }, [dashboardInfo])
+        feather.replace();
+    }, [selectShow])
     React.useEffect(() => {
         getData();
     }, [])

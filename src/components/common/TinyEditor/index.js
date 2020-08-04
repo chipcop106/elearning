@@ -1,13 +1,19 @@
 // Import React dependencies.
-import React, { useCallback, memo, useState } from "react";
+import React, { useState, useCallback, memo } from "react";
 import { Editor } from '@tinymce/tinymce-react';
 import {uploadImageToServer} from '~src/api/optionAPI'
-const TinyEditor = ({ options, onChange }) => {
+const TinyEditor = ({ options, onChangeEvent }) => {
+    const [state, setState] = useState('');
+    const _handleChange = (content, editor) =>{
+        setState(content);
+        onChangeEvent(content, editor);
+    }
     return (
         <Editor
             init={options}
-            onEditorChange={onChange}
-            apiKey='5g5faf78gvk6yfq9bd3bbfjo858kjx1q8o0nbiwtygo2e4er'
+            onEditorChange={_handleChange}
+            value={state}
+            apiKey='e1mtlim1uia64sz4l2u880y2zrqjmk0lyk8h3f2wso0e4yi2'
        />
     )
 }

@@ -13,10 +13,10 @@ const OperationRow = ({data}) => {
             <td className="tx-center">{CreatedBy}</td>
             <td>{ScheduleTimeLocal}</td>
             <td>{ScheduleTimeOfTeacher}</td>
-            <td className="tx-center">
+            {/* <td className="tx-center">
                 {Previous === 'Close' ? <span className="badge badge-danger">Closed</span> : <span className="badge badge-success">Open</span>}
-                {/* <span className="badge badge-danger">Closed</span> */}
-            </td>
+                <span className="badge badge-danger">Closed</span>
+            </td> */}
             <td className="tx-center">
                 {UpdatedAction === 'Close' ? <span className="badge badge-danger">Closed</span> : <span className="badge badge-success">Open</span>}
                 {/* <span className="badge badge-success">Open</span> */}
@@ -71,7 +71,7 @@ const ScheduleLogTable = ({ showStudentModal }) => {
                                         <th className="tx-center">Operator</th>
                                         <th>Schedule time (Local)</th>
                                         <th>Schedule time (VN)</th>
-                                        <th className="tx-center">Previous Action</th>
+                                        {/* <th className="tx-center">Previous Action</th> */}
                                         <th className="tx-center">Updated Action</th>
                                     </tr>
                                 </thead>
