@@ -22,23 +22,28 @@ module.exports = {
     'teacherPayment': componentEnrtryPrefix + 'TeacherPayment/teacherPayment.js',
     'teacherFeedback': componentEnrtryPrefix + 'TeacherFeedback/teacherFeedback.js',
     
-    'teacherProfile': componentEnrtryPrefix + 'TeacherProfile/teacherProfile.js', 
-    'teacherLessonDetail': componentEnrtryPrefix + 'TeacherLessonDetail/teacherLessonDetail.js',
+    
+    
     'teacherSupport': componentEnrtryPrefix + 'TeacherSupport/teacherSupport.js',*/
-    'teacherDetail': componentEnrtryPrefix + 'TeacherDetail/TeacherDetail.js',
+    /* 'teacherProfile': componentEnrtryPrefix + 'TeacherProfile/teacherProfile.js',  */
+    'teacherLessonDetail': componentEnrtryPrefix + 'TeacherLessonDetail/teacherLessonDetail.js',
+    'notification': componentEnrtryPrefix + 'Notification/Notification.js',
+    'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js',
+    'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js',
+    /* 'teacherDetail': componentEnrtryPrefix + 'TeacherDetail/TeacherDetail.js',
     'bookingLesson': componentEnrtryPrefix + 'StudentBooking/BookingLesson.js',
     'lessonHistory': componentEnrtryPrefix + 'LessonHistory/LessonHistory.js',
     'studentSupport': componentEnrtryPrefix + 'StudentSupport/StudentSupport.js',  
 
-    'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js',
+     'lessonDetail': componentEnrtryPrefix + 'LessonDetail/LessonDetail.js',
     'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/StudentDashboard.js',
-    'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js',
-    'notification': componentEnrtryPrefix + 'Notification/Notification.js',
+    
+    
     'faq': componentEnrtryPrefix + 'Faq/Faq.js', 
     'feedback': componentEnrtryPrefix + 'Feedback/Feedback.js',
     
-    'lessonDetail': componentEnrtryPrefix + 'LessonDetail/LessonDetail.js',
-    'blogDetail': componentEnrtryPrefix + 'BlogDetail/BlogDetail.js',
+    
+    'blogDetail': componentEnrtryPrefix + 'BlogDetail/BlogDetail.js', */
     'app': ['./src/scss/custom.scss', './src/assets/js/custom.js'], 
   },
   output: {

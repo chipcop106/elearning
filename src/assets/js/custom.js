@@ -95,7 +95,7 @@ $(document).ready(function() {
             scrollTop: 0
         }, 1000);
     });
-
+   
     $(".datetimepicker").flatpickr({
         dateFormat: "d/m/Y",
         onOpen: function (selectedDates, dateStr, instance) {
