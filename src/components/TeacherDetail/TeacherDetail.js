@@ -34,15 +34,11 @@ const initialBookLesson = {
 }
 
 const initialOnBookState = {
-  TeacherUID: "",
-  StudyTimeID: "",
-  studentName: "",
-  date: "",
-  randomProps: "",
+  id: null,
 }
 
 const initialOnCancelState = {
-  id: "",
+  id: null,
 }
 
 const TeacherDetail = () => {
@@ -78,21 +74,20 @@ const TeacherDetail = () => {
     })
   }
 
-  const onBook = (TeacherUID, StudyTimeID, studentName, date) => {
+  const onBook = (TeacherUID, StudyTimeID, date, status) => {
     setOnBookState({
-      ...onBookState,
-      TeacherUID,
-      StudyTimeID,
-      studentName,
-      date,
-      randomProps: randomId(),
+      id: randomId(),
     })
   }
 
-  const onCancel = (id, result) => {
-    if (result === 1) {
+  const onCancel = (id, status) => {
+    if (status == 1)
       setOnCancelState({
         id,
+      })
+    else if (status == 0) {
+      setOnCancelState({
+        id: "fail",
       })
     }
   }
@@ -112,7 +107,6 @@ const TeacherDetail = () => {
     let search = window.location.search;
     let params = new URLSearchParams(search);
     let ID = params.get('ID');
-
     getAPI({
       TeacherUID: ID,
     })
@@ -120,7 +114,7 @@ const TeacherDetail = () => {
 
   return loading ? <SkeletonLessonCard /> : <>
     {
-     <div className="teacher__detail__wrap shadow card-box">
+      <div className="teacher__detail__wrap shadow card-box">
         <div className="teacher__detail">
           <div className="teacher-header">
             <div className="teacher-avatar">
@@ -129,23 +123,23 @@ const TeacherDetail = () => {
             </div>
             {
               !!state && <div className="teacher-info">
-              <div className="teacher-name">
-                <h5 className="name">{state.TeacherName}</h5>
-                <div className="nation">
-                  <span className={`flag-icon flag-icon-${state.TeacherNational ? nationMapToFlag(state.TeacherNational) : "vn"} flag-icon-squared mg-r-5`}></span>
-                  <span className="badge badge-light"><span className="tx-success"><i
-                    className="fa fa-check-circle"></i> Verified</span></span>
+                <div className="teacher-name">
+                  <h5 className="name">{state.TeacherName}</h5>
+                  <div className="nation">
+                    <span className={`flag-icon flag-icon-${state.TeacherNational ? nationMapToFlag(state.TeacherNational) : "vn"} flag-icon-squared mg-r-5`}></span>
+                    <span className="badge badge-light"><span className="tx-success"><i
+                      className="fa fa-check-circle"></i> Verified</span></span>
+                  </div>
+                </div>
+                <div className="teacher-summary">
+                  <a href="#js-video-modal"
+                    data-toggle="modal"
+                    data-target="#js-video-modal"
+                    data-src={state.LinkVideoIntroduce}
+                    className="tx-primary" id="video-teacher"><i className="fas fa-play-circle mg-r-5"></i>Xem video giới thiệu</a>
+                  <p className="mg-b-0 mg-t-10">{state.IntroduceContent}</p>
                 </div>
               </div>
-              <div className="teacher-summary">
-                <a href="#js-video-modal"
-                  data-toggle="modal"
-                  data-target="#js-video-modal"
-                  data-src={state.LinkVideoIntroduce}
-                  className="tx-primary" id="video-teacher"><i className="fas fa-play-circle mg-r-5"></i>Xem video giới thiệu</a>
-                <p className="mg-b-0 mg-t-10">{state.IntroduceContent}</p>
-              </div>
-            </div>
             }
           </div>
           <div className="teacher-body">
@@ -155,19 +149,19 @@ const TeacherDetail = () => {
                   <a href={"#"} className={`${showTab === 1 ? 'active' : ''} tab-link h-100`}
                     data-index="0"
                     onClick={(e) => { e.preventDefault(); setShowTab(1) }}>
-                      <i className="fas fa-user mg-r-5"></i>TEACHER INFORMATION</a>
+                    <i className="fas fa-user mg-r-5"></i>TEACHER INFORMATION</a>
                 </li>
                 <li className="tab-item h-auto">
                   <a href={"#"} className={`${showTab === 2 ? 'active' : ''} tab-link h-100`}
                     data-index="1"
                     onClick={(e) => { e.preventDefault(); setShowTab(2) }}>
-                      <i className="fas fa-calendar mg-r-5"></i>BOOKING SCHEDULE</a>
+                    <i className="fas fa-calendar mg-r-5"></i>BOOKING SCHEDULE</a>
                 </li>
                 <li className="tab-item h-auto">
                   <a href={"#"} className={`${showTab === 3 ? 'active' : ''} tab-link h-100`}
                     data-index="2"
                     onClick={(e) => { e.preventDefault(); setShowTab(3) }}>
-                      <i className="fas fa-comment mg-r-5"></i>STUDENT COMMENT</a>
+                    <i className="fas fa-comment mg-r-5"></i>STUDENT COMMENT</a>
                 </li>
               </ul>
             </div>
@@ -186,11 +180,7 @@ const TeacherDetail = () => {
                     <div className="slide-tab-content">
                       <BookingSchedule
                         TeacherUID={!!state && state.TeacherUID}
-                        onBookStudyTimeID={onBookState.StudyTimeID}
-                        onBookTeacherUID={onBookState.TeacherUID}
-                        onBookStudentName={onBookState.studentName}
-                        onBookDate={onBookState.date}
-                        randomProps={onBookState.randomProps}
+                        onBookingId={onBookState.id}
                         onCancelId={onCancelState.id}
                         handleBookLesson={onHandleBookLesson}
                         handleCancelLesson={onHandleCancelLesson} />

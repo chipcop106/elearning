@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { getScheduleByTeacherUID } from "~src/api/studentAPI";
+import { toast } from 'react-toastify';
+import 'react-toastify/scss/main.scss'
+import { toastInit } from "~src/utils"
+import { FETCH_ERROR, CANCEL_BOOKING_SUCCESS, BOOKING_SUCCESS } from '~components/common/Constant/toast';
 
 let calendar;
 let mondayOfWeek = new Date(new Date().setDate(new Date().getDate() - new Date().getDay() + 1));
@@ -9,17 +13,17 @@ const BookingSchedule = ({
   TeacherUID,
   handleBookLesson,
   handleCancelLesson,
-  onBookStudyTimeID,
-  onBookTeacherUID,
-  onBookStudentName,
-  onBookDate,
-  randomProps,
+  onBookingId,
   onCancelId
 }) => {
 
   const [schedule, setSchedule] = React.useState([])
   const [loading, setLoading] = React.useState(false)
   const [dateFetch, setDate] = React.useState(mondayOfWeek)
+
+  const cancelToastSuccess = () => toast.success(CANCEL_BOOKING_SUCCESS, toastInit);
+  const cancelToastFail = () => toast.error(FETCH_ERROR, toastInit);
+  const bookingToastSuccess = () => toast.success(BOOKING_SUCCESS, toastInit);
 
   const bookLesson = (StudyTimeID, LessionName, date, start, end) => {
     handleBookLesson(StudyTimeID, LessionName, date, start, end)
@@ -351,12 +355,13 @@ const BookingSchedule = ({
     });
   }
 
-  const getAPI = async (params) => {
+  const getAPI = async (params, callback) => {
     setLoading(true);
     const res = await getScheduleByTeacherUID(params);
     if (res.Code === 1) {
       setSchedule(res.Data)
     }
+    !!callback && callback();
     setLoading(false);
   }
 
@@ -369,10 +374,29 @@ const BookingSchedule = ({
       TeacherUID,
       Date: moment(dateFetch).format("DD/MM/YYYY"),
     });
-  }, [dateFetch, onBookStudyTimeID, onBookTeacherUID, onBookStudentName, onBookDate, onCancelId, randomProps]);
+  }, [dateFetch]);
+
+  React.useEffect(() => {
+    if(onCancelId !== null)
+    {
+      onCancelId === "fail" ? cancelToastFail() :
+      getAPI({
+        TeacherUID,
+        Date: moment(dateFetch).format("DD/MM/YYYY"),
+      }, cancelToastSuccess);
+    }
+  }, [onCancelId]);
+
+  React.useEffect(() => {
+    if(onBookingId !== null)
+    getAPI({
+      TeacherUID,
+      Date: moment(dateFetch).format("DD/MM/YYYY"),
+    }, !!onBookingId ? bookingToastSuccess : null);
+  }, [onBookingId]);
 
   return (
-    <React.Fragment>
+    <>
       <div className="book__calendar">
         <div className={`${loading ? '' : 'd-none'} overlay`}>
           <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
@@ -390,7 +414,7 @@ const BookingSchedule = ({
           </ul>
         </div>
       </div>
-    </React.Fragment>
+    </>
   )
 }
 export default BookingSchedule;

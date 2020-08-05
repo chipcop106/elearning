@@ -38,10 +38,10 @@ const LessonDetail = () => {
     })
   }, []);
 
-  return <React.Fragment>
+  return <>
     {
       loading ? <SkeletonLessonDetail /> :
-        <React.Fragment>
+        <>
           <div className="row">
             <div className="col-md-6 col-sm-12">
               {/* <!--thông tin buổi học--> */}
@@ -210,10 +210,10 @@ const LessonDetail = () => {
             TeacherUID={state.TeacherUID}
             TeacherName={state.TeacherName}
             callback={onCallbackRating} />
-        </React.Fragment>
+        </>
     }
     <ToastContainer />
-  </React.Fragment >
+  </>
 }
 
 ReactDOM.render(<LessonDetail />, document.getElementById('react-lesson-detail'));

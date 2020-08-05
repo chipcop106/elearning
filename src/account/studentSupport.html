@@ -22,13 +22,14 @@
   <link href="../lib/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../assets/js/swiper/css/swiper.min.css">
   <!-- Mona CSS -->
-  
-  
+
+
   <link rel="stylesheet" href="../assets/css/csscustom.css">
 
   <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
   <script src="../assets/js/utils.js"></script>
   <script src="../lib/jquery/dist/jquery.min.js"></script>
+
   <!-- Fomik -->
   <!-- some additional css here -->
 </head>
@@ -40,10 +41,11 @@
     <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0 dashboard-page">
       <div class="media d-block d-lg-flex">
         <i class="fas fa-align-left fa-2x toggle-sidebar d-inline-block d-lg-none mg-b-15"></i>
-        <div id="js-component-profilesidebar"></div>
-        <!-- profile-sidebar -->
-        <div class="media-body">
-          <div id="react-notification"></div>
+        <div id="js-component-profilesidebar"></div><!-- profile-sidebar -->
+        <div class="media-body body__content">
+          <div class="booking__container mg-b-30 " id="booking-information">
+            <div id="react-student-support"></div>
+          </div>
         </div>
         <!-- media-body -->
       </div>
@@ -59,11 +61,6 @@
   <script src="../assets/js/dashforge.js"></script>
   <script src="../assets/js/swiper/js/swiper.min.js"></script>
   <script src="../assets/js/custom.js"></script>
-  <script>
-       $(document).ready(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-      }); 
-  </script>
 </body>
 
 </html>

@@ -13,9 +13,6 @@ const ProfileSidebar = () => {
     const res = await getProfile();
     if (res.Code === 1) {
       setState(res.Data)
-      localStorage.setItem("user", JSON.stringify({
-        FullName: res.Data.FullName,
-      }));
     }
     setLoading(false);
 

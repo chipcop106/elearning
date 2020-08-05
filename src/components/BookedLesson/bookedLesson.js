@@ -10,6 +10,10 @@ import { convertDateFromTo, checkCancelTime } from "~src/utils.js"
 import Pagination from "react-js-pagination";
 import { ToastContainer } from 'react-toastify'
 import { FETCH_ERRORS } from "~components/common/Constant/message"
+import { toast } from 'react-toastify';
+import 'react-toastify/scss/main.scss'
+import { toastInit } from "~src/utils"
+import { CANCEL_BOOKING_SUCCESS, FETCH_ERROR } from '~components/common/Constant/toast';
 
 import styles from '~components/BookedLesson/bookedLesson.module.scss'
 
@@ -40,6 +44,8 @@ const BookedLesson = () => {
   const [page, setPage] = React.useState(1)
   const [pageSize, setPageSize] = React.useState(0);
   const [totalResult, setTotalResult] = React.useState(0);
+  const cancelToastSuccess = () => toast.success(CANCEL_BOOKING_SUCCESS, toastInit);
+  const cancelToastFail = () => toast.error(FETCH_ERROR, toastInit);
 
   const [lock, setLock] = React.useState({
     id: "",
@@ -49,7 +55,7 @@ const BookedLesson = () => {
   const [stateRequireLesson, setStateRequireLesson] = React.useState(initialRequireLesson);
 
   const [loading, setLoading] = React.useState(true);
-  
+
   const handlePageChange = (pageNumber) => {
     setPage(pageNumber);
     getAPI({
@@ -96,11 +102,20 @@ const BookedLesson = () => {
         id,
         lock: false
       })
-      if (result === 1) { //If cancel lesson success
-        let newUpcomingLessions = [...state];
-        newUpcomingLessions = newUpcomingLessions.filter(item => item.BookingID !== id)
-        setState(newUpcomingLessions)
+      if (result === 1) { // cancel lesson success
+        cancelToastSuccess();
+        if (pageSize < totalResult) {
+          getAPI({
+            Page: 1,
+          })
+        }
+        else {
+          let newUpcomingLessions = [...state];
+          newUpcomingLessions = newUpcomingLessions.filter(item => item.BookingID !== id)
+          setState(newUpcomingLessions)
+        }
       }
+      else cancelToastFail(); //Cancel Lesson Fail
     }
   }
   const cbRequireLesson = (SpecialRequest, BookingID, TeacherUID) => {
@@ -113,7 +128,7 @@ const BookedLesson = () => {
   const getAPI = async (params) => {
     setLoading(true);
     const res = await getUpcomingLessons(params);
-     if (res.Code === 1) {
+    if (res.Code === 1) {
       setState(res.Data)
       setPageSize(res.PageSize);
       setTotalResult(res.TotalResult)
@@ -128,7 +143,7 @@ const BookedLesson = () => {
   }, []);
 
   return <>
-      <h4 className="mg-b-30 gradient-heading"><i className="fas fa-calendar-check" />BOOKED LESSON</h4>
+    <h4 className="mg-b-30 gradient-heading"><i className="fas fa-calendar-check" />BOOKED LESSON</h4>
     {
       !!state ? <>
         <div className="feedback-container">
@@ -150,6 +165,7 @@ const BookedLesson = () => {
                     key={item.BookingID}
                     BookingID={item.BookingID}
                     TeacherUID={item.TeacherUID}
+                    avatar={item.TeacherIMG}
                     TeacherName={item.TeacherName}
                     LessionName={item.LessionName}
                     LessionMaterial={item.LessionMaterial}
@@ -168,15 +184,15 @@ const BookedLesson = () => {
           </div>
         </div>
         {
-           pageSize < totalResult && <Pagination
-           innerClass="pagination justify-content-end mt-3"
-           activePage={page}
-           itemsCountPerPage={pageSize}
-           totalItemsCount={totalResult}
-           pageRangeDisplayed={3}
-           itemClass="page-item"
-           linkClass="page-link"
-           onChange={handlePageChange.bind(this)} />
+          pageSize < totalResult && <Pagination
+            innerClass="pagination justify-content-end mt-3"
+            activePage={page}
+            itemsCountPerPage={pageSize}
+            totalItemsCount={totalResult}
+            pageRangeDisplayed={3}
+            itemClass="page-item"
+            linkClass="page-link"
+            onChange={handlePageChange.bind(this)} />
         }
         <RequireLessonModal
           BookingID={stateRequireLesson.BookingID}

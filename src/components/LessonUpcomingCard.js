@@ -88,7 +88,7 @@ const LessonUpcomingCard = ({
                   className="btn btn-sm btn-info d-flex justify-content-center align-items-center tx-medium"
                     target="_blank"
                     rel="noopener">
-                <div><i className="fab fa-skype mg-r-5"></i>SKYPE</div>
+                <div><i className="fab fa-skype mg-r-5"></i>JOIN CLASS</div>
               </a>
               <a href={"#"} className="btn btn-sm btn-success tx-medium" data-toggle="modal" data-target="#js-md-required"
                 onClick={() => handleRequireLesson(
@@ -114,7 +114,7 @@ const LessonUpcomingCard = ({
                   onClick={(e) => handleCancelBooking(e, BookingID, LessionName, date, start, end)}
                   data-toggle="modal" data-target="#md-cancel-schedule"
                   data-placement="top">
-                  <div>{/* <i data-feather="x-circle"></i> */}<i className="fas fa-times-circle"></i> CANCEL LESSON</div>
+                  <div><i className="fas fa-times-circle"></i> CANCEL LESSON</div>
                 </a>
               }
             </div>

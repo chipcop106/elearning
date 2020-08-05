@@ -22,6 +22,11 @@ import { convertDateFromTo, checkCancelTime } from "~src/utils.js"
 import { getLessons } from "~src/api/studentAPI";
 import { ToastContainer } from 'react-toastify';
 
+import { toast } from 'react-toastify';
+import 'react-toastify/scss/main.scss'
+import { toastInit } from "~src/utils"
+import { CANCEL_BOOKING_SUCCESS, FETCH_ERROR } from '~components/common/Constant/toast';
+
 import styles from "~components/StudentDashboard/StudentDashboard.module.scss";
 
 
@@ -71,6 +76,9 @@ const Dashboard = () => {
   const [stateRatingLesson, setStateRatingLesson] = React.useState(initialRatingLesson);
   const [stateRequireLesson, setStateRequireLesson] = React.useState(initialRequireLesson);
   const [loading, setLoading] = React.useState(false)
+
+  const cancelToastSuccess = () => toast.success(CANCEL_BOOKING_SUCCESS, toastInit);
+  const cancelToastFail = () => toast.error(FETCH_ERROR, toastInit);
 
   const handleRatingLesson = (BookingID, TeacherUID, TeacherName) => {
     setStateRatingLesson({
@@ -129,7 +137,9 @@ const Dashboard = () => {
           ...state,
           UpcomingLessions: newUpcomingLessions,
         })
+        cancelToastSuccess();
       }
+      else cancelToastFail(); //Cancel Lesson Fail
     }
   }
 
@@ -138,7 +148,7 @@ const Dashboard = () => {
       let newState = { ...state }
       const index = newState.LessionHistory.findIndex
         (item => item.BookingID === BookingID && item.TeacherUID === TeacherUID);
-      newState.LessionHistory[index].Rate1 = rating;
+      newState.LessionHistory[index].Rate = rating;
       setState(newState)
     }
   }
@@ -165,7 +175,7 @@ const Dashboard = () => {
   }, []);
 
   return <>
-    <div className="content content-fixed">
+    <div className="content content-fixed mg-t-0 mg-lg-t-60-f">
       <div className="container pd-x-0 pd-lg-x-10 pd-xl-x-0 dashboard-page">
         <div className="media d-block d-lg-flex">
           <i className="fas fa-align-left fa-2x toggle-sidebar d-inline-block d-lg-none mg-b-15"></i>
@@ -271,6 +281,7 @@ const Dashboard = () => {
                               key={item.BookingID}
                               BookingID={item.BookingID}
                               TeacherUID={item.TeacherUID}
+                              avatar={item.TeacherIMG}
                               TeacherName={item.TeacherName}
                               LessionName={item.LessionName}
                               LessionMaterial={item.LessionMaterial}
@@ -303,13 +314,14 @@ const Dashboard = () => {
                               key={item.BookingID}
                               BookingID={item.BookingID}
                               TeacherUID={item.TeacherUID}
-                              TeacherName={item.Teacher}
+                              avatar={item.TeacherIMG}
+                              TeacherName={item.TeacherName}
                               LessionName={item.LessionName}
                               Status={item.Status}
                               start={convertDateFromTo(item.Schedule).fromTime}
                               end={convertDateFromTo(item.Schedule).endTime}
                               date={convertDateFromTo(item.Schedule).date}
-                              Rate={item.Rate1}
+                              Rate={item.Rate}
                               onHandleRatingLesson={handleRatingLesson} />)
                       }
                     </ul>
