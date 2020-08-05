@@ -487,7 +487,7 @@ const BookingLesson = () => {
                   !!teachersList && teachersList.length > 0 && teachersList.map(item =>
                     <li className="tutor" key={item.TeacherUID}>
                       <div className="totor-detail">
-                        <a href={`ElearnStudent/teacherDetail?ID=${item.TeacherUID}`} className="tutor-wrap">
+                        <a href={`/ElearnStudent/teacherDetail?ID=${item.TeacherUID}`} className="tutor-wrap">
                           <span className="tutor-avatar">
                             <img src={item.TeacherIMG ? item.TeacherIMG : "../assets/img/default_avatar.png"} alt="" />
                           </span>

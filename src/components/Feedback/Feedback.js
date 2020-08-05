@@ -11,7 +11,7 @@ import { NOT_DATA_FOUND } from "~components/common/Constant/message"
 import styles from "~components/Feedback/Feedback.module.scss"
 
 const initialState = [
-   {
+  {
     id: randomId(),
     StudentUID: randomId(),
     StudentName: 'Truong Van Lam',
@@ -54,7 +54,7 @@ const initialState = [
     LessionName: 'Lesson 6: ReactJS application',
     LessionID: randomId(),
     Rate: 1,
-  } 
+  }
 ]
 
 const Feedback = () => {
@@ -110,7 +110,7 @@ const Feedback = () => {
 
   React.useEffect(() => {
     getOverViewAPI();
-    getListEvaluationAPI({
+    _GetListEvaluationAPI({
       Rate: 0,
       Page: 1,
     })
@@ -216,29 +216,28 @@ const Feedback = () => {
             {
               !!feedback && feedback.length > 0 ? feedback.map(item =>
                 <StudentCommentItem
-                  key={item.id}
-                  StudentUID={item.StudentUID}
-                  CreatedDate={item.CreatedDate}
-                  StudentName={item.StudentName}
-                  StudentIMG={item.StudentIMG}
-                  Evaluation={item.Evaluation}
+                  key={item.ElearnBookingID}
+                  ScheduleTimeVN={item.ScheduleTimeVN}
+                  TeacherName={item.TeacherName}
+                  TeacherIMG={item.TeacherIMG}
+                  Note={item.Note}
                   Rate={item.Rate}
-                  LessionName={item.LessionName}
-                  LessionID={item.LessionID} />): <span className="text-danger bold" style={{fontSize:'16px'}}>It's doesn't have any feedback </span>
+                  LinkDetail={item.LinkDetail}
+                  DocumentName={item.DocumentName} />) : <span className="text-danger bold" style={{ fontSize: '16px' }}>It's doesn't have any feedback </span>
             }
           </div>
       }
     </div>
     {
-       pageSize < totalResult && <Pagination
-       innerClass="pagination justify-content-end mt-3"
-       activePage={page}
-       itemsCountPerPage={pageSize}
-       totalItemsCount={totalResult}
-       pageRangeDisplayed={3}
-       itemClass="page-item"
-       linkClass="page-link"
-       onChange={handlePageChange.bind(this)} />
+      pageSize < totalResult && <Pagination
+        innerClass="pagination justify-content-end mt-3"
+        activePage={page}
+        itemsCountPerPage={pageSize}
+        totalItemsCount={totalResult}
+        pageRangeDisplayed={3}
+        itemClass="page-item"
+        linkClass="page-link"
+        onChange={handlePageChange.bind(this)} />
     }
   </>
   )

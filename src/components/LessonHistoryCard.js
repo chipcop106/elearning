@@ -29,7 +29,7 @@ const LessonHistoryCard = ({
     <li className="cr-item lesson-history lesson-info">
       <div className="media">
         <div className="teacher-information">
-          <a className="teacher-avatar" href={`ElearnStudent/teacherDetail?ID=${TeacherUID}`}>
+          <a className="teacher-avatar" href={`/ElearnStudent/teacherDetail?ID=${TeacherUID}`}>
             <img src={avatar === "default-avatar.png" ?
               `../assets/img/${avatar}` : avatar}
               className="teacher-image" alt="" />
@@ -42,7 +42,7 @@ const LessonHistoryCard = ({
           <div>
             <h5 className="mg-b-10 mg-t-10 mg-sm-t-0">
               <span className="badge badge-success">Finished</span>{' '}
-              <a href={`ElearnStudent/lessonDetail?ID=${BookingID}`} className="no-hl course-name tx-bold">
+              <a href={`/ElearnStudent/lessonDetail?ID=${BookingID}`} className="no-hl course-name tx-bold">
                 {LessionName}
               </a>
             </h5>
@@ -96,7 +96,7 @@ const LessonHistoryCard = ({
           </div>
           {/* <div className="course-actions mg-t-15">
               <div className="action-left">
-                <a href={`ElearnStudent/lessonDetail?ID=${BookingID}`} className="btn btn-sm btn-warning mg-r-10" target="_blank"
+                <a href={`/ElearnStudent/lessonDetail?ID=${BookingID}`} className="btn btn-sm btn-warning mg-r-10" target="_blank"
                   rel="noopener">
                   <i className="fas fa-vote-yea mg-r-5"></i> <span>Detail lesson</span></a>
               </div>

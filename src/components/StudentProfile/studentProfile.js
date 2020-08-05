@@ -39,16 +39,16 @@ const StudentProfile = () => {
             <div className="swiper-container" id="js-teacher__info">
               <div className="teacher__info-wrap swiper-wrapper">
                 <div className={`${showTab === 1 || showTab === 2 ? 'active' : ''} swiper-slide`}>
-                  <div className="slide-tab-content">
-                    <div className="content-block">
-                      <div className="introduce-content mg-b-30">
+                  <div className="slide-tab-content pd-b-15-f">
+                    <div className="content-block mg-b-0-f">
+                      <div className="introduce-content">
                         <StudentForm tabDisplay={showTab} />
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className={`${showTab === 3 ? 'active' : ''} swiper-slide`}>
-                  <div className="slide-tab-content">
+                  <div className="slide-tab-content pd-b-15-f">
                     <div className="payment-tab">
                       {
                         showTab === 3 && <PaymentHistory />

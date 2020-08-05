@@ -16,3 +16,4 @@ export const FILL_ALL = "Please fill all information!";
 export const FILL_PASSWORD = "Password field must not empty!";
 export const DIFFERENT_PASSWORD = "Old password must be different from new password!";
 export const INCORRECT_PASSWORD = "Old password is not correct";
+export const CONFIRM_PASSWORD = "Confirm password need to match";

@@ -36,7 +36,12 @@ const StudentComment = ({ TeacherUID }) => {
   }, [])
   return (
     <div className="tc-comment-wrap bd-t-0-f mg-t-0-f pd-t-0-f">
-      <h6 className="mg-b-15">{totalResult} student has comment for this teacher:</h6>
+      <h6 className="mg-b-15">
+        {
+          totalResult == 0?"This teacher have no feedback":
+          `${totalResult} student${totalResult > 1? "s":""} has leave feedback for this teacher:`
+        }
+        </h6>
       <div className="comment__wrapper">
         {
           !!state && state.length > 0 && state.map((item, index) =>

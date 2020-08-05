@@ -29,6 +29,7 @@ import {
   FILL_PASSWORD,
   INCORRECT_PASSWORD,
   DIFFERENT_PASSWORD,
+  CONFIRM_PASSWORD,
   UPDATE_PROFILE_SUCCESS,
 } from "~components/common/Constant/toast"
 import { NOT_DATA_FOUND } from '~components/common/Constant/message';
@@ -98,6 +99,7 @@ const convertTargetStringToNum = (listString, map) => {
 const StudentForm = ({ tabDisplay }) => {
   const [profile, setProfile] = React.useState({});
   const [loadingProfile, setLoadingProfile] = React.useState(true);
+  const [loadingUpdateProfile, setLoadingUpdateProfile] = React.useState(false);
   const [listLanguage, setListLanguage] = React.useState([]);
   const [listTimeZone, setListTimeZone] = React.useState([]);
   const [listTarget, setListTarget] = React.useState([]);
@@ -113,6 +115,7 @@ const StudentForm = ({ tabDisplay }) => {
   });
 
   const onSubmit = data => {
+    setLoadingUpdateProfile(true);
     const array = data.SelectTarget.split(",");
     let z = convertTargetStringToNum(array, listTarget);
 
@@ -175,7 +178,6 @@ const StudentForm = ({ tabDisplay }) => {
     }
   }
   const onUpdateProfileAPI = async (params) => {
-    setLoadingProfile(true);
     const res = await updateProfileAPI(params)
     if (res.Code === 1) {
       updateProfileToastSuccess();
@@ -183,7 +185,7 @@ const StudentForm = ({ tabDisplay }) => {
     else {
       updateProfileToastFail();
     }
-    setLoadingProfile(false);
+    setLoadingUpdateProfile(false);
   }
   const renderTarget = (options) => {
     return options.map(item => item.TargetName)
@@ -218,8 +220,8 @@ const StudentForm = ({ tabDisplay }) => {
   return tabDisplay === 1 ? (loadingProfile ? <SkeletonStudentForm /> :
     (!!profile && Object.keys(profile).length > 0 ? (<>
       <form id="form-account-profile" className="metronic-form" onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-account pd-y-15">
-          <div className="row mg-b-15">
+        <div className="form-account">
+          <div className="row">
             <div className="col-12">
               <div className="form-row  align-items-center ">
                 <div className="form-group col-sm-3 col-label-fixed">
@@ -316,6 +318,7 @@ const StudentForm = ({ tabDisplay }) => {
                 </div>
                 <div className="form-group col-sm-9">
                   <input type="text" className="form-control"
+                    placeholder="Your name"
                     ref={register()}
                     defaultValue={profile.FullName}
                     name="FullName" />
@@ -480,8 +483,15 @@ const StudentForm = ({ tabDisplay }) => {
             <div className="col-12">
               <div className="form-row  align-items-center ">
                 <div className="form-group col-sm-3 col-label-fixed"></div>
-                <div className="form-group col-sm-9">
-                  <button type="submit" className="btn btn-primary rounded">Save information</button>
+                <div className="form-group col-sm-9 mg-b-0-f">
+                  <button type="submit"
+                  disabled={loadingUpdateProfile ? true : ""}
+                  className="btn btn-primary rounded"
+                  style={{width: loadingUpdateProfile ? "138px" : "auto", color:"#fff" }}>
+                  {loadingUpdateProfile ?
+                  <i className="fa fa-spinner fa-spin"></i> : 
+                  "Save information"}
+                  </button>
                 </div>
               </div>
             </div>
@@ -494,6 +504,7 @@ const StudentForm = ({ tabDisplay }) => {
 const PasswordForm = () => {
   const [oldPassword, setOldPassword] = React.useState('');
   const [newPassword, setNewPassword] = React.useState('');
+  const [confirmPassword, setConfirmPassword] = React.useState('');
   const [displayPassword, setDisplayPassword] = React.useState(false);
   const [error, setError] = React.useState(null);
   const [loadingPassword, setLoadingPassword] = React.useState(false);
@@ -510,6 +521,10 @@ const PasswordForm = () => {
 
     if (oldPassword === newPassword) {
       setError(DIFFERENT_PASSWORD);
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setError(CONFIRM_PASSWORD);
       return;
     }
     setError(null);
@@ -531,6 +546,7 @@ const PasswordForm = () => {
       updatePassToastSuccess();
       setOldPassword('');
       setNewPassword('');
+      setConfirmPassword('');
     }
   }
 
@@ -538,10 +554,10 @@ const PasswordForm = () => {
     <form className="metronic-form change-password-form" onSubmit={_onSubmit}>
       {
         error && error !== '' &&
-        <div className="alert alert-danger mg-b-0" role="alert">{error}</div>
+        <div className="alert alert-danger mg-b-10" role="alert">{error}</div>
       }
-      <div className="form-account pd-y-15">
-        <div className="row mg-b-15">
+      <div className="form-account">
+        <div className="row">
           <div className="col-12">
             <div className="form-row align-items-center ">
               <div className="form-group col-sm-3 col-label-fixed">
@@ -571,6 +587,20 @@ const PasswordForm = () => {
             </div>
           </div>
           <div className="col-12">
+            <div className="form-row align-items-center ">
+              <div className="form-group col-sm-3 col-label-fixed">
+                <p className="mg-b-0 tx-medium">Confirm Password:</p>
+              </div>
+              <div className="form-group col-sm-9">
+                <input
+                  type={displayPassword ? "text" : "password"}
+                  autoComplete="off"
+                  className="form-control" name="OldPass"
+                  onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} />
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
             <div className="form-group pd-l-2">
               <div className="custom-control custom-checkbox">
                 <input type="checkbox" className="custom-control-input" id="displaypassword"
@@ -583,7 +613,7 @@ const PasswordForm = () => {
             <div className="form-row align-items-center ">
               <div className="form-group col-sm-3 col-label-fixed">
               </div>
-              <div className="form-group col-sm-9">
+              <div className="form-group col-sm-9 mg-b-0-f">
                 <button type="submit" className="btn btn-primary">Save Change</button>
               </div>
             </div>

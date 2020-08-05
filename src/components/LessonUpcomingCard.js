@@ -43,7 +43,7 @@ const LessonUpcomingCard = ({
       <div className={`${lock.id === BookingID && lock.lock ? '' : 'd-none'}`} style={{ zIndex: "99", position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}></div>
       <div className="media">
         <div className="teacher-information">
-          <a className="teacher-avatar" href={`ElearnStudent/teacherDetail?ID=${TeacherUID}`}>
+          <a className="teacher-avatar" href={`/ElearnStudent/teacherDetail?ID=${TeacherUID}`}>
             <img src={avatar === "default-avatar.png" ?
               `../assets/img/${avatar}` : avatar}
               className="teacher-image" alt="" />
@@ -55,7 +55,7 @@ const LessonUpcomingCard = ({
           <div>
             <h5 className="mg-b-10 mg-t-10 mg-sm-t-0">
               <span className="badge badge-warning">Incoming</span>{' '}
-              <a href={`ElearnStudent/lessonDetail?ID=${BookingID}`}
+              <a href={`/ElearnStudent/lessonDetail?ID=${BookingID}`}
                 className="no-hl course-name tx-bold">{LessionName}</a>
             </h5>
             <div className="course-information tx-14">
@@ -72,7 +72,7 @@ const LessonUpcomingCard = ({
             {
               SpecialRequest &&  <div className="course-note mg-t-15">
               <h6 className="mg-b-3 tx-bold">Lesson notes:</h6>
-              <p className="tx-14 mg-b-0">{SpecialRequest}</p>
+              <p className="tx-14 mg-b-0" style={{wordBreak:"break-all"}}>{SpecialRequest}</p>
             </div>
             }
             {
@@ -84,9 +84,8 @@ const LessonUpcomingCard = ({
           </div>
           <div className="course-actions mg-t-15">
             <div className="action-left">
-              <a href={`https://www.skype.com/${SkypeID}`}
+              <a href={`skype:${SkypeID}?chat`}
                   className="btn btn-sm btn-info d-flex justify-content-center align-items-center tx-medium"
-                    target="_blank"
                     rel="noopener">
                 <div><i className="fab fa-skype mg-r-5"></i>JOIN CLASS</div>
               </a>
