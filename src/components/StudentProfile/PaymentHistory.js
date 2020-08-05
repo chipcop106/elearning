@@ -109,33 +109,48 @@ const PaymentHistory = () => {
     }
     <div className="table-tiket">
       <div className="table-responsive">
-        <table className="table">
-          <thead className="thead-light">
+        <table className="table tx-nowrap">
+          <thead className="thead-light tx-center">
             <tr>
               <th>Course Name</th>
               <th>Amount</th>
+              <th>Start</th>
+              <th>End</th>
               <th>Method</th>
               <th>Payment Date</th>
               <th>Expiration Date</th>
+              <th>Status</th>
+              <th>Total Lesson</th>
             </tr>
           </thead>
           <tbody>
             {
-              loading ? <SkeletonLessonHistoryCard column={5} />:
-              !!state && Array.isArray(state) && state.length > 0 ?
-              state.map((item, index) =>
-                <tr key={index}>
-                  <td>{item.PlanName}</td>
-                  <td>{item.Amount}</td>
-                  <td>{item.PaymentTypeString}</td>
-                  <td>{moment(item.PaymentDate).format("YYYY-MM-DD")}</td>
-                  <td>{item.ExpirationDate}</td>
-                </tr>) :
-                <tr style={{backgroundColor: "transparent"}}>
-                  <td colSpan="5">
-                    <NOT_DATA_FOUND />
-                  </td>
-                </tr>
+              loading ? <SkeletonLessonHistoryCard column={9} /> :
+                !!state && Array.isArray(state) && state.length > 0 ?
+                  state.map((item, index) =>
+                    <tr key={index}>
+                      <td>{item.PlanName}</td>
+                      <td>{item.Amount}</td>
+                      <td>{item.StartDate}</td>
+                      <td>{item.EndDate}</td>
+                      <td>{item.PaymentTypeString}</td>
+                      <td>{moment(item.PaymentDate).format("YYYY-MM-DD")}</td>
+                      <td>{item.ExpirationDate}</td>
+                      <th><span className={`badge badge-${
+                        item.Status === 1 ? 'warning' :
+                          item.Status === 2 ? "success" : "danger"} pd-5 tx-12 wd-75`}>
+                        {
+                          item.Status === 1 ? "Chưa kích hoạt" :
+                            item.Status === 2 ? "Đã kích hoạt" : "Hết hạn"
+                        }
+                      </span></th>
+                      <th>{item.TotalLesson}</th>
+                    </tr>) :
+                  <tr style={{ backgroundColor: "transparent" }}>
+                    <td colSpan="9">
+                      <NOT_DATA_FOUND />
+                    </td>
+                  </tr>
             }
           </tbody>
         </table>

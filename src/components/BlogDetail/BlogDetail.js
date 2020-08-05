@@ -32,7 +32,7 @@ const BlogDetail = () => {
     <nav aria-label="breadcrumb">
       <ol className="breadcrumb breadcrumb-style1 mg-b-30">
         <li className="breadcrumb-item tx-primary">
-          <a href="ElearnStudent/notification"><i className="fas fa-bell mg-r-5"></i> Notification</a></li>
+          <a href="/ElearnStudent/notification"><i className="fas fa-bell mg-r-5"></i> Notification</a></li>
         {
           !!state && <li className="breadcrumb-item active"
             aria-current="page">{state.NotificationTitle}</li>

@@ -7,7 +7,20 @@ import { toastInit } from "~src/utils"
 import { FETCH_ERROR, CANCEL_BOOKING_SUCCESS, BOOKING_SUCCESS } from '~components/common/Constant/toast';
 
 let calendar;
+Date.prototype.addHours = function (h) {
+  this.setTime(this.getTime() + h * 60 * 60 * 1000);
+  return this;
+};
+const getDifferentMinBetweenTime = (startDate, endDate) => {
+  const oneMinutes = 1000 * 60;
+  const startTime = startDate.getTime();
+  const endTime = endDate.getTime();
+  const diffTime = endTime - startTime + (startDate.getTimezoneOffset() * 60 * 1000);
+  return Math.round(diffTime / oneMinutes);
+};
 let mondayOfWeek = new Date(new Date().setDate(new Date().getDate() - new Date().getDay() + 1));
+const dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const hotTime = [5, 6, 7, 8, 9, 13, 14, 15, 16];
 
 const BookingSchedule = ({
   TeacherUID,
@@ -17,9 +30,9 @@ const BookingSchedule = ({
   onCancelId
 }) => {
 
-  const [schedule, setSchedule] = React.useState([])
+  const [eventSource, setEventSource] = React.useState([])
   const [loading, setLoading] = React.useState(false)
-  const [dateFetch, setDate] = React.useState(mondayOfWeek)
+  const [activeDate, setActiveDate] = React.useState(mondayOfWeek)
 
   const cancelToastSuccess = () => toast.success(CANCEL_BOOKING_SUCCESS, toastInit);
   const cancelToastFail = () => toast.error(FETCH_ERROR, toastInit);
@@ -34,106 +47,46 @@ const BookingSchedule = ({
   }
 
   const calendarInit = () => {
-    const eventList = schedule.map(event => {
-      return {
-        ...event,
-        id: event.StudyTimeID,
-        title: event.bookStatus ? "Event Booked" : "Event Hot Available",
-        start: new Date(event.Start),
-        end: new Date(event.End),
-        eventType: event.eventType,
-        bookStatus: event.bookStatus,
-        bookInfo: event.bookInfo,
-        available: event.available,
-        isEmptySlot: event.isEmptySlot
-      }
-    })
-
-    Date.prototype.addHours = function (h) {
-      this.setTime(this.getTime() + h * 60 * 60 * 1000);
-      return this;
-    };
-
-    const getDifferentMinBetweenTime = (startDate, endDate) => {
-      const oneMinutes = 1000 * 60;
-      const startTime = startDate.getTime();
-      const endTime = endDate.getTime();
-      const diffTime = endTime - startTime + (startDate.getTimezoneOffset() * 60 * 1000);
-      return Math.round(diffTime / oneMinutes);
-    };
-
-    $(document).ready(function () {
-      //Add hourse Prototype
-
-      const dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-      const monthNames = [
-        "Tháng 1",
-        "Tháng 2",
-        "Tháng 3",
-        "Tháng 4",
-        "Tháng 5",
-        "Tháng 6",
-        "Tháng 7",
-        "Tháng 8",
-        "Tháng 9",
-        "Tháng 10",
-        "Tháng 11",
-        "Tháng 12",
-      ];
-      const monthNamesShort = [
-        "Thg 1",
-        "Thg 2",
-        "Thg 3",
-        "Thg 4",
-        "Thg 5",
-        "Thg 6",
-        "Thg 7",
-        "Thg 8",
-        "Thg 9",
-        "Thg 10",
-        "Thg 11",
-        "Thg 12",
-      ];
-
-      const hotTime = [5, 6, 7, 8, 9, 13, 14, 15, 16];
-
-      //const createEventSlots
-
       const calendarEl = document.getElementById("js-book-calendar");
       let $toggleCheckbox;
-      /* const hotTimeSlot = [
-        {
-          dateIndex: 0,
-          hotTime: [5, 6, 7, 8, 13, 14, 15],
-        },
-        {
-          dateIndex: 1,
-          hotTime: [5, 6, 7, 8, 13, 14, 15],
-        },
-        {
-          dateIndex: 2,
-          hotTime: [5, 6, 7, 8, 13, 14, 15],
-        },
-      ]; */
-
       const eventDidMount = (args) => {
-        //console.log("eventDidMount", args);
         const { event } = args;
         let toggleStudent = document.getElementById('student-toggle-checkbox');
         //console.log(toggleStudent);
-       if(!!args.event._def.extendedProps.bookInfo)
-        $(args.el).tooltip({
-          html: true,
-          title: `<p class="mg-b-5">${moment(event.start).format("dddd, DD/MM/YYYY")}</p>
-          <p class="mg-b-5">Start: ${moment(event.start).format("hh:mm A")}</p>
-          <p class="mg-b-5">End: ${moment(event.end).format("hh:mm A")}</p>`,
-          animation: false,
-         template: `<div class="tooltip tooltip-primary" role="tooltip">
-              <div class="tooltip-arrow"></div><div class="tooltip-inner"></div>
-            </div>`,
-          trigger: "hover",
-        });
+        if (!args.isPast) {
+          $(args.el).tooltip({
+            html: true,
+            title: `<p class="mg-b-5">${moment(event.start).format("dddd, DD/MM/YYYY")}</p>
+            <p class="mg-b-5">Start: ${moment(event.start).format("hh:mm A")}</p>
+            <p class="mg-b-5">End: ${moment(event.end).format("hh:mm A")}</p>`,
+            animation: false,
+            template: `<div class="tooltip tooltip-primary" role="tooltip">
+                <div class="tooltip-arrow"></div><div class="tooltip-inner"></div>
+              </div>`,
+            trigger: "hover",
+          });
+        }
         !!$toggleCheckbox && showStudentToggle();
+        const events = calendar.getEvents();
+        const dayHeaders = document.querySelectorAll('.fc-col-header-cell');
+         if(dayHeaders.length > 0)
+         for(let i = 0; i < dayHeaders.length; i++){
+             if("data-date" in dayHeaders[i].dataset) continue;
+             const date = dayHeaders[i].getAttribute('data-date');
+             const dateHD = new Date(date);
+             let bookedSlot = 0;
+             let totalSlot = 0;
+             
+             events.map(event => {
+                 const eventDate = new Date(event.extendedProps.Start.split('T')[0]);
+                 if(eventDate.getTime() === dateHD.getTime()){
+                    totalSlot++;
+                    event.extendedProps.bookStatus === true && bookedSlot++;
+                 }
+             });
+             dayHeaders[i].querySelector('.booked').textContent = bookedSlot;
+             dayHeaders[i].querySelector('.total').textContent = totalSlot;
+         }
       };
 
       const eventClick = (args) => {
@@ -151,6 +104,7 @@ const BookingSchedule = ({
         expandRows: true,
         slotMinTime: "01:00",
         slotMaxTime: "23:00",
+        eventSources: eventSource,
         headerToolbar: {
           start: '', // will normally be on the left. if RTL, will be on the right
           center: '',
@@ -166,7 +120,7 @@ const BookingSchedule = ({
         allDayDefault: false,
         dayMaxEvents: true, // allow "more" link when too many events
         eventOverlap: false,
-        initialDate: new Date(dateFetch),
+        initialDate: new Date(activeDate),
         initialView: "timeGridWeek",
         firstDay: 1,
         slotDuration: "00:30",
@@ -176,13 +130,13 @@ const BookingSchedule = ({
           prev: {
             click: function () {
               calendar.prev();
-              setDate(calendar.getDate())
+              setActiveDate(calendar.getDate())
             }
           },
           next: {
             click: function () {
               calendar.next();
-              setDate(calendar.getDate())
+              setActiveDate(calendar.getDate())
             }
           },
           today: {
@@ -191,7 +145,7 @@ const BookingSchedule = ({
               calendar.today();
               let today = calendar.getDate();
               /* Fetch data from Monday of this week */
-              setDate(new Date(today.setDate(today.getDate() - today.getDay() + 1)))
+              setActiveDate(new Date(today.setDate(today.getDate() - today.getDay() + 1)))
             }
           }
         },
@@ -211,23 +165,10 @@ const BookingSchedule = ({
         },
 
         dayHeaderContent: function (args) {
-          let count = 0;
-          let slot = 0;
-          schedule.map(item => {
-            if (
-              (new Date(item.Start).getDate() === args.date.getDate()) &&
-              (new Date(item.Start).getMonth() === args.date.getMonth()) &&
-              (new Date(item.Start).getFullYear() === args.date.getFullYear()) &&
-              (item.available || item.bookInfo)
-            ) {
-              count++;
-              if (item.bookStatus) slot++
-            }
-          })
           const days = args.date.getDay();
           const d = args.date.getDate();
           const html = `<span class="hd-date">${d} </span><span class="hd-day">${dayNamesShort[days]}
-          </span><div class="slot pd-3"> <span class="hl">${slot}</span> / <span class="hl">${count}</span>
+          </span><div class="slot pd-3"> <span class="booked hl">0</span> / <span class="total hl">0</span>
           </div>`;
           return { html };
         },
@@ -290,27 +231,11 @@ const BookingSchedule = ({
         },
 
         eventClick: eventClick,
-        //  select: function (info) {
-
-        //  },
         eventDidMount: eventDidMount,
-
-        // eventDidMount: function(arg) { console.log('eventDidMount', arg) },
-        // nowIndicatorDidMount: function(arg) { console.log('nowIndicatorDidMount', arg) },
-        // nowIndicatorContent: function(arg) { console.log('nowIndicatorContent', arg); return 'hi' },
-        // viewClassNames: 'sup',
-        // dayCellClassNames: function(arg) { console.log('dayCellClassNames', arg) },
-
-        // datesDidUpdate: function() { console.log('datesDidUpdate') },
-        // viewDidMount: function (args){
-
-        //   console.log('viewdidmount', args);
-        // },
-
         nowIndicatorDidMount: function (args) {
           //console.log("nowIndicatorDidMount", args);
         },
-        events: eventList,
+        //events: eventList,
       });
 
       calendar.render();
@@ -352,69 +277,88 @@ const BookingSchedule = ({
         const nonBookedEvents = $('.fc-event:not(.booked-slot)');
         value ? nonBookedEvents.hide() : nonBookedEvents.show();
       }
-    });
+
   }
 
   const getAPI = async (params, callback) => {
     setLoading(true);
     const res = await getScheduleByTeacherUID(params);
     if (res.Code === 1) {
-      setSchedule(res.Data)
+      const newEvents = res.Data.map(event => {
+        return {
+          ...event,
+          id: event.StudyTimeID,
+          title: event.title || '',
+          start: new Date(event.Start),
+          end: new Date(event.End),
+          eventType: event.eventType,
+          bookStatus: event.bookStatus,
+          bookInfo: event.bookInfo,
+          available: event.available,
+          isEmptySlot: event.isEmptySlot
+        }
+      })
+      setEventSource(newEvents)
     }
     !!callback && callback();
     setLoading(false);
   }
 
   React.useEffect(() => {
-    TeacherUID && calendarInit()
-  }, [schedule])
+    if (!!calendar) {
+      let eventsInstance = calendar.getEventSources();
+      eventsInstance[0] && eventsInstance[0].remove();
+      calendar.addEventSource(eventSource);
+    }
+  }, [eventSource])
 
   React.useEffect(() => {
     getAPI({
       TeacherUID,
-      Date: moment(dateFetch).format("DD/MM/YYYY"),
+      Date: moment(activeDate).format("DD/MM/YYYY"),
     });
-  }, [dateFetch]);
+  }, [activeDate]);
 
   React.useEffect(() => {
-    if(onCancelId !== null)
-    {
+    if (onCancelId !== null) {
       onCancelId === "fail" ? cancelToastFail() :
-      getAPI({
-        TeacherUID,
-        Date: moment(dateFetch).format("DD/MM/YYYY"),
-      }, cancelToastSuccess);
+        getAPI({
+          TeacherUID,
+          Date: moment(activeDate).format("DD/MM/YYYY"),
+        }, cancelToastSuccess);
     }
   }, [onCancelId]);
 
   React.useEffect(() => {
-    if(onBookingId !== null)
-    getAPI({
-      TeacherUID,
-      Date: moment(dateFetch).format("DD/MM/YYYY"),
-    }, !!onBookingId ? bookingToastSuccess : null);
+    if (onBookingId !== null)
+      getAPI({
+        TeacherUID,
+        Date: moment(activeDate).format("DD/MM/YYYY"),
+      }, !!onBookingId ? bookingToastSuccess : null);
   }, [onBookingId]);
 
-  return (
-    <>
-      <div className="book__calendar">
-        <div className={`${loading ? '' : 'd-none'} overlay`}>
-          <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
-        </div>
-        <div id="js-book-calendar" className="fc fc-unthemed fc-ltr" height="500"></div>
+  React.useEffect(() => {
+    TeacherUID && calendarInit();
+  }, [])
+
+  return <>
+    <div className="book__calendar">
+      <div className={`${loading ? '' : 'd-none'} overlay`}>
+        <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
       </div>
-      <div className="note mg-t-30">
-        <h5 className="sub-title"> <i className="fas fa-sticky-note"></i>Notes:</h5>
-        <div className="introduce-content">
-          <ul className="note-list">
-            <li>Each session is 50 minutes</li>
-            <li>To book a lesson, simply select the time frame and click the "Book" button</li>
-            <li>You can only BOOK a lesson 30 minutes before the lesson starts.</li>
-            <li>You can only CANCEL the lesson 30 minutes before the className starts.</li>
-          </ul>
-        </div>
+      <div id="js-book-calendar" className="fc fc-unthemed fc-ltr" height="500"></div>
+    </div>
+    <div className="note mg-t-30">
+      <h5 className="sub-title"> <i className="fas fa-sticky-note"></i>Notes:</h5>
+      <div className="introduce-content">
+        <ul className="note-list">
+          <li>Each session is 50 minutes</li>
+          <li>To book a lesson, simply select the time frame and click the "Book" button</li>
+          <li>You can only BOOK a lesson 30 minutes before the lesson starts.</li>
+          <li>You can only CANCEL the lesson 30 minutes before the className starts.</li>
+        </ul>
       </div>
-    </>
-  )
+    </div>
+  </>
 }
 export default BookingSchedule;

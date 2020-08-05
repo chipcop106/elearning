@@ -53,7 +53,7 @@ const StudentCommentItem = ({
         </div>
         {
           LessionName && LessionID && <div className="readmore">
-          <a href={`ElearnStudent/lessonDetail?ID=${LessionID}`}>See Detail <i className="fas fa-arrow-right"></i></a>
+          <a href={`/ElearnStudent/lessonDetail?ID=${LessionID}`}>See Detail <i className="fas fa-arrow-right"></i></a>
           </div>
         }
       </div>

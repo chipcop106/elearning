@@ -23,10 +23,11 @@ const RequireLessonModal = ({
   SkypeID,
   callback,
 }) => {
-  const [state, setState] = React.useState(SpecialRequest)
+  const [state, setState] = React.useState(SpecialRequest == null ? "" : SpecialRequest)
   const requireLesson = () => toast.success(REQUEST_SUCCESS, toastInit);
   const requireLessonFail = () => toast.error(FETCH_ERROR, toastInit);
-  const requireLessonAlert = () => toast.warn(FILL_NOTES, toastInit);
+  const requireLessonAlert1 = () => toast.warn(FILL_NOTES, toastInit);
+  const requireLessonAlert2 = () => toast.warn("Maximum 200 letters", toastInit);
 
   const fetchAPI = async (params) => {
     const res = await requestLessonAPI(params);
@@ -42,8 +43,11 @@ const RequireLessonModal = ({
   }
 
   const onSubmitRequire = () => {
-    if (state.length <= 0) {
-      requireLessonAlert();
+    if (state.length <= 0 ) {
+      requireLessonAlert1();
+    }
+    else if (state.length > 200) {
+      requireLessonAlert2();
     }
     else {
       /* Call API */
@@ -74,7 +78,7 @@ const RequireLessonModal = ({
               <div className="cr-item lesson-info">
                 <div className="media">
                   <div className="teacher-information">
-                    <a className="teacher-avatar" href={`ElearnStudent/teacherDetail?ID=${TeacherUID}`}>
+                    <a className="teacher-avatar" href={`/ElearnStudent/teacherDetail?ID=${TeacherUID}`}>
                       <img src={avatar === "default-avatar.png" ?
                         `../assets/img/${avatar}` : avatar}
                         className="teacher-image" alt="" />
@@ -85,7 +89,7 @@ const RequireLessonModal = ({
                   <div className="media-body mg-l-20 pos-relative pd-b-0-f">
                     <h5 className="title mg-b-10 d-flex align-items-center">
                       <span className="badge badge-warning mg-r-5">Incoming</span>{' '}
-                      <a href={`ElearnStudent/lessonDetail?ID=${BookingID}`} className="no-hl course-name tx-bold">{LessionName}</a>
+                      <a href={`/ElearnStudent/lessonDetail?ID=${BookingID}`} className="no-hl course-name tx-bold">{LessionName}</a>
                     </h5>
                     <div className="course-information tx-14">
                       <span className="mg-r-15 tx-gray-600 tx-medium d-inline-block">
@@ -101,7 +105,7 @@ const RequireLessonModal = ({
                     {
                       SpecialRequest && <div className="course-note mg-t-15">
                         <h6 className="mg-b-3">Lesson notes:</h6>
-                        <p className="tx-14 mg-b-0"> {SpecialRequest} </p>
+                        <p className="tx-14 mg-b-0" style={{wordBreak:"break-all"}}> {SpecialRequest} </p>
                       </div>
                     }
                     {
@@ -113,13 +117,18 @@ const RequireLessonModal = ({
                       </div>
                     }
                     <div className="required-list mg-t-15 bd-t pd-t-15">
-                      <div className="required-text-box mg-t-15 metronic-form">
+                      <div className="required-text-box metronic-form">
                         <label className="tx-medium">Note for teachers:</label>
-                        <div className="form-group">
+                        <label className="tx-danger d-block">Please write in English (Max 200 letters)</label>
+                        <div className="form-group mg-b-5-f">
                           <textarea name="message" rows="4" className="form-control"
-                            value={state}
+                            placeholder="Note for teachers"
+                            value={!!state ? state : ""}
                             onChange={(e) => setState(e.target.value)} ></textarea>
                         </div>
+                        <label className="tx-danger text-right d-block">
+                          {`${state.length > 0 ? `You entered ${state.length} letter${state.length>1?"s":""}`: "*"}`}
+                        </label>
                       </div>
                     </div>
                   </div>

@@ -268,7 +268,7 @@ const Dashboard = () => {
                         <div className="empty-error tx-center mg-y-30 cr-item bg-white rounded-5 pd-15 shadow">
                           <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" />
                           <p className=" tx-danger tx-medium">You don't have any lesson.</p>
-                          <a href="ElearnStudent/bookingLesson" className="btn btn-primary">Book a lesson</a>
+                          <a href="/ElearnStudent/bookingLesson" className="btn btn-primary">Book a lesson</a>
                         </div>) : ""
                   }
                   <div className="course-horizental mg-t-20">
@@ -302,7 +302,7 @@ const Dashboard = () => {
                 <div className="lesson mg-t-45 animated fadeInUp am-animation-delay-2">
                   <div className="d-xl-flex align-items-center justify-content-between ">
                     <h4 className="mg-b-0 gradient-heading"><i className="fas fa-file"></i>LESSON HISTORY</h4>
-                    <a href={"ElearnStudent/lessonHistory"} className="link">View all history</a>
+                    <a href={"/ElearnStudent/lessonHistory"} className="link">View all history</a>
                   </div>
                   <div className="course-horizental mg-t-20">
                     <ul className="list-wrap">

@@ -22,7 +22,7 @@ const LessonItem = ({
     <td style={{whiteSpace:"pre-line"}}>
       {LessionName}
     </td>
-    <td><a href={`ElearnStudent/teacherDetail?ID=${TeacherUID}`}>{TeacherName}</a></td>
+    <td><a href={`/ElearnStudent/teacherDetail?ID=${TeacherUID}`}>{TeacherName}</a></td>
     <td><span className="tx-success">{StatusString}</span></td>
     <td>
       {

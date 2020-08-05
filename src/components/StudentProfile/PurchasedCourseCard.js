@@ -26,7 +26,7 @@ const PurchasedCourseCard = ({
           <h5 className="mg-b-10 ">
             <span className={`badge badge-${status == "ongoing" ? "warning" : "success"}`}>
               {status == "ongoing" ? "On Going" : "Finished"}</span> {" "}
-            <a href="ElearnStudent/lessonDetail" className="course-name tx-semibold">{CoursesName}</a>
+            <a href="/ElearnStudent/lessonDetail" className="course-name tx-semibold">{CoursesName}</a>
           </h5>
           <div className="course-information tx-14">
             <span className="mg-r-5 tx-gray-900 tx-medium">Expiry Date:</span>
@@ -65,9 +65,9 @@ const PurchasedCourseCard = ({
             <div className="action-left">
               {
                 status == "ongoing" ?
-                  <a href="ElearnStudent/bookingLesson" className="btn btn-sm btn-primary mg-r-10" target="_blank" rel="noopener"><i className="fa fa-book mg-r-5" />
+                  <a href="/ElearnStudent/bookingLesson" className="btn btn-sm btn-primary mg-r-10" target="_blank" rel="noopener"><i className="fa fa-book mg-r-5" />
                 Book lessons</a> :
-                  <a href="ElearnStudent/lessonDetail" className="btn btn-sm btn-warning mg-r-10" target="_blank" rel="noopener"><i className="fas fa-vote-yea mg-r-5" />
+                  <a href="/ElearnStudent/lessonDetail" className="btn btn-sm btn-warning mg-r-10" target="_blank" rel="noopener"><i className="fas fa-vote-yea mg-r-5" />
                  Overview lesson</a>
               }
             </div>

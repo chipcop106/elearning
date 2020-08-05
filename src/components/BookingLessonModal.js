@@ -4,13 +4,9 @@ import { toast } from 'react-toastify';
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
 import { bookingLessonAPI, getLessonBookAPI } from "~src/api/studentAPI";
-import { FETCH_ERROR, BOOKING_SUCCESS } from '~components/common/Constant/toast';
+import { FETCH_ERROR } from '~components/common/Constant/toast';
 
 import styles from '~components/BookingLessonModal.module.scss';
-
-const initialState = {
-  SpecialRequest: "",
-}
 
 const BookingLessonModal = ({
   style,
@@ -30,13 +26,17 @@ const BookingLessonModal = ({
   onBook,
 }) => {
 
-  const [state, setState] = React.useState(initialState);
+  const [state, setState] = React.useState("");
   const [bookState, setBookState] = React.useState(null);
   const bookingToastFail = () => toast.error(FETCH_ERROR, toastInit);
+  const requireLessonAlert = () => toast.warn("Maximum 200 letters", toastInit);
 
   const fetchAPI = async (params) => {
     const res = await bookingLessonAPI(params);
-    if (res.Code === 1) onBook && onBook(TeacherUID, StudyTimeID, date, res.Code);
+    if (res.Code === 1) 
+    {
+      onBook && onBook(TeacherUID, StudyTimeID, date, res.Code);
+    }
     else bookingToastFail();
   }
 
@@ -57,23 +57,29 @@ const BookingLessonModal = ({
   }
 
   const handleBookingLesson = () => {
-    fetchAPI({
-      TeacherUID,
-      Date: date,
-      StudyTimeID,
-      DocumentID: bookState.DocumentID,
-      DocumentDetailID: bookState.ID,
-      SpecialRequest: state.SpecialRequest,
-    })
-    $('#md-book-schedule').fadeOut(500, function () {
-      $('#md-book-schedule').modal('hide');
-    });
+    if (state.length > 200) {
+      requireLessonAlert();
+    }
+    else {
+      fetchAPI({
+        TeacherUID,
+        Date: date,
+        StudyTimeID,
+        DocumentID: bookState.DocumentID,
+        DocumentDetailID: bookState.ID,
+        SpecialRequest: state,
+      })
+      $('#md-book-schedule').fadeOut(500, function () {
+        $('#md-book-schedule').modal('hide');
+      });
+    }
   }
 
   React.useEffect(() => {
-    setState(initialState)
+    getLessonToBookingAPI()
+    setState("")
     feather.replace();
-  }, [TeacherUID, StudyTimeID])
+  }, [TeacherUID, StudyTimeID, date])
 
   React.useEffect(() => {
     getLessonToBookingAPI();
@@ -120,7 +126,8 @@ const BookingLessonModal = ({
                     <div className="media-body  mg-l-20 pos-relative pd-b-0-f">
                       <h5 className="mg-b-10 d-flex align-items-center">
                         <span className="badge badge-warning mg-r-5">Incoming</span>{' '}
-                        <a href={`ElearnStudent/lessonDetail?ID=${BookingID}`} className="no-hl course-name tx-bold">{bookState.LessionName}</a>
+                        <span //href={`/ElearnStudent/lessonDetail?ID=${BookingID}`}
+                        className="no-hl course-name tx-bold">{bookState.LessionName}</span>
                       </h5>
                       <div className="course-information tx-14">
                         <span className="mg-r-15 tx-gray-600 tx-medium d-inline-block">
@@ -133,30 +140,33 @@ const BookingLessonModal = ({
                           <i className="feather-16 mg-r-5" data-feather="clock"></i>
                           {`End: ${end}`}</span>
                       </div>
-                      {
+                      {/*
                         note && <div className="course-note mg-t-15">
                           <h6 className="mg-b-3">Lesson notes:</h6>
                           <p className="tx-14 mg-b-0">{note}</p>
                         </div>
-                      }
-                      {
+                      */}
+                      {/*
                         DocumentName && <div className="course-docs mg-t-15">
                           <h6 className="mg-b-3">Documents:</h6>
                           <div>
                             <a href={LessionMaterial} target="_blank">{DocumentName}</a>
                           </div>
                         </div>
-                      }
+                      */}
                       <div className="required-list mg-t-15 bd-t pd-t-15">
-                        <div className="required-text-box mg-t-15 metronic-form">
+                        <div className="required-text-box metronic-form">
                           <label className="tx-medium">Note for teachers:</label>
-                          <div className="form-group">
-                            <textarea name="message" id="" rows="4" className="form-control"
-                              placeholder="Note for teacher"
-                              value={state.SpecialRequest}
-                              onChange={(e) => setState({ SpecialRequest: e.target.value })}
-                            ></textarea>
+                          <label className="tx-danger d-block">Please write in English (Max 200 letters)</label>
+                          <div className="form-group mg-b-5-f">
+                            <textarea name="message" rows="4" className="form-control"
+                              placeholder="Note for teachers"
+                              value={state}
+                              onChange={(e) => setState(e.target.value)} ></textarea>
                           </div>
+                          <label className="tx-danger text-right d-block">
+                            {`${state.length > 0 ? `You entered ${state.length} letter${state.length>1?"s":""}`: "*"}`}
+                            </label>
                         </div>
                       </div>
                     </div>

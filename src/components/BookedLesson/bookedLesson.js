@@ -108,6 +108,7 @@ const BookedLesson = () => {
           getAPI({
             Page: 1,
           })
+          setPage(1);
         }
         else {
           let newUpcomingLessions = [...state];
@@ -154,7 +155,7 @@ const BookedLesson = () => {
                   <div className="empty-error tx-center mg-y-30 cr-item bg-white pd-15 rounded-5 shadow">
                     <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" />
                     <p className=" tx-danger tx-medium">You don't have any lesson.</p>
-                    <a href="ElearnStudent/bookingLesson" className="btn btn-primary">Book a lesson</a>
+                    <a href="/ElearnStudent/bookingLesson" className="btn btn-primary">Book a lesson</a>
                   </div>) : ""
             }
             <ul className="list-wrap">
