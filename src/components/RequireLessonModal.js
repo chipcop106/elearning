@@ -127,7 +127,7 @@ const RequireLessonModal = ({
                             onChange={(e) => setState(e.target.value)} ></textarea>
                         </div>
                         <label className="tx-danger text-right d-block">
-                          {`${state.length > 0 ? `You entered ${state.length} letter${state.length>1?"s":""}`: "*"}`}
+                          {`${!!state && state.length > 0 ? `You entered ${state.length} letter${state.length>1?"s":""}`: "*"}`}
                         </label>
                       </div>
                     </div>

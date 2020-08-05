@@ -51,7 +51,7 @@ const StudentProfile = () => {
                   <div className="slide-tab-content pd-b-15-f">
                     <div className="payment-tab">
                       {
-                        showTab === 3 && <PurchasedCourseList />
+                        showTab === 3 && <PaymentHistory />
                       }
                     </div>
                   </div>

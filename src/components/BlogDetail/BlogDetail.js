@@ -44,7 +44,7 @@ const BlogDetail = () => {
         {
           !!state ? <div className="content-blog pd-15 shadow rounded-5">
             <div className="post-detail-cover">
-              <img src={state.NotifictionIMG} alt="banner" className="banner-img" />
+              <img src={state.NotificationIMG} alt="banner" className="banner-img" />
             </div>
             <div className="post-content">
               <div className="thread_title">

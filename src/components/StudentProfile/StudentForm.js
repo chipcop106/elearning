@@ -554,7 +554,7 @@ const PasswordForm = () => {
     <form className="metronic-form change-password-form" onSubmit={_onSubmit}>
       {
         error && error !== '' &&
-        <div className="alert alert-danger mg-b-0" role="alert">{error}</div>
+        <div className="alert alert-danger mg-b-10" role="alert">{error}</div>
       }
       <div className="form-account">
         <div className="row">

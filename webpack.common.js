@@ -27,20 +27,20 @@ module.exports = {
     
     'teacherBooking': componentEnrtryPrefix + 'TeacherBooking/teacherBooking.js',
     */
-    'teacherDetail': componentEnrtryPrefix + 'TeacherDetail/TeacherDetail.js',
+   'feedback': componentEnrtryPrefix + 'Feedback/Feedback.js',
+   'teacherDetail': componentEnrtryPrefix + 'TeacherDetail/TeacherDetail.js',
+    
     'notification': componentEnrtryPrefix + 'Notification/Notification.js',
     'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js',
     'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js',
     'bookingLesson': componentEnrtryPrefix + 'StudentBooking/BookingLesson.js',
-    
     'lessonHistory': componentEnrtryPrefix + 'LessonHistory/LessonHistory.js',
     'studentSupport': componentEnrtryPrefix + 'StudentSupport/StudentSupport.js',  
     'lessonDetail': componentEnrtryPrefix + 'LessonDetail/LessonDetail.js',
     'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/StudentDashboard.js',
     'faq': componentEnrtryPrefix + 'Faq/Faq.js', 
-    'feedback': componentEnrtryPrefix + 'Feedback/Feedback.js',
-    'blogDetail': componentEnrtryPrefix + 'BlogDetail/BlogDetail.js',
     
+    'blogDetail': componentEnrtryPrefix + 'BlogDetail/BlogDetail.js',
     'app': ['./src/scss/custom.scss', './src/assets/js/custom.js'], 
   },
   output: {

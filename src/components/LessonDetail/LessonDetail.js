@@ -42,6 +42,7 @@ const LessonDetail = () => {
     {
       loading ? <SkeletonLessonDetail /> :
         <>
+        <div className="media-body-wrap pd-15 shadow">
           <div className="row">
             <div className="col-md-6 col-sm-12">
               {/* <!--thông tin buổi học--> */}
@@ -122,7 +123,7 @@ const LessonDetail = () => {
                 {
                   state.Grammar ? (<div className="col-12">
                     <div className="st-item-danhgia">
-                      <p>{state.Grammar}</p>
+                      <p dangerouslySetInnerHTML={{ __html: decodeURI(state.Grammar) }} style={{wordBreak:"break-all"}}></p>
                     </div></div>) : ""
                 }
               </div>
@@ -137,7 +138,7 @@ const LessonDetail = () => {
                 {
                   state.Pronunciation ? (<div className="col-12">
                     <div className="st-item-danhgia">
-                      <p>{state.Pronunciation}</p>
+                      <p dangerouslySetInnerHTML={{ __html: decodeURI(state.Pronunciation) }} style={{wordBreak:"break-all"}}></p>
                     </div></div>) : ""
                 }
               </div>
@@ -152,7 +153,7 @@ const LessonDetail = () => {
                 {
                   state.Vocabulary ? (<div className="col-12">
                     <div className="st-item-danhgia">
-                      <p>{state.Vocabulary}</p>
+                      <p dangerouslySetInnerHTML={{ __html: decodeURI(state.Vocabulary) }} style={{wordBreak:"break-all"}}></p>
                     </div></div>) : ""
                 }
               </div>
@@ -166,7 +167,7 @@ const LessonDetail = () => {
               {
                 state.SentenceDevelopmentAndSpeak ? (
                   <div className="st-item-danhgia">
-                    <p>{state.SentenceDevelopmentAndSpeak}</p>
+                    <p dangerouslySetInnerHTML={{ __html: decodeURI(state.SentenceDevelopmentAndSpeak) }} style={{wordBreak:"break-all"}}></p>
                   </div>
                 ) : ""
               }
@@ -180,7 +181,7 @@ const LessonDetail = () => {
               {
                 state.Note ? (
                   <div className="st-item-danhgia">
-                    <p>{state.Note}</p>
+                    <p dangerouslySetInnerHTML={{ __html: decodeURI(state.Note) }} style={{wordBreak:"break-all"}}></p>
                   </div>
                 ) : ""
               }
@@ -195,7 +196,7 @@ const LessonDetail = () => {
                 Object.keys(state).length === 0 ? "" : (
                   state.StudentEvaluation ? (
                     <div className="st-item-danhgia">
-                      <p>{state.StudentEvaluation}</p>
+                      <p dangerouslySetInnerHTML={{ __html: decodeURI(state.StudentEvaluation) }} style={{wordBreak:"break-all"}}></p>
                     </div>
                   ) : (<><p>You are not leave feedback for this lesson</p>
                     <button className="btn btn-primary mg-r-10"
@@ -210,6 +211,7 @@ const LessonDetail = () => {
             TeacherUID={state.TeacherUID}
             TeacherName={state.TeacherName}
             callback={onCallbackRating} />
+            </div>
         </>
     }
     <ToastContainer />

@@ -3,25 +3,28 @@ import ReactDOM from 'react-dom';
 import styles from '~components/common/StudentComment/StudentCommentItem.module.scss';
 
 const StudentCommentItem = ({
-  StudentUID,
-  CreatedDate,
-  StudentName,
-  StudentIMG = "default-avatar.png",
-  Evaluation,
+  ScheduleTimeVN,
+  TeacherName,
+  TeacherIMG,
+  Note,
   Rate,
-  LessionName,
-  LessionID,
+  LinkDetail,
+  DocumentName,
+
+  CreatedDate,
+  Evaluation,
+  StudentIMG,
+  StudentName,
 }) => {
   return (
     <div className="fb-item">
       <div className="fb-avatar">
-        <img src={StudentIMG === "default-avatar.png" ? 
-        `../assets/img/${StudentIMG}` : StudentIMG }
+        <img src={!!TeacherIMG ? TeacherIMG : !!StudentIMG ? StudentIMG : "../assets/img/default-avatar.png"}
         alt="avatar" className="avatar" />
       </div>
       <div className="fb-info">
         <div className="name-rating">
-          <p className="name">{StudentName}</p>
+          <p className="name">{!!TeacherName ? TeacherName : !!StudentName ? StudentName: ""}</p>
           <div className="rating-wrap">
             <div className="rating-stars">
               <span className="empty-stars">
@@ -42,18 +45,20 @@ const StudentCommentItem = ({
           </div>
         </div>
         <div className="feedback-comment">
-          <p className="">{Evaluation}</p>
+          <p className="">{!!Note ? Note: !!Evaluation ? Evaluation : ""}</p>
         </div>
         <div className="metas">
-          <div className="meta">Time: <span>{moment(CreatedDate).format("LLLL")}</span>
-          </div>
           {
-            LessionName && <div className="meta">{LessionName}</div>
+            ScheduleTimeVN ? <div className="meta">Time: <span>{ScheduleTimeVN} </span>  </div>:
+            CreatedDate ? <div className="meta">Time: <span>{moment(CreatedDate).format("LLLL")}</span> </div>: ""
+          }
+          {
+            DocumentName && <div className="meta">{DocumentName}</div>
           }
         </div>
         {
-          LessionName && LessionID && <div className="readmore">
-          <a href={`/ElearnStudent/lessonDetail?ID=${LessionID}`}>See Detail <i className="fas fa-arrow-right"></i></a>
+          LinkDetail && <div className="readmore">
+          <a href={LinkDetail}>See Detail <i className="fas fa-arrow-right"></i></a>
           </div>
         }
       </div>
