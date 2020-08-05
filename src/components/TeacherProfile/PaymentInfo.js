@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers';
 import { useForm, Controller } from 'react-hook-form';
 import { updatePassAPI } from '~src/api/optionAPI';
+import { getBankInfo, updateBankInfo } from '~src/api/teacherAPI';
 import { toast } from 'react-toastify';
 import Select from 'react-select';
 import MaskedInput from 'react-text-mask';
@@ -25,44 +26,62 @@ const cardOptions = [
     }
 ]
 
-const bankOptions = [
-    {
-        id:1,
-        name:'Vietcombank - VCB'
-    },
-    {
-        id:2,
-        name:'Á Châu - ACB'
-    }
-]
 
 const Schema = Yup.object().shape({
     cardName: Yup.string()
-        .required('Old password is not empty'),
+        .required('Card name is not empty'),
     cardNumber: Yup.string()
-        .required('New password is not empty'),
+        .required('Card number is not empty'),
+    bankName:  Yup.string()
+    .required('Bank name is not empty'),
 });
 
 const PaymentInfo = () => {
-    const [typeCard, setTypeCard] = useState(cardOptions[0]);
-    const [bank, setBank] = useState(bankOptions[0]);
+    const [bank, setBank] = useState('');
     const [cardName, setCardName] = useState('thai viet dat');
     const [cardNumber, setCardNumber] = useState('2231-2212-3334-7831');
-    const { errors, register, handleSubmit, setError, setValue, clearErrors } = useForm({
+    const { errors, register, handleSubmit, setError, setValue, clearErrors, control } = useForm({
         mode: 'onSubmit',
         resolver: yupResolver(Schema),
     });
 
-    const handleChangeType = (values) => {
-        setTypeCard(values);
-    }
 
     const onSubmit = async (data) => {
-        feather.replace();
+        try {
+            const res = await updateBankInfo({
+                BankName:data?.bankName ?? '',
+                CardHolderName:data?.cardName ?? '',
+                CardNumber:parseInt(data?.cardNumber.split('-').join('')) ?? 0
+            });
+            res.Code === 1 && toast.success('Update payment success !!', {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 2000
+            });
+            res.Code !== 1 && toast.error('Update payment failed, please try again !!', {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 2000
+            });
+        } catch (error) {
+            
+        }
+        console.log(data);
+    }
+
+    const getBank = async () => {
+        try {
+            const res = await getBankInfo();
+            if(res.Code === 1) {
+                setValue('bankName',res.Data?.BankName ?? '');
+                setValue('cardName',res.Data?.CardHolderName ?? '');
+                setValue('cardNumber',res.Data?.CardNumber ?? '');
+            }
+        } catch (error) {
+            console.log(error?.message ?? 'Lỗi getBankInfo ')
+        }
     }
 
     useEffect(() => {
-
+        getBank();
     }, []);
 
     return (
@@ -81,59 +100,24 @@ const PaymentInfo = () => {
                         <div className="card-visual wd-sm-450 wd-300 pos-relative mg-b-60">
                             <span className="visual-name">{cardName.toUpperCase()}</span>
                             <span className="visual-number">{cardNumber}</span>
-                            <span className="visual-bank">{typeCard.id === 1 ? 'Visa' : typeCard.id === 2 ? 'Master' : bank && bank.name.split('-')[1]}</span>
+                            {/* <span className="visual-bank">{typeCard.id === 1 ? 'Visa' : typeCard.id === 2 ? 'Master' : !!bank && bank}</span> */}
                             <img src="../assets/img/visa-2.png" className="wd-100p" />
                         </div>
-                        {!!errors && !!errors.wrongPassword && (
-                            <div className="alert alert-danger mg-b-30 d-flex justify-content-between" role="alert">
-                                <div className="pd-r-15">
-                                    <i class="fas fa-exclamation-circle mg-r-10"></i> <span className="">{errors.wrongPassword?.message}</span>
-                                </div>
-                                <span onClick={() => clearErrors("wrongPassword")} ><i data-feather="x"></i></span>
-                            </div>)}
+            
+                        
                         <div className="row ">
                             <div className="form-group col-sm-4 mg-sm-t-10 mg-b-0 mg-sm-b-30">
-                                <p className="mg-b-0">Card type:</p>
+                                <p className="mg-b-0">Bank:</p>
                             </div>
                             <div className="form-group col-sm-8 col-lg-6">
-                                <Select
-                                    key={option => `${option.id}`}
-                                    isSearchable={false}
-                                    loadingMessage={() => 'Select option is loading...'}
-                                    options={cardOptions}
-                                    getOptionLabel={option => `${option.name}`}
-                                    getOptionValue={option => `${option.id}`}
-                                    onChange={handleChangeType}
-                                    styles={appSettings.selectStyle}
-                                    placeholder="Select your location..."
-                                    defaultValue={typeCard}
-                                />
-
+                            <div className="input-float">
+                                <input type="text" className="form-control tx-uppercase" placeholder="Bank name" name="bankName" ref={register}   />
+                            </div>
+                            {!!errors && !!errors.bankName && (<span className="tx-danger mg-t-5 d-block">{errors.bankName?.message}</span>)}
+                            
                             </div>
                         </div>
-                        {
-                            typeCard.id == 3 && (
-                                <div className="row ">
-                                    <div className="form-group col-sm-4 mg-sm-t-10 mg-b-0 mg-sm-b-30">
-                                        <p className="mg-b-0">Bank:</p>
-                                    </div>
-                                    <div className="form-group col-sm-8 col-lg-6">
-                                        <Select
-                                            key={option => `${option.id}`}
-                                            isSearchable={false}
-                                            loadingMessage={() => 'Select option is loading...'}
-                                            options={bankOptions}
-                                            getOptionLabel={option => `${option.name}`}
-                                            getOptionValue={option => `${option.id}`}
-                                            onChange={setBank}
-                                            styles={appSettings.selectStyle}
-                                            placeholder="Select your location..."
-                                            defaultValue={bank}
-                                        />
-                                    </div>
-                                </div>
-                            )
-                        }
+                            
 
                         <div className="row ">
                             <div className="form-group col-sm-4 mg-sm-t-10 mg-b-0 mg-sm-b-30" >
@@ -141,7 +125,7 @@ const PaymentInfo = () => {
                             </div>
                             <div className="form-group col-sm-8 col-lg-6">
                                 <div className="input-float">
-                                    <input type="text" className="form-control tx-uppercase" placeholder="Full name" name="cardName" ref={register} onChange={(e) => setCardName(e.target.value.toUpperCase())} defaultValue={cardName} />
+                                    <input type="text" className="form-control tx-uppercase" placeholder="Full name" name="cardName" ref={register} onChange={(e) => setCardName(e.target.value.toUpperCase())} />
                                 </div>
                                 {!!errors && !!errors.cardName && (<span className="tx-danger mg-t-5 d-block">{errors.cardName?.message}</span>)}
                             </div>
@@ -152,16 +136,20 @@ const PaymentInfo = () => {
                             </div>
                             <div className="form-group col-sm-8 col-lg-6">
                                 <div className="input-float">
-                                    <MaskedInput
-                                        mask={[/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-                                        className="form-control"
-                                        ref={register}
-                                        name="cardNumber"
-                                        onChange={(e) => setCardNumber(e.target.value)}
-                                        defaultValue={cardNumber}
-                                        showMask={true}
-                                        keepCharPositions={true}
-                                    />
+                                <Controller
+                                    as={
+                                        <MaskedInput
+                                            mask={[/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+                                            className="form-control"
+                                            name="cardNumber"
+                                            showMask={true}
+                                            keepCharPositions={true}
+                                        />
+                                    }
+                                    control={control}
+                                    name="cardNumber"
+                                />
+                                    
                                 </div>
                                 {!!errors && !!errors.cardNumber && (<span className="tx-danger mg-t-5 d-block">{errors.cardNumber?.message}</span>)}
                             </div>

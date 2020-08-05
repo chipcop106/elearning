@@ -8424,3 +8424,18 @@ body{
         cursor:pointer;
     }
 }
+
+.tox.tox-tinymce{
+border-color:#e1e1e1;
+border-radius:0.42rem;
+}
+.tox:not([dir=rtl]) .tox-toolbar__group:not(:last-of-type){
+    border-color:#e1e1e1;
+}
+
+.card{
+    -webkit-box-shadow: 0px 0px 30px 0px rgba(82, 63, 105, 0.05);
+    box-shadow: 0px 0px 30px 0px rgba(82, 63, 105, 0.05);
+    border: 0;
+    border-radius:0.42rem;
+}

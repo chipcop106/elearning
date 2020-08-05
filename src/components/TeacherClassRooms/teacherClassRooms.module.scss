@@ -23,6 +23,9 @@
 }
 .clr-actions{
     width:16.6rem;
+    .btn-detail{
+        width:117px;
+    }
 }
 .clr-student, .clr-status, .clr-finishType, .clr-id{
     text-align: center;
@@ -41,3 +44,4 @@
         }
     }
 }
+

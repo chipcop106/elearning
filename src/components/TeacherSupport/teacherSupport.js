@@ -91,6 +91,15 @@ const TeacherSupport = () => {
 		}
 	}
 
+	const afterCancelSuccess = (ID) =>{
+		console.log(ID);
+		setFilterState([...state.map(item => item.ID === ID ? {
+			...item,
+			STATUS: 4
+		} : item )]);
+		hideDetailBox();
+	}
+
 	React.useEffect(() => {
 		onChangeState();
 	},[state, filter])
@@ -148,6 +157,7 @@ const TeacherSupport = () => {
 							{showDetail ? <SupportDetail
 								onClickBack={hideDetailBox}
 								detailId={detailId}
+								afterCancelSuccess={afterCancelSuccess}
 							/> : (
 									<>
 										<div className="table-responsive mg-b-15">

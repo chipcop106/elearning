@@ -77,9 +77,9 @@ const AllClassRow = ({ data, showStudentModal }) => {
                 <span className="tx-gray-500">IT PROBLEM</span> */}
             </td>
             <td className="clr-actions">
-                {Status === 1 && <a href={LessionMaterial} className="btn btn-sm btn-warning rounded-5 mg-r-10" target="_blank" rel="noopener"><i className="fa fa-book-open clrm-icon" /> Material</a>}
+                {<a href={LessionMaterial} className="btn btn-sm btn-warning rounded-5 mg-r-10" target="_blank" rel="noopener"><i className="fa fa-book-open clrm-icon" /> Material</a>}
                 {Status === 1 && <a href={`skype:${SkypeID}?chat`} className=" btn btn-sm btn-warning rounded-5"><i className="fab fa-skype clrm-icon" /> Enter Class</a>}
-                {Status === 2 && <a href={`/ElearnTeacher/EvaluationLesson?ID=${BookingID}`} className=" btn btn-sm btn-info rounded-5"><i className="fab fa-info-circle" /> Enter Class</a>}
+                {Status === 2 && <a target="_blank" rel="noopener" href={`/ElearnTeacher/FeedbackDetail?ID=${BookingID}`} className=" btn btn-sm btn-info btn-detail rounded-5"><i className="fas fa-info-circle" /> View Detail</a>}
             </td>
         </tr>
     )
@@ -92,7 +92,8 @@ const AllClassesTable = ({ updateSwiperHeight, showStudentModal }) => {
     const [data, setData] = useState([]);
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
-
+    const [pageSize, setPageSize] = useState(0);
+    const [totalResult, setTotalResult] = useState(0);
     const _onFilterDate = (e) => {
         e.preventDefault();
         loadAllClassesData();
@@ -112,6 +113,8 @@ const AllClassesTable = ({ updateSwiperHeight, showStudentModal }) => {
             });
             if (res?.Code && res.Code === 1) {
                 setData(res.Data);
+                setPageSize(res.PageSize);
+                setTotalResult(res.TotalResult);
             } else {
                 console.log('Code response khác 1');
             }
@@ -125,6 +128,7 @@ const AllClassesTable = ({ updateSwiperHeight, showStudentModal }) => {
     useEffect(() => {
         console.log(filterStatusAllClass);
     }, [filterStatusAllClass])
+
     useEffect(() => {
         loadAllClassesData();
     }, [pageNumber, filterStatusAllClass])
@@ -185,7 +189,7 @@ const AllClassesTable = ({ updateSwiperHeight, showStudentModal }) => {
                 isLoading ? <SkeletonTable /> : (
                     <>
 
-                        <div className="table-responsive">
+                        <div className="table-responsive mg-b-15">
                             <table className="table">
                                 <thead className="thead-light">
                                     <tr>
@@ -203,13 +207,13 @@ const AllClassesTable = ({ updateSwiperHeight, showStudentModal }) => {
                                 </tbody>
                             </table>
                         </div>
-
-                        {!!data && !!data.length > 10 && (
+                       
+                        {totalResult > pageSize && (
                             <Pagination
                                 innerClass="pagination"
                                 activePage={pageNumber}
-                                itemsCountPerPage={data.PageSize || 0}
-                                totalItemsCount={data.TotalResult || 0}
+                                itemsCountPerPage={pageSize}
+                                totalItemsCount={totalResult}
                                 pageRangeDisplayed={5}
                                 onChange={(page) => setPageNumber(page)}
                                 itemClass="page-item"

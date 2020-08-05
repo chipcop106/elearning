@@ -6,7 +6,7 @@ import ScheduleLogTable from '~components/table/ScheduleLogTable'
 import BookingRequest from './BookingRequest';
 import BookingCalendar from './BookingCalendar';
 import { ToastContainer } from 'react-toastify';
-import {getTeacherProfile} from '~src/api/teacherAPI';
+import {getTeacherInfo} from '~src/api/teacherAPI';
 
 let teacherInfoSwiper;
 const TeacherBooking = () => {

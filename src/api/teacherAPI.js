@@ -116,7 +116,7 @@ export const getMissingFeedback = async (params) => {
 export const getFeedback = async (params) => {
     let result;
     try {
-        let res = await instance.get(path + '/MissingFeedback', {
+        let res = await instance.get(path + '/GetListFeedback', {
             params: {
                 ...params,
                 UID:appSettings.UID
@@ -516,6 +516,22 @@ export const addSupportTicket = async (params = {}) => {
     return result;
 }
 
+export const getEvaluation = async (params = {}) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/GetEvaluation', {
+            params:{
+                ...params,
+                UID:appSettings.UID
+            }
+            //Param:string SupportTitle, string SupportContent, int UID ? 0, string Token ? null
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
 
 export const cancelTicketSupport = async (params = {}) => {
     let result;
@@ -526,6 +542,74 @@ export const cancelTicketSupport = async (params = {}) => {
                 UID:appSettings.UID
             }
             //Param:string SupportTitle, string SupportContent, int UID ? 0, string Token ? null
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const getBookingInfo = async (params = {}) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/GetBookingInfo', {
+            params:{
+                ...params,
+                UID:appSettings.UID
+            }
+            //Param: int BookingID, int UID ? 0, string Token ? null
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const addScheduleLog = async (params = {}) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/AddScheduleLog', {
+            params:{
+                ...params,
+                UID:appSettings.UID
+            }
+            //Param: int BookingID, int UID ? 0, string Token ? null
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const getBankInfo = async (params = {}) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/GetBankInfo', {
+            params:{
+                ...params,
+                UID:appSettings.UID
+            }
+            //Param: int BookingID, int UID ? 0, string Token ? null
+        });
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const updateBankInfo = async (params = {}) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/UpdateBank', {
+            params:{
+                ...params,
+                UID:appSettings.UID
+            }
+            //Param: int BookingID, int UID ? 0, string Token ? null
         });
         result =  res.data;
     } catch (error) {

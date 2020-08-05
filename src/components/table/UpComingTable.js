@@ -1,13 +1,23 @@
 import React, { useState, useEffect, createRef } from 'react';
 import ReactDOM from 'react-dom';
 import SkeletonTable from '~components/common/Skeleton/SkeletonTable';
-import { getUpcomingClass } from '~src/api/teacherAPI';
+import { getUpcomingClass, addScheduleLog } from '~src/api/teacherAPI';
 import Pagination from "react-js-pagination";
 
-let pageSize = 0;
 
 const UpcomingRow = ({ data, showStudentModal }) => {
-    const { ScheduleTimeVN, ScheduleTimeUTC, StudentName, StudentUID, DocumentName, LessionName, SkypeID, StatusString, Status, LessionMaterial, Gender } = data;
+    const {BookingID, ScheduleTimeVN, ScheduleTimeUTC, StudentName, StudentUID, DocumentName, LessionName, SkypeID, StatusString, Status, LessionMaterial, Gender } = data;
+    const handleEnterClass = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await addScheduleLog({BookingID});
+            if(res.Code === 1){
+                window.location.href = `skype:${SkypeID}?chat`;
+            }
+        } catch (error) {
+            console.log(error?.message ?? `Can't add schedule log !!`)
+        }
+    }
     return (
         <tr>
             <td className="clr-time">
@@ -41,7 +51,7 @@ const UpcomingRow = ({ data, showStudentModal }) => {
             </td>
             <td className="clr-actions">
                 <a href={LessionMaterial} className="btn btn-sm btn-warning rounded-5 mg-r-10" target="_blank" rel="noopener"><i className="fa fa-book-open clrm-icon" /> Material</a>
-                <a href={`skype:${SkypeID}?chat`} className=" btn btn-sm btn-warning rounded-5"><i className="fab fa-skype clrm-icon" /> Enter Class</a>
+                <a href={`skype:${SkypeID}?chat`} className=" btn btn-sm btn-warning rounded-5" onClick={handleEnterClass}><i className="fab fa-skype clrm-icon" /> Enter Class</a>
 
             </td>
         </tr>
@@ -52,13 +62,16 @@ const UpCommingTable = ({ updateSwiperHeight, showStudentModal }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [pageNumber, setPageNumber] = useState(1);
     const [data, setData] = useState(null);
+    const [pageSize, setPageSize] = useState(0);
+    const [totalResult, setTotalResult] = useState(0);
 
     const loadUpcomingClasses = async () => {
         try {
             const res = await getUpcomingClass({ Page: pageNumber });
             if (res?.Code && res.Code === 1) {
                 setData(res.Data);
-                pageSize = res.PageSize
+                   setPageSize(res.PageSize);
+                setTotalResult(res.TotalResult);
             } else {
                 console.log('Code response khác 1');
             }
@@ -75,14 +88,14 @@ const UpCommingTable = ({ updateSwiperHeight, showStudentModal }) => {
 
     useEffect(() => {
         loadUpcomingClasses();
-    }, [])
+    }, [pageNumber])
 
     return (
         <>
             {
                 isLoading ? <SkeletonTable /> : (
                     <>
-                        <div className="table-responsive">
+                        <div className="table-responsive mg-b-15">
                             <table className="table table-classrooms">
                                 <thead>
                                     <tr className="thead-light">
@@ -101,12 +114,12 @@ const UpCommingTable = ({ updateSwiperHeight, showStudentModal }) => {
                             </table>
                         </div>
 
-                        {!!data && !!data.length > pageSize && (
+                        {totalResult > pageSize && (
                             <Pagination
                                 innerClass="pagination"
                                 activePage={pageNumber}
-                                itemsCountPerPage={10}
-                                totalItemsCount={100}
+                                itemsCountPerPage={pageSize}
+                                totalItemsCount={totalResult}
                                 pageRangeDisplayed={5}
                                 onChange={(page) => setPageNumber(page)}
                                 itemClass="page-item"

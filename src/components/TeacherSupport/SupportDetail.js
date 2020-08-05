@@ -62,7 +62,7 @@ const ModalConfirmCancel = ({show, hideConfirm, _onSubmit}) => {
 }
 
 
-const SupportDetail = ({ onClickBack, detailId }) => {
+const SupportDetail = ({ onClickBack, detailId, afterCancelSuccess }) => {
     const [state, setState] = React.useState(null);
     const [isLoading, setIsLoading] = React.useState(true);
     const [show, setShow] = React.useState(false);
@@ -101,10 +101,12 @@ const SupportDetail = ({ onClickBack, detailId }) => {
             const res = await cancelTicketSupport({ID:state.ID});
             res.Code === 1 && toast.success('Ticket was cancelled !!');
             res.Code !== 1 && toast.error('Ticket cancel failed !!');
+            afterCancelSuccess(state.ID);
         } catch (error) {
             console.log(error?.message ?? 'Ticket cancel failed');
         }
         hideModal();
+    
     }
 
     React.useEffect(() => {
@@ -142,17 +144,22 @@ const SupportDetail = ({ onClickBack, detailId }) => {
                             {/* <button 
                             data-toggle="tooltip" data-placement="top" title="Edit ticket"
                             type="button" className="btn btn-icon btn-warning mg-r-10 btn-sm wd-35" onClick={_onClickEdit}><i className="fas fa-pen" ></i></button> */}
-                            <button 
+                            {
+                                !!state && !!state.Status && state.Status !== 4 && (
+                                    <button 
                              data-toggle="tooltip" data-placement="top" title="Cancel ticket"
                             type="button" className="btn btn-icon btn-danger btn-sm wd-35" onClick={_onClickCancel}><i className="fas fa-times" ></i></button>
+                                )
+                            }
+                            
                         </div>
                     </div>
                     {
-                        isLoading ? <div className="pd-y-30"><Skeleton count={5} /></div> : <div className="pd-y-30" dangerouslySetInnerHTML={{ __html: state?.SupportContent ?? '' }}></div>
+                        isLoading ? <div className="pd-y-30"><Skeleton count={5} /></div> : <div className="pd-y-30" dangerouslySetInnerHTML={{ __html: decodeURI(state?.SupportContent) ?? '' }}></div>
                     }
                 </div>
                 {
-                    !!state && !!state.LevelOfEducation !== '' && (
+                    !!state && !!state.AdminReplyContent && state.AdminReplyContent !== '' && (
                         <>
                             <hr className="mg-b-30 mg-t-0" style={{ borderStyle: 'dashed' }} />
 

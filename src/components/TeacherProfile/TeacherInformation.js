@@ -12,6 +12,8 @@ import {
     uploadImageToServer,
     getEnglishProficiencyOptions,
     getLevelOfEducationOptions,
+    getLocationOptions,
+    getStateOptions,
     getTimeZone,
     getListLevelPurpose
 
@@ -30,37 +32,8 @@ const Schema = Yup.object().shape({
 });
 
 const optionState = {
-    locationOptions: [
-        {
-            ID: 1,
-            LocationName: 'Viet Nam'
-        },
-        {
-            ID: 2,
-            LocationName: 'Paraquay'
-        }
-    ],
-    stateOptions: [
-        {
-            ID: 1,
-            StateName: 'New York',
-        },
-        {
-            ID: 2,
-            StateName: 'Viet Nam',
-        },
-
-    ],
-    majorOptions: [
-        {
-            ID: 1,
-            MajorName: 'Business Studies/Administration/Management'
-        },
-        {
-            ID: 2,
-            MajorName: 'Automation Testing'
-        }
-    ],
+    locationOptions: [],
+    stateOptions: [],
     englishProficienOptions: [],
     levelOfPurposeOptions: [],
     levelOfEducationOptions: [],
@@ -72,21 +45,14 @@ const initialState = {
     fullName: "Truong Van Lam",
     skypeId: "mona.media",
     phoneNumber: "0886706289",
-    location: {
-        id: 2,
-        name: 'Viet Nam',
-        value: 'VN',
-    },
+    location: null,
     levelOfPurpose: null,
     levelOfEducation: null,
-    state: {
-        ID: 1,
-        StateName: 'Viet Nam'
-    },
+    state: null,
     email: "vietdat106@gmail.com",
     timeZone: null,
     schoolName: "Bach Khoa University",
-    major: null,
+    major: '',
     englishProficien: null,
     loadOption: false,
 }
@@ -146,11 +112,13 @@ function TeacherInformation() {
     const [isLoading, setIsLoading] = useState(true);
     const [optionLoaded, setOptionLoaded] = useState(false);
 
-    const { errors, register, handleSubmit: handleSubmitInformation, setValue, getValues, control } = useForm({
+    const { errors, register, handleSubmit: handleSubmitInformation, setValue, getValues, control, watch } = useForm({
         mode: 'onBlur',
-        defaultValue: initialState,
+        defaultValue: initialState, 
         resolver: yupResolver(Schema),
     });
+
+    const watchLocation = watch('location');
 
     const updateState = (key, value) => dispatch({ type: 'UPDATE_STATE', payload: { key, value } });
 
@@ -171,15 +139,17 @@ function TeacherInformation() {
                     fullName: res.Data?.FullName ?? '',
                     skypeId: res.Data?.SkypeID ?? '',
                     phoneNumber: res.Data.Phone.toString() || '',
-                    levelOfPurpose:  JSON.parse(res.Data?.LevelPurpose ?? "[]"),
+                    levelOfPurpose:  JSON.parse(res.Data?.LevelPurpose ?? "[]").map(id => {
+                        return [...state.levelOfPurposeOptions].find(level => level.ID === id);
+                    }),
                     levelOfEducation: [...state.levelOfEducationOptions].find((option, index) => option.ID === res.Data?.LevelOfEducation) ?? null,
-                    state: [...state.stateOptions].find((option, index) => option.ID === res.Data?.State) ?? null,
+                    state:  [...state.stateOptions].find((option, index) => option.ID === res.Data?.State) ?? null,
                     email: res.Data?.Email ?? '',
                     timeZone: [...state.timeZoneOptions].find((option, index) => option.ID === res.Data?.TimezoneID) ?? null,
                     schoolName: res.Data?.SchoolName ?? '',
-                    major: [...state.majorOptions].find((option, index) => option.ID === res.Data?.Major) ?? null,
+                    major: res.Data?.Major ?? '',
                     englishProficien: [...state.englishProficienOptions].find((option, index) => option.ID === res.Data?.EnglishProficiency) ?? null,
-                    location: [...state.locationOptions].find((option, index) => option.ID === res.Data?.Location) ?? null
+                    location:  [...state.locationOptions].find((option, index) => option.ID === res.Data?.Location) ?? null
                 }
                 console.log(obj);
                 setMultipleValue(obj);
@@ -192,25 +162,42 @@ function TeacherInformation() {
 
     const loadSelectOptionAPI = async () => {
         try {
-            const [proficienRes, educationRes, purposeRes, timezoneRes] = await Promise.all([
+            const [proficienRes, educationRes, purposeRes, timezoneRes, locationRes] = await Promise.all([
                 getEnglishProficiencyOptions(),
                 getLevelOfEducationOptions(),
                 getListLevelPurpose(),
-                getTimeZone()
+                getTimeZone(),
+                getLocationOptions(),
             ]);
             updateState('englishProficienOptions', proficienRes.Data ?? []);
             updateState('levelOfEducationOptions', educationRes.Data ?? []);
             updateState('levelOfPurposeOptions', purposeRes.Data ?? []);
             updateState('timeZoneOptions', timezoneRes.Data ?? []);
+            updateState('locationOptions', locationRes.Data ?? []);
             setOptionLoaded(true);
         } catch (err) {
             console.log(err?.message ?? 'Call Promise all failed, check params again...')
         }
     };
 
+    const loadStateOptions = async (LocationID) => {
+        try {
+            const res = await getStateOptions({
+                LocationID
+            });
+            if(res.Code === 1){
+                updateState('stateOptions', res.Data);
+            }
+        } catch (error) {
+            console.log(err?.message ?? 'Call api getLocationOptions failed, check params again...')
+        }
+    }
+
+
     const _onSubmitInformation = async (data, e) => {
         e.preventDefault();
         // console.log('Submiting');
+        
         console.log(data);
         try {
             const res = await updateTeacherInfoProfile({
@@ -218,15 +205,15 @@ function TeacherInformation() {
                 SkypeID: data?.skypeId ?? '', // str
                 Phone: data?.phoneNumber.toString() ?? '', // str
                 TimeZoneID: parseInt(data.timeZone?.ID ?? 0), // int
-                LevelPurpose: JSON.stringify(data?.levelOfPurpose) ?? '', // str arr
+                LevelPurpose: JSON.stringify(!!data.levelOfPurpose && !!data.levelOfPurpose.length > 0 ? data.levelOfPurpose.map(ce => ce.ID) : []), // str arr
                 LevelOfEdacation: parseInt(data?.levelOfEducation.ID) ?? 0, // int
                 SchoolName: data?.schoolName ?? '', // str
-                Major: data?.major.ID ?? 0, // int
+                Major: data?.major ?? '', // str
                 Proficiency: data?.englishProficien?.ID ?? 0, // int
                 EnglishProficiency: data?.englishProficien?.ID ?? 0, // int
                 Avatar: data?.avatar ?? '', // str
-                Location: data?.location?.ID ?? null,
-                State: data?.state?.ID ?? null,
+                Location: data?.location?.ID ?? 0,
+                State: data?.state?.ID ?? 0,
             });
             res.Code === 1 && toast.success('Update introduce success !!', {
                 position: toast.POSITION.TOP_CENTER,
@@ -240,6 +227,12 @@ function TeacherInformation() {
             console.log(err?.message ?? 'Call API updateTeacherInfoProfile failed, check params again...')
         }
     }
+
+    useEffect(() => {
+         !!watchLocation && !!watchLocation.ID ? loadStateOptions(watchLocation.ID) : loadStateOptions(0);
+        console.log(watchLocation);
+    }, [watchLocation]);
+
 
     useEffect(() => {
         optionLoaded === true && loadTeacherInfo();
@@ -300,7 +293,6 @@ function TeacherInformation() {
                                             options={state.locationOptions}
                                             getOptionLabel={option => `${option.LocationName}`}
                                             getOptionValue={option => `${option.ID}`}
-                                            onChange={(values) => setValue('location', values)}
                                             styles={appSettings.selectStyle}
                                             placeholder="Select your location..."
                                         />
@@ -318,12 +310,11 @@ function TeacherInformation() {
                                         <Select
                                             key={option => `${option.id}`}
                                             isSearchable={false}
-                                            isLoading={state.stateOptions.length > 0 ? false : true}
+                                            isLoading={isLoading}
                                             loadingMessage={() => 'Select option is loading...'}
                                             options={state.stateOptions}
                                             getOptionLabel={option => `${option.StateName}`}
                                             getOptionValue={option => `${option.ID}`}
-                                            onChange={(values) => setValue('state', values)}
                                             styles={appSettings.selectStyle}
                                             placeholder="Select state..."
                                         />
@@ -346,7 +337,6 @@ function TeacherInformation() {
                                             options={state.timeZoneOptions}
                                             getOptionLabel={option => `${option.TimeZoneName}`}
                                             getOptionValue={option => `${option.ID}`}
-                                            onChange={(values) => setValue('timeZone', values)}
                                             styles={appSettings.selectStyle}
                                             placeholder="Select timezone..."
                                             menuPortalTarget={document.body}
@@ -371,7 +361,6 @@ function TeacherInformation() {
                                             options={state.levelOfPurposeOptions}
                                             getOptionLabel={option => `${option.PurposeLevelName}`}
                                             getOptionValue={option => `${option.ID}`}
-                                            onChange={(values) => setValue('levelOfPurpose', values)}
                                             styles={appSettings.selectStyle}
                                             menuPortalTarget={document.body}
                                         />
@@ -398,7 +387,6 @@ function TeacherInformation() {
                                             options={state.levelOfEducationOptions}
                                             getOptionLabel={option => `${option.LevelOfEducationName}`}
                                             getOptionValue={option => `${option.ID}`}
-                                            onChange={(values) => setValue('levelOfEducation', values)}
                                             styles={appSettings.selectStyle}
                                             placeholder="Select level..."
                                             menuPortalTarget={document.body}
@@ -418,23 +406,7 @@ function TeacherInformation() {
                         </div>
                         <div className="form-group col-12 col-sm-6">
                             <div className="input-float">
-                                <Controller
-                                    as={
-                                        <Select
-                                            key={option => `${option.id}`}
-                                            isSearchable={false}
-                                            isLoading={isLoading}
-                                            loadingMessage={() => 'Loading options...'}
-                                            options={state.majorOptions}
-                                            getOptionLabel={option => `${option.MajorName}`}
-                                            getOptionValue={option => `${option.ID}`}
-                                            onChange={(values) => setValue('major', values)}
-                                            styles={appSettings.selectStyle}
-                                            menuPortalTarget={document.body}
-                                        />
-                                    }
-                                    control={control}
-                                    name="major" />
+                                <input type="text" className={`form-control ${!!errors && errors.major ? 'error-form' : ''}`} placeholder="Marjor" name="major" ref={register} />
 
                                 <label>Major/Specialization *</label>
                             </div>
@@ -451,7 +423,6 @@ function TeacherInformation() {
                                             options={state.englishProficienOptions}
                                             getOptionLabel={option => `${option.EnglishProficiencyName}`}
                                             getOptionValue={option => `${option.ID}`}
-                                            onChange={(values) => setValue('englishProficiency', values)}
                                             styles={appSettings.selectStyle}
                                             placeholder="Select proficiency..."
                                             menuPortalTarget={document.body}

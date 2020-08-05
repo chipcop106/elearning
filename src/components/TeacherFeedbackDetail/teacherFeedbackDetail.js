@@ -1,44 +1,12 @@
 import React, { useReducer } from 'react';
 import ReactDOM from 'react-dom';
-import SkeletonLessonDetail from "../common/Skeleton/SkeletonLessonDetail";
-import TinyEditor, { imageUploadHandle } from '~components/common/TinyEditor';
-import { addEvaluation, getBookingInfo } from "~src/api/teacherAPI";
-import { getFinishedOptions } from '~src/api/optionAPI';
+import { getEvaluation } from "~src/api/teacherAPI";
 import { randomId } from '~src/utils';
 import { appSettings } from '~src/config';
-import styles from './teacherLessonDetail.module.scss';
+import styles from './teacherFeedbackDetail.module.scss';
 import Select from 'react-select';
-import { toast, ToastContainer } from 'react-toastify';
 
-const editorOptions = {
-    id: randomId(),
-    min_height: 200,
-    menubar: false,
-    images_upload_handler: imageUploadHandle,
-    images_reuse_filename: true,
-    // toolbar: false,
-    // menubar: false,
-    inline: false,
-    plugins: [
-        'autolink lists link image ',
-        'media table paste help wordcount',
-        'lists',
-        'autolink',
-        'paste',
-        'autoresize',
-        'table',
-    ],
-    paste_data_images:false,
-    paste_as_text:true,
-    // quickbars_insert_toolbar: 'quicktable image table',
-    // quickbars_selection_toolbar: 'bold italic underline | formatselect | blockquote quicklink',
-    // contextmenu: 'undo redo | inserttable | cell row column deletetable | help',
-    toolbar:
-        'undo redo | formatselect | bold italic backcolor | \
-      alignleft aligncenter alignright alignjustify | \
-    outdent indent | removeformat | table media image link',
 
-}
 
 const initialState = {
     isLoading: true,
@@ -49,8 +17,8 @@ const initialState = {
     memorize: '',
     summary: '',
     vocabulary: '',
-    finishedType: '',
-    finishedOptions: [],
+    finishedType: 0,
+    finishedOptions: null,
     studentComments: [
         {
             id: randomId(),
@@ -92,65 +60,37 @@ const reducer = (prevState, { type, payload }) => {
     }
 }
 
-const TeacherLessonDetail = () => {
+const TeacherFeedbackDetail = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
-    const selectRef = React.useRef(true);
 
     const updateState = (key, value) => {
         dispatch({ type: 'UPDATE_STATE', payload: { key, value } })
     }
 
-    const getBookingLessonInfo = async () => {
+
+    const getFeedbackDetail = async () => {
         updateState('isLoading', true);
         try {
             const params = getParamsUrl();
             if (!params.has('ID')) return;
             console.log(params.get('ID'));
-            const evaluation = await getBookingInfo({ BookingID: parseInt(params.get('ID')) });
-            evaluation.Code === 1 && updateState('lessonInfo', evaluation.Data);
+            const res = await getEvaluation({ BookingID: parseInt(params.get('ID')) });
+            res.Code === 1 && updateState('lessonInfo', {
+                ...state.lessonInfo,
+                ...res.Data,
+                note: decodeURI(res.Data?.Note ?? ''),
+                grammar: decodeURI(res.Data?.Grammar ?? ''),
+                pronounce: decodeURI(res.Data?.Pronunciation ?? ''),
+                memorize: decodeURI(res.Data?.SentenceDevelopmentAndSpeak ?? ''),
+                vocabulary: decodeURI(res.Data?.Vocabulary ?? ''),
+                finishedType: res.Data?.FinishedTypeString ?? '',
+            });
         } catch (error) {
             console.log(error?.message ?? 'Lỗi gọi api getEvaluation, vui lòng xem lại tham số');
         }
         updateState('isLoading', false);
     }
 
-    const getFinishedOpts = async () => {
-        updateState('isLoading', true);
-        try {
-            const res = await getFinishedOptions();
-            res.Code === 1 && updateState('finishedOptions', res.Data);
-        } catch (error) {
-            console.log(error?.message ?? 'Lỗi gọi api getFinishedOptions, vui lòng xem lại tham số');
-        }
-        updateState('isLoading', false);
-    }
-
-    const _submitFeedback = async () => {
-        if(!state?.finishedType && !state.finishedType || state.finishedType === 0){
-            toast.warning('Please select Finished type !!');
-            selectRef.current.focus();
-            return;
-        }
-        try {
-            const res = await addEvaluation({
-                ElearnBookingID: parseInt(state?.lessonInfo.BookingID || 0),
-                Pronunciation: encodeURI(state?.pronounce ?? ''),
-                Vocabulary: encodeURI(state?.vocabulary ?? ''),
-                Grammar: encodeURI(state?.grammar ?? ''),
-                SentenceDevelopmentAndSpeak: encodeURI(state?.memorize ?? ''),
-                Note: encodeURI(state?.note ?? ''),
-                FinishedType: parseInt(!!state.finishedType && !!state.finishedType ? state.finishedType.ID : 0)
-            });
-            if (res.Code === 1) {
-                toast.success('Update feedback success, redirect after 2 second !!');
-                setTimeout(() => window.location.href = '/ElearnTeacher/FeedbackDetail?ID=' + state.lessonInfo.BookingID, 2000)
-            }
-            res.Code !== 1 &&  toast.error('Update feedback failed !!');
-        } catch (error) {
-            console.log(error?.message ?? 'Lỗi gọi api addEvaluation, vui lòng xem lại tham số');
-        }
-
-    }
 
     React.useEffect(() => {
         console.log(state);
@@ -163,8 +103,7 @@ const TeacherLessonDetail = () => {
     }
 
     React.useEffect(() => {
-        getFinishedOpts();
-        getBookingLessonInfo();
+        getFeedbackDetail();
     }, []);
 
     return (<>
@@ -200,29 +139,13 @@ const TeacherLessonDetail = () => {
                                         <div className="st-time">
                                             <p className="st-teacher-text d-flex justify-content-between">
                                                 <span className=""><i className="fa fa-book tx-primary open st-icon wd-20 mg-r-5"></i>Material:</span>
-                                                <a href={!!state.lessonInfo && !!state.lessonInfo.MaterialLink ? state.lessonInfo.MaterialLink : ''} target="_blank">{!!state.lessonInfo && !!state.lessonInfo.Material ? state.lessonInfo.Material : ''}</a>
+                                                <span><a href={!!state.lessonInfo && !!state.lessonInfo.MaterialLink ? state.lessonInfo.MaterialLink : ''} target="_blank">{!!state.lessonInfo && !!state.lessonInfo.Material ? state.lessonInfo.Material : ''}</a></span>
                                             </p>
                                         </div>
                                         <div className="st-time">
                                             <div className="st-teacher-text d-flex justify-content-between align-items-center">
                                                 <span className=""><i className="fas fa-lightbulb tx-primary open st-icon wd-20 mg-r-5"></i>Finished type:</span>
-                                                <div className="flex-grow-1">
-                                                    <Select
-                                                        openMenuOnFocus
-                                                        ref={selectRef}
-                                                        key={option => `${option.ID}`}
-                                                        loadingMessage={() => 'Select option is loading...'}
-                                                        options={state?.finishedOptions}
-                                                        getOptionLabel={option => `${option.FinishTypeName}`}
-                                                        getOptionValue={option => `${option.ID}`}
-                                                        onChange={(values) => updateState('finishedType', values)}
-                                                        name="finishedType"
-                                                        styles={appSettings.selectStyle}
-                                                        placeholder="Type..."
-                                                        defaultValue={state?.finishedType}
-                                                        isSearchable={false}
-                                                    />
-                                                </div>
+                                                <span className="">{!!state.lessonInfo && !!state.lessonInfo.finishedType ? state.lessonInfo.finishedType : ''}</span>
 
                                             </div>
                                         </div>
@@ -247,8 +170,8 @@ const TeacherLessonDetail = () => {
                                             <span className=""><i className="fa fa-thumbs-up tx-primary st-icon wd-20 mg-r-5"></i>Feedback: </span>
                                             <span className="tx-primary">
                                                 {
-                                                    (!!state.LessonInfo && !!state.lessonInfo.StudentRating ? state.lessonInfo.StudentRating : 0) === 0 ? (<span className="tx-black">No rating</span>) : (
-                                                        [...Array(5)].map((el, index) => (5 - index) <= state.LessonInfo.StudentRating
+                                                    (!!state.lessonInfo && !!state.lessonInfo.StudentRating ? state.lessonInfo.StudentRating : 0) === 0 ? (<span className="tx-black">No rating</span>) : (
+                                                        [...Array(5)].map((el, index) => (5 - index) <= state.lessonInfo.StudentRating
                                                             ? <i key={`${index}`} className="fas fa-star" />
                                                             : <i key={`${index}`} className="far fa-star" />))
                                                 }
@@ -263,16 +186,11 @@ const TeacherLessonDetail = () => {
                                     <div className="st-time">
                                         <p className="st-teacher-text d-flex justify-content-between mg-b-5">
                                             <span className=""><i className="fa fa-comment tx-primary st-icon wd-20 mg-r-5"></i>Evalution: </span>
-                                            <span className="">{!!state.LessonInfo && !!state.LessonInfo.StudentNode ? state.LessonInfo.StudentNode : ''}</span>
+                                            <span className="">{!!state.lessonInfo && !!state.lessonInfo.StudentNode ? state.lessonInfo.StudentNode : ''}</span>
                                         </p>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <hr className="mg-y-30" style={{ borderStyle: "dashed" }} />
-                        <div className="d-flex">
-                            <button className="btn btn-primary mg-r-15" onClick={_submitFeedback}><i className="fa fa-save mg-r-5"></i> Submit feedback</button>
-                            <button className="btn btn-icon btn-light mg-r-15" onClick={() => window.history.back()}><i className="fas fa-arrow-left mg-r-5"></i> Back</button>
                         </div>
                     </div>
                 </div>
@@ -285,15 +203,9 @@ const TeacherLessonDetail = () => {
                     </div>
                     <div className="card-body">
                         <div className="st-danhgianguphap ">
-                            <div>
-                                <TinyEditor options={{
-                                    ...editorOptions,
-                                    placeholder: 'Vocabulary feedback...'
-                                }}
-                                    onChangeEvent={(content, editor) => updateState('vocabulary', content)}
-                                />
-                            </div>
-
+                            {
+                                !!state.lessonInfo && !!state.lessonInfo.vocabulary && <div className="" dangerouslySetInnerHTML={{ __html: state.lessonInfo.vocabulary }}></div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -304,14 +216,8 @@ const TeacherLessonDetail = () => {
                     </div>
                     <div className="card-body">
                         <div className="st-danhgianguphap ">
-                            <div>
-                                <TinyEditor options={{
-                                    ...editorOptions,
-                                    placeholder: 'Grammar feedback...'
-                                }}
-                                    onChangeEvent={(content, editor) => updateState('grammar', content)}
-                                />
-                            </div>
+                            <div className="" dangerouslySetInnerHTML={{ __html: !!state && !!state.lessonInfo && !!state.lessonInfo.grammar ? state.lessonInfo.grammar :'' }}></div>
+                          
 
                         </div>
                     </div>
@@ -323,15 +229,7 @@ const TeacherLessonDetail = () => {
                     </div>
                     <div className="card-body">
                         <div className="st-danhgianguphap ">
-                            <div>
-                                <TinyEditor options={{
-                                    ...editorOptions,
-                                    placeholder: 'Pronounce feedback...'
-                                }}
-                                    onChangeEvent={(content, editor) => updateState('pronounce', content)}
-
-                                />
-                            </div>
+                            <div className="" dangerouslySetInnerHTML={{ __html: !!state && !!state.lessonInfo && !!state.lessonInfo.pronounce ? state.lessonInfo.pronounce : '' }}></div>
                         </div>
                     </div>
                 </div>
@@ -342,55 +240,24 @@ const TeacherLessonDetail = () => {
                     </div>
                     <div className="card-body">
                         <div className="st-danhgianguphap ">
-                            <div>
-                                <TinyEditor options={{
-                                    ...editorOptions,
-                                    placeholder: 'Sentence feedback...'
-                                }}
-                                    onChangeEvent={(content, editor) => updateState('memorize', content)}
-
-                                />
-                            </div>
-
+                            <div className="" dangerouslySetInnerHTML={{ __html: !!state && !!state.lessonInfo && !!state.lessonInfo.memorize ? state.lessonInfo.memorize : '' }}></div>
                         </div>
                     </div>
                 </div>
-              
                 <div className="card">
                     <div className="card-header">
                         <h5 className="mg-b-5">Note</h5>
                         <p className="tx-gray-300 mg-b-0">Note for student</p>
                     </div>
                     <div className="card-body">
-                        <div>
-                            <div className="">
-                                <TinyEditor options={{
-                                    ...editorOptions,
-                                    placeholder: 'Note feedback...'
-                                }}
-                                    onChangeEvent={(content, editor) => updateState('note', content)}
-
-                                />
-                            </div>
-                        </div>
-
+                        <div className="" dangerouslySetInnerHTML={{ __html: !!state && !!state.lessonInfo && !!state.lessonInfo.note ? state.lessonInfo.note  : '' }}></div>
                     </div>
                 </div>
             </div>
         </div>
-        <ToastContainer
-            position="top-right"
-            autoClose={2000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-        />
+   
     </>
     )
 }
 
-ReactDOM.render(<TeacherLessonDetail />, document.getElementById('react-teacher-lesson-detail'));
+ReactDOM.render(<TeacherFeedbackDetail />, document.getElementById('react-teacher-feedback-detail'));

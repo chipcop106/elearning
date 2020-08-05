@@ -665,8 +665,11 @@ const bookingCalendar = () => {
             <div className="notice pd-20 bg-primary-light rounded-5 mg-t-30">
                 <h5 className="mg-b-15"><i className="fas fa-file"></i> Notes:</h5>
                 <ul className="mg-b-0">
-                    <li>You can cancel lesson before time start 30 minutes.</li>
-                    <li>Student can cancel booked lesson before time start 30 minutes</li>
+                    <li>Each session is 50 minutes</li>
+                    <li>To open a slot, simply select the time frame in calendar</li>
+                    <li>To close a slot, select the time available in calendar and click "Close"</li>
+                    <li>To cancel a booked lesson, select the booked frame in calendar and click "Cancel"</li>
+                    <li>You can only CANCEL the lesson 30 minutes before the className starts.</li>
                 </ul>
             </div>
             <ActiveSlotModal

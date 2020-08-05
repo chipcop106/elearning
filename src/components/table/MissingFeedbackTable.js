@@ -4,7 +4,7 @@ import { getMissingFeedback } from '~src/api/teacherAPI';
 import Pagination from "react-js-pagination";
 
 const MissingFeedbackRow = ({ data }) => {
-    const { BookingID, ScheduleTimeVN, ScheduleTimeUTC, DocumentName, LessionName } = data;
+    const { BookingID, ScheduleTimeVN, ScheduleTimeUTC, DocumentName, LessionName, EvaluationStatus } = data;
     return (
         <tr>
             <td className="clr-time">
@@ -28,12 +28,15 @@ const MissingFeedbackRow = ({ data }) => {
             </td>
             <td className="clr-feedbackStatus">
                 <div className="mg-b-5">
-                    <span className="tx-danger">Not feedback yet</span>
+                    {
+                        EvaluationStatus === 1 ? <span className="tx-danger">Not feedback</span>
+                        : EvaluationStatus === 2 && <span className="tx-success">Feedbacked</span>
+                    }
                 </div>
 
             </td>
             <td className="clr-actions">
-                <a href={`/ElearnTeacher/Evaluation?ID=${data.BookingID}`} className="btn btn-sm btn-warning rounded-5"><i className="fa fa-comment-alt clrm-icon" /> Feedback</a>
+                <a target="_blank" rel="noopener" href={`/ElearnTeacher/EvaluationLesson?ID=${data.BookingID}`} className="btn btn-sm btn-warning rounded-5"><i className="fa fa-comment-alt clrm-icon" /> Feedback</a>
             </td>
         </tr>
     )
@@ -45,12 +48,15 @@ const MissingFeedbackTable = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [pageNumber, setPageNumber] = useState(1);
     const [data, setData] = useState([]);
-
+    const [pageSize, setPageSize] = useState(0);
+    const [totalResult, setTotalResult] = useState(0);
     const loadMissingFeedback = async () => {
         try {
             const res = await getMissingFeedback({ Page: pageNumber });
             if (res?.Code && res.Code === 1) {
                 setData(res.Data);
+                setPageSize(res.PageSize);
+                setTotalResult(res.TotalResult);
             } else {
                 console.log('Code response khác 1');
             }
@@ -70,13 +76,13 @@ const MissingFeedbackTable = () => {
             {
                 isLoading ? <SkeletonTable /> : (
                     <>
-                        <div className="table-responsive">
+                        <div className="table-responsive mg-b-15">
                             <table className="table table-classrooms">
                                 <thead>
                                     <tr className="thead-light">
                                         <th className="clr-time">Lesson Times</th>
                                         <th className="clr-lesson">Lesson Info</th>
-                                        <th className="clr-feedbackStatus">Feedback Status</th>
+                                        <th className="clr-feedbackStatus">Student feedback </th>
                                         <th className="clr-actions">Actions</th>
                                     </tr>
                                 </thead>
@@ -87,12 +93,12 @@ const MissingFeedbackTable = () => {
                             </table>
                         </div>
 
-                        {!!data && !!data.length > 10 && (
-                            <Pagination 
+                        {totalResult > pageSize && (
+                            <Pagination
                                 innerClass="pagination"
                                 activePage={pageNumber}
-                                itemsCountPerPage={10}
-                                totalItemsCount={100}
+                                itemsCountPerPage={pageSize}
+                                totalItemsCount={totalResult}
                                 pageRangeDisplayed={5}
                                 onChange={(page) => setPageNumber(page)}
                                 itemClass="page-item"

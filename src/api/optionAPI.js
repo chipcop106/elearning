@@ -260,4 +260,52 @@ export const getLearningTargetOptions = async (params) => {
     return result;
 }
 
+export const getFinishedOptions = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/ListFinishType',{
+            params: {
+                 UID: appSettings.UID,
+            }
+        })
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+
+export const getStateOptions = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/ListState',{
+            params: {
+                 UID: appSettings.UID,
+                 ...params
+                 //Param: int LocationID, int UID ? 0, string Token ? null
+            }
+        })
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
+
+export const getLocationOptions = async (params) => {
+    let result;
+    try {
+        let res = await instance.get(path + '/ListLocation',{
+            params: {
+                 UID: appSettings.UID,
+                 ...params
+            }
+        })
+        result =  res.data;
+    } catch (error) {
+        return error.message ? error.message: result = "";
+    }
+    return result;
+}
 

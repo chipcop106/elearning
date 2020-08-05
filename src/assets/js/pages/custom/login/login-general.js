@@ -121,10 +121,13 @@
 				KTUtil.getById('kt_login_signin_form'),
 				{
 					fields: {
-						phoneNumber: {
+						email: {
 							validators: {
 								notEmpty: {
-									message: 'Phone number is required'
+									message: 'Email address is required'
+								},
+								emailAddress: {
+									message: 'The value is not a valid email address'
 								}
 							}
 						},
@@ -299,10 +302,13 @@
 				KTUtil.getById('kt_login_forgot_form'),
 				{
 					fields: {
-						phoneNumber: {
+						email: {
 							validators: {
 								notEmpty: {
-									message: 'Phone number is required'
+									message: 'Email address is required'
+								},
+								emailAddress: {
+									message: 'The value is not a valid email address'
 								}
 							}
 						}

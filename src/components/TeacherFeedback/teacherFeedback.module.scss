@@ -5,19 +5,11 @@
     display:block;
 }
 
-.mg-t-30.feedback-container {
-    display: flex;
-    /* margin: 0 -15px; */
-}
 
 .feedback-container{
 
 
 
-.filter-sidebar {
-    width: 350px;
-    margin-right: 30px;
-}
 
 .fb-list {
     flex-grow: 1;
@@ -47,9 +39,37 @@
 
 .fb-summary-container {
     padding: 1.25rem;
+    box-shadow:0px 0px 30px 0px rgba(82, 63, 105, 0.05);
+    border-radius:0.42rem;
+    border:0;
 }
 
 .fb-summary .fb-type {
     padding: 5px 0;
 }
+.fb-item{
+    box-shadow:0px 0px 30px 0px rgba(82, 63, 105, 0.05);
+    border-radius:0.42rem;
+    border:0;
+}
+}
+.filter-sidebar{
+    margin-bottom:30px;
+}
+
+@media (min-width:768px){
+    .filter-sidebar .fb-summary-container{
+        position:sticky;
+        top: 150px;
+    }
+    .feedback-container {
+        display: flex;
+        /* margin: 0 -15px; */
+    }
+
+    .filter-sidebar {
+        width: 350px;
+        margin-right: 30px;
+        margin-bottom:0;
+    }
 }

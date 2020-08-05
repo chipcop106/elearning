@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { addScheduleLog } from '~src/api/teacherAPI';
 import styles from '~components/LessonCard.module.scss';
 const LessonCard = (
     {
@@ -28,6 +29,18 @@ const LessonCard = (
     const _onClickCancel = (e) => {
         e.preventDefault();
         handleCancelLesson({ lessonId, lessonDate, lessonStart, lessonEnd, lessonName, courseName });
+    }
+
+    const handleEnterClass = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await addScheduleLog({BookingID:lessonId});
+            if(res.Code === 1){
+                window.location.href = `skype:${skypeId}?chat`;
+            }
+        } catch (error) {
+            console.log(error?.message ?? `Can't add schedule log !!`)
+        }
     }
 
     return (<>
@@ -124,14 +137,14 @@ const LessonCard = (
                                 ) :
                                     !!studentNote ? (
                                         <>
-                                            <a href={`skype:${skypeId}?chat`} className="btn btn-sm btn-info mg-r-10" target="_blank" rel="noopener"><i className="fab fa-skype mg-r-5"></i> Join class</a>
+                                            <a href={`skype:${skypeId}?chat`} onClick={handleEnterClass} className="btn btn-sm btn-info mg-r-10" target="_blank" rel="noopener"><i className="fab fa-skype mg-r-5"></i> Join class</a>
                                             {/* <a href="#js-md-note" className="btn btn-sm btn-success" data-toggle="modal">
                                         <i className="fas fa-edit mg-r-5" /> Note for students 
                                     </a> */}
                                         </>
                                     ) : (
                                             <>
-                                                <a href={`skype:${skypeId}?chat`} className="btn btn-sm btn-info mg-r-10" target="_blank" rel="noopener"><i className="fab fa-skype mg-r-5"></i> Join class</a>
+                                                <a href={`skype:${skypeId}?chat`} onClick={handleEnterClass} className="btn btn-sm btn-info mg-r-10" target="_blank" rel="noopener"><i className="fab fa-skype mg-r-5"></i> Join class</a>
                                                 {/* <a href="#js-md-required" className="btn btn-sm btn-success" data-toggle="modal"><i className="fas fa-edit mg-r-5"></i> Checking lesson booking </a> */}
                                             </>
                                         )
