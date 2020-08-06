@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import StudentComment from "../common/StudentComment/StudentComment"
 import BookingSchedule from "./BookingSchedule"
+import BookingScheduleMobile from "./BookingScheduleMobile"
 import TeacherInformation from "./TeacherInformation"
 import CancelBookingLessonModal from "~components/CancelBookingLessonModal"
 import BookingLessonModal from "~components/BookingLessonModal"
@@ -12,6 +13,8 @@ import { getTeacherInfo } from "~src/api/studentAPI"
 
 import { ToastContainer } from 'react-toastify'
 import styles from '~components/TeacherDetail/TeacherDetail.module.scss';
+
+const width = window?.innerWidth;
 
 const initialCancelLesson = {
   BookingID: "",
@@ -178,12 +181,31 @@ const TeacherDetail = () => {
                   </div>
                   <div className={`${showTab === 2 ? 'active' : ''} swiper-slide`}>
                     <div className="slide-tab-content">
-                      <BookingSchedule
-                        TeacherUID={!!state && state.TeacherUID}
-                        onBookingId={onBookState.id}
-                        onCancelId={onCancelState.id}
-                        handleBookLesson={onHandleBookLesson}
-                        handleCancelLesson={onHandleCancelLesson} />
+                      {
+                        !!state && state.TeacherUID && (width > 768 ?
+                        <BookingSchedule
+                          TeacherUID={!!state && state.TeacherUID}
+                          onBookingId={onBookState.id}
+                          onCancelId={onCancelState.id}
+                          handleBookLesson={onHandleBookLesson}
+                          handleCancelLesson={onHandleCancelLesson} /> :
+
+                        <BookingScheduleMobile
+                          TeacherUID={!!state && state.TeacherUID}
+                          onBookingId={onBookState.id}
+                          handleBookLesson={onHandleBookLesson} />)
+                      }
+                      <div className="note mg-t-30">
+                        <h5 className="sub-title"><i className="fas fa-sticky-note"></i>Notes:</h5>
+                        <div className="introduce-content">
+                          <ul className="note-list">
+                            <li className="mg-b-10">Each session is 50 minutes</li>
+                            <li className="mg-b-10">To book a lesson, simply select the time frame and click the "Book" button</li>
+                            <li className="mg-b-10">You can only BOOK a lesson 30 minutes before the lesson starts.</li>
+                            <li className="mg-b-10">You can only CANCEL the lesson 30 minutes before the className starts.</li>
+                          </ul>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div className={`${showTab === 3 ? 'active' : ''} swiper-slide`}>

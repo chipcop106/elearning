@@ -29,15 +29,14 @@ const BookingLessonModal = ({
   const [state, setState] = React.useState("");
   const [bookState, setBookState] = React.useState(null);
   const bookingToastFail = () => toast.error(FETCH_ERROR, toastInit);
+  const bookingToastFail2 = (text) => toast.error(text, toastInit);
   const requireLessonAlert = () => toast.warn("Maximum 200 letters", toastInit);
 
   const fetchAPI = async (params) => {
-    const res = await bookingLessonAPI(params);
-    if (res.Code === 1) 
-    {
-      onBook && onBook(TeacherUID, StudyTimeID, date, res.Code);
-    }
-    else bookingToastFail();
+      const res = await bookingLessonAPI(params);
+      if (res.Code === 1) onBook && onBook(TeacherUID, StudyTimeID, date, res.Code);
+      else if(!!res && res.Message) bookingToastFail2(res.Message)
+      else bookingToastFail();
   }
 
   const getLessonToBookingAPI = async () => {

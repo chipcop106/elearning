@@ -14,13 +14,15 @@
     .slot {
       white-space: nowrap;
       position: absolute;
-      right: 0;
-      bottom: 0;
+      right: 3px;
+      bottom: -1px;
       font-size: 12px;
+      background: #fff;
       color: #aaa;
       line-height: 1;
-      border-top: 1px solid #e1e1e1;
-      border-left: 1px solid #e1e1e1;
+      border: 1px solid #e1e1e1;
+      border-bottom: 1px solid #fff;
+      border-radius: 3px;
     }
     @media screen and (max-width: 1200px) {
       text-align: center;
@@ -158,4 +160,35 @@
   background-color: #fff;
   border-radius: 5px;
   padding: 15px;
+}
+
+.flatpickr-wrapper {
+  width: 100%;
+}
+
+.teacher__detail .teacher-header {
+  @include media(400px) {
+    flex-wrap: wrap;
+    .teacher-avatar {
+      margin: 0 auto;
+    }
+    .teacher-info {
+      width: 100%;
+      margin-top: 10px;
+      margin-left: 0;
+    }
+  }
+}
+
+@include media(400px) {
+  .teacher__detail .table-exp {
+    tr, td {
+      width: 100%;
+      display: block;
+    }
+    .col-info {
+      padding-left: 0;
+      padding-top: 0;
+    }
+  }
 }

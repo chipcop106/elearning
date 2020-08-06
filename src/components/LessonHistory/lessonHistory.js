@@ -108,7 +108,7 @@ const LessonHistory = () => {
               }} />
           </div>
           <div className="form-group col-md-4">
-            <button type="submit" className="btn btn-info btn-block"><i className="fa fa-search mg-r-5"></i>Search</button>
+            <button type="submit" className="btn btn-primary btn-block"><i className="fa fa-search mg-r-5"></i>Search</button>
           </div>
         </div>
       </form>
@@ -145,7 +145,7 @@ const LessonHistory = () => {
                   Status={item.Status}
                   StatusString={item.StatusString} />) :
                 <tr style={{ backgroundColor: "transparent" }}>
-                  <td colSpan="6">
+                  <td colSpan="6" className="tx-center">
                     <span className="text-danger bold" style={{ fontSize: '16px' }}>
                       {
                         (searchInput.fromDate.length > 0 && searchInput.toDate.length > 0) ||

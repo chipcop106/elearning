@@ -2457,7 +2457,9 @@ a.no-hl {
       top: 90px;
   }
 }
-
+#react-blog-detail {
+    flex: 1;
+}
 .metronic-form {
     .form-control, .select__control, .form-control.flatpickr-input {
       background-color: lighten($primary-color, 44%);
@@ -2629,6 +2631,9 @@ a.no-hl {
         cursor: pointer;
       }
     }
+}
+.modal {
+    z-index: 1071 !important;
 }
 /* End Student CSS */
 
@@ -7016,11 +7021,17 @@ input.time-only[readonly]{
 .ul-schedule{
     @include scrollbars(3px, $primary-color, '#ebebeb');
     li{
+        background: #f6f6f6;
+        padding: 5px 10px;
+        @include media(600px) {
+                padding: 10px;
+        }
         &:hover{
             background-color:rgba($primary-color, .05);
           }
         &.registed{
-            background-color:#ccc;
+            background-color: #d8d8d8;
+            background-image: repeating-linear-gradient(-45deg, transparent 0 2px, #ccc 0 5px);
             color:#fff;
             .status{
                 color:$red;
@@ -7047,6 +7058,38 @@ input.time-only[readonly]{
           border-left:10px solid transparent;
             border-right:10px solid transparent;
               border-bottom:10px solid transparent;
+    }
+}
+
+.tutor-schedule-mobile {
+    .ul-schedule {
+        list-style-type: none;
+        padding: 0;
+        max-height: 200px;
+        overflow-y: scroll;
+        li {
+            display: flex;
+            align-items: center;
+            vertical-align: middle;
+            justify-content: space-between;
+            span.status {
+                display: inline-block;
+                button {
+                    color: white;
+                    background-color: #43adff;
+                    border: none;
+                    width: 100%;
+                    border-radius: 3px;
+                }
+            }
+            &+li {
+                border-top: 1px solid #e1e1e1;
+            }
+        }
+    }
+    &::after {
+        display: none;
+        clear: both;
     }
 }
 
@@ -7308,11 +7351,11 @@ input.time-only[readonly]{
 }
 
 .post-detail-cover{
-    height:400px;
+    height:auto;
     width:100%;
     img{
         width:100%;
-        height:100%;
+        height:auto;
         object-fit:cover;
     }
 }

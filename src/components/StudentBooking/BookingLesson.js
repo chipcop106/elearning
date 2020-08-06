@@ -9,6 +9,10 @@ import Pagination from "react-js-pagination";
 import BookingLessonModal from "../BookingLessonModal";
 import ListNationModal from "~components/ListNationModal";
 
+import { toast } from 'react-toastify';
+import 'react-toastify/scss/main.scss'
+import { toastInit } from "~src/utils"
+
 import { nationMapToFlag } from "~src/utils"
 import { ToastContainer } from 'react-toastify'
 import Flatpickr from 'react-flatpickr';
@@ -64,12 +68,14 @@ const BookingLesson = () => {
   const [loading, setLoading] = React.useState(false)
   const [onBookState, setOnBookState] = React.useState(initialOnBookState)
   const [stateBookLesson, setStateBookLesson] = React.useState(initialBookLesson);
+  const [learnTime, setLearnTime] = React.useState([]);
 
   const [page, setPage] = React.useState(1);
   const [pageSize, setPageSize] = React.useState(0);
   const [totalResult, setTotalResult] = React.useState(0);
 
-  let learnTime = [];
+  const TimeAlertToast = () => toast.warn("You cannot choose this time", toastInit);
+  const TimeAlert2Toast = () => toast.warn("You cannot choose time in past", toastInit);
 
   const getAPI = async (params) => {
     setLoading(true);
@@ -153,6 +159,24 @@ const BookingLesson = () => {
   const onSearch = (e, page) => {
     setTeacherList([]);
     e && e.preventDefault();
+
+    let x = [];
+    let min = Math.min(
+      parseInt(state.startTime.split(":")[0]),
+      parseInt(state.endTime.split(":")[0])
+    )
+    let max = Math.max(
+      parseInt(state.startTime.split(":")[0]),
+      parseInt(state.endTime.split(":")[0])
+    )
+
+    for (let i = min; i <= max; i++) {
+      x.push(`${i < 10 ? '0' + i : i}:00`)
+      if (i !== max)
+        x.push(`${i < 10 ? '0' + i : i}:30`)
+    }
+    setLearnTime(x);
+
     let z = [];
     if (!!state.selectedLevelPurpose)
       for (let i = 0; i < state.selectedLevelPurpose.length; i++) {
@@ -297,23 +321,6 @@ const BookingLesson = () => {
     chooseToday();
   }
 
-  (function init() {
-    let min = Math.min(
-      parseInt(state.startTime.split(":")[0]),
-      parseInt(state.endTime.split(":")[0])
-    )
-    let max = Math.max(
-      parseInt(state.startTime.split(":")[0]),
-      parseInt(state.endTime.split(":")[0])
-    )
-
-    for (let i = min; i <= max; i++) {
-      learnTime.push(`${i < 10 ? '0' + i : i}:00`)
-      if (i !== max)
-        learnTime.push(`${i < 10 ? '0' + i : i}:30`)
-    }
-  })();
-
   React.useEffect(() => {
     initCalendar();
     fetchListLevelPurpose();
@@ -405,7 +412,7 @@ const BookingLesson = () => {
                 <div className="col-md-4 item">
                   <input name="date" type="text" className="form-control" placeholder="Date" disabled id="date-selected" />
                 </div>
-                <div className="col-sm-6 col-md-4 item">
+                <div className="col-12 col-sm-6 col-md-4 item">
                   <Flatpickr
                     placeholder="Start time"
                     value={state.startTime}
@@ -414,9 +421,10 @@ const BookingLesson = () => {
                       enableTime: true,
                       noCalendar: true,
                       time_24hr: true,
+                      disableMobile: "true",
                       minTime: state.date == moment(new Date()).format("DD/MM/YYYY") ?
                       `${new Date().getHours() + 1}:00` : "06:00",
-                      maxTime: "23:00",
+                      maxTime: state.endTime,
                       static: true,
                     }}
                     className="form-control"
@@ -424,7 +432,7 @@ const BookingLesson = () => {
                       dispatch({ type: "STATE_CHANGE", payload: { key: "startTime", value: dateStr } })
                     }} />
                 </div>
-                <div className="col-sm-6 col-md-4 item">
+                <div className="col-12 col-sm-6 col-md-4 item">
                   <Flatpickr
                     placeholder="End time"
                     value={state.endTime}
@@ -433,8 +441,8 @@ const BookingLesson = () => {
                       enableTime: true,
                       noCalendar: true,
                       time_24hr: true,
-                      minTime: state.date == moment(new Date()).format("DD/MM/YYYY") ?
-                      `${new Date().getHours() + 1}:00` : "06:00",
+                      disableMobile: "true",
+                      minTime: state.startTime,
                       maxTime: "23:00",
                       static: true,
                     }}

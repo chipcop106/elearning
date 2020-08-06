@@ -47,160 +47,160 @@ const BookingSchedule = ({
   }
 
   const calendarInit = () => {
-      const calendarEl = document.getElementById("js-book-calendar");
-      let $toggleCheckbox;
-      const eventDidMount = (args) => {
-        const { event } = args;
-        let toggleStudent = document.getElementById('student-toggle-checkbox');
-        //console.log(toggleStudent);
-        if (!args.isPast) {
-          $(args.el).tooltip({
-            html: true,
-            title: `<p class="mg-b-5">${moment(event.start).format("dddd, DD/MM/YYYY")}</p>
+    const calendarEl = document.getElementById("js-book-calendar");
+    let $toggleCheckbox;
+    const eventDidMount = (args) => {
+      const { event } = args;
+      let toggleStudent = document.getElementById('student-toggle-checkbox');
+      //console.log(toggleStudent);
+      if (!args.isPast) {
+        $(args.el).tooltip({
+          html: true,
+          title: `<p class="mg-b-5">${moment(event.start).format("dddd, DD/MM/YYYY")}</p>
             <p class="mg-b-5">Start: ${moment(event.start).format("hh:mm A")}</p>
             <p class="mg-b-5">End: ${moment(event.end).format("hh:mm A")}</p>`,
-            animation: false,
-            template: `<div class="tooltip tooltip-primary" role="tooltip">
+          animation: false,
+          template: `<div class="tooltip tooltip-primary" role="tooltip">
                 <div class="tooltip-arrow"></div><div class="tooltip-inner"></div>
               </div>`,
-            trigger: "hover",
+          trigger: "hover",
+        });
+      }
+      !!$toggleCheckbox && showStudentToggle();
+      const events = calendar.getEvents();
+      const dayHeaders = document.querySelectorAll('.fc-col-header-cell');
+      if(dayHeaders.length > 0)
+        for(let i = 0; i < dayHeaders.length; i++){
+          if("data-date" in dayHeaders[i].dataset) continue;
+          const date = dayHeaders[i].getAttribute('data-date');
+          const dateHD = new Date(date);
+          let bookedSlot = 0;
+          let totalSlot = 0;
+
+          events.map(event => {
+            const eventDate = new Date(event.extendedProps.Start.split('T')[0]);
+            if(eventDate.getTime() === dateHD.getTime()){
+              totalSlot++;
+              event.extendedProps.bookStatus === true && bookedSlot++;
+            }
           });
+          dayHeaders[i].querySelector('.booked').textContent = bookedSlot;
+          dayHeaders[i].querySelector('.total').textContent = totalSlot;
         }
-        !!$toggleCheckbox && showStudentToggle();
-        const events = calendar.getEvents();
-        const dayHeaders = document.querySelectorAll('.fc-col-header-cell');
-         if(dayHeaders.length > 0)
-         for(let i = 0; i < dayHeaders.length; i++){
-             if("data-date" in dayHeaders[i].dataset) continue;
-             const date = dayHeaders[i].getAttribute('data-date');
-             const dateHD = new Date(date);
-             let bookedSlot = 0;
-             let totalSlot = 0;
-             
-             events.map(event => {
-                 const eventDate = new Date(event.extendedProps.Start.split('T')[0]);
-                 if(eventDate.getTime() === dateHD.getTime()){
-                    totalSlot++;
-                    event.extendedProps.bookStatus === true && bookedSlot++;
-                 }
-             });
-             dayHeaders[i].querySelector('.booked').textContent = bookedSlot;
-             dayHeaders[i].querySelector('.total').textContent = totalSlot;
-         }
-      };
+    };
 
-      const eventClick = (args) => {
-        /*  Handle when click on cell const element = args.el;
-         if ([...element.classList].includes("available-slot") &&
-           !([...element.classList].includes("empty-slot") || [...element.classList].includes("fc-event-past"))
-         ) {
-           const { start, end } = args.event;
-         }
-         return; */
-      };
+    const eventClick = (args) => {
+      /*  Handle when click on cell const element = args.el;
+       if ([...element.classList].includes("available-slot") &&
+         !([...element.classList].includes("empty-slot") || [...element.classList].includes("fc-event-past"))
+       ) {
+         const { start, end } = args.event;
+       }
+       return; */
+    };
 
-      calendar = new FullCalendar.Calendar(calendarEl, {
-        height: 600,
-        expandRows: true,
-        slotMinTime: "01:00",
-        slotMaxTime: "23:00",
-        eventSources: eventSource,
-        headerToolbar: {
-          start: '', // will normally be on the left. if RTL, will be on the right
-          center: '',
-          end: 'today,prev,title,next' // will normally be on the right. if RTL, will be on the left
-        },
-        titleFormat: { year: "numeric", month: "short" },
-        navLinks: true, // can click day/week names to navigate views
-        editable: false,
-        stickyHeaderDates: true,
-        selectable: true,
-        nowIndicator: true,
-        allDaySlot: false,
-        allDayDefault: false,
-        dayMaxEvents: true, // allow "more" link when too many events
-        eventOverlap: false,
-        initialDate: new Date(activeDate),
-        initialView: "timeGridWeek",
-        firstDay: 1,
-        slotDuration: "00:30",
-        slotLabelInterval: "00:30",
-        slotEventOverlap: false,
-        customButtons: {
-          prev: {
-            click: function () {
-              calendar.prev();
-              setActiveDate(calendar.getDate())
-            }
-          },
-          next: {
-            click: function () {
-              calendar.next();
-              setActiveDate(calendar.getDate())
-            }
-          },
-          today: {
-            text: "Today",
-            click: function () {
-              calendar.today();
-              let today = calendar.getDate();
-              /* Fetch data from Monday of this week */
-              setActiveDate(new Date(today.setDate(today.getDate() - today.getDay() + 1)))
-            }
+    calendar = new FullCalendar.Calendar(calendarEl, {
+      height: 600,
+      expandRows: true,
+      slotMinTime: "01:00",
+      slotMaxTime: "23:00",
+      eventSources: eventSource,
+      headerToolbar: {
+        start: '', // will normally be on the left. if RTL, will be on the right
+        center: '',
+        end: 'today,prev,title,next' // will normally be on the right. if RTL, will be on the left
+      },
+      titleFormat: { year: "numeric", month: "short" },
+      navLinks: true, // can click day/week names to navigate views
+      editable: false,
+      stickyHeaderDates: true,
+      selectable: true,
+      nowIndicator: true,
+      allDaySlot: false,
+      allDayDefault: false,
+      dayMaxEvents: true, // allow "more" link when too many events
+      eventOverlap: false,
+      initialDate: new Date(activeDate),
+      initialView: "timeGridWeek",
+      firstDay: 1,
+      slotDuration: "00:30",
+      slotLabelInterval: "00:30",
+      slotEventOverlap: false,
+      customButtons: {
+        prev: {
+          click: function () {
+            calendar.prev();
+            setActiveDate(calendar.getDate())
           }
         },
-        selectOverlap: function (event) {
-          return event.rendering === "background";
+        next: {
+          click: function () {
+            calendar.next();
+            setActiveDate(calendar.getDate())
+          }
         },
-        slotLabelContent: function (arg) {
-          //  console.log('slotLabelContent', arg);
-          const hour = arg.date.getHours();
+        today: {
+          text: "Today",
+          click: function () {
+            calendar.today();
+            let today = calendar.getDate();
+            /* Fetch data from Monday of this week */
+            setActiveDate(new Date(today.setDate(today.getDate() - today.getDay() + 1)))
+          }
+        }
+      },
+      selectOverlap: function (event) {
+        return event.rendering === "background";
+      },
+      slotLabelContent: function (arg) {
+        //  console.log('slotLabelContent', arg);
+        const hour = arg.date.getHours();
 
-          let templateEl = document.createElement("div");
-          templateEl.setAttribute("class", "slot-label");
-          const html = `${hotTime.includes(hour) ? `<i class="fa fa-fire tx-danger hot-icon"></i>` : ""}
+        let templateEl = document.createElement("div");
+        templateEl.setAttribute("class", "slot-label");
+        const html = `${hotTime.includes(hour) ? `<i class="fa fa-fire tx-danger hot-icon"></i>` : ""}
           ${arg.text.toUpperCase()}`;
-          templateEl.innerHTML = html;
-          return { html };
-        },
+        templateEl.innerHTML = html;
+        return { html };
+      },
 
-        dayHeaderContent: function (args) {
-          const days = args.date.getDay();
-          const d = args.date.getDate();
-          const html = `<span class="hd-date">${d} </span><span class="hd-day">${dayNamesShort[days]}
+      dayHeaderContent: function (args) {
+        const days = args.date.getDay();
+        const d = args.date.getDate();
+        const html = `<span class="hd-date">${d} </span><span class="hd-day">${dayNamesShort[days]}
           </span><div class="slot pd-3"> <span class="booked hl">0</span> / <span class="total hl">0</span>
           </div>`;
-          return { html };
-        },
+        return { html };
+      },
 
-        eventClassNames: function (args) {
-          const { event } = args;
-          const {
-            eventType,
-            bookStatus,
-            isEmptySlot,
-          } = event.extendedProps;
-          let classLists = bookStatus ? "booked-slot" : "available-slot";
-          classLists += eventType === 1 ? " hot-slot " : "";
-          classLists += isEmptySlot ? " empty-slot" : "";
-          return classLists;
-        },
-        eventContent: function (args) {
-          let templateEl = document.createElement("div");
-          const { event, isPast, isStart } = args;
-          const {
-            bookInfo,
-            bookStatus,
-            isEmptySlot,
-            title,
-            BookingID,
-          } = event.extendedProps;
-          let minutesTilStart = getDifferentMinBetweenTime(new Date(), args.event._instance.range.start)
-          const html = `${!isEmptySlot ? `
+      eventClassNames: function (args) {
+        const { event } = args;
+        const {
+          eventType,
+          bookStatus,
+          isEmptySlot,
+        } = event.extendedProps;
+        let classLists = bookStatus ? "booked-slot" : "available-slot";
+        classLists += eventType === 1 ? " hot-slot " : "";
+        classLists += isEmptySlot ? " empty-slot" : "";
+        return classLists;
+      },
+      eventContent: function (args) {
+        let templateEl = document.createElement("div");
+        const { event, isPast, isStart } = args;
+        const {
+          bookInfo,
+          bookStatus,
+          isEmptySlot,
+          title,
+          BookingID,
+        } = event.extendedProps;
+        let minutesTilStart = getDifferentMinBetweenTime(new Date(), args.event._instance.range.start)
+        const html = `${!isEmptySlot ? `
     <div class="inner-book-wrap ">
     <div class="inner-content"> ${bookStatus ? `
       <span class="label-book booked"><i class="fas ${isPast ? "fa-check" : "fa-user-graduate"
-              }"></i> ${isPast ? "FINISHED" : "BOOKED"}</span> 
+            }"></i> ${isPast ? "FINISHED" : "BOOKED"}</span> 
       <p class="booking-name">${bookInfo.name}</p>
       ${ minutesTilStart > 30 ? `
         <a href="javascript:;" class="fix-btn cancel-schedule"
@@ -212,71 +212,71 @@ const BookingSchedule = ({
         data-start="${event.start}"
         data-end="${event.end}">Cancel</a>
         `: ""}`
-              : ` <i class="fas fa-copyright"></i><span class="label-book">AVAILABLE</span>`
-            }
+            : ` <i class="fas fa-copyright"></i><span class="label-book">AVAILABLE</span>`
+          }
       ${!bookStatus && (minutesTilStart > 30) ?
-              `<a href="javascript:;" class="fix-btn book-schedule"
+            `<a href="javascript:;" class="fix-btn book-schedule"
           data-toggle="modal"
           data-target="#md-book-schedule"
           data-id="${event.id}"
           data-title="${event._def.extendedProps.courseName}"
           data-start="${event.start}"
           data-end="${event.end}"}>Book</a>`
-              : ""}
+            : ""}
         </div>
         </div>` : ""
-            }`;
-          templateEl.innerHTML = html;
-          return { domNodes: [templateEl] };
-        },
+          }`;
+        templateEl.innerHTML = html;
+        return { domNodes: [templateEl] };
+      },
 
-        eventClick: eventClick,
-        eventDidMount: eventDidMount,
-        nowIndicatorDidMount: function (args) {
-          //console.log("nowIndicatorDidMount", args);
-        },
-        //events: eventList,
-      });
+      eventClick: eventClick,
+      eventDidMount: eventDidMount,
+      nowIndicatorDidMount: function (args) {
+        //console.log("nowIndicatorDidMount", args);
+      },
+      //events: eventList,
+    });
 
-      calendar.render();
+    calendar.render();
 
-      if ($(".fc-toolbar-chunk:first-child").html() == "") {
-        $(".fc-toolbar-chunk:first-child").append(
-          `<div class="custom-control custom-checkbox" id="student-toggle">
+    if ($(".fc-toolbar-chunk:first-child").html() == "") {
+      $(".fc-toolbar-chunk:first-child").append(
+        `<div class="custom-control custom-checkbox" id="student-toggle">
     <input type="checkbox" class="custom-control-input" id="student-toggle-checkbox">
     <label class="custom-control-label" for="student-toggle-checkbox">Only show student booking hours</label>
     </div>`);
-      }
+    }
 
-      $('body').on('click', '.book-schedule', function (e) {
-        e.preventDefault();
-        const StudyTimeID = this.getAttribute('data-id');
-        const LessionName = this.getAttribute('data-title')
-        const date = moment(this.getAttribute('data-start')).format("DD/MM/YYYY");
-        const start = moment(this.getAttribute('data-start')).format("HH:mm A");
-        const end = moment(this.getAttribute('data-end')).format("HH:mm A");
-        bookLesson(StudyTimeID, LessionName, date, start, end);
-      });
+    $('body').on('click', '.book-schedule', function (e) {
+      e.preventDefault();
+      const StudyTimeID = this.getAttribute('data-id');
+      const LessionName = this.getAttribute('data-title')
+      const date = moment(this.getAttribute('data-start')).format("DD/MM/YYYY");
+      const start = moment(this.getAttribute('data-start')).format("HH:mm A");
+      const end = moment(this.getAttribute('data-end')).format("HH:mm A");
+      bookLesson(StudyTimeID, LessionName, date, start, end);
+    });
 
-      $('body').on('click', '.cancel-schedule', function (e) {
-        e.preventDefault();
-        const BookingID = this.getAttribute('data-bookingID');
-        const LessionName = this.getAttribute('data-title')
-        const date = moment(this.getAttribute('data-start')).format("DD/MM/YYYY");
-        const start = moment(this.getAttribute('data-start')).format("HH:mm A");
-        const end = moment(this.getAttribute('data-end')).format("HH:mm A");
-        cancelLesson(BookingID, LessionName, date, start, end);
-      });
+    $('body').on('click', '.cancel-schedule', function (e) {
+      e.preventDefault();
+      const BookingID = this.getAttribute('data-bookingID');
+      const LessionName = this.getAttribute('data-title')
+      const date = moment(this.getAttribute('data-start')).format("DD/MM/YYYY");
+      const start = moment(this.getAttribute('data-start')).format("HH:mm A");
+      const end = moment(this.getAttribute('data-end')).format("HH:mm A");
+      cancelLesson(BookingID, LessionName, date, start, end);
+    });
 
-      $toggleCheckbox = $('#student-toggle-checkbox');
+    $toggleCheckbox = $('#student-toggle-checkbox');
 
-      $('body').on('change', $toggleCheckbox, showStudentToggle);
+    $('body').on('change', $toggleCheckbox, showStudentToggle);
 
-      function showStudentToggle() {
-        const value = $toggleCheckbox.prop('checked');
-        const nonBookedEvents = $('.fc-event:not(.booked-slot)');
-        value ? nonBookedEvents.hide() : nonBookedEvents.show();
-      }
+    function showStudentToggle() {
+      const value = $toggleCheckbox.prop('checked');
+      const nonBookedEvents = $('.fc-event:not(.booked-slot)');
+      value ? nonBookedEvents.hide() : nonBookedEvents.show();
+    }
 
   }
 
@@ -347,17 +347,6 @@ const BookingSchedule = ({
         <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
       </div>
       <div id="js-book-calendar" className="fc fc-unthemed fc-ltr" height="500"></div>
-    </div>
-    <div className="note mg-t-30">
-      <h5 className="sub-title"> <i className="fas fa-sticky-note"></i>Notes:</h5>
-      <div className="introduce-content">
-        <ul className="note-list">
-          <li>Each session is 50 minutes</li>
-          <li>To book a lesson, simply select the time frame and click the "Book" button</li>
-          <li>You can only BOOK a lesson 30 minutes before the lesson starts.</li>
-          <li>You can only CANCEL the lesson 30 minutes before the className starts.</li>
-        </ul>
-      </div>
     </div>
   </>
 }

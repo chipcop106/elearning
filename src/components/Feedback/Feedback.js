@@ -207,7 +207,7 @@ const Feedback = () => {
                 </div>
               </div>
             </div></> :
-            <NOT_DATA_FOUND />
+            (!loading && <NOT_DATA_FOUND />)
         }
       </div>
       {
