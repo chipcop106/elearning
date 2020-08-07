@@ -239,7 +239,8 @@ const StudentForm = ({ tabDisplay }) => {
                           className="upload-box hidden d-none upload-file"
                           onChange={handleUploadImage} />
                         <img id="avatar"
-                          src={profile.Avatar ? profile.Avatar : "../assets/img/default-avatar.png"} />
+                          src={profile.Avatar ? profile.Avatar : "../assets/img/default-avatar.png"}
+                          onError={(e)=>{e.target.onerror = null; e.target.src="../assets/img/default-avatar.png"}} />
                       </label>
                     </div>
                   </div>
@@ -432,7 +433,7 @@ const StudentForm = ({ tabDisplay }) => {
             <div className="col-12">
               <div className="form-row  align-items-center ">
                 <div className="form-group col-sm-3 col-label-fixed">
-                  <p className="mg-b-0 tx-medium ">SkypeID: </p>
+                  <p className="mg-b-0 tx-medium ">SkypeID:</p>
                 </div>
                 <div className="form-group col-sm-9">
                   <input type="text" placeholder="Your SkypeID" className="form-control"
@@ -449,7 +450,7 @@ const StudentForm = ({ tabDisplay }) => {
             <div className="col-12">
               <div className="form-row  align-items-center ">
                 <div className="form-group col-sm-3 col-label-fixed">
-                  <p className="mg-b-0 tx-medium ">Hobbits: </p>
+                  <p className="mg-b-0 tx-medium ">Hobbits:</p>
                 </div>
                 <div className="form-group col-sm-9">
                   <input type="text" placeholder="Your hobbit" className="form-control"
@@ -466,7 +467,7 @@ const StudentForm = ({ tabDisplay }) => {
             <div className="col-12">
               <div className="form-row  align-items-center ">
                 <div className="form-group col-sm-3 col-label-fixed">
-                  <p className="mg-b-0 tx-medium ">Yêu cầu với giáo viên</p>
+                  <p className="mg-b-0 tx-medium ">Request with teacher:</p>
                 </div>
                 <div className="form-group col-sm-9">
                   <textarea id="" rows="3" className="form-control" placeholder="Your notes"
@@ -561,7 +562,7 @@ const PasswordForm = () => {
           <div className="col-12">
             <div className="form-row align-items-center ">
               <div className="form-group col-sm-3 col-label-fixed">
-                <p className="mg-b-0 tx-medium">Current Password:</p>
+                <p className="mg-b-0 tx-medium">Current password:</p>
               </div>
               <div className="form-group col-sm-9">
                 <input
@@ -575,7 +576,7 @@ const PasswordForm = () => {
           <div className="col-12">
             <div className="form-row align-items-center ">
               <div className="form-group col-sm-3 col-label-fixed">
-                <p className="mg-b-0 tx-medium">New Password:</p>
+                <p className="mg-b-0 tx-medium">New password:</p>
               </div>
               <div className="form-group col-sm-9">
                 <input
@@ -589,7 +590,7 @@ const PasswordForm = () => {
           <div className="col-12">
             <div className="form-row align-items-center ">
               <div className="form-group col-sm-3 col-label-fixed">
-                <p className="mg-b-0 tx-medium">Confirm Password:</p>
+                <p className="mg-b-0 tx-medium">Confirm password:</p>
               </div>
               <div className="form-group col-sm-9">
                 <input
@@ -614,7 +615,7 @@ const PasswordForm = () => {
               <div className="form-group col-sm-3 col-label-fixed">
               </div>
               <div className="form-group col-sm-9 mg-b-0-f">
-                <button type="submit" className="btn btn-primary">Save Change</button>
+                <button type="submit" className="btn btn-primary">Save change</button>
               </div>
             </div>
           </div>

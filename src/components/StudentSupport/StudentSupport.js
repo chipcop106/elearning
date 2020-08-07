@@ -113,11 +113,9 @@ const StudentSupport = () => {
       }
     }
   }
-  const delay = ms => new Promise(res => setTimeout(res, ms));
 
   const getAPI = async () => {
     setLoading(true);
-    await delay(2000);
     setState(initialState);
     setLoading(false)
     checkDetailUrl(initialState);
@@ -223,7 +221,8 @@ const DetailBox = ({ state, _onClickBack }) => {
         <span className="avatar avatar-md">
           {
             loading ? (<Skeleton circle={true} width={48} height={48} />)
-              : <img src={state?.avatar ?? '../assets/img/default-avatar.png'} className="rounded-circle" />
+              : <img src={state?.avatar ?? '../assets/img/default-avatar.png'} className="rounded-circle"
+              onError={(e)=>{e.target.onerror = null; e.target.src="../assets/img/default-avatar.png"}} />
           }
         </span>
         <div className="mg-l-10">

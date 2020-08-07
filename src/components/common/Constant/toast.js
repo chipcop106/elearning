@@ -4,7 +4,7 @@ export const CANCEL_BOOKING_SUCCESS = "Cancel lesson successful!";
 export const CHANGE_PASSWORD_SUCCESS = "Update Password successful!";
 export const UPDATE_PROFILE_SUCCESS = "Update profile successful!";
 
-export const RATING_SUCCESS = "Thank for your rating!";
+export const RATING_SUCCESS = "Thank for your feedback!";
 export const REQUEST_SUCCESS = "Thank for your request!";
 
 

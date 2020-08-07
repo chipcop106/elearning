@@ -29,15 +29,14 @@ const BookingLessonModal = ({
   const [state, setState] = React.useState("");
   const [bookState, setBookState] = React.useState(null);
   const bookingToastFail = () => toast.error(FETCH_ERROR, toastInit);
+  const bookingToastFail2 = (text) => toast.error(text, toastInit);
   const requireLessonAlert = () => toast.warn("Maximum 200 letters", toastInit);
 
   const fetchAPI = async (params) => {
-    const res = await bookingLessonAPI(params);
-    if (res.Code === 1) 
-    {
-      onBook && onBook(TeacherUID, StudyTimeID, date, res.Code);
-    }
-    else bookingToastFail();
+      const res = await bookingLessonAPI(params);
+      if (res.Code === 1) onBook && onBook(TeacherUID, StudyTimeID, date, res.Code);
+      else if(!!res && res.Message) bookingToastFail2(res.Message)
+      else bookingToastFail();
   }
 
   const getLessonToBookingAPI = async () => {
@@ -118,7 +117,8 @@ const BookingLessonModal = ({
                       <a className="teacher-avatar" href={`teacherDetail?ID=${TeacherUID}`}>
                         <img src={TeacherIMG === "default-avatar.png" ?
                           `../assets/img/${TeacherIMG}` : TeacherIMG}
-                          className="teacher-image" alt="" />
+                          className="teacher-image" alt=""
+                          onError={(e)=>{e.target.onerror = null; e.target.src="../assets/img/default-avatar.png"}} />
                         <p className="course-teacher tx-14 tx-gray-800 tx-normal mg-b-0 tx-center mg-t-5 d-block">
                           {TeacherName}</p>
                       </a>

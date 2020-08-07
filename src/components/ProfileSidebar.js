@@ -30,8 +30,11 @@ const ProfileSidebar = () => {
       <div className="sidebar-overlay"></div>
       <div className="user__infomation d-flex d-lg-block flex-wrap">
         <div className="w-100 mg-b-15">
-          <div className="avatar avatar-xxl avatar-online"><img src={`${state.Avatar ? state.Avatar : '../assets/img/default-avatar.png'}`} className="rounded-circle" alt="" /></div>
-          <h5 className="bold tx-spacing--1 mg-t-15 text-break" style={{lineHeight:'1.6em'}}>{state.FullName}</h5>
+          <div className="avatar avatar-xxl avatar-online">
+            <img src={`${state.Avatar ? state.Avatar : '../assets/img/default-avatar.png'}`}
+            onError={(e)=>{e.target.onerror = null; e.target.src="../assets/img/default-avatar.png"}}
+            className="rounded-circle" alt="" /></div>
+          <h5 className="bold tx-spacing--1 mg-t-15 text-break pd-x-5" style={{lineHeight:'1.6em'}}>{state.FullName}</h5>
         </div>
        {/*  <div className="col-sm-12 col-md-6 col-lg-12  ">
           <label className="tx-sans tx-10 tx-semibold tx-uppercase tx-color-01 tx-spacing-1 mg-b-15">Contact

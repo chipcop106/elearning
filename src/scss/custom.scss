@@ -2472,7 +2472,9 @@ a.no-hl {
       top: 90px;
   }
 }
-
+#react-blog-detail {
+    flex: 1;
+}
 .metronic-form {
     .form-control, .select__control, .form-control.flatpickr-input {
       background-color: lighten($primary-color, 44%);
@@ -2537,7 +2539,21 @@ a.no-hl {
                 font-weight: 500;
                 transition: .2s;
             }
-            &:hover, &.active {
+            &.active {
+                a {
+                    color: #fff;
+                    transform: scale(1.1);
+                    padding: 15px 0 15px 20px;
+                    text-transform: uppercase;
+                    letter-spacing: .05rem;
+                    background-color: $second-color;
+                    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+                }
+                &:after {
+                    background-color: $second-color!important;
+                }
+            }
+            &:hover {
                 a {
                     color: #fff;
                     background-color: $primary-color;
@@ -2645,6 +2661,55 @@ a.no-hl {
       }
     }
 }
+.modal {
+    z-index: 1071 !important;
+}
+.navbar-header.custom-header-student {
+    background-color: #fff;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    .navbar-brand {
+        border-right: 1px solid #e1e1e1;
+    }
+    @media (min-width: 1200px)
+    {
+        .navbar-right {
+            width: 500px;
+            .dropdown-profile {
+                margin-left: 30px;
+                padding-left: 30px;
+                border-left: 1px solid #e1e1e1;
+            }
+        }
+        .dropdown-message .dropdown-link.new-indicator span,
+        .dropdown-notification .dropdown-link.new-indicator span {
+            background-color: #5ad927;
+        }
+    }
+}
+
+#js-book-calendar.calendar-student {
+    .fc-event {
+        &.fc-event-past {
+            &.available-slot {
+                &.hide-event {
+                    .inner-content {
+                        display: none;
+                    }
+                }
+                .inner-content {
+                    display: block;
+                    color: #777;
+                }
+            }
+        }
+        &.available-slot.hide-event {
+            &:not(.fc-event-past) {
+                display: none;
+            }
+        }
+    }
+}
+
 /* End Student CSS */
 
 #quick-chat-wrap {
@@ -7031,11 +7096,17 @@ input.time-only[readonly]{
 .ul-schedule{
     @include scrollbars(3px, $primary-color, '#ebebeb');
     li{
+        background: #f6f6f6;
+        padding: 5px 10px;
+        @include media(600px) {
+                padding: 10px;
+        }
         &:hover{
             background-color:rgba($primary-color, .05);
           }
         &.registed{
-            background-color:#ccc;
+            background-color: #d8d8d8;
+            background-image: repeating-linear-gradient(-45deg, transparent 0 2px, #ccc 0 5px);
             color:#fff;
             .status{
                 color:$red;
@@ -7062,6 +7133,38 @@ input.time-only[readonly]{
           border-left:10px solid transparent;
             border-right:10px solid transparent;
               border-bottom:10px solid transparent;
+    }
+}
+
+.tutor-schedule-mobile {
+    .ul-schedule {
+        list-style-type: none;
+        padding: 0;
+        max-height: 200px;
+        overflow-y: scroll;
+        li {
+            display: flex;
+            align-items: center;
+            vertical-align: middle;
+            justify-content: space-between;
+            span.status {
+                display: inline-block;
+                button {
+                    color: white;
+                    background-color: #43adff;
+                    border: none;
+                    width: 100%;
+                    border-radius: 3px;
+                }
+            }
+            &+li {
+                border-top: 1px solid #e1e1e1;
+            }
+        }
+    }
+    &::after {
+        display: none;
+        clear: both;
     }
 }
 
@@ -7336,11 +7439,11 @@ input.time-only[readonly]{
 }
 
 .post-detail-cover{
-    height:400px;
+    height:auto;
     width:100%;
     img{
         width:100%;
-        height:100%;
+        height:auto;
         object-fit:cover;
     }
 }
