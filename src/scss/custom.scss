@@ -267,9 +267,7 @@
 .content {
     min-height: calc(100vh - 167px);
 }
-.content.mg-t-0.mg-lg-t-60-f{
-    min-height: calc(100vh - 106px);
-}
+
 
 .course-price {
     color: #ab0202;
@@ -2664,7 +2662,7 @@ a.no-hl {
 .modal {
     z-index: 1071 !important;
 }
-.navbar-header.custom-header-student {
+.custom-header-student .navbar-header{
     background-color: #fff;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     .navbar-brand {
@@ -5910,9 +5908,6 @@ body.drop-answer {
     }
    
     @media (min-width:992px) {
-        >.container {
-            max-width: 1340px !important;
-        }
         @media (min-width:1400px) {
             >.container{
                 padding: 0;
@@ -8718,13 +8713,16 @@ input[type="date"].form-control, input[type="time"].form-control, input[type="da
     color:#fff;
 }
 
-header.navbar {
+#header:not(.custom-header-student) {
     .dropdown-notification{
         padding-right: 30px;
         border-right: 1px solid #ffaa60;
     }
     .dropdown-profile{
         margin-left:30px;
+    }
+    .avatar + .username{
+        color:#fff;
     }
 }
 
@@ -8738,4 +8736,26 @@ header.navbar {
 
 #js-book-calendar .fc-event.hide-event {
     background-color: #fff;
+}
+
+.custom-header-student .navbar-right  svg {
+    color: #707070;
+}
+
+#header{
+    .avatar + .username{
+        white-space:nowrap;
+    }
+}
+
+.custom-header-student{
+   
+    .bottom-header{
+        display:none;
+    }
+}
+
+.custom-header-student + .content{
+    min-height: calc(100vh - 106px);
+    margin-top:60px;
 }
