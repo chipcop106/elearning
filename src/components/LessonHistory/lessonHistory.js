@@ -7,7 +7,7 @@ import { convertDateFromTo } from "~src/utils.js"
 import SkeletonLessonHistoryCard from "~components/common/Skeleton/SkeletonLessonHistoryCard";
 import Flatpickr from 'react-flatpickr';
 import styles from "~components/LessonHistory/lessonHistory.module.scss"
-import { NOT_DATA_FOUND } from "~components/common/Constant/message"
+import { FETCH_ERRORS } from "~components/common/Constant/message"
 
 const initialState = {
   fromDate: "",
@@ -35,7 +35,7 @@ const LessonHistory = () => {
   const [pageSize, setPageSize] = React.useState(0);
   const [totalResult, setTotalResult] = React.useState(0);
 
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
 
   const getAPI = async (params) => {
     setLoading(true);
@@ -44,6 +44,9 @@ const LessonHistory = () => {
       setData(res.Data)
       setPageSize(res.PageSize);
       setTotalResult(res.TotalResult)
+    }
+    else {
+      setData({})
     }
     setLoading(false);
   }
@@ -144,20 +147,26 @@ const LessonHistory = () => {
                   TeacherName={item.TeacherName}
                   Status={item.Status}
                   StatusString={item.StatusString} />) :
-                <tr style={{ backgroundColor: "transparent" }}>
+                  data.length == 0 ?
+                  <tr style={{ backgroundColor: "transparent" }}>
+                    <td colSpan="6" className="tx-center">
+                      <span className="text-danger bold" style={{ fontSize: '16px' }}>
+                        {
+                          (searchInput.fromDate.length > 0 && searchInput.toDate.length > 0) ||
+                            (searchInput.fromDate.length == 0 && searchInput.toDate.length == 0) ?
+                            `You don't have book any lesson ${searchInput.fromDate.length > 0 ? `from ${searchInput.fromDate}` : ""}  ${searchInput.toDate.length > 0 ? `to ${searchInput.toDate}` : ""}` :
+                            searchInput.fromDate.length == 0 ?
+                              `You don't have book any lesson before ${searchInput.toDate}` :
+                              `You don't have book any lesson after ${searchInput.fromDate}`
+                        }
+                      </span>
+                      <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 d-block mx-auto"/>
+                      <a href="/ElearnStudent/bookingLesson" className="btn btn-primary">Book a lesson</a>
+                    </td>
+                  </tr> : (!loading && <tr style={{ backgroundColor: "transparent" }}>
                   <td colSpan="6" className="tx-center">
-                    <span className="text-danger bold" style={{ fontSize: '16px' }}>
-                      {
-                        (searchInput.fromDate.length > 0 && searchInput.toDate.length > 0) ||
-                          (searchInput.fromDate.length == 0 && searchInput.toDate.length == 0) ?
-                          `You don't have book any lesson ${searchInput.fromDate.length > 0 ? `from ${searchInput.fromDate}` : ""}  ${searchInput.toDate.length > 0 ? `to ${searchInput.toDate}` : ""}` :
-                          searchInput.fromDate.length == 0 ?
-                            `You don't have book any lesson before ${searchInput.toDate}` :
-                            `You don't have book any lesson after ${searchInput.fromDate}`
-                      }
-                    </span>
-                  </td>
-                </tr>
+                  <FETCH_ERRORS/>
+                  </td></tr>)
           }
         </tbody>
       </table>

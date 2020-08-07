@@ -497,7 +497,8 @@ const BookingLesson = () => {
                       <div className="totor-detail">
                         <a href={`/ElearnStudent/teacherDetail?ID=${item.TeacherUID}`} className="tutor-wrap">
                           <span className="tutor-avatar">
-                            <img src={item.TeacherIMG ? item.TeacherIMG : "../assets/img/default_avatar.png"} alt="" />
+                            <img src={item.TeacherIMG ? item.TeacherIMG : "../assets/img/default-avatar.png"} alt=""
+                            onError={(e)=>{e.target.onerror = null; e.target.src="../assets/img/default-avatar.png"}} />
                           </span>
                           <div className="tutor-infomation pd-5">
                             <div className="tutor-info">

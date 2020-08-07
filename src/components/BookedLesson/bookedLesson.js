@@ -57,10 +57,12 @@ const BookedLesson = () => {
   const [loading, setLoading] = React.useState(true);
 
   const handlePageChange = (pageNumber) => {
-    setPage(pageNumber);
-    getAPI({
-      Page: pageNumber,
-    })
+    if (page !== pageNumber) {
+      setPage(pageNumber);
+      getAPI({
+        Page: pageNumber,
+      })
+    }
   }
   const handleRequireLesson = (BookingID, avatar, TeacherUID, TeacherName, LessionMaterial, LessionName, SpecialRequest, date, start, end, DocumentName, SkypeID) => {
     setStateRequireLesson({
@@ -133,6 +135,9 @@ const BookedLesson = () => {
       setState(res.Data)
       setPageSize(res.PageSize);
       setTotalResult(res.TotalResult)
+    }
+    else {
+      setState(null);
     }
     setLoading(false);
   }

@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import StudentCommentItem from "./StudentCommentItem"
 import Pagination from "react-js-pagination";
 import { getAllStudentReviewAPI } from "~src/api/studentAPI";
+import SkeletonFeedback from "~components/common/Skeleton/SkeletonFeedback";
+import Skeleton from "react-loading-skeleton";
+
 /* import { isTouchCapable } from 'react-select/src/utils'; */
 
 const StudentComment = ({ TeacherUID }) => {
@@ -10,6 +13,7 @@ const StudentComment = ({ TeacherUID }) => {
   const [page, setPage] = React.useState(1)
   const [pageSize, setPageSize] = React.useState(0);
   const [totalResult, setTotalResult] = React.useState(0);
+  const [loading, setLoading] = React.useState(true);
 
   const handlePageChange = (pageNumber) => {
     setPage(pageNumber);
@@ -20,12 +24,14 @@ const StudentComment = ({ TeacherUID }) => {
   }
 
   const getCommentAPI = async (params) => {
+    setLoading(true);
     const res = await getAllStudentReviewAPI(params);
     if (res.Code === 1) {
       setState(res.Data)
       setPageSize(res.PageSize);
       setTotalResult(res.TotalResult)
     }
+    setLoading(false);
   }
 
   React.useEffect(() => {
@@ -34,7 +40,10 @@ const StudentComment = ({ TeacherUID }) => {
       Page: page,
     })
   }, [])
-  return (
+  return loading ? <>
+  <Skeleton className="mb-2" height={20} width={250} />
+    <SkeletonFeedback/>
+    </> : <>
     <div className="tc-comment-wrap bd-t-0-f mg-t-0-f pd-t-0-f">
       <h6 className="mg-b-15">
         {
@@ -69,6 +78,6 @@ const StudentComment = ({ TeacherUID }) => {
           onChange={handlePageChange.bind(this)} />
       }
     </div>
-  )
+    </>
 }
 export default StudentComment;

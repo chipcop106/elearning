@@ -117,7 +117,8 @@ const BookingLessonModal = ({
                       <a className="teacher-avatar" href={`teacherDetail?ID=${TeacherUID}`}>
                         <img src={TeacherIMG === "default-avatar.png" ?
                           `../assets/img/${TeacherIMG}` : TeacherIMG}
-                          className="teacher-image" alt="" />
+                          className="teacher-image" alt=""
+                          onError={(e)=>{e.target.onerror = null; e.target.src="../assets/img/default-avatar.png"}} />
                         <p className="course-teacher tx-14 tx-gray-800 tx-normal mg-b-0 tx-center mg-t-5 d-block">
                           {TeacherName}</p>
                       </a>

@@ -64,7 +64,10 @@ const BlogDetail = () => {
               </div>
               <article dangerouslySetInnerHTML={{ __html: state.NotificationContent }}></article>
             </div>
-          </div> : <span className="text-danger bold" style={{fontSize:'16px'}}>It's doesn't have any blog </span>
+          </div> :<div className="card card-custom">
+            <div className="card-body tx-center">
+          <span className="d-block tx-center text-danger bold" style={{fontSize:'16px'}}>It's doesn't have any blog </span>
+          <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" /></div></div>
         } </>
     }
   </div>

@@ -53,6 +53,11 @@
       .label-tag{
         font-weight:500;
       }
+      .progress-wrap {
+        @include media(500px) {
+          width: 100%;
+        }
+      }
       .progress-course-bar {
         width: 300px;
         max-width: calc(100% - 35px);
@@ -78,7 +83,7 @@
       }
       .progress-number {
         position: absolute;
-        top: 12px;
+        top: 17px;
         left: calc(100% + 10px);
       }
     }

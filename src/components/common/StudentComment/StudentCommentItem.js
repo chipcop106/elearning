@@ -20,7 +20,8 @@ const StudentCommentItem = ({
     <div className="fb-item">
       <div className="fb-avatar">
         <img src={!!TeacherIMG ? TeacherIMG : !!StudentIMG ? StudentIMG : "../assets/img/default-avatar.png"}
-        alt="avatar" className="avatar" />
+        alt="avatar" className="avatar"
+        onError={(e)=>{e.target.onerror = null; e.target.src="../assets/img/default-avatar.png"}} />
       </div>
       <div className="fb-info">
         <div className="name-rating">
@@ -45,7 +46,7 @@ const StudentCommentItem = ({
           </div>
         </div>
         <div className="feedback-comment">
-          <p className="">{!!Note ? Note: !!Evaluation ? Evaluation : ""}</p>
+          <p style={{ wordBreak:"break-all" }}>{!!Note ? Note: !!Evaluation ? Evaluation : ""}</p>
         </div>
         <div className="metas">
           {

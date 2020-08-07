@@ -165,7 +165,7 @@ $(document).ready(function() {
         $(this).css("left","-100%");
     })
 
-    $(window).scroll(function() {
+    /* $(window).scroll(function() {
         if (window.innerWidth >= 992) {
             if ($(window).scrollTop() > 0)
                 $("#js-component-profilesidebar").addClass('fixed')
@@ -181,5 +181,5 @@ $(document).ready(function() {
         if (window.innerWidth < 992) {
             $("#js-component-profilesidebar").removeClass('fixed')
         }
-    });
+    }); */
 });

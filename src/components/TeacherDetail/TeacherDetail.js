@@ -122,7 +122,8 @@ const TeacherDetail = () => {
           <div className="teacher-header">
             <div className="teacher-avatar">
               <img src={!!state && state.TeacherIMG ? state.TeacherIMG : "../assets/img/default-avatar.png"}
-                alt="avatar" />
+                 onError={(e)=>{e.target.onerror = null; e.target.src="../assets/img/default-avatar.png"}}
+                 alt="avatar" />
             </div>
             {
               !!state && <div className="teacher-info">
@@ -210,7 +211,9 @@ const TeacherDetail = () => {
                   </div>
                   <div className={`${showTab === 3 ? 'active' : ''} swiper-slide`}>
                     <div className="slide-tab-content">
-                      <StudentComment TeacherUID={!!state && state.TeacherUID}/>
+                      {
+                        showTab == 3 && <StudentComment TeacherUID={!!state && state.TeacherUID}/>
+                      }
                     </div>
                   </div>
                 </div>

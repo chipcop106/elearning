@@ -60,7 +60,7 @@ const BookingSchedule = ({
             <p class="mg-b-5">Start: ${moment(event.start).format("hh:mm A")}</p>
             <p class="mg-b-5">End: ${moment(event.end).format("hh:mm A")}</p>`,
           animation: false,
-          template: `<div class="tooltip tooltip-primary" role="tooltip">
+          template: `<div class="tooltip" role="tooltip">
                 <div class="tooltip-arrow"></div><div class="tooltip-inner"></div>
               </div>`,
           trigger: "hover",
@@ -80,8 +80,8 @@ const BookingSchedule = ({
           events.map(event => {
             const eventDate = new Date(event.extendedProps.Start.split('T')[0]);
             if(eventDate.getTime() === dateHD.getTime()){
-              totalSlot++;
-              event.extendedProps.bookStatus === true && bookedSlot++;
+              (event.extendedProps.bookStatus || event.extendedProps.available) && totalSlot++;
+              event.extendedProps.bookStatus && bookedSlot++;
             }
           });
           dayHeaders[i].querySelector('.booked').textContent = bookedSlot;
@@ -102,7 +102,7 @@ const BookingSchedule = ({
     calendar = new FullCalendar.Calendar(calendarEl, {
       height: 600,
       expandRows: true,
-      slotMinTime: "01:00",
+      slotMinTime: "06:00",
       slotMaxTime: "23:00",
       eventSources: eventSource,
       headerToolbar: {
@@ -274,8 +274,9 @@ const BookingSchedule = ({
 
     function showStudentToggle() {
       const value = $toggleCheckbox.prop('checked');
-      const nonBookedEvents = $('.fc-event:not(.booked-slot)');
-      value ? nonBookedEvents.hide() : nonBookedEvents.show();
+      //const availableEvents = $('.fc-event.available-slot');
+      const availableEvents = $('.fc-event:not(.booked-slot)')
+      value ? availableEvents.addClass('hide-event') : availableEvents.removeClass('hide-event');
     }
 
   }
@@ -346,7 +347,7 @@ const BookingSchedule = ({
       <div className={`${loading ? '' : 'd-none'} overlay`}>
         <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
       </div>
-      <div id="js-book-calendar" className="fc fc-unthemed fc-ltr" height="500"></div>
+      <div id="js-book-calendar" className="calendar-student fc fc-unthemed fc-ltr" height="500"></div>
     </div>
   </>
 }

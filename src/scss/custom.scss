@@ -2524,7 +2524,21 @@ a.no-hl {
                 font-weight: 500;
                 transition: .2s;
             }
-            &:hover, &.active {
+            &.active {
+                a {
+                    color: #fff;
+                    transform: scale(1.1);
+                    padding: 15px 0 15px 20px;
+                    text-transform: uppercase;
+                    letter-spacing: .05rem;
+                    background-color: $second-color;
+                    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+                }
+                &:after {
+                    background-color: $second-color!important;
+                }
+            }
+            &:hover {
                 a {
                     color: #fff;
                     background-color: $primary-color;
@@ -2635,6 +2649,52 @@ a.no-hl {
 .modal {
     z-index: 1071 !important;
 }
+.navbar-header.custom-header-student {
+    background-color: #fff;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    .navbar-brand {
+        border-right: 1px solid #e1e1e1;
+    }
+    @media (min-width: 1200px)
+    {
+        .navbar-right {
+            width: 500px;
+            .dropdown-profile {
+                margin-left: 30px;
+                padding-left: 30px;
+                border-left: 1px solid #e1e1e1;
+            }
+        }
+        .dropdown-message .dropdown-link.new-indicator span,
+        .dropdown-notification .dropdown-link.new-indicator span {
+            background-color: #5ad927;
+        }
+    }
+}
+
+#js-book-calendar.calendar-student {
+    .fc-event {
+        &.fc-event-past {
+            &.available-slot {
+                &.hide-event {
+                    .inner-content {
+                        display: none;
+                    }
+                }
+                .inner-content {
+                    display: block;
+                    color: #777;
+                }
+            }
+        }
+        &.available-slot.hide-event {
+            &:not(.fc-event-past) {
+                display: none;
+            }
+        }
+    }
+}
+
 /* End Student CSS */
 
 #quick-chat-wrap {
