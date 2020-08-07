@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import NoteForStudentModal from '../NoteForStudentModal';
-import styles from '../TeacherBooking/teacherBooking.module.scss';
 import ScheduleLogTable from '~components/table/ScheduleLogTable'
 import BookingRequest from './BookingRequest';
 import BookingCalendar from './BookingCalendar';
 import { ToastContainer } from 'react-toastify';
 import {getTeacherInfo} from '~src/api/teacherAPI';
-
+import styles from '../TeacherBooking/teacherBooking.module.scss';
 let teacherInfoSwiper;
 const TeacherBooking = () => {
     const [timeZone, setTimeZone] = React.useState('');
@@ -18,6 +17,9 @@ const TeacherBooking = () => {
             preventInteractionOnTransition: true,
             simulateTouch: false,
             autoHeight: true,
+            shortSwipes:false,
+            longSwipes:false,
+            allowTouchMove:false,
         })
 
         const listTab = document.getElementById('js-list-tab');
@@ -40,7 +42,7 @@ const TeacherBooking = () => {
     }
 
     const updateHeight = () => {
-        teacherInfoSwiper.updateAutoHeight(500, false);
+        teacherInfoSwiper.update();
     }
 
     React.useEffect(() => {
@@ -54,7 +56,7 @@ const TeacherBooking = () => {
             <div className="book__container mg-t-15">
                 <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
                     <h3 className="text-dark font-weight-bold">Booking Schedule</h3>
-                    <span className="tx-primary bg-white pd-y-10 pd-x-15 rounded d-inline-block tx-medium"><i className="fas fa-globe-europe mg-r-5"></i>Timezone: {timeZone}</span>
+                    <span className="bg-white pd-y-10 pd-x-15 rounded d-inline-block  tx-dark"><i className="fas fa-globe-europe mg-r-5"></i>Timezone: <span className="tx-medium tx-primary">{timeZone}</span></span>
                 </div>
                 <div className="card card-custom">
                     <div className="card-body">
@@ -66,9 +68,9 @@ const TeacherBooking = () => {
                                 <li className="tab-item">
                                     <a href={`#`} className="tab-link " data-index={1}><i className="fas fa-clock mg-r-5"></i> SCHEDULE LOG</a>
                                 </li>
-                                <li className="tab-item">
+                                {/* <li className="tab-item">
                                     <a href={`#`} className="tab-link " data-index={2}><i className="fas fa-calendar-week mg-r-5"></i> BOOKING REQUEST</a>
-                                </li>
+                                </li> */}
                             </ul>
                         </div>
                         <div className="tab-navigation-content">
@@ -85,13 +87,13 @@ const TeacherBooking = () => {
                                             <ScheduleLogTable />
                                         </div>
                                     </div>
-                                    <div className="swiper-slide">
+                                    {/* <div className="swiper-slide">
                                         <div className="slide-tab-content">
                                             <div className="course-horizental">
                                                 <BookingRequest updateSwiperHeight={updateHeight}/>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>

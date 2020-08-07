@@ -37,9 +37,13 @@ const reducer = (prevState, { type, payload }) => {
 
 function TeacherIntroduce(props) {
     const [state, dispatch] = useReducer(reducer, initialState);
+    const [submitLoading, setSubmitLoading] = useState(false);
+    
     const setIsLoading = (value) => dispatch({ type: "SET_LOADING", payload: { value } });
     const updateState = (key, value) => dispatch({ type: 'UPDATE_STATE', payload: { key, value } });
     const setDefaultState = (data) => dispatch({ type: 'SET_DATA', payload: data });
+   
+    
     const showGuide = () => {
         updateState('showGuideModal', true);
     }
@@ -62,19 +66,24 @@ function TeacherIntroduce(props) {
 
     const _handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await updateTeacherIntroduce({
-            Introduce: state.introduce,
-            LinkVideo: state.youtubeUrl
-        });
-        res.Code === 1 && toast.success('Update introduce success !!', {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 2000
-        });
-        res.Code !== 1 && toast.error('Update introduce failed !!', {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 2000
-        });
-        console.log(e);
+        setSubmitLoading(true);
+        try{
+            const res = await updateTeacherIntroduce({
+                Introduce: state.introduce,
+                LinkVideo: state.youtubeUrl
+            });
+            res.Code === 1 && toast.success('Update introduce success !!', {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 2000
+            });
+            res.Code !== 1 && toast.error('Update introduce failed !!', {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 2000
+            });
+        }catch (err){
+            console.log(err?.message ?? 'Call api updateTeacherIntroduce không thành công !!');
+        }
+        setSubmitLoading(false);
     }
 
 
@@ -148,9 +157,21 @@ function TeacherIntroduce(props) {
                 </div>
 
             </div>
+           
             <div className="tx-center mg-t-30">
-                <button className="btn btn-primary"><i className="fa fa-save mg-r-5"></i>Save information</button>
-            </div>
+                    <button type="submit" className="btn btn-primary d-inline-flex align-items-center" disabled={submitLoading}>
+                        {
+                            submitLoading ? (
+                                <div className="spinner-border wd-20 ht-20 mg-r-5" role="status">
+                                    <span className="sr-only">Submitting...</span>
+                                </div>
+                            )
+                            : (<><i className="fa fa-save mg-r-5"></i></>)    
+                        }
+                        <span>{submitLoading ? 'Updating':'Save'} introduce</span>
+
+                    </button>
+                </div>
         </form>
     )
 }

@@ -144,8 +144,8 @@ const TeacherHome = () => {
                         </div>
                         <div className="row">
                             <div className="col-lg-12">
-                            <div className="card card-custom">
-                                <div className="card-header align-items-center d-flex justify-content-between pd-x-20-f">
+                            <div className="card">
+                                <div className="card-header align-items-center d-flex justify-content-between">
                                     <div className="d-flex align-items-center">
                                         <div className="">
                                             <h5 className="mg-b-5">Upcoming lesson</h5>
@@ -162,7 +162,7 @@ const TeacherHome = () => {
                                     </div>
                                    
                                 </div>
-                                <div className="card-body pd-x-10-f pd-y-15-f">
+                                <div className="card-body">
                                     <div className="gv-notice">
                                         <UpComingList itemShow={selectShow}/>
                                     </div>

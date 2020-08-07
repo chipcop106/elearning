@@ -56,7 +56,7 @@ const LessonCard = (
                 )}
 
                 <div className={`media-body   pos-relative ${!actionDisplay ? `pd-b-0-f` : ``}`}>
-                    <h5 className="mg-b-10">
+                    <h5 className="mg-b-10 d-flex align-items-center flex-wrap" style={{lineHeight:'1.5'}}>
                         {lessonStatus === 'Finished' ? (
                             <span className="badge badge-success  mg-r-10 pd-x-10 pd-y-5 tx-12">Finished</span>
                         ) : lessonStatus === 'Incoming' ? (

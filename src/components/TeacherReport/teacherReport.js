@@ -19,6 +19,7 @@ const timeOptions = [
     label:'Last 3 month'
   }
 ]
+
 const TeacherReport = () => {
   const [isLoading, setIsloading] = React.useState(true);
   const [state, setState] = React.useState(null);
@@ -113,7 +114,7 @@ const TeacherReport = () => {
         
         <h5 className="sub-title"><i className="fas fa-flag-checkered" /> Indicator Explanation</h5>
         <div className="table-responsive mg-t-15">
-          <table className="table table-bordered table-vcenter table-explane" style={{ borderCollapse: 'separate' }}>
+          <table className="table table-bordered table-vcenter table-explane table-hover" style={{ borderCollapse: 'separate' }}>
             <tbody>
               <tr>
                 <td rowSpan={2} className="valign-middle tx-center"><h5 className="tx-primary">TIME SLOTS</h5></td>

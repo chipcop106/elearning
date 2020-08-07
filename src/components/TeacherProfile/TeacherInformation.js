@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer, useRef } from 'react'
+import React, { useState, useEffect, useReducer, useRef, useContext } from 'react'
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers';
 import { useForm, Controller } from 'react-hook-form';
@@ -8,6 +8,7 @@ import Select from 'react-select'
 import { randomId } from '~src/utils';
 import { getTeacherInfoProfile, updateTeacherInfoProfile } from '~src/api/teacherAPI';
 import { toast } from 'react-toastify'
+import { Context as ProfileContext } from '~src/context/ProfileContext';
 import {
     uploadImageToServer,
     getEnglishProficiencyOptions,
@@ -109,12 +110,13 @@ const ProfileAvatar = (props) => {
 
 function TeacherInformation() {
     const [state, dispatch] = useReducer(reducer, optionState);
+    const [submitLoading, setSubmitLoading] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [optionLoaded, setOptionLoaded] = useState(false);
-
+    const { state: profileState, updateUserInfo } = useContext(ProfileContext);
     const { errors, register, handleSubmit: handleSubmitInformation, setValue, getValues, control, watch } = useForm({
         mode: 'onBlur',
-        defaultValue: initialState, 
+        defaultValue: initialState,
         resolver: yupResolver(Schema),
     });
 
@@ -139,19 +141,20 @@ function TeacherInformation() {
                     fullName: res.Data?.FullName ?? '',
                     skypeId: res.Data?.SkypeID ?? '',
                     phoneNumber: res.Data.Phone.toString() || '',
-                    levelOfPurpose:  JSON.parse(res.Data?.LevelPurpose ?? "[]").map(id => {
+                    levelOfPurpose: JSON.parse(res.Data?.LevelPurpose ?? "[]").map(id => {
                         return [...state.levelOfPurposeOptions].find(level => level.ID === id);
                     }),
                     levelOfEducation: [...state.levelOfEducationOptions].find((option, index) => option.ID === res.Data?.LevelOfEducation) ?? null,
-                    state:  [...state.stateOptions].find((option, index) => option.ID === res.Data?.State) ?? null,
+                    state: [...state.stateOptions].find((option, index) => option.ID === res.Data?.State) ?? null,
                     email: res.Data?.Email ?? '',
                     timeZone: [...state.timeZoneOptions].find((option, index) => option.ID === res.Data?.TimezoneID) ?? null,
                     schoolName: res.Data?.SchoolName ?? '',
                     major: res.Data?.Major ?? '',
                     englishProficien: [...state.englishProficienOptions].find((option, index) => option.ID === res.Data?.EnglishProficiency) ?? null,
-                    location:  [...state.locationOptions].find((option, index) => option.ID === res.Data?.Location) ?? null
+                    location: [...state.locationOptions].find((option, index) => option.ID === res.Data?.Location) ?? null
                 }
-                console.log(obj);
+                // console.log(obj);
+                updateUserInfo({ ...res.Data, Avatar: res.Data?.TeacherIMG ?? '' });
                 setMultipleValue(obj);
             }
         } catch (e) {
@@ -185,7 +188,7 @@ function TeacherInformation() {
             const res = await getStateOptions({
                 LocationID
             });
-            if(res.Code === 1){
+            if (res.Code === 1) {
                 updateState('stateOptions', res.Data);
             }
         } catch (error) {
@@ -196,9 +199,10 @@ function TeacherInformation() {
 
     const _onSubmitInformation = async (data, e) => {
         e.preventDefault();
+        setSubmitLoading(true);
         // console.log('Submiting');
-        
-        console.log(data);
+
+        // console.log(data);
         try {
             const res = await updateTeacherInfoProfile({
                 FullName: data?.fullName ?? '', // str
@@ -219,6 +223,12 @@ function TeacherInformation() {
                 position: toast.POSITION.TOP_CENTER,
                 autoClose: 2000
             });
+            res.Code === 1 && updateUserInfo({
+                ...profileState,
+                FullName: data?.fullName ?? '',
+                Phone: data?.phoneNumber.toString() ?? '',
+                Avatar: data?.avatar ?? '', // str
+            })
             res.Code !== 1 && toast.error('Update introduce failed !!', {
                 position: toast.POSITION.TOP_CENTER,
                 autoClose: 2000
@@ -226,11 +236,12 @@ function TeacherInformation() {
         } catch (err) {
             console.log(err?.message ?? 'Call API updateTeacherInfoProfile failed, check params again...')
         }
+        setSubmitLoading(false);
     }
 
     useEffect(() => {
-         !!watchLocation && !!watchLocation.ID ? loadStateOptions(watchLocation.ID) : loadStateOptions(0);
-        console.log(watchLocation);
+        !!watchLocation && !!watchLocation.ID ? loadStateOptions(watchLocation.ID) : loadStateOptions(0);
+        // console.log(watchLocation);
     }, [watchLocation]);
 
 
@@ -438,7 +449,18 @@ function TeacherInformation() {
                 </div>
 
                 <div className="tx-center">
-                    <button type="submit" className="btn btn-primary"><i className="fa fa-save mg-r-5"></i>Save information</button>
+                    <button type="submit" className="btn btn-primary d-inline-flex align-items-center" disabled={submitLoading}>
+                        {
+                            submitLoading ? (
+                                <div className="spinner-border wd-20 ht-20 mg-r-5" role="status">
+                                    <span className="sr-only">Submitting...</span>
+                                </div>
+                            )
+                            : (<><i className="fa fa-save mg-r-5"></i></>)    
+                        }
+                        <span>{submitLoading ? 'Updating':'Save'} information</span>
+
+                    </button>
                 </div>
             </form>
         </>

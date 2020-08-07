@@ -2,7 +2,8 @@ var isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
 var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
 if (isSafari && iOS) {
-    document.querySelector('body').classList.add('safari ios');
+    document.querySelector('body').classList.add('safari');
+    document.querySelector('body').classList.add('ios');
 } else if(isSafari) {
     document.querySelector('body').classList.add('safari')
 }

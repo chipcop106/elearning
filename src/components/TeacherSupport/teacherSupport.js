@@ -82,6 +82,11 @@ const TeacherSupport = () => {
 		setIsLoading(false);
 	}
 
+	const refreshList = async () => {
+		await getSupportList();
+		await getOverView();
+	}
+
 	const getOverView = async () => {
 		try {
 			const res = await getOverviewSupport();
@@ -161,8 +166,8 @@ const TeacherSupport = () => {
 							/> : (
 									<>
 										<div className="table-responsive mg-b-15">
-											<table className="table table-custom table-borderless">
-												<thead >
+											<table className="table table-borderless table-hover">
+												<thead className="thead-primary">
 													<tr>
 														<th>Tiêu đề</th>
 														<th>Ngày gửi</th>
@@ -179,7 +184,7 @@ const TeacherSupport = () => {
 																</td>
 																<td>
 																	<span className={`badge badge-${
-																		item.STATUS === 1 ? 'secondary' :
+																		item.STATUS === 1 ? 'info' :
 																			item.STATUS === 2 ? "warning" :
 																				item.STATUS === 3 ? "success" : "danger"} pd-5 tx-12 wd-75`}>
 																		{
@@ -201,7 +206,7 @@ const TeacherSupport = () => {
 											</table>
 										</div>
 
-										{!!filterState && !!filterState.length > pageSize && (
+										{totalResult > pageSize && (
 											<Pagination
 												innerClass="pagination"
 												activePage={pageNumber}
@@ -224,7 +229,7 @@ const TeacherSupport = () => {
 				</div>
 			</div>
 
-			<TeacherSupportModal refreshList={getSupportList}/>
+			<TeacherSupportModal refreshList={refreshList}/>
 			<ToastContainer />
 		</div>
 	)

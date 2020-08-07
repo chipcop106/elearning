@@ -64,7 +64,7 @@ const AllClassRow = ({ data, showStudentModal }) => {
                 </div>
             </td>
             <td className="clr-status">
-                <span className={`badge badge-${Status === 1 ? 'warning' : 'success'} pd-5`}>{StatusString && StatusString.toString().toUpperCase()}</span>
+                <span className={`badge badge-${Status === 1 ? 'primary tx-white' : 'success'} pd-5`}>{StatusString && StatusString.toString().toUpperCase()}</span>
                 {/* {Status === 1 && <span className="badge badge-warning pd-5">BOOKED</span>}
                 {Status === 2 && <span className="badge badge-success pd-5">FINISHED</span>} */}
             </td>
@@ -104,12 +104,13 @@ const AllClassesTable = ({ updateSwiperHeight, showStudentModal }) => {
     }
 
     const loadAllClassesData = async () => {
+        console.log(fromDate);
         try {
             const res = await getAllClass({
                 Page: parseInt(pageNumber),
                 Status: parseInt(filterStatusAllClass.value),
-                fromDate: fromDate === '' ? fromDate : DateTimeFormat.format(new Date(fromDate)),
-                toDate: toDate === '' ? toDate : DateTimeFormat.format(new Date(toDate))
+                fromDate: fromDate.length === 0 ? '' : DateTimeFormat.format(new Date(fromDate)),
+                toDate: toDate.length === 0 ? '' : DateTimeFormat.format(new Date(toDate))
             });
             if (res?.Code && res.Code === 1) {
                 setData(res.Data);
@@ -120,6 +121,7 @@ const AllClassesTable = ({ updateSwiperHeight, showStudentModal }) => {
             }
             setIsLoading(false);
             updateSwiperHeight();
+           
         } catch (error) {
             console.log(error);
             setIsLoading(false);
@@ -157,6 +159,7 @@ const AllClassesTable = ({ updateSwiperHeight, showStudentModal }) => {
                             placeholder="From date"
                             options={{
                                 dateFormat: "d/m/Y",
+                                  maxDate: new Date(),
                             }}
                             className="form-control"
                             onChange={(date) => setFromDate(date)}
@@ -168,19 +171,21 @@ const AllClassesTable = ({ updateSwiperHeight, showStudentModal }) => {
                             placeholder="To date"
                             options={{
                                 dateFormat: "d/m/Y",
+                                maxDate: new Date(),
                                 onOpen: function (selectedDates, dateStr, instance) {
-                                    console.log(instance);
-                                    if (fromDate === '') return;
-                                    instance.set("minDate", new Date(fromDate));
-
-                                }
+                                        if(fromDate.length === 0){
+                                            instance.set("minDate", null);
+                                            return;
+                                        }
+                                        instance.set("minDate", new Date(fromDate));
+                                    }
                             }}
                             className="form-control"
                             onChange={(date) => setToDate(date)}
                         />
                     </div>
                     <div className="flex-grow-0 tx-right flex-shrink-0 pd-x-5">
-                        <button type="button" className="btn btn-info " onClick={_onFilterDate}><i className="fa fa-filter" /> Filter</button>
+                        <button type="button" className="btn btn-primary " onClick={_onFilterDate}><i className="fa fa-filter" /> Filter</button>
                     </div>
                 </div>
             </div>
@@ -190,10 +195,10 @@ const AllClassesTable = ({ updateSwiperHeight, showStudentModal }) => {
                     <>
 
                         <div className="table-responsive mg-b-15">
-                            <table className="table">
-                                <thead className="thead-light">
+                            <table className="table table-classrooms table-borderless responsive-table table-hover">
+                                <thead className="thead-primary">
                                     <tr>
-                                        <th className="clr-id">Lesson ID</th>
+                                        <th className="clr-id">ID</th>
                                         <th className="clr-lesson">Lesson Name</th>
                                         <th className="clr-student">Student Name</th>
                                         <th className="clr-time">Schedule Time</th>

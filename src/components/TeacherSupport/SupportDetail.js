@@ -132,7 +132,7 @@ const SupportDetail = ({ onClickBack, detailId, afterCancelSuccess }) => {
                             <span className="avatar avatar-md">
                                 {
                                     isLoading ? (<Skeleton circle={true} width={48} height={48} />)
-                                        : <img src={state?.TeacherIMG ?? '../assets/img/default-avatar.png'} className="rounded-circle" />
+                                        : <img src={state?.TeacherIMG ?? '../assets/img/default-avatar.png'} className="rounded-circle"  onError={(e) => { e.target.onerror = null; e.target.src = "../assets/img/default-avatar.png" }}/>
                                 }
                             </span>
                             <div className="mg-l-10">

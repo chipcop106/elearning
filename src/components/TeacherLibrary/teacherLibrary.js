@@ -35,7 +35,7 @@ const TeacherLibrary = () => {
                     </div>
                     <div className="col-sm-12 col-ms-12 col-lg-8 col-xl-9 bannerAndSlide">
                         <div className="banner-slide">
-                            <DocumentSlider categoryID={2} slideTitle='New Cirriculum' getNewest={true} />
+                            <DocumentSlider categoryID={2} slideTitle='New Cirriculum' getNewest={true} limitSlide={4} />
                             {/*/foundation*/}
                         </div>
                     </div>

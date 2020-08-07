@@ -117,7 +117,7 @@ const UpComingList = ({itemShow}) => {
             <div className="course-horizental">
                 <div className="list-wrap ">
                     <div className="table-responsive">
-                        <table className="table table-custom table-borderless table-vcenter">
+                        <table className="table table-custom table-borderless table-vcenter responsive-table">
                             <thead>
                                 <tr className="tx-gray-600 tx-normal">
                                     <th className="tx-center"></th>

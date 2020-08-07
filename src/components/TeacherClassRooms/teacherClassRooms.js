@@ -30,6 +30,10 @@ const TeacherClassRooms = () => {
             preventInteractionOnTransition: true,
             simulateTouch: false,
             autoHeight: true,
+            shortSwipes:false,
+            longSwipes:false,
+            allowTouchMove:false,
+            renderExternalUpdate:false
         });
         const listTab = document.getElementById('js-list-tab');
         const tabLinks = listTab.querySelectorAll('.tab-link');
@@ -46,7 +50,7 @@ const TeacherClassRooms = () => {
     }
 
     const updateHeight = () => {
-        teacherInfoSwiper.updateAutoHeight(500, false);
+        teacherInfoSwiper.update();
     }
 
     React.useEffect(() => {
@@ -62,7 +66,7 @@ const TeacherClassRooms = () => {
             <div className="teacher__detail__wrap card card-custom">
                 <div className="teacher__detail card-body">
                     <div className="teacher-body mg-t-0-f">
-                        <div className="tab-navigation">
+                        <div className="tab-navigation teacher-custom">
                             <ul className="list-tab" id="js-list-tab">
                                 <li className="tab-item">
                                     <span className="tab-link active" data-index={0}><i className="far fa-calendar-alt"></i> Upcoming classes</span>

@@ -40,6 +40,7 @@ const PaymentInfo = () => {
     const [bank, setBank] = useState('');
     const [cardName, setCardName] = useState('thai viet dat');
     const [cardNumber, setCardNumber] = useState('2231-2212-3334-7831');
+    const [submitLoading, setSubmitLoading] = useState(false);
     const { errors, register, handleSubmit, setError, setValue, clearErrors, control } = useForm({
         mode: 'onSubmit',
         resolver: yupResolver(Schema),
@@ -47,6 +48,7 @@ const PaymentInfo = () => {
 
 
     const onSubmit = async (data) => {
+        setSubmitLoading(true);
         try {
             const res = await updateBankInfo({
                 BankName:data?.bankName ?? '',
@@ -64,7 +66,7 @@ const PaymentInfo = () => {
         } catch (error) {
             
         }
-        console.log(data);
+        setSubmitLoading(false);
     }
 
     const getBank = async () => {
@@ -157,7 +159,18 @@ const PaymentInfo = () => {
 
                         <div className="row">
                             <div className="col-sm-8 offset-sm-4">
-                                <button type="submit" className="btn btn-primary"><i className="fa fa-save mg-r-5"></i>Update payment</button>
+                            <button type="submit" className="btn btn-primary d-inline-flex align-items-center" disabled={submitLoading}>
+                                    {
+                                        submitLoading ? (
+                                            <div className="spinner-border wd-20 ht-20 mg-r-5" role="status">
+                                                <span className="sr-only">Submitting...</span>
+                                            </div>
+                                        )
+                                            : (<><i className="fa fa-save mg-r-5"></i></>)
+                                    }
+                                    <span>{submitLoading ? 'Updating' : 'Update'} payment</span>
+
+                                </button>
                             </div>
                         </div>
 

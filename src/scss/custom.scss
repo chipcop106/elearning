@@ -267,6 +267,9 @@
 .content {
     min-height: calc(100vh - 167px);
 }
+.content.mg-t-0.mg-lg-t-60-f{
+    min-height: calc(100vh - 106px);
+}
 
 .course-price {
     color: #ab0202;
@@ -281,6 +284,18 @@
     &.transparent {
         background: transparent;
     }
+}
+.table {
+    td{
+        padding:1rem;
+    }
+    th{
+        padding:10px 1rem;
+    }
+}
+
+.clrm-studentname{
+    white-space:nowrap;
 }
 
 .transparent {
@@ -2876,9 +2891,7 @@ a.no-hl {
     }
 }
 
-table.table-striped tbody tr:nth-of-type(2n+1) {
-    background-color: #fff;
-}
+
 
 .table tbody tr {
     background: #fff;
@@ -5947,7 +5960,7 @@ body.drop-answer {
 
 .dropdown-message .dropdown-link.new-indicator span,
 .dropdown-notification .dropdown-link.new-indicator span {
-    background-color: #71749a;
+    background-color: darken($second-color, 20%);
 }
 
 @media (min-width:576px) {
@@ -5962,11 +5975,12 @@ body.drop-answer {
 }
 
 footer.footer {
-    background-color: $primary-color;
-    color: #fff;
-
+    background-color: #fff;
+    color: $primary-color-dark;
+    border-top:0;
+    box-shadow:0px 0px 0px 0px rgba(0, 0, 0, 0.05);
     a {
-        color: #fff;
+        color: $primary-color-dark;
     }
 }
 
@@ -6311,10 +6325,10 @@ footer.footer {
     }
 
     .fc-timegrid-slot-label-cushion {
-        padding: 0 7px;
+        padding: 0 5px;
         padding-left: 20px;
         color: #a0a0a0;
-        font-weight: 500;
+        font-weight: 200;
         .hot-icon {
             position: absolute;
             left: 7px;
@@ -6357,11 +6371,10 @@ footer.footer {
             border-color: transparent;
         }
         &.fc-event-past {
-            background-color:#d8d8d8;
-            background-image: repeating-linear-gradient(-45deg,
-            transparent 0 2px,
-            #ccc 0 5px);
+            background-color: #ececec;
+            background-image: repeating-linear-gradient(-45deg, transparent 0 2px, #eaeaea 0 3px);
             border-color: #fff;
+            
             .booking-name{
                 color:#777;
                 
@@ -6375,9 +6388,11 @@ footer.footer {
             }
             &.available-slot{
                 .inner-content{
-                    display:none;
+                    color:#777;
+                    display:initial;
                 }
             }
+            
             .fix-btn{
                 display:none;
             }
@@ -7137,6 +7152,19 @@ input.time-only[readonly]{
             }
         }
     }
+    &.teacher-custom{
+        @include media(480px){
+            .tab-item{
+                flex:1;
+                .tab-link{
+                    padding:5px;
+                    i{
+                        display:none;
+                    }
+                }
+            }
+        }
+    }
 }
 
 .main-title{
@@ -7469,7 +7497,7 @@ blockquote.messageText{
 
 .table-card{
     border:0;
-    box-shadow:0px 4px 10px 0px rgba(0,0,0,.15);
+    box-shadow:0px 0px 30px 0px rgba(82, 63, 105, 0.05);
     border-radius:16px;
     background:#fff;
     color:#b1b1b1;
@@ -8362,7 +8390,7 @@ blockquote.messageText{
 .safari{
     .metronic-form{
         select.form-control{
-        background-color:#F3F6F9;
+        background-color:#fff8f3;
         }
     }
     select.form-control{
@@ -8392,10 +8420,10 @@ body{
     }
     @include media(768px){
         >.card-body{
-            padding: 1.25rem 1.75rem;
+            padding: 1rem 1.25rem;
         }
         >.card-header{
-            padding:1.25rem 1.75rem;
+            padding:1rem 1.25rem;
         }
     }
 }
@@ -8438,4 +8466,173 @@ border-radius:0.42rem;
     box-shadow: 0px 0px 30px 0px rgba(82, 63, 105, 0.05);
     border: 0;
     border-radius:0.42rem;
+}
+
+input[type="date"].form-control, input[type="time"].form-control, input[type="datetime-local"].form-control, input[type="month"].form-control{
+    -webkit-appearance:none;
+}
+
+@media (max-width:768px){
+    .responsive-table{
+        position: relative;
+        display: flex;
+        width: 100%;
+        border-spacing: 0;
+        border-collapse: collapse;
+        thead{
+           
+            border: 0;
+            border-right: 1px solid rgba(72, 94, 144, 0.16);
+            tr{
+                display: flex;
+                flex-direction: column;
+                padding: 0;
+                height:100%;
+                th{
+                    display: inline-flex;
+                    align-items: center;
+                    text-align: right;
+                    margin: 0;
+                    min-height: 3.5rem;
+                    vertical-align: middle;
+                    font-size: 12px;
+                    padding-left: 0;
+                    justify-content: flex-end;
+                    flex: 1;
+                    min-width: auto;
+                    width: auto;
+                }
+            }
+        }
+        tbody{
+            position: relative;
+            display: block;
+            overflow-x: auto;
+            width: auto;
+            white-space: nowrap;
+            tr{
+                display: inline-block;
+                vertical-align: top;
+               
+            }
+            tr{
+                &:last-child{
+                    td{
+                        border-right:0;
+                    }
+                }
+                td{
+                    display: block;
+                    min-height: 3.5rem;
+                    text-align: left;
+                    margin: 0;
+                    vertical-align: top;
+                    padding:5px 15px;
+                    border-right: 1px solid #e1e1e1;
+                    border-top: 0;
+                    .btn >span{
+                        display:inline-block !important;
+                        vertical-align:middle
+                    }
+                }
+            }
+            @include scrollbars(3px, lighten($primary-color,20%), lighten($primary-color,42%));
+        }
+     
+    }
+}
+
+
+.table-striped{
+    tr:nth-child(even) {
+        background-color: #fffbf5;
+      }
+    
+}
+.table th, .table td{
+    border-top:1px solid rgba(72,94,144,0.16);
+    border-color:rgba(72,94,144,0.16);
+    
+}
+.table-hover tbody tr:hover{
+    background-color: #fffbf5;
+}
+
+
+@include media(768px){
+    .responsive-table-vertical{
+        display: block; 
+        tbody{
+            padding:5px 0;
+            tr{
+                margin-bottom: -1px;
+            }
+        }
+        thead, tbody, th, td, tr { 
+            display: block; 
+        }
+        
+        /* Hide table headers (but not display: none;, for accessibility) */
+        thead tr { 
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+        
+        tr { border: 1px solid #ccc; }
+        
+        td { 
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee; 
+            position: relative;
+            padding-left: 50%; 
+            text-align:left;
+        }
+        
+        td:before { 
+            content: attr(data-title);
+            /* Now like a table header */
+            position: absolute;
+            /* Top/left values mimic padding */
+            top: 8px;
+            left: 8px;
+            width: 45%; 
+            padding-right: 15px; 
+            white-space: nowrap;
+            height:100%;
+            font-weight:500;
+        }
+    }
+}
+
+.content{
+    padding-left:15px;
+    padding-right:15px;
+}
+
+.btn-primary.disabled, .btn-primary:disabled{
+    color:#fff;
+}
+
+header.navbar {
+    .dropdown-notification{
+        padding-right: 30px;
+        border-right: 1px solid #ffaa60;
+    }
+    .dropdown-profile{
+        margin-left:30px;
+    }
+}
+
+#js-book-calendar .fc-event.hide-event .fc-event-main {
+    display: none;
+}
+
+#js-book-calendar .fc-event.fc-event-past.hide-event {
+    background-color: #d8d8d9;
+}
+
+#js-book-calendar .fc-event.hide-event {
+    background-color: #fff;
 }

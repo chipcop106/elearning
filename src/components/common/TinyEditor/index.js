@@ -2,12 +2,13 @@
 import React, { useState, useCallback, memo } from "react";
 import { Editor } from '@tinymce/tinymce-react';
 import {uploadImageToServer} from '~src/api/optionAPI'
-const TinyEditor = ({ options, onChangeEvent }) => {
+const TinyEditor = ({ options, onChangeEvent}) => {
     const [state, setState] = useState('');
     const _handleChange = (content, editor) =>{
         setState(content);
         onChangeEvent(content, editor);
     }
+
     return (
         <Editor
             init={options}

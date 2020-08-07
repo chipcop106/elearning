@@ -13,12 +13,12 @@ const Header = () => {
                             </div>{/* navbar-brand */}
                             <div id="navbarMenu" className="navbar-menu-wrapper">
                                 <div className="navbar-menu-header">
-                                    <a  className="df-logo">Mona<span>Media</span></a>
+                                    <a  className="df-logo"><span>Elearning</span></a>
                                     <a id="mainMenuClose" ><i data-feather="x" /></a>
                                 </div>{/* navbar-menu-header */}
                             </div>{/* navbar-menu-wrapper */}
                             <div className="navbar-right">
-                                <a id="navbarSearch"  className="search-link"><i data-feather="search" /></a>
+                               
                                 <div className="dropdown dropdown-message">
                                     <a  className="dropdown-link new-indicator open-chat-nav">
                                         <i data-feather="message-square" />
@@ -72,9 +72,15 @@ const Header = () => {
                                     </div>{/* dropdown-menu */}
                                 </div>{/* dropdown */}
                                 <div className="dropdown dropdown-profile">
-                                    <a  className="dropdown-link" data-toggle="dropdown" data-display="static">
-                                        <div className="avatar"><img src="../assets/img/teacher.jpg" className="rounded-circle" alt="" />
+                                    <a href="" className="dropdown-link d-flex align-items-center" data-toggle="dropdown" data-display="static">
+                                        <div className="avatar flex-shrink-0">
+                                            <img src="../assets/img/teacher.jpg" className="rounded-circle" alt="" />
                                         </div>
+                                        <div className="mg-l-5 tx-nowrap">
+                                            <span className="tx-nowrap tx-white">Tommy Hawk</span>
+                                            <i className="mg-l-5 tx-nowrap tx-white fas fa-angle-down"></i>
+                                        </div>
+                                      
                                     </a>{/* dropdown-link */}
                                     <div className="dropdown-menu dropdown-menu-right tx-13">
                                         <div className="avatar avatar-lg mg-b-15"><img src="../assets/img/teacher.jpg" className="rounded-circle" alt="" /></div>
@@ -90,7 +96,7 @@ const Header = () => {
             </header>{/* navbar */}
             <div className="bottom-header">
                 <div className="container">
-                    <a  id="js-burger-menu" className="burger-menu-bottom"><i data-feather="menu" /></a>
+                    <a href="#" id="js-burger-menu" className="burger-menu-bottom"><i data-feather="menu" /></a>
                     <ul className="hd-menu-list" data-title="Mona Media">
                         <li className="menu-link "><a  href={`teacherHome.html`} className="link-icon active">Home</a></li>
                         <li className="menu-link"><a  href={`teacherLibrary.html`} className="link-icon">Library</a></li>

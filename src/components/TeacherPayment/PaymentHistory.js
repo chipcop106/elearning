@@ -24,8 +24,8 @@ const PaymentHistory = () => {
         setIsLoading(true);
         const params = {
             Page: parseInt(pageNumber), //Int
-            FromDate: fromDate === '' ? fromDate : moment(new Date(fromDate)).format('DD/MM/YYYY'), // string dd/mm/yyyy
-            ToDate: toDate === '' ? toDate : moment(new Date(toDate)).format('DD/MM/YYYY') // string dd/mm/yyyy
+            FromDate: fromDate.length === 0 ? '' : moment(new Date(fromDate)).format('DD/MM/YYYY'), // string dd/mm/yyyy
+            ToDate: toDate.length === 0 ? '' : moment(new Date(toDate)).format('DD/MM/YYYY') // string dd/mm/yyyy
         };
         const res = await getPaymentHistory(params);
         res.Code === 1 ? setData(res.Data) : setData([]);
@@ -46,6 +46,8 @@ const PaymentHistory = () => {
                             <Flatpickr
                                 options={{
                                     dateFormat: "d/m/Y",
+                                    mode:'single',
+                                    maxDate: new Date()
                                 }}
                                 className="form-control"
                                 onChange={(date) => setFromDate(date)}
@@ -56,11 +58,14 @@ const PaymentHistory = () => {
                             <Flatpickr
                                 options={{
                                     dateFormat: "d/m/Y",
+                                    maxDate: new Date(),
+                                    mode:'single',
                                     onOpen: function (selectedDates, dateStr, instance) {
-                                        console.log(instance);
-                                        if (fromDate === '') return;
+                                        if(fromDate.length === 0){
+                                            instance.set("minDate", null);
+                                            return;
+                                        }
                                         instance.set("minDate", new Date(fromDate));
-
                                     }
                                 }}
                                 className="form-control"
@@ -78,8 +83,8 @@ const PaymentHistory = () => {
             </div>
             <div className="card-body pd-20-f">
                 <div className="table-responsive">
-                    <table className="table">
-                        <thead className="thead-light">
+                    <table className="table table-hover ">
+                        <thead className="thead-primary">
                             <tr className="gv-bg-table">
                                 <th className="tx-left">Date </th>
                                 <th className="tx-center">Total salary</th>

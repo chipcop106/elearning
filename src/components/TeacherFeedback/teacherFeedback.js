@@ -57,7 +57,7 @@ const commentDemo = [
 ];
 
 
-const FeedbackRow = ({ data: { id, stName, stAvatar, stFeedback, lessonTime, lessonName, rating } }) => {
+const FeedbackRow = ({ data: { id, stName, stAvatar, stFeedback, lessonTime, lessonName, rating, FeedbackLink } }) => {
     const [content, setContent] = React.useState('');
     const [isEditing, setIsEditing] = React.useState(false);
     const _showReply = (event) => {
@@ -150,7 +150,7 @@ const FeedbackRow = ({ data: { id, stName, stAvatar, stFeedback, lessonTime, les
 
                 {!isEditing && (
                     <div className="actions">
-                        <a href={`/ElearnTeacher/FeedbackDetail?ID=${id}`} className="btn btn-sm btn-warning mg-r-10" target="_blank" rel="noopener"><i className="fas fa-vote-yea mg-r-5" /> Detail lesson</a>
+                        <a href={FeedbackLink} className="btn btn-sm btn-warning mg-r-10" target="_blank" rel="noopener"><i className="fas fa-vote-yea mg-r-5" /> Detail lesson</a>
                         {/* <a href={`#`} className="btn btn-sm btn-outline-twitter btn-icon btn-reply" onClick={_showReply}><i className="fas fa-reply" /> Reply</a> */}
                     </div>
                 )
@@ -323,6 +323,7 @@ const TeacherFeedback = () => {
                         lessonTime: fb?.ScheduleDate ?? '',
                         lessonName: fb.Lession,
                         rating: fb.Rate,
+                        FeedbackLink:fb.FeedbackLink
                     }
                 })) : setFeedbacks([]);
                 setPageSize(res.PageSize);
@@ -366,7 +367,8 @@ const TeacherFeedback = () => {
                                         stFeedback: fb?.stFeedback ?? '',
                                         lessonTime: fb?.lessonTime ?? '',
                                         lessonName: fb?.lessonName ?? '',
-                                        rating: fb.rating
+                                        rating: fb.rating,
+                                        FeedbackLink: fb.FeedbackLink
                                     }}
                                 />) : (<div className="card card-custom">
                                     <div className="card-body tx-center">

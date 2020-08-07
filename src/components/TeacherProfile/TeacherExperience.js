@@ -85,7 +85,7 @@ const RenderExpRow = ({ exp, handleStateChange, deleteRow }) => {
                     </div>
                 </div>
                 <div className="form-group col-md-3">
-                    <button className="delete-row tx-24 btn"><i className="fa fa-minus-circle tx-danger" onClick={handleDeleteRow} /></button>
+                    <button type="button" className="delete-row tx-24 btn"><i className="fa fa-minus-circle tx-danger" onClick={handleDeleteRow} /></button>
                 </div>
             </div>
 
@@ -95,6 +95,8 @@ const RenderExpRow = ({ exp, handleStateChange, deleteRow }) => {
 
 const TeacherExperience = (props) => {
     const [state, dispatch] = useReducer(reducer, initialState);
+    const [submitLoading, setSubmitLoading] = useState(false);
+
     const setIsLoading = (value) => dispatch({ type: "SET_LOADING", payload: { value } });
     const updateState = (key, value) => dispatch({ type: 'UPDATE_STATE', payload: { key, value } });
 
@@ -113,6 +115,7 @@ const TeacherExperience = (props) => {
     const _handleSubmitForm = async (e) => {
         //Ok submit
         e.preventDefault();
+        setSubmitLoading(true);
         try {
             const params = {
                 Experience: JSON.stringify(!!state.teacherExp && state.teacherExp.length > 0 && state.teacherExp.map(exp => exp.ID) || []),
@@ -141,6 +144,7 @@ const TeacherExperience = (props) => {
         } catch (error) {
             console.log(error?.message ?? 'Lỗi tham số API, vui lòng kiểm tra lại !!');
         }
+        setSubmitLoading(false);
     }
 
     const _addExpRow = (e) => {
@@ -329,7 +333,18 @@ const TeacherExperience = (props) => {
                     </div>
                 </div>
                 <div className="tx-center">
-                    <button type="submit" className="btn btn-primary"><i className="fa fa-save mg-r-5"></i>Save information</button>
+                    <button type="submit" className="btn btn-primary d-inline-flex align-items-center" disabled={submitLoading}>
+                        {
+                            submitLoading ? (
+                                <div className="spinner-border wd-20 ht-20 mg-r-5" role="status">
+                                    <span className="sr-only">Submitting...</span>
+                                </div>
+                            )
+                            : (<><i className="fa fa-save mg-r-5"></i></>)    
+                        }
+                        <span>{submitLoading ? 'Updating':'Save'} experience</span>
+
+                    </button>
                 </div>
             </form>
         </>

@@ -6,8 +6,21 @@ import { randomId } from "~src/utils"
 import { toastInit } from "~src/utils";
 import { REQUEST_SUCCESS, FILL_ALL } from '~components/common/Constant/toast';
 import {addSupportTicket} from '~src/api/teacherAPI';
-import TinyEditor,{ imageUploadHandle } from '~components/common/TinyEditor';
 import styles from "~components/TeacherSupportModal.module.scss"
+import { Editor } from '@tinymce/tinymce-react';
+import {uploadImageToServer} from '~src/api/optionAPI'
+
+const imageUploadHandle = async (blobInfo, success, failure, progress) => {
+    const blob = await blobInfo.blob();
+    try {
+       const res = await uploadImageToServer([blob]);
+       res.Code === 1 && res.Data.length > 0 && success(`${res.Data[0].UrlIMG}`);
+       //success('https://vcdn-ngoisao.vnecdn.net/2020/07/08/MRAT6138-JPG-2263-1594179677_r_460x0.jpg');
+    } catch (error) {
+        console.log(error?.message ?? error);
+    }
+   
+}
 
 const editorOptions = {
     min_height: 300,
@@ -26,6 +39,8 @@ const editorOptions = {
         'paste',
         'table',
     ],
+    paste_data_images:false,
+    paste_as_text:true,
     // quickbars_insert_toolbar: 'quicktable image table',
     // quickbars_selection_toolbar: 'bold italic underline | formatselect | blockquote quicklink',
     // contextmenu: 'undo redo | inserttable | cell row column deletetable | help',
@@ -33,8 +48,11 @@ const editorOptions = {
         'undo redo | formatselect | bold italic backcolor | \
       alignleft aligncenter alignright alignjustify | \
       bullist numlist  | removeformat | image link',
-    
+      placeholder: 'Your content...',
+
 }
+
+
 
 const initialState = {
     nguoigui: "",
@@ -73,8 +91,11 @@ const TeacherSupportModal = ({refreshList}) => {
                 $('#md-teacher-support').fadeOut(500, function () {
                     $('#md-teacher-support').modal('hide');
                 });
+                setEditorContent('');
+                setState({...state, title:''});
                 refreshList && refreshList();
             }
+            res.Code !== 1 && toast.warning('Your paste text not correct format, please use clear format button in editor..');
         }catch (error) {
             console.log(error?.message ?? 'Submit ticket không thành công')
         }
@@ -82,7 +103,6 @@ const TeacherSupportModal = ({refreshList}) => {
 
     const _handleEditorChange = (content, editor) => {
         setEditorContent(content);
-        console.log(content);
     }
 
     React.useEffect(() => {
@@ -128,12 +148,12 @@ const TeacherSupportModal = ({refreshList}) => {
                             <p className="mg-b-0 tx-medium mg-t-10">Content:</p>
                         </div>
                         <div className="form-group col-sm-10">
-                        <TinyEditor options={{
-                                    ...editorOptions,
-                                    placeholder: 'Your content...'
-                                }}
-                                    onChangeEvent={_handleEditorChange}
-                                />
+                            <Editor
+                                    init={editorOptions}
+                                    onEditorChange={_handleEditorChange}
+                                    value={editorContent}
+                                    apiKey='e1mtlim1uia64sz4l2u880y2zrqjmk0lyk8h3f2wso0e4yi2'
+                            />
                         </div>
                     </div>
                    
