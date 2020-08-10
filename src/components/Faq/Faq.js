@@ -55,7 +55,11 @@ const Faq = () => {
                     </div>
                   </div>
                 </div>
-              ): <span className="text-danger bold" style={{fontSize:'16px'}}>It's doesn't have any faq </span>
+              ):
+              <div className="card card-custom shadow">
+              <div className="card-body tx-center">
+            <span className="d-block tx-center text-danger bold" style={{fontSize:'16px'}}>It's doesn't have any faq</span>
+            <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" /></div></div>
             }
           </div>
       }

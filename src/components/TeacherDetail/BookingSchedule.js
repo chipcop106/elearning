@@ -198,10 +198,9 @@ const BookingSchedule = ({
         let minutesTilStart = getDifferentMinBetweenTime(new Date(), args.event._instance.range.start)
         const html = `${!isEmptySlot ? `
     <div class="inner-book-wrap ">
-    <div class="inner-content"> ${bookStatus ? `
+    <div class="inner-content text-center mg-t-10"> ${bookStatus ? `
       <span class="label-book booked"><i class="fas ${isPast ? "fa-check" : "fa-user-graduate"
-            }"></i> ${isPast ? "FINISHED" : "BOOKED"}</span> 
-      <p class="booking-name">${bookInfo.name}</p>
+            }"></i> ${isPast ? "FINISHED" : "BOOKED"}</span>
       ${ minutesTilStart > 30 ? `
         <a href="javascript:;" class="fix-btn cancel-schedule"
         data-toggle="modal"

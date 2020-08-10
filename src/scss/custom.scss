@@ -2495,6 +2495,7 @@ a.no-hl {
     background: #fff;
     border-radius: 5px;
 }
+
 .profile-sidebar {
     flex-shrink: 0;
     padding: 50px 0 0 0;
@@ -2524,18 +2525,28 @@ a.no-hl {
                 font-weight: 500;
                 transition: .2s;
             }
-            &.active {
+            &.hard-active, &.active {
                 a {
                     color: #fff;
-                    transform: scale(1.1);
                     padding: 15px 0 15px 20px;
                     text-transform: uppercase;
                     letter-spacing: .05rem;
-                    background-color: $second-color;
                     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
                 }
                 &:after {
-                    background-color: $second-color!important;
+                    display: none;
+                }
+            }
+            &.hard-active {
+                a {
+                    transform: scale(1.1)!important;
+                    background-color: $second-color;
+                }
+            }
+            &.active {
+                a {
+                    transform: scale(1);
+                    background-color: $primary-color;
                 }
             }
             &:hover {
@@ -2545,7 +2556,7 @@ a.no-hl {
                     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
                 }
                 &:after {
-                    background-color: $primary-color!important;
+                    display: none;
                 }
             }
             &:not(:last-child) {
@@ -2649,6 +2660,7 @@ a.no-hl {
 .modal {
     z-index: 1071 !important;
 }
+
 .navbar-header.custom-header-student {
     background-color: #fff;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);

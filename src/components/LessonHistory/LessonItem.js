@@ -26,7 +26,7 @@ const LessonItem = ({
     <td><span className="tx-success">{StatusString}</span></td>
     <td>
       {
-        LessonDetail.split("ID=")[1] !== "0" && 
+        LessonDetail && LessonDetail.split("ID=")[1] !== "0" && 
         <a href={LessonDetail} className="btn btn-primary">Detail</a>
       }</td>
   </tr>

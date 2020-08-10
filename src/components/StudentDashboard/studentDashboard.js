@@ -179,6 +179,11 @@ const Dashboard = () => {
     if (res.Code === 1) {
       setCourseInfo(res.Data)
     }
+    else {
+      setCourseInfo({
+        Message: res.Message,
+      })
+    }
     setLoadingCourseInfo(false);
   }
 
@@ -196,7 +201,7 @@ const Dashboard = () => {
           <div className="media-body">
             <div className="overall__summary pd-15">
               {
-                !!courseInfo && <>
+                !!courseInfo && !courseInfo.Message ? <>
                   <div className="overall__summary-info d-flex flex-wrap pd-b-15">
                     <div className="course-img">
                       <img src="https://preview.keenthemes.com/metronic/theme/html/demo7/dist/assets/media/project-logos/3.png" />
@@ -210,7 +215,7 @@ const Dashboard = () => {
                           <label className="label d-block tx-medium tx-gray">Start Date</label>
                           <label className="date font-weight-bolder">
                             {!!courseInfo.StartDate ?
-                              moment(courseInfo.EndDate).format("DD MMM, YYYY").toUpperCase() :
+                              moment(courseInfo.StartDate).format("DD MMM, YYYY").toUpperCase() :
                               "Not started yet"}
                           </label>
                         </div>
@@ -282,7 +287,9 @@ const Dashboard = () => {
                   </div>
                 </div> */}
                   </div>
-                </>
+                </>:<span className="d-block tx-center text-danger bold" style={{fontSize:'16px'}}>
+                  {courseInfo && courseInfo.Message}
+                </span>
               }
             </div>
             {

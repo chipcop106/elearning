@@ -14,8 +14,8 @@ module.exports = {
     'app': ['./src/scss/custom.scss', './src/assets/js/custom.js'],
     'ProfileSidebar': componentEnrtryPrefix + '/ProfileSidebar.js',
     'Header': componentEnrtryPrefix + '/Header.js',
-    /*
-    'teacherHome': componentEnrtryPrefix + 'TeacherHome/teacherHome.js',
+    
+    /* 'teacherHome': componentEnrtryPrefix + 'TeacherHome/teacherHome.js',
     'teacherClassRooms': componentEnrtryPrefix + 'TeacherClassRooms/teacherClassRooms.js',
     'teacherLibrary': componentEnrtryPrefix + 'TeacherLibrary/teacherLibrary.js',
     'teacherReport': componentEnrtryPrefix + 'TeacherReport/teacherReport.js',
@@ -24,23 +24,18 @@ module.exports = {
     'teacherLessonDetail': componentEnrtryPrefix + 'TeacherLessonDetail/teacherLessonDetail.js',
     'teacherSupport': componentEnrtryPrefix + 'TeacherSupport/teacherSupport.js',
     'teacherProfile': componentEnrtryPrefix + 'TeacherProfile/teacherProfile.js',
-    'teacherBooking': componentEnrtryPrefix + 'TeacherBooking/teacherBooking.js',*/
-
+    'teacherBooking': componentEnrtryPrefix + 'TeacherBooking/teacherBooking.js',
     'blogDetail': componentEnrtryPrefix + 'BlogDetail/BlogDetail.js',
+    'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/StudentDashboard.js',
     'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js',
-
     'faq': componentEnrtryPrefix + 'Faq/Faq.js',
     'studentSupport': componentEnrtryPrefix + 'StudentSupport/StudentSupport.js',
+    'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js',
     'feedback': componentEnrtryPrefix + 'Feedback/Feedback.js',
     'notification': componentEnrtryPrefix + 'Notification/Notification.js',
     'bookingLesson': componentEnrtryPrefix + 'StudentBooking/BookingLesson.js',
-    
     'lessonHistory': componentEnrtryPrefix + 'LessonHistory/LessonHistory.js',
-    'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js',
-    
-    'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/StudentDashboard.js',
-     
-    'lessonDetail': componentEnrtryPrefix + 'LessonDetail/LessonDetail.js',
+    'lessonDetail': componentEnrtryPrefix + 'LessonDetail/LessonDetail.js', */
     'teacherDetail': componentEnrtryPrefix + 'TeacherDetail/TeacherDetail.js',
     'app': ['./src/scss/custom.scss', './src/assets/js/custom.js'],
   },

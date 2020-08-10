@@ -223,7 +223,11 @@ const Feedback = () => {
                   Note={item.Note}
                   Rate={item.Rate}
                   LinkDetail={item.LinkDetail}
-                  DocumentName={item.DocumentName} />) : <span className="text-danger bold" style={{ fontSize: '16px' }}>It's doesn't have any feedback </span>
+                  DocumentName={item.DocumentName} />) : 
+                  <div className="card card-custom shadow">
+                  <div className="card-body tx-center">
+                <span className="d-block tx-center text-danger bold" style={{fontSize:'16px'}}>It's doesn't have any feedback </span>
+                <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" /></div></div>
             }
           </div>
       }
