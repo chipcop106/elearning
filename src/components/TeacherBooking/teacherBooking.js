@@ -5,38 +5,14 @@ import ScheduleLogTable from '~components/table/ScheduleLogTable'
 import BookingRequest from './BookingRequest';
 import BookingCalendar from './BookingCalendar';
 import { ToastContainer } from 'react-toastify';
-import {getTeacherInfo} from '~src/api/teacherAPI';
+import { getTeacherInfo } from '~src/api/teacherAPI';
 import styles from '../TeacherBooking/teacherBooking.module.scss';
+import { Tab } from 'react-bootstrap';
 let teacherInfoSwiper;
 const TeacherBooking = () => {
     const [timeZone, setTimeZone] = React.useState('');
-    const initSwiper = () => {
-        teacherInfoSwiper = new Swiper('.swiper-container', {
-            loop: false,
-            freeModeMomentum: false,
-            preventInteractionOnTransition: true,
-            simulateTouch: false,
-            autoHeight: true,
-            shortSwipes:false,
-            longSwipes:false,
-            allowTouchMove:false,
-        })
-
-        const listTab = document.getElementById('js-list-tab');
-        const tabLinks = listTab.querySelectorAll('.tab-link');
-        const swapTab = (e) => {
-            e.preventDefault();
-            const element = e.target;
-            const indexSlide = element.dataset?.index ?? 0;
-            teacherInfoSwiper.slideTo(indexSlide, 500, false);
-            [...tabLinks].map(link => link === element ? link.classList.add('active') : link.classList.remove('active'));
-        }
-        [...tabLinks].map(link => {
-            link.addEventListener('click', swapTab);
-        });
-    }
-
-    const getProfile = async () =>{
+    const [activeTab, setActiveTab] = React.useState('book');
+    const getProfile = async () => {
         const res = await getTeacherInfo();
         res.Code === 1 && setTimeZone(res?.Data.TimeZoneString ?? '')
     }
@@ -46,10 +22,9 @@ const TeacherBooking = () => {
     }
 
     React.useEffect(() => {
-        initSwiper();
         getProfile();
     }, []);
-    
+
 
     return (
         <>
@@ -62,38 +37,39 @@ const TeacherBooking = () => {
                     <div className="card-body">
                         <div className="tab-navigation teacher-custom">
                             <ul className="list-tab" id="js-list-tab">
-                                <li className="tab-item">
-                                    <a href={`#`} className="tab-link active" data-index={0}><i className="fas fa-calendar-alt mg-r-5"></i> BOOK SCHEDULE</a>
+                                <li className={`tab-item`} onClick={() => setActiveTab('book')}>
+                                    <a className={`tab-link ${activeTab === 'book' ? 'active' : ''}`}><i className="far fa-calendar-alt"></i> BOOK SCHEDULE</a>
                                 </li>
-                                <li className="tab-item">
-                                    <a href={`#`} className="tab-link " data-index={1}><i className="fas fa-clock mg-r-5"></i> SCHEDULE LOG</a>
+                                <li className={`tab-item`} onClick={() => setActiveTab('log')}>
+                                    <a className={`tab-link ${activeTab === 'log' ? 'active' : ''}`} ><i className="far fa-clock"></i> SCHEDULE LOG</a>
                                 </li>
-                                {/* <li className="tab-item">
-                                    <a href={`#`} className="tab-link " data-index={2}><i className="fas fa-calendar-week mg-r-5"></i> BOOKING REQUEST</a>
+                                {/* <li className={`tab-item`} onClick={() => setActiveTab('request')}>
+                                    <a className={`tab-link ${activeTab === 'request' ? 'active' : ''}`} ><i className="far fa-calendar-check"></i> BOOKING REQUEST</a>
                                 </li> */}
                             </ul>
+
                         </div>
                         <div className="tab-navigation-content">
                             <div className="swiper-container" id="js-teacher__info">
-                                <div className="teacher__info-wrap swiper-wrapper">
-                                    <div className="swiper-slide">
-                                        <div className="slide-tab-content pd-b-0-f">
-                                            
-                                            <BookingCalendar />
-                                        </div>
-                                    </div>
-                                    <div className="swiper-slide">
-                                        <div className="slide-tab-content">
-                                            <ScheduleLogTable />
-                                        </div>
-                                    </div>
-                                    {/* <div className="swiper-slide">
-                                        <div className="slide-tab-content">
-                                            <div className="course-horizental">
-                                                <BookingRequest updateSwiperHeight={updateHeight}/>
-                                            </div>
-                                        </div>
-                                    </div> */}
+                                <div className="teacher__info-wrap pd-t-30">
+                                    <Tab.Container
+                                        activeKey={activeTab}
+                                        defaultActiveKey={activeTab}
+                                    >
+                                        <Tab.Content>
+                                            <Tab.Pane eventKey="book">
+                                                <BookingCalendar />
+                                            </Tab.Pane>
+                                            <Tab.Pane eventKey="log">
+                                                <ScheduleLogTable />
+                                            </Tab.Pane>
+                                            {/* <Tab.Pane eventKey="request">
+                                        <BookingRequest />
+                                    </Tab.Pane> */}
+                                        </Tab.Content>
+                                    </Tab.Container>
+
+
                                 </div>
                             </div>
                         </div>

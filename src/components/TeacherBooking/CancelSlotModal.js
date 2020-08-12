@@ -1,6 +1,6 @@
 import React from 'react';
 const CancelSlotModal = ({ data, handleCancelSlot }) => {
-  const { id, date, start, end, studentName } = data;
+  const { id, date, start, end, studentName, lessonName, courseName } = data;
   const [reason, setReason] = React.useState("")
   const _onSubmit = (e) => {
     e.preventDefault();
@@ -15,7 +15,8 @@ const CancelSlotModal = ({ data, handleCancelSlot }) => {
             <h5 className="mg-b-0 tx-white">Warning !!</h5>
           </div>
           <div className="modal-body">
-            <p className="tx-primary">Lesson info: </p>
+            <p>Course: <span className="tx-medium">{courseName}</span></p>
+            <p>Lesson: <span className="tx-medium">{lessonName}</span></p>
             <p>Student name: <span className="tx-medium">{studentName}</span></p>
             <p>Date: <span className="tx-medium" >{date}</span></p>
             <div className="row">
