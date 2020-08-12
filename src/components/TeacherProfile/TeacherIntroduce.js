@@ -95,14 +95,16 @@ function TeacherIntroduce(props) {
         <form onSubmit={_handleSubmit}>
             <div className="content-block">
                 <div className="mg-b-30">
-                    <h5 className="mg-b-15"><i className="fas fa-info-circle mg-r-5"></i>Summary</h5>
+                    <h5 className=""><i className="fas fa-info-circle mg-r-5"></i>Summary</h5>
+                    <p className="tx-gray-500">This summary will place at the top of your resume page,so that the student can see it when they visit your profile.</p>
                     <div className="introduce-content">
                         <textarea name="introduce" className="form-control" value={state?.introduce ?? ''} rows={7} onChange={(e) => updateState('introduce',e.target.value)} />
                     </div>
                 </div>
                 <hr className="mg-b-30 mg-t-0" style={{borderStyle:'dashed'}}/>
                 <div className="mg-b-30">
-                    <h5 className="mg-b-15"><i className="fab fa-youtube mg-r-5"></i>Video introduce</h5>
+                    <h5 className=""><i className="fab fa-youtube mg-r-5"></i>Video introduce</h5>
+                    <p className="tx-gray-500">Impress your students right off the bat with a video introduction rather than a verbal one. </p>
                     <div className="introduce-content">
                         <div className="input-group mg-t-15 mg-b-15">
                             <div className="input-group-prepend">

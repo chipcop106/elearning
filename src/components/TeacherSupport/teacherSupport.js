@@ -22,18 +22,18 @@ const TeacherSupport = () => {
 	const [pageSize, setPageSize] = React.useState(0);
 	const [totalResult, setTotalResult] = React.useState(0);
 
-	const onChangeState = () => {
-		setIsLoading(true);
-		if(filter === 0){
-			setFilterState([...state]);
-			setIsLoading(false);
-			return;
-		} 
-		const newFilterState = [...state].filter(item => item.STATUS === filter);
-		setFilterState(newFilterState);
-		setIsLoading(false);
+	// const onChangeState = () => {
+	// 	setIsLoading(true);
+	// 	if(filter === 0){
+	// 		setFilterState([...state]);
+	// 		setIsLoading(false);
+	// 		return;
+	// 	} 
+	// 	const newFilterState = [...state].filter(item => item.STATUS === filter);
+	// 	setFilterState(newFilterState);
+	// 	setIsLoading(false);
 		
-	}
+	// }
 
 	const pushHistoryState = (id) => {
 		if (typeof window == undefined) return;
@@ -105,13 +105,13 @@ const TeacherSupport = () => {
 		hideDetailBox();
 	}
 
-	React.useEffect(() => {
-		onChangeState();
-	},[state, filter])
+	// React.useEffect(() => {
+	// 	onChangeState();
+	// },[state, filter])
 
 	React.useEffect(() => {
 		getSupportList();
-	}, [pageNumber]);
+	}, [pageNumber, filter]);
 
 	React.useEffect(() => {
 		getOverView();
@@ -134,24 +134,24 @@ const TeacherSupport = () => {
 						<div className="sub-menu card-body">
 							<p className={`${filter === 0 && 'active'} d-flex align-items-center justify-content-between`}>
 								<a className="link" onClick={() => _handlefilter(0)}>Tất Cả</a>
-								<span className="badge badge-primary-light rounded-circle d-inline-block pd-0 ht-30 wd-30">{overView?.All ?? 0}</span>
+								<span className="badge-number">{overView?.All ?? 0}</span>
 							</p>
 
 							<p className={`${filter === 1 && 'active'} d-flex align-items-center justify-content-between`}>
 								<a className="link" onClick={() => _handlefilter(1)}>Mới tạo</a>
-								<span className="badge badge-primary-light rounded-circle d-inline-block pd-0 ht-30 wd-30">{overView?.News ?? 0}</span>
+								<span className="badge-number">{overView?.News ?? 0}</span>
 							</p>
 							<p className={`${filter === 2 && 'active'} d-flex align-items-center justify-content-between`}>
 								<a className="link" onClick={() => _handlefilter(2)}>Đang xử lý</a>
-								<span className="badge badge-primary-light rounded-circle d-inline-block pd-0 ht-30 wd-30">{overView?.Processing ?? 0}</span>
+								<span className="badge-number">{overView?.Processing ?? 0}</span>
 							</p>
 							<p className={`${filter === 3 && 'active'} d-flex align-items-center justify-content-between`}>
 								<a className="link" onClick={() => _handlefilter(3)}>Đã xử lý</a>
-								<span className="badge badge-primary-light rounded-circle d-inline-block pd-0 ht-30 wd-30">{overView?.Answered ?? 0}</span>
+								<span className="badge-number">{overView?.Answered ?? 0}</span>
 							</p>
 							<p className={`${filter === 4 && 'active'} d-flex align-items-center justify-content-between`}>
 								<a className="link" onClick={() => _handlefilter(4)}>Đã hủy</a>
-								<span className="badge badge-primary-light rounded-circle d-inline-block pd-0 ht-30 wd-30">{overView?.Cancelled ?? 0}</span>
+								<span className="badge-number">{overView?.Cancelled ?? 0}</span>
 							</p>
 						</div>
 					</div>
@@ -176,7 +176,7 @@ const TeacherSupport = () => {
 												</thead>
 												<tbody>
 													{isLoading ? (<tr><td><Skeleton /></td><td><Skeleton /></td><td><Skeleton /></td></tr>) : (
-														!!filterState && filterState.length > 0 ? filterState.map(item =>
+														!!state && state.length > 0 ? state.map(item =>
 															<tr key={`${item.ID}`}>
 																<td> <span><a href="#" onClick={() => showDetailBox(item.ID)} className="sup-item-table-tieude">{item.SupportTitle}</a></span><br /></td>
 																<td>

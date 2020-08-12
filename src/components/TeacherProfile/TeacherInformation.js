@@ -3,7 +3,6 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers';
 import { useForm, Controller } from 'react-hook-form';
 import { appSettings } from '~src/config';
-import { Modal, Button, Tabs, Tab } from 'react-bootstrap';
 import Select from 'react-select'
 import { randomId } from '~src/utils';
 import { getTeacherInfoProfile, updateTeacherInfoProfile } from '~src/api/teacherAPI';
@@ -23,13 +22,30 @@ import {
 
 const Schema = Yup.object().shape({
     fullName: Yup.string()
-        .required('First name is not empty'),
+        .required('Full name is required'),
     skypeId: Yup.string()
-        .required('Skype id is not empty'),
+        .required('Skype id is required'),
     phoneNumber: Yup.number()
         .typeError('Invalid phone number')
         .integer('Invalid phone number')
-        .required('Phone is not empty')
+        .required('Phone is required'),
+    state: Yup.mixed()
+        .nullable(false)
+        .required("State is required"),
+    levelOfEducation: Yup.mixed()
+        .nullable(false)
+        .required("Level of education is required"),
+    englishProficien: Yup.mixed()
+        .nullable(false)
+        .required("Level of education is required"),
+        location: Yup.mixed()
+        .nullable(false)
+        .required("location is required"),
+    levelOfPurpose: Yup.mixed()
+        .nullable(false)
+        .required("Level of purpose must be at least one option")
+       
+    
 });
 
 const optionState = {
@@ -141,7 +157,7 @@ function TeacherInformation() {
                     fullName: res.Data?.FullName ?? '',
                     skypeId: res.Data?.SkypeID ?? '',
                     phoneNumber: res.Data.Phone.toString() || '',
-                    levelOfPurpose: JSON.parse(res.Data?.LevelPurpose ?? "[]").map(id => {
+                    levelOfPurpose: JSON.parse(res.Data?.LevelPurpose ?? '[]').map(id => {
                         return [...state.levelOfPurposeOptions].find(level => level.ID === id);
                     }),
                     levelOfEducation: [...state.levelOfEducationOptions].find((option, index) => option.ID === res.Data?.LevelOfEducation) ?? null,
@@ -201,8 +217,8 @@ function TeacherInformation() {
         e.preventDefault();
         setSubmitLoading(true);
         // console.log('Submiting');
-
         // console.log(data);
+        console.log(data);
         try {
             const res = await updateTeacherInfoProfile({
                 FullName: data?.fullName ?? '', // str
@@ -253,6 +269,10 @@ function TeacherInformation() {
         loadSelectOptionAPI();
     }, [])
 
+    useEffect(() => {
+        console.log(errors);
+    }, [errors])
+
 
     return (
         <>
@@ -273,18 +293,21 @@ function TeacherInformation() {
                                 <input type="text" className={`form-control ${!!errors && errors.fullName ? 'error-form' : ''}`} placeholder="Full name *" name="fullName" ref={register} required />
                                 <label>Full Name *</label>
                             </div>
+                            {!!errors && !!errors.fullName && (<span className="tx-danger mg-t-5 d-block">{errors.fullName?.message}</span>)}
                         </div>
                         <div className="form-group col-12 col-sm-6">
                             <div className="input-float">
                                 <input type="text" className={`form-control ${!!errors && errors.skypeId ? 'error-form' : ''}`} placeholder="Skype ID *" name="skypeId" ref={register} required />
                                 <label>Skype ID *</label>
                             </div>
+                            {!!errors && !!errors.skypeId && (<span className="tx-danger mg-t-5 d-block">{errors.skypeId?.message}</span>)}
                         </div>
                         <div className="form-group col-12 col-sm-6">
                             <div className="input-float">
                                 <input type="text" className={`form-control ${!!errors && errors.phoneNumber ? 'error-form' : ''}`} placeholder="Phone number *" name="phoneNumber" ref={register} required />
                                 <label>Phone Number *</label>
                             </div>
+                            {!!errors && !!errors.phoneNumber && (<span className="tx-danger mg-t-5 d-block">{errors.phoneNumber?.message}</span>)}
                         </div>
                         <div className="form-group col-12 col-sm-6">
                             <div className="input-float">
@@ -298,14 +321,15 @@ function TeacherInformation() {
                                     as={
                                         <Select
                                             key={option => `${option.id}`}
-                                            isSearchable={false}
-                                            isLoading={state.locationOptions.length > 0 ? false : true}
+                                            isSearchable={true}
+                                            isLoading={isLoading}
                                             loadingMessage={() => 'Select option is loading...'}
                                             options={state.locationOptions}
                                             getOptionLabel={option => `${option.LocationName}`}
                                             getOptionValue={option => `${option.ID}`}
                                             styles={appSettings.selectStyle}
                                             placeholder="Select your location..."
+                                            className={`${!!errors && !!errors.location ? 'error-form' : ''}`}
                                         />
                                     }
                                     control={control}
@@ -313,6 +337,7 @@ function TeacherInformation() {
 
                                 <label>Location</label>
                             </div>
+                            {!!errors && !!errors.location && (<span className="tx-danger mg-t-5 d-block">{errors.location?.message}</span>)}
                         </div>
                         <div className="form-group col-12 col-sm-6 col-lg-3">
                             <div className="input-float">
@@ -320,20 +345,22 @@ function TeacherInformation() {
                                     as={
                                         <Select
                                             key={option => `${option.id}`}
-                                            isSearchable={false}
-                                            isLoading={isLoading}
+                                            isSearchable={true}
+                                            isLoading={!optionLoaded}
                                             loadingMessage={() => 'Select option is loading...'}
                                             options={state.stateOptions}
                                             getOptionLabel={option => `${option.StateName}`}
                                             getOptionValue={option => `${option.ID}`}
                                             styles={appSettings.selectStyle}
                                             placeholder="Select state..."
+                                            className={`${!!errors && !!errors.state ? 'error-form' : ''}`}
                                         />
                                     }
                                     control={control}
                                     name="state" />
                                 <label>State *</label>
                             </div>
+                            {!!errors && !!errors.state && (<span className="tx-danger mg-t-5 d-block">{errors.state?.message}</span>)}
                         </div>
 
                         <div className="form-group col-12 col-sm-12 col-lg-6">
@@ -342,7 +369,7 @@ function TeacherInformation() {
                                     as={
                                         <Select
                                             key={option => `${option.id}`}
-                                            isSearchable={false}
+                                            isSearchable={true}
                                             isLoading={state.timeZoneOptions.length > 0 ? false : true}
                                             loadingMessage={() => 'Loading options...'}
                                             options={state.timeZoneOptions}
@@ -351,6 +378,7 @@ function TeacherInformation() {
                                             styles={appSettings.selectStyle}
                                             placeholder="Select timezone..."
                                             menuPortalTarget={document.body}
+                                            className={`${!!errors && !!errors.timeZone ? 'error-form' : ''}`}
                                         />
                                     }
                                     control={control}
@@ -358,6 +386,7 @@ function TeacherInformation() {
 
                                 <label>Time zone *</label>
                             </div>
+                            {!!errors && !!errors.timeZone && (<span className="tx-danger mg-t-5 d-block">{errors.timeZone?.message}</span>)}
                         </div>
                         <div className="form-group col-12 col-sm-12">
                             <div className="input-float">
@@ -374,6 +403,7 @@ function TeacherInformation() {
                                             getOptionValue={option => `${option.ID}`}
                                             styles={appSettings.selectStyle}
                                             menuPortalTarget={document.body}
+                                            className={`${!!errors && !!errors.levelOfPurpose ? 'error-form' : ''}`}
                                         />
                                     }
                                     control={control}
@@ -381,10 +411,11 @@ function TeacherInformation() {
 
                                 <label>Level purpose</label>
                             </div>
+                            {!!errors && !!errors.levelOfPurpose && (<span className="tx-danger mg-t-5 d-block">{errors.levelOfPurpose?.message}</span>)}
                         </div>
                     </div>
                     <hr className="mg-b-30 mg-t-0" style={{ borderStyle: 'dashed' }} />
-                    <h5 className="mg-b-20"><i className="fas fa-user-graduate mg-r-5"></i> Education Attainment</h5>
+                    <h5 className="mg-b-20"><i className="fas fa-user-graduate mg-r-5"></i>Education Attainment</h5>
                     <div className="row group-float-label">
                         <div className="form-group col-12 col-sm-6">
                             <div className="input-float">
@@ -401,6 +432,7 @@ function TeacherInformation() {
                                             styles={appSettings.selectStyle}
                                             placeholder="Select level..."
                                             menuPortalTarget={document.body}
+                                            className={`${!!errors && !!errors.levelOfEducation ? 'error-form' : ''}`}
                                         />
                                     }
                                     control={control}
@@ -408,6 +440,7 @@ function TeacherInformation() {
 
                                 <label>Level of Education</label>
                             </div>
+                            {!!errors && !!errors.levelOfEducation && (<span className="tx-danger mg-t-5 d-block">{errors.levelOfEducation?.message}</span>)}
                         </div>
                         <div className="form-group col-12 col-sm-6">
                             <div className="input-float">
@@ -437,6 +470,7 @@ function TeacherInformation() {
                                             styles={appSettings.selectStyle}
                                             placeholder="Select proficiency..."
                                             menuPortalTarget={document.body}
+                                            className={`${!!errors && !!errors.englishProficien ? 'error-form' : ''}`}
                                         />
                                     }
                                     control={control}
@@ -444,6 +478,7 @@ function TeacherInformation() {
 
                                 <label>English proficiency</label>
                             </div>
+                            {!!errors && !!errors.englishProficien && (<span className="tx-danger mg-t-5 d-block">{errors.englishProficien?.message}</span>)}
                         </div>
                     </div>
                 </div>
@@ -456,9 +491,9 @@ function TeacherInformation() {
                                     <span className="sr-only">Submitting...</span>
                                 </div>
                             )
-                            : (<><i className="fa fa-save mg-r-5"></i></>)    
+                                : (<><i className="fa fa-save mg-r-5"></i></>)
                         }
-                        <span>{submitLoading ? 'Updating':'Save'} information</span>
+                        <span>{submitLoading ? 'Updating' : 'Save'} information</span>
 
                     </button>
                 </div>

@@ -5908,11 +5908,7 @@ body.drop-answer {
     }
    
     @media (min-width:992px) {
-        @media (min-width:1400px) {
-            >.container{
-                padding: 0;
-            }
-        }
+      
     box-shadow: 0px 1px 12px 0px rgba(0,0,0,.25);
     }
 
@@ -6009,6 +6005,14 @@ body.drop-answer {
 .navbar-header {
     background-color: $primary-color;
     border-bottom: 0;
+    > .container{
+        padding: 0 15px;
+
+        @include media(992px){
+            padding: 0;
+        }
+    }
+    
 }
 
 .navbar-header .navbar-right .search-link,
@@ -7224,6 +7228,7 @@ input.time-only[readonly]{
         padding:10px 15px;
         display:block;
         position:relative;
+        transition:all .3s ease;
         &:after {
             content: '';
             width: 0;
@@ -8475,6 +8480,19 @@ blockquote.messageText{
     background-repeat: no-repeat;
     background-position: right calc(0.375em + 0.23438rem) center;
     background-size: calc(0.75em + 0.46875rem) calc(0.75em + 0.46875rem);
+    &[class$="container"]{
+        padding-right:0;
+        border-color:initial;
+        background-image:none;
+        >[class$="control"]{
+            border-color: $red;
+            padding-right: calc(1.5em + 0.9375rem);
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23CE2D4F' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23CE2D4F' stroke='none'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right calc(0.375em + 0.23438rem) center;
+            background-size: calc(0.75em + 0.46875rem) calc(0.75em + 0.46875rem);
+        }
+    }
   }
   .success-form{
     border-color: $green;
@@ -8594,7 +8612,6 @@ input[type="date"].form-control, input[type="time"].form-control, input[type="da
                     min-height: 3.5rem;
                     vertical-align: middle;
                     font-size: 12px;
-                    padding-left: 0;
                     justify-content: flex-end;
                     flex: 1;
                     min-width: auto;
@@ -8664,6 +8681,9 @@ input[type="date"].form-control, input[type="time"].form-control, input[type="da
             padding:5px 0;
             tr{
                 margin-bottom: -1px;
+                &:nth-child(even){
+                    background:rgba(247,125,20,.07);
+                }
             }
         }
         thead, tbody, th, td, tr { 
@@ -8693,8 +8713,8 @@ input[type="date"].form-control, input[type="time"].form-control, input[type="da
             /* Now like a table header */
             position: absolute;
             /* Top/left values mimic padding */
-            top: 8px;
-            left: 8px;
+            top: 1rem;
+            left: 1rem;
             width: 45%; 
             padding-right: 15px; 
             white-space: nowrap;
@@ -8724,6 +8744,20 @@ input[type="date"].form-control, input[type="time"].form-control, input[type="da
     .avatar + .username{
         color:#fff;
     }
+    @include media(580px){
+        .dropdown-notification{
+            padding-right: 15px;
+        }
+        .dropdown-profile{
+            margin-left:15px;
+        }
+        .dropdown-message .dropdown-link.new-indicator, .dropdown-notification .dropdown-link.new-indicator{
+            padding:5px 7.5px;
+            >span{
+                top:-3px;
+            }
+        }
+    }
 }
 
 #js-book-calendar .fc-event.hide-event .fc-event-main {
@@ -8746,10 +8780,14 @@ input[type="date"].form-control, input[type="time"].form-control, input[type="da
     .avatar + .username{
         white-space:nowrap;
     }
+    @include media(600px){
+        .avatar + .username{
+            display:none;
+        }
+    }
 }
 
 .custom-header-student{
-   
     .bottom-header{
         display:none;
     }
@@ -8758,4 +8796,8 @@ input[type="date"].form-control, input[type="time"].form-control, input[type="da
 .custom-header-student + .content{
     min-height: calc(100vh - 106px);
     margin-top:60px;
+}
+
+.navbar-header a{
+    cursor:pointer;
 }
