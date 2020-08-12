@@ -275,7 +275,9 @@ const bookingCalendar = () => {
                 container: 'body',
                 trigger: 'hover',
                 title:'Booked information',
-                content: `    
+                content: `  
+                <p class="mg-b-5"><span class="tx-medium mg-r-5">Course:</span>${event.extendedProps.bookInfo?.DocumentName ?? ''}</p>
+                <p class="mg-b-5"><span class="tx-medium mg-r-5">Lesson:</span>${event.extendedProps.bookInfo?.LessonName ?? ''}</p>
                 <p class="mg-b-5"><span class="tx-medium mg-r-5">Student:</span>${event.extendedProps.bookInfo?.name ?? ''}</p>
                 <p class="mg-b-5"><span class="tx-medium mg-r-5">Date:</span>${moment(event.start).format(
                     'dddd, DD/MM/YYYY'
@@ -686,7 +688,7 @@ const bookingCalendar = () => {
             <div className="notice pd-20 bg-primary-light rounded-5 mg-t-30">
                 <h5 className="mg-b-15 tx-primary"><i className="fas fa-file"></i> Notes:</h5>
                 <ul className="mg-b-0">
-                    <li>Each session is 50 minutes</li>
+                    <li>Each session is 25 minutes</li>
                     <li>To open a slot, simply select the time frame in calendar</li>
                     <li>To close a slot, select the time available in calendar and click "Close"</li>
                     <li>To cancel a booked lesson, select the booked frame in calendar and click "Cancel"</li>

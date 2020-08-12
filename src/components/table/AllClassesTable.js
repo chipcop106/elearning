@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createRef } from 'react';
 import SkeletonTable from '~components/common/Skeleton/SkeletonTable';
-import { getAllClass } from '~src/api/teacherAPI';
+import { getAllClass, addScheduleLog } from '~src/api/teacherAPI';
 import Pagination from 'react-js-pagination';
 import Flatpickr from "react-flatpickr";
 import Select from 'react-select';
@@ -39,27 +39,47 @@ const AllClassRow = ({ data, showStudentModal }) => {
         BookingID = '',
         LessionName = '',
         SkypeID,
-        StudentUID
+        StudentUID,
+        DocumentName=''
     } = data;
+
+    const handleEnterClass = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await addScheduleLog({ BookingID });
+            if (res.Code === 1) {
+                window.location.href = `skype:${SkypeID}?chat`;
+            }
+        } catch (error) {
+            console.log(error?.message ?? `Can't add schedule log !!`)
+        }
+    }
+
     return (
         <tr>
             <td className="clr-id">
                 <span className="tx-gray-500">{BookingID}</span>
             </td>
             <td className="clr-lesson">
-
-                <span className="tx-gray-500">{LessionName}</span>
+            <div className="mg-b-5">
+                    <span className=" mg-r-5">Course:</span>
+                    <span className="tx-gray-500">{DocumentName}</span>
+                </div>
+                <div className="">
+                    <span className=" mg-r-5">Lesson:</span>
+                    <span className="tx-gray-500">{LessionName}</span>
+                </div>
             </td>
             <td className="clr-student">
                 <a href={`#`} onClick={(e) => { e.preventDefault(); showStudentModal(StudentUID) }} className="clrm-studentname">{StudentName}<i className="fa fa-mars mg-l-10 clrm-icon-male" /></a>
             </td>
             <td className="clr-time">
                 <div className="mg-b-5">
-                    <span className="tx-medium mg-r-5"><i className="fa fa-clock"></i> VN:</span>
+                    <span className=" mg-r-5 tx-nowrap"><i className="fa fa-clock tx-primary"></i> VN:</span>
                     <span className="tx-gray-500">{ScheduleTimeVN}</span>
                 </div>
-                <div className="mg-b-5">
-                    <span className="tx-medium mg-r-5"><i className="fa fa-clock"></i> UTC:</span>
+                <div className="">
+                    <span className=" mg-r-5 tx-nowrap"><i className="fa fa-clock tx-primary"></i> UTC:</span>
                     <span className="tx-gray-500">{ScheduleTimeUTC}</span>
                 </div>
             </td>
@@ -78,14 +98,14 @@ const AllClassRow = ({ data, showStudentModal }) => {
             </td>
             <td className="clr-actions">
                 {<a href={LessionMaterial} className="btn btn-sm btn-warning rounded-5 mg-r-10" target="_blank" rel="noopener"><i className="fa fa-book-open clrm-icon" /> Material</a>}
-                {Status === 1 && <a href={`skype:${SkypeID}?chat`} className=" btn btn-sm btn-warning rounded-5"><i className="fab fa-skype clrm-icon" /> Enter Class</a>}
+                {Status === 1 && <a href={`skype:${SkypeID}?chat`} className=" btn btn-sm btn-warning rounded-5" onClick={handleEnterClass}><i className="fab fa-skype clrm-icon" /> Enter Class</a>}
                 {Status === 2 && <a target="_blank" rel="noopener" href={`/ElearnTeacher/FeedbackDetail?ID=${BookingID}`} className=" btn btn-sm btn-info btn-detail rounded-5"><i className="fas fa-info-circle" /> View Detail</a>}
             </td>
         </tr>
     )
 }
 
-const AllClassesTable = ({ updateSwiperHeight, showStudentModal }) => {
+const AllClassesTable = ({showStudentModal }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [filterStatusAllClass, setFilterStatusAllClass] = React.useState(statusOptions[0]);
     const [pageNumber, setPageNumber] = useState(1);
@@ -120,7 +140,6 @@ const AllClassesTable = ({ updateSwiperHeight, showStudentModal }) => {
                 console.log('Code response khác 1');
             }
             setIsLoading(false);
-            updateSwiperHeight();
            
         } catch (error) {
             console.log(error);
@@ -137,8 +156,8 @@ const AllClassesTable = ({ updateSwiperHeight, showStudentModal }) => {
 
     return (
         <>
-            <div className="d-flex align-items-center justify-content-between mg-b-15">
-                <div className="wd-150">
+            <div className="d-flex align-items-center justify-content-between mg-b-15 flex-wrap">
+                <div className="wd-150 order-1 mg-t-15 mg-md-t-0">
                     <Select 
                         options={statusOptions}
                         defaultValue={filterStatusAllClass}
@@ -153,8 +172,11 @@ const AllClassesTable = ({ updateSwiperHeight, showStudentModal }) => {
                         <option value="2">Finished</option>
                     </select> */}
                 </div>
-                <div className="form-row from-to-group" id="filter-time">
-                    <div className="wd-sm-200 col">
+                <div className="d-flex from-to-group wd-100p flex-md-nowrap flex-wrap wd-md-500" id="filter-time">
+                    <div className="form-row flex-grow-1 mg-sm-r-5">
+
+                    
+                    <div className="col">
                         <Flatpickr
                             placeholder="From date"
                             options={{
@@ -166,7 +188,7 @@ const AllClassesTable = ({ updateSwiperHeight, showStudentModal }) => {
                         />
                         {/* <input type="text" name="start-day " onChange={(value) =>  setFromDate(value)} className="form-control datetimepicker from-date" placeholder="From date" /> */}
                     </div>
-                    <div className="wd-sm-200 col">
+                    <div className="col">
                         <Flatpickr
                             placeholder="To date"
                             options={{
@@ -184,7 +206,8 @@ const AllClassesTable = ({ updateSwiperHeight, showStudentModal }) => {
                             onChange={(date) => setToDate(date)}
                         />
                     </div>
-                    <div className="flex-grow-0 tx-right flex-shrink-0 pd-x-5">
+                    </div>
+                    <div className="flex-grow-0 tx-right flex-shrink-0 mg-t-30 mg-sm-t-0">
                         <button type="button" className="btn btn-primary " onClick={_onFilterDate}><i className="fa fa-filter" /> Filter</button>
                     </div>
                 </div>
@@ -199,9 +222,9 @@ const AllClassesTable = ({ updateSwiperHeight, showStudentModal }) => {
                                 <thead className="thead-primary">
                                     <tr>
                                         <th className="clr-id">ID</th>
-                                        <th className="clr-lesson">Lesson Name</th>
-                                        <th className="clr-student">Student Name</th>
-                                        <th className="clr-time">Schedule Time</th>
+                                        <th className="clr-lesson">Lesson</th>
+                                        <th className="clr-student">Student </th>
+                                        <th className="clr-time">Schedule </th>
                                         <th className="clr-status">Status</th>
                                         <th className="clr-finishType">Finish Type</th>
                                         <th className="clr-actions">Actions</th>

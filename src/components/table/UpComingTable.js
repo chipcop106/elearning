@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import Skeleton from 'react-loading-skeleton';
 import { getUpcomingClass, addScheduleLog } from '~src/api/teacherAPI';
 import Pagination from "react-js-pagination";
-
+import {Popover, OverlayTrigger, Overlay} from 'react-bootstrap';
 
 const UpcomingRow = ({ data, showStudentModal }) => {
-    const { BookingID, ScheduleTimeVN, ScheduleTimeUTC, StudentName, StudentUID, DocumentName, LessionName, SkypeID, StatusString, Status, LessionMaterial, Gender } = data;
+    const { BookingID, ScheduleTimeVN, ScheduleTimeUTC, StudentName, StudentUID, DocumentName, LessionName, SkypeID, StatusString, Status, LessionMaterial, Gender, SpecialRequest } = data;
     const handleEnterClass = async (e) => {
         e.preventDefault();
         try {
@@ -18,6 +18,17 @@ const UpcomingRow = ({ data, showStudentModal }) => {
             console.log(error?.message ?? `Can't add schedule log !!`)
         }
     }
+
+    const popover = (
+        <Popover id="popover-basic">
+            <Popover.Title as="h3">Student note</Popover.Title>
+            <Popover.Content>
+                {SpecialRequest}
+            </Popover.Content>
+        </Popover>
+    );
+
+
     return (
         <tr>
             <td className="clr-time">
@@ -39,10 +50,22 @@ const UpcomingRow = ({ data, showStudentModal }) => {
                     <span className=" mg-r-5">Lesson:</span>
                     <span className="tx-gray-500">{LessionName}</span>
                 </div>
-
             </td>
             <td className="clr-student">
                 <a href={`#`} onClick={(e) => { e.preventDefault(); showStudentModal(StudentUID) }} className="clrm-studentname">{StudentName}<i className={`fa fa-${Gender === 0 ? 'venus' : Gender === 1 ? 'mars' : 'genderless'} mg-l-10 clrm-icon-male`} /></a>
+            </td>
+            <td className="tx-center">
+                {SpecialRequest && SpecialRequest !== '' && 
+                   
+                    <OverlayTrigger trigger="click" placement="auto" overlay={popover} rootClose>
+                        <a href="#" className="d-inline-block pd-5 tx-gray-500 text-hover-primary" tabIndex="0">
+                            <i className="fas fa-file-alt tx-24 "></i>
+                        </a>
+                    </OverlayTrigger> 
+                  
+                    
+               }
+                
             </td>
             <td className="clr-status">
             <span className={`badge badge-${Status === 1 ? 'primary tx-white' : 'success'} pd-5`}>{Status === 1 ? 'BOOKED' : 'FINISHED'}</span>
@@ -60,7 +83,7 @@ const UpcomingRow = ({ data, showStudentModal }) => {
     )
 }
 
-const UpCommingTable = ({ updateSwiperHeight, showStudentModal }) => {
+const UpCommingTable = ({showStudentModal }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [pageNumber, setPageNumber] = useState(1);
     const [data, setData] = useState(null);
@@ -78,7 +101,6 @@ const UpCommingTable = ({ updateSwiperHeight, showStudentModal }) => {
                 console.log('Code response khác 1');
             }
             setIsLoading(false);
-            updateSwiperHeight()
             return;
         } catch (error) {
             console.log(error);
@@ -100,8 +122,9 @@ const UpCommingTable = ({ updateSwiperHeight, showStudentModal }) => {
                     <thead className="thead-primary">
                         <tr className="">
                             <th className="clr-time">Schedule</th>
-                            <th className="clr-lesson">Course</th>
+                            <th className="clr-lesson">Lesson</th>
                             <th className="clr-student">Student</th>
+                            <th className="clr-student">Note</th>
                             <th className="clr-status">Status</th>
                             <th className="clr-action">Actions</th>
                         </tr>
@@ -116,15 +139,18 @@ const UpCommingTable = ({ updateSwiperHeight, showStudentModal }) => {
                                     <td><Skeleton /></td>
                                     <td><Skeleton /></td>
                                     <td><Skeleton /></td>
-                                </tr>
-                                <tr>
-                                    <td><Skeleton /></td>
-                                    <td><Skeleton /></td>
-                                    <td><Skeleton /></td>
-                                    <td><Skeleton /></td>
                                     <td><Skeleton /></td>
                                 </tr>
                                 <tr>
+                                    <td><Skeleton /></td>
+                                    <td><Skeleton /></td>
+                                    <td><Skeleton /></td>
+                                    <td><Skeleton /></td>
+                                    <td><Skeleton /></td>
+                                    <td><Skeleton /></td>
+                                </tr>
+                                <tr>
+                                    <td><Skeleton /></td>
                                     <td><Skeleton /></td>
                                     <td><Skeleton /></td>
                                     <td><Skeleton /></td>

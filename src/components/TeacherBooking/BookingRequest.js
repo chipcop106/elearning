@@ -8,7 +8,7 @@ import CancelBookingTeacher from '~components/CancelBookingTeacher';
 import Pagination from 'react-js-pagination';
 import StudentInformationModal from '~components/StudentInformationModal'
 
-const BookingRequest = ({updateSwiperHeight}) => {
+const BookingRequest = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [lessons, setLessons] = useState(null);
     const [courseSelect, setCourseSelect] = useState('1');
@@ -47,7 +47,6 @@ const BookingRequest = ({updateSwiperHeight}) => {
             console.log(error);
             setIsLoading(false);
         }
-        updateSwiperHeight();
     }
 
     const $mdCancel = $('#md-cancel-schedule');

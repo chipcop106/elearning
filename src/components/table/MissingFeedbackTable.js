@@ -9,11 +9,11 @@ const MissingFeedbackRow = ({ data }) => {
         <tr>
             <td className="clr-time">
                 <div className="mg-b-5">
-                    <span className="tx-medium mg-r-5"><i className="fa fa-clock tx-primary"></i> VN:</span>
+                    <span className=" mg-r-5"><i className="fa fa-clock tx-primary"></i> VN:</span>
                     <span className="tx-gray-500">{ScheduleTimeVN}</span>
                 </div>
                 <div className="mg-b-5">
-                    <span className="tx-medium mg-r-5"><i className="fa fa-clock tx-primary"></i> UTC:</span>
+                    <span className=" mg-r-5"><i className="fa fa-clock tx-primary"></i> UTC:</span>
                     <span className="tx-gray-500">{ScheduleTimeUTC}</span>
                 </div>
             </td>
@@ -45,7 +45,7 @@ const MissingFeedbackRow = ({ data }) => {
 
 
 
-const MissingFeedbackTable = ({updateSwiperHeight}) => {
+const MissingFeedbackTable = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [pageNumber, setPageNumber] = useState(1);
     const [data, setData] = useState([]);
@@ -62,7 +62,6 @@ const MissingFeedbackTable = ({updateSwiperHeight}) => {
                 console.log('Code response khác 1');
             }
             setIsLoading(false);
-            updateSwiperHeight()
            
         } catch (error) {
             console.log(error);
@@ -83,8 +82,8 @@ const MissingFeedbackTable = ({updateSwiperHeight}) => {
                             <table className="table table-classrooms table-borderless responsive-table table-hover">
                                 <thead className="thead-primary">
                                     <tr className="">
-                                        <th className="clr-time">Lesson Times</th>
-                                        <th className="clr-lesson">Lesson Info</th>
+                                        <th className="clr-time">Schedule</th>
+                                        <th className="clr-lesson">Lesson</th>
                                         <th className="clr-feedbackStatus">Student feedback </th>
                                         <th className="clr-actions">Actions</th>
                                     </tr>

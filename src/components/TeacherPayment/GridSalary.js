@@ -102,8 +102,9 @@ const GridSalary = () => {
             <div className="pay-title mg-t-30">
                 <div className="d-md-flex justify-content-between align-items-center">
                     <h3 className="mg-md-b-0 text-dark tx-bold mg-b-15">TOTAL PAYMENT</h3>
-                    <div className="d-flex align-items-center">
-                        <span className="pay-title-times mg-r-10 tx-16">{selectedSection == 1 ? '1st' : '2nd'} half of <span className="tx-primary tx-bold">{monthNames[month - 1]} {now.getFullYear()}</span></span>
+                    <div className="d-flex flex-sm-nowrap flex-wrap">
+                        <span className="pay-title-times mg-sm-r-10 tx-16 wd-sm-auto wd-100p mg-b-10 mg-sm-b-0 pd-sm-t-7 d-inline-block">{selectedSection == 1 ? '1st' : '2nd'} half of <span className="tx-primary tx-bold">{monthNames[month - 1]} {now.getFullYear()}</span></span>
+                        <div className="d-flex">
                         <div className="mg-r-10 wd-200">
                             <Select
                                 options={typeOptions}
@@ -117,7 +118,7 @@ const GridSalary = () => {
                                 <option value="2">2 weeks later</option>
                             </select> */}
                         </div>
-                        <div className="wd-150">
+                        <div className="wd-150 flex-grow-1">
                             <Select
                                 options={monthOptions}
                                 onChange={setMonth}
@@ -130,6 +131,8 @@ const GridSalary = () => {
                                 })}
                             </select> */}
                         </div>
+                        </div>
+                       
 
 
                     </div>

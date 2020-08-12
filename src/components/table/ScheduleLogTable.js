@@ -69,7 +69,7 @@ const ScheduleLogTable = ({ showStudentModal }) => {
                 isLoading ? <SkeletonTable /> : (
                     <>
                         <div className="mg-b-15">
-                            <table className="table responsive-table-vertical table-schedule-log">
+                            <table className="table responsive-table-vertical table-schedule-log table-hover">
                                 <thead className="thead-primary">
                                     <tr>
                                         <th>Operation time</th>
