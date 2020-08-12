@@ -180,6 +180,14 @@
   }
 }
 
+.change-password-form {
+  .col-password {
+    @media screen and (min-width: 768px) {
+      max-width: 400px!important;
+    } 
+  }
+}
+
 .sub-title.profile-tab-nav {
   padding: 0;
   a {
@@ -202,4 +210,8 @@
 
 .table-tiket .table thead th {
   vertical-align: middle;
+}
+
+.mw-200 {
+  max-width: 200px;
 }

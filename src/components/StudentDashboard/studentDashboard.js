@@ -212,28 +212,28 @@ const Dashboard = () => {
                       </a>
                       <div className="course-progress d-flex flex-wrap">
                         <div className="start-date mg-r-30">
-                          <label className="label d-block tx-medium tx-gray">Start Date</label>
+                          <label className="label d-block tx-medium tx-gray">Ngày bắt đầu</label>
                           <label className="date font-weight-bolder">
                             {!!courseInfo.StartDate ?
                               moment(courseInfo.StartDate).format("DD MMM, YYYY").toUpperCase() :
-                              "Not started yet"}
+                              "CHƯA BẮT ĐẦU"}
                           </label>
                         </div>
                         <div className="due-date mg-r-30">
-                          <label className="label d-block tx-medium tx-gray">Due Date</label>
+                          <label className="label d-block tx-medium tx-gray">Ngày kết thúc</label>
                           <label className="date font-weight-bolder">
                             {!!courseInfo.EndDate ?
                               moment(courseInfo.EndDate).format("DD MMM, YYYY").toUpperCase() :
-                              "Not completed yet"}
+                              "CHƯA KẾT THÚC"}
                           </label>
                         </div>
                         <div className="progress-wrap">
                           <div className="progress-course-bar position-relative">
-                            <label className="label d-block tx-medium tx-gray">Progress</label>
+                            <label className="label d-block tx-medium tx-gray">Tiến trình học</label>
                             <div className="progress-bar-wrap">
-                              <div className="progress-bar-wrap-fill" style={{ width: `${courseInfo.Process * 100}%` }}></div>
+                              <div className="progress-bar-wrap-fill" style={{ width: `${parseInt(courseInfo.Process * 100)}%` }}></div>
                             </div>
-                            <span className="progress-number bold">{`${courseInfo.Process * 100}%`}</span>
+                            <span className="progress-number bold">{`${parseInt(courseInfo.Process * 100)}%`}</span>
                           </div>
                         </div>
                       </div>
@@ -244,7 +244,7 @@ const Dashboard = () => {
                       <div className="summary-item student-summary-item">
                         <BookOpenIcon />
                         <div className="mg-l-10 title">
-                          <label className="d-block label">Booked Lessons</label>
+                          <label className="d-block label">Số buổi học đã hoàn thành</label>
                           <label className="d-block bold count">
                             {!!state && !!state.StudyProcess && state.StudyProcess.CompleteLessions}</label>
                         </div>
@@ -252,7 +252,7 @@ const Dashboard = () => {
                       <div className="summary-item student-summary-item">
                         <OpenBookIcon />
                         <div className="mg-l-10 title">
-                          <label className="d-block label">Canceled Lessons</label>
+                          <label className="d-block label">Số buổi học đã hủy</label>
                           <label className="d-block bold count">
                             {!!state && !!state.StudyProcess && state.StudyProcess.CancelLessions}</label>
                         </div>
@@ -260,7 +260,7 @@ const Dashboard = () => {
                       <div className="summary-item student-summary-item">
                         <CancelCircleIcon />
                         <div className="mg-l-10 title">
-                          <label className="d-block label">Truant Lessons</label>
+                          <label className="d-block label">Số buổi học vắng mặt</label>
                           <label className="d-block bold count">
                             {!!state && !!state.StudyProcess && state.StudyProcess.NumberOfAbsences}</label>
                         </div>
@@ -268,7 +268,7 @@ const Dashboard = () => {
                       <div className="summary-item student-summary-item">
                         <TextDocumentIcon />
                         <div className="mg-l-10 title">
-                          <label className="d-block label">Remaining Lessons</label>
+                          <label className="d-block label">Số buổi học còn lại</label>
                           <label className="d-block bold count">
                             {!!state && !!state.StudyProcess && state.StudyProcess.NumberOfLessionsLeft}</label>
                         </div>
@@ -296,7 +296,7 @@ const Dashboard = () => {
               !state ? <NOT_DATA_FOUND /> : <>
                 <div className="lesson mg-t-45 animated fadeInUp am-animation-delay-1">
                   <div className="d-xl-flex align-items-center justify-content-between ">
-                    <h4 className="mg-b-0 gradient-heading"><i className="fas fa-fire"></i>UPCOMING LESSON</h4>
+                    <h4 className="mg-b-0 gradient-heading"><i className="fas fa-fire"></i>BUỔI HỌC SẮP DIỄN RA</h4>
                   </div>
                   {
                     !!state.UpcomingLessions && !!state.UpcomingLessions &&
@@ -304,7 +304,7 @@ const Dashboard = () => {
                         <div className="empty-error tx-center mg-y-30 cr-item bg-white rounded-5 pd-15 shadow">
                           <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" />
                           <p className=" tx-danger tx-medium">You don't have any lesson.</p>
-                          <a href="/ElearnStudent/bookingLesson" className="btn btn-primary">Book a lesson</a>
+                          <a href="/ElearnStudent/bookingLesson" className="btn btn-primary">Đặt lịch học</a>
                         </div>) : ""
                   }
                   <div className="course-horizental mg-t-20">
@@ -337,8 +337,8 @@ const Dashboard = () => {
                 </div>
                 <div className="lesson mg-t-45 animated fadeInUp am-animation-delay-2">
                   <div className="d-xl-flex align-items-center justify-content-between ">
-                    <h4 className="mg-b-0 gradient-heading"><i className="fas fa-file"></i>LESSON HISTORY</h4>
-                    <a href={"/ElearnStudent/lessonHistory"} className="link">View all history</a>
+                    <h4 className="mg-b-0 gradient-heading"><i className="fas fa-file"></i>CÁC LỚP ĐÃ HỌC</h4>
+                    <a href={"/ElearnStudent/lessonHistory"} className="link">Xem lịch sử học</a>
                   </div>
                   <div className="course-horizental mg-t-20">
                     <ul className="list-wrap">

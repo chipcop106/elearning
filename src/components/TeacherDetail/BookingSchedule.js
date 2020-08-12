@@ -22,6 +22,8 @@ let mondayOfWeek = new Date(new Date().setDate(new Date().getDate() - new Date()
 const dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const hotTime = [5, 6, 7, 8, 9, 13, 14, 15, 16];
 
+let uid = localStorage.getItem("uid") ? localStorage.getItem("uid") : "";
+
 const BookingSchedule = ({
   TeacherUID,
   handleBookLesson,
@@ -178,9 +180,12 @@ const BookingSchedule = ({
         const {
           eventType,
           bookStatus,
+          bookInfo,
           isEmptySlot,
         } = event.extendedProps;
-        let classLists = bookStatus ? "booked-slot" : "available-slot";
+        let classLists = bookStatus ?
+        bookInfo.StudentUID.toString() == uid.toString() ? "booked-slot": "booked-others-slot"
+        : "available-slot";
         classLists += eventType === 1 ? " hot-slot " : "";
         classLists += isEmptySlot ? " empty-slot" : "";
         return classLists;
@@ -199,9 +204,10 @@ const BookingSchedule = ({
         const html = `${!isEmptySlot ? `
     <div class="inner-book-wrap ">
     <div class="inner-content text-center mg-t-10"> ${bookStatus ? `
-      <span class="label-book booked"><i class="fas ${isPast ? "fa-check" : "fa-user-graduate"
+      <span class="label-book booked">
+      <i class="fas ${isPast ? "fa-check" : "fa-user-graduate"
             }"></i> ${isPast ? "FINISHED" : "BOOKED"}</span>
-      ${ minutesTilStart > 30 ? `
+      ${ minutesTilStart > 30 && bookInfo.StudentUID.toString() == uid.toString() ? `
         <a href="javascript:;" class="fix-btn cancel-schedule"
         data-toggle="modal"
         data-target="#md-cancel-schedule"
@@ -243,7 +249,7 @@ const BookingSchedule = ({
       $(".fc-toolbar-chunk:first-child").append(
         `<div class="custom-control custom-checkbox" id="student-toggle">
     <input type="checkbox" class="custom-control-input" id="student-toggle-checkbox">
-    <label class="custom-control-label" for="student-toggle-checkbox">Only show student booking hours</label>
+    <label class="custom-control-label" for="student-toggle-checkbox">Chỉ hiển thị lịch đã book</label>
     </div>`);
     }
 

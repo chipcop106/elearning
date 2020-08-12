@@ -26,7 +26,7 @@ const Faq = () => {
     </div>
     <div className="faq-container">
       <div className="d-xl-flex align-items-center justify-content-between mg-b-15 mg-t-30">
-        <h4 className="mg-b-0 gradient-heading"><i className="fas fa-comment-alt"></i> Frequently Asked Questions</h4>
+        <h4 className="mg-b-0 gradient-heading"><i className="fas fa-comment-alt"></i>CÁC CÂU HỎI THƯỜNG GẶP</h4>
       </div>
       {
         loading ? <SkeletonFaq /> :

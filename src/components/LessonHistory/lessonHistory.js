@@ -9,6 +9,9 @@ import Flatpickr from 'react-flatpickr';
 import styles from "~components/LessonHistory/lessonHistory.module.scss"
 import { FETCH_ERRORS } from "~components/common/Constant/message"
 
+let start = "";
+let end = "";
+
 const initialState = {
   fromDate: "",
   toDate: "",
@@ -70,6 +73,8 @@ const LessonHistory = () => {
       Page: 1,
     })
     setPage(1);
+    start = searchInput.fromDate;
+    end = searchInput.toDate;
   }
 
   React.useEffect(() => {
@@ -82,7 +87,7 @@ const LessonHistory = () => {
 
   return <>
     <div className="fb-summary-container pd-x-20-f pd-b-0-f pd-t-20-f ">
-      <form action="" method="get" className="st-date metronic-form" onSubmit={onSubmit}>
+      <form action="" method="get" noValidate className="st-date metronic-form" onSubmit={onSubmit}>
         <div className="row">
           <div className="col-12 col-sm-6 col-md-4 form-group">
             <Flatpickr
@@ -117,14 +122,14 @@ const LessonHistory = () => {
       </form>
     </div>
     <div className="table-responsive">
-      <table className="table">
-        <thead className="thead-light">
+      <table className="table table-bordered">
+        <thead className="thead-primary">
           <tr>
-            <th>Course</th>
-            <th>Date</th>
-            <th>Lesson</th>
-            <th>Teacher</th>
-            <th>Checkin</th>
+            <th>Khóa học</th>
+            <th>Thời gian</th>
+            <th>Bài học</th>
+            <th>Giáo viên</th>
+            <th>Trạng thái</th>
             <th></th>
           </tr>
         </thead>
@@ -152,16 +157,16 @@ const LessonHistory = () => {
                     <td colSpan="6" className="tx-center">
                       <span className="text-danger bold" style={{ fontSize: '16px' }}>
                         {
-                          (searchInput.fromDate.length > 0 && searchInput.toDate.length > 0) ||
-                            (searchInput.fromDate.length == 0 && searchInput.toDate.length == 0) ?
-                            `You don't have book any lesson ${searchInput.fromDate.length > 0 ? `from ${searchInput.fromDate}` : ""}  ${searchInput.toDate.length > 0 ? `to ${searchInput.toDate}` : ""}` :
-                            searchInput.fromDate.length == 0 ?
-                              `You don't have book any lesson before ${searchInput.toDate}` :
-                              `You don't have book any lesson after ${searchInput.fromDate}`
+                          (start.length > 0 && end.length > 0) ||
+                            (start.length == 0 && end.length == 0) ?
+                            `Bạn chưa đăng ký lớp học nào từ ${start.length > 0 ? `${start}` : ""}  ${end.length > 0 ? `đến ${end}` : ""}` :
+                            start.length == 0 ?
+                              `Bạn chưa đăng ký lớp học nào trước ${end}` :
+                              `Bạn chưa đăng ký lớp học nào sau ${start}`
                         }
                       </span>
                       <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 d-block mx-auto"/>
-                      <a href="/ElearnStudent/bookingLesson" className="btn btn-primary">Book a lesson</a>
+                      <a href="/ElearnStudent/bookingLesson" className="btn btn-primary">Đặt lịch học</a>
                     </td>
                   </tr> : (!loading && <tr style={{ backgroundColor: "transparent" }}>
                   <td colSpan="6" className="tx-center">

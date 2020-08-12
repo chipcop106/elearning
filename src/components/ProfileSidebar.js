@@ -13,6 +13,7 @@ const ProfileSidebar = () => {
     const res = await getProfile();
     if (res.Code === 1) {
       setState(res.Data)
+      localStorage.setItem("uid", res.Data.UID);
     }
     setLoading(false);
 

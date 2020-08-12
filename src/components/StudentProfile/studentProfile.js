@@ -19,19 +19,19 @@ const StudentProfile = () => {
                 <a href={"#"} className={`${showTab === 1 ? 'active' : ''} tab-link`}
                   data-index={0}
                   onClick={(e) => { e.preventDefault(); setShowTab(1) }}>
-                  <i className="fas fa-user mg-r-5"></i>ACCOUNT INFO</a>
+                  <i className="fas fa-user mg-r-5"></i>THÔNG TIN TÀI KHOẢN</a>
               </li>
               <li className="tab-item">
                 <a href={"#"} className={`${showTab === 2 ? 'active' : ''} tab-link`}
                   data-index={0}
                   onClick={(e) => { e.preventDefault(); setShowTab(2) }}>
-                  <i className="fas fa-lock mg-r-5"></i>CHANGE PASSWORD</a>
+                  <i className="fas fa-lock mg-r-5"></i>ĐỔI MẬT KHẨU</a>
               </li>
               <li className="tab-item">
                 <a href={"#"} className={`${showTab === 3 ? 'active' : ''} tab-link`}
                   data-index={0}
                   onClick={(e) => { e.preventDefault(); setShowTab(3) }}>
-                  <i className="fas fa-credit-card mg-r-5"></i>PAYMENT HISTORY</a>
+                  <i className="fas fa-credit-card mg-r-5"></i>LỊCH SỬ THANH TOÁN</a>
               </li>
             </ul>
           </div>

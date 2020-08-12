@@ -186,9 +186,28 @@
       width: 100%;
       display: block;
     }
+    td, th {
+      border: none;
+    }
     .col-info {
       padding-left: 0;
       padding-top: 0;
     }
   }
+}
+
+.annotate {
+  width: 40px;
+  height: 25px;
+  display: inline-block;
+}
+
+.annotate-available {
+  background-color: #3788d8;
+}
+.annotate-others {
+  background-color: #aa092c;
+}
+.annotate-me {
+  background-color: #58cd20;
 }

@@ -4,7 +4,8 @@ import ReactDOM from 'react-dom';
 const Header = () => {
   return (
     <React.Fragment>
-      <header className="navbar navbar-header navbar-header-fixed custom-header-student">
+      {/* <div className="custom-header-student"> */}
+      <div className="navbar navbar-header navbar-header-fixed">
         <div className="container">
           <div className="navbar-brand">
             <a className="df-logo"><img src="../assets/img/preview.png" alt="logo" /></a>
@@ -16,7 +17,7 @@ const Header = () => {
             </div>{/* navbar-menu-header */}
           </div>{/* navbar-menu-wrapper */}
           <div className="navbar-right">
-            <a id="navbarSearch" className="search-link"><i data-feather="search" className="tx-gray-500"/></a>
+            {/* <a id="navbarSearch" className="search-link"><i data-feather="search" className="tx-gray-500"/></a>
             <div className="dropdown dropdown-message">
               <a className="dropdown-link new-indicator open-chat-nav">
                 <i data-feather="message-square" className="tx-gray-500"/>
@@ -77,12 +78,12 @@ const Header = () => {
               <a className="dropdown-link" data-toggle="dropdown" data-display="static">
                 <div className="avatar"><img src="../assets/img/teacher.jpg" className="rounded-circle" alt="" />
                 </div>
-                <span className="mg-l-10 bold">Phuong Uyen</span>
+                {/* <span className="name mg-l-10 bold">Trần Lê Phương Uyên</span> */}
                 <i className="fa fa-caret-down mg-l-10 tx-gray-500"></i>
               </a>{/* dropdown-link */}
               <div className="dropdown-menu dropdown-menu-right tx-13">
                 <div className="avatar avatar-lg mg-b-15"><img src="../assets/img/teacher.jpg" className="rounded-circle" alt="" /></div>
-                <h6 className="tx-semibold mg-b-5">Mona Media</h6>
+                <h6 className="tx-semibold mg-b-5">Trần Lê Phương Uyên</h6>
                 <p className="mg-b-25 tx-12 tx-color-03">Administrator</p>
                 <a href="teacher/teacherProfile.html" className="dropdown-item"><i data-feather="user" /> View Profile</a>
                 <div className="dropdown-divider" />
@@ -91,8 +92,9 @@ const Header = () => {
             </div>{/* dropdown */}
           </div>{/* navbar-right */}
         </div>
-      </header>{/* navbar */}
-      <div className="bottom-header">
+      </div>{/* navbar */}
+      {/* </div> */}
+     {/*  <div className="bottom-header">
         <div className="container">
           <a id="js-burger-menu" className="burger-menu-bottom"><i data-feather="menu" /></a>
           <ul className="hd-menu-list" data-title="Mona Media">
@@ -107,7 +109,7 @@ const Header = () => {
           </ul>
           <div className="menu-overlay" />
         </div>
-      </div>
+      </div> */}
     </React.Fragment>
   )
 }

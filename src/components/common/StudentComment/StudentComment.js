@@ -47,8 +47,8 @@ const StudentComment = ({ TeacherUID }) => {
     <div className="tc-comment-wrap bd-t-0-f mg-t-0-f pd-t-0-f">
       <h6 className="mg-b-15">
         {
-          totalResult == 0?"This teacher have no feedback":
-          `${totalResult} student${totalResult > 1? "s":""} has leave feedback for this teacher:`
+          totalResult == 0 ? "Giáo viên hiện chưa có phản hồi" :
+          `${totalResult} học viên đã để lại phản hồi:`
         }
         </h6>
       <div className="comment__wrapper">

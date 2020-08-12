@@ -11,7 +11,6 @@ import { getListTargetAPI } from "~src/api/optionAPI";
 import { getListLanguageAPI } from "~src/api/optionAPI";
 
 import SkeletonStudentForm from "~components/common/Skeleton/SkeletonStudentForm";
-import SkeletonPassword from "~components/common/Skeleton/SkeletonPassword";
 
 import { yupResolver } from '@hookform/resolvers';
 import * as Yup from "yup";
@@ -36,28 +35,30 @@ import { NOT_DATA_FOUND } from '~components/common/Constant/message';
 
 const schema = Yup.object().shape({
   FullName: Yup.string()
-    .required('Name is not empty'),
+    .required('Họ tên không được để trống'),
   Phone: Yup.number()
-    .typeError('Invalid phone number')
-    .integer('Invalid phone number')
-    .required('Phone is not empty'),
+    .typeError('Số điện thoại không hợp lệ')
+    .integer('Số điện thoại không hợp lệ')
+    .required('Số điện thoại không được để trống'),
   Email: Yup.string()
-    .required('Email is not empty')
-    .email('invalid email'),
+    .required('Email không được để trống')
+    .email('Email không hợp lệ'),
+  BirthDay: Yup.string()
+    .required('Ngày sinh không được để trống'),
   SelectTarget: Yup.string().nullable()
-    .required('Target is not empty'),
+    .required('Mục tiêu không được để trống'),
   Address: Yup.string()
-    .required('Address is not empty'),
+    .required('Địa chỉ không được để trống'),
   PersonalPreference: Yup.string()
-    .required('Hobbits is not empty'),
+    .required('Sở thích không được để trống'),
   RequestWithTeacher: Yup.string()
-    .required('Notes is not empty'),
+    .required('Yêu cầu với giáo viên không được để trống'),
   Language: Yup.string()
-    .matches(/[^0]+/g, 'Language is not empty'),
+    .matches(/[^0]+/g, 'Ngôn ngữ không được để trống'),
   TimeZoneID: Yup.string()
-    .matches(/[^0]+/g, 'Time zone is not empty'),
+    .matches(/[^0]+/g, 'Timezone không được để trống'),
   SkypeID: Yup.string()
-    .required('SkypeID is not empty'),
+    .required('SkypeID không được để trống'),
 });
 const RenderListTimeZone = ({ list }) => {
   return !!list && list.length > 0 && list.map((item, index) =>
@@ -115,26 +116,15 @@ const StudentForm = ({ tabDisplay }) => {
   });
 
   const onSubmit = data => {
-    setLoadingUpdateProfile(true);
     const array = data.SelectTarget.split(",");
     let z = convertTargetStringToNum(array, listTarget);
 
     const newProfile = {
       ...data,
       Avatar: avatar,
-      BirthDay: typeof data.BirthDay === "string" ?
-        data.BirthDay : moment(data.BirthDay[0]).format("DD/MM/YYYY"),
+      BirthDay: moment(data.BirthDay).format("DD/MM/YYYY"),
       Target: z.join(","),
     }
-
-    let x = convertTargetNumToString(newProfile.Target, listTarget);
-    setSelectedTarget(x);
-
-    const dateFormat = `${newProfile.BirthDay.split("/")[1]}/${newProfile.BirthDay.split("/")[0]}/${newProfile.BirthDay.split("/")[2]}`;
-    setProfile({
-      ...newProfile,
-      BirthDay: moment(dateFormat).format("YYYY-MM-DD HH:mm"),
-    });
     onUpdateProfileAPI(newProfile)
   }
   const getAPI = async () => {
@@ -178,6 +168,7 @@ const StudentForm = ({ tabDisplay }) => {
     }
   }
   const onUpdateProfileAPI = async (params) => {
+    setLoadingUpdateProfile(true);
     const res = await updateProfileAPI(params)
     if (res.Code === 1) {
       updateProfileToastSuccess();
@@ -223,7 +214,7 @@ const StudentForm = ({ tabDisplay }) => {
         <div className="form-account">
           <div className="row">
             <div className="col-12">
-              <div className="form-row  align-items-center ">
+              <div className="form-row align-items-center ">
                 <div className="form-group col-sm-3 col-label-fixed">
                   <p className="mg-b-0 tx-medium ">Avatar: </p>
                 </div>
@@ -240,7 +231,7 @@ const StudentForm = ({ tabDisplay }) => {
                           onChange={handleUploadImage} />
                         <img id="avatar"
                           src={profile.Avatar ? profile.Avatar : "../assets/img/default-avatar.png"}
-                          onError={(e)=>{e.target.onerror = null; e.target.src="../assets/img/default-avatar.png"}} />
+                          onError={(e) => { e.target.onerror = null; e.target.src = "../assets/img/default-avatar.png" }} />
                       </label>
                     </div>
                   </div>
@@ -250,7 +241,7 @@ const StudentForm = ({ tabDisplay }) => {
             <div className="col-md-6">
               <div className="form-row align-items-center">
                 <div className="form-group col-sm-3 col-label-fixed">
-                  <p className="mg-b-0 tx-medium">Student code:</p>
+                  <p className="mg-b-0 tx-medium">Mã học viên:</p>
                 </div>
                 <div className="form-group col-sm-9">
                   <input type="text" className="form-control" placeholder="" disabled={true}
@@ -259,7 +250,7 @@ const StudentForm = ({ tabDisplay }) => {
               </div>
               <div className="form-row align-items-center">
                 <div className="form-group col-sm-3 col-label-fixed">
-                  <p className="mg-b-0 tx-medium">Phone:</p>
+                  <p className="mg-b-0 tx-medium">Điện thoại:</p>
                 </div>
                 <div className="form-group col-sm-9">
                   <input type="text" className="form-control" placeholder="0123456789"
@@ -273,7 +264,7 @@ const StudentForm = ({ tabDisplay }) => {
               </div>
               <div className="form-row align-items-center">
                 <div className="form-group col-sm-3 col-label-fixed">
-                  <p className="mg-b-0 tx-medium">Date of birth:</p>
+                  <p className="mg-b-0 tx-medium">Ngày sinh:</p>
                 </div>
                 <div className="form-group col-sm-9">
                   <Controller
@@ -287,13 +278,17 @@ const StudentForm = ({ tabDisplay }) => {
                         className="form-control" />
                     }
                     control={control}
-                    defaultValue={moment(profile.BirthDay).format("DD/MM/YYYY")}
-                    name="BirthDay" />
+                    defaultValue={!!profile.BirthDay ? moment(profile.BirthDay).format("DD/MM/YYYY"):""}
+                    name="BirthDay"
+                    ref={register()} />
+                  {
+                    errors.BirthDay && <span className="text-danger d-block mt-2">{errors.BirthDay.message}</span>
+                  }
                 </div>
               </div>
               <div className="form-row align-items-center">
                 <div className="form-group col-sm-3 col-label-fixed">
-                  <p className="mg-b-0 tx-medium">Language:</p>
+                  <p className="mg-b-0 tx-medium">Ngôn ngữ:</p>
                 </div>
                 <div className="form-group col-sm-9">
                   {
@@ -315,7 +310,7 @@ const StudentForm = ({ tabDisplay }) => {
             <div className="col-md-6">
               <div className="form-row align-items-center">
                 <div className="form-group col-sm-3 col-label-fixed">
-                  <p className="mg-b-0 tx-medium">Full name:</p>
+                  <p className="mg-b-0 tx-medium">Họ và tên:</p>
                 </div>
                 <div className="form-group col-sm-9">
                   <input type="text" className="form-control"
@@ -347,7 +342,7 @@ const StudentForm = ({ tabDisplay }) => {
               </div>
               <div className="form-row align-items-center">
                 <div className="form-group col-sm-3 col-label-fixed">
-                  <p className="mg-b-0 tx-medium">Gender:</p>
+                  <p className="mg-b-0 tx-medium">Giới tính:</p>
                 </div>
                 <div className="form-group col-sm-9">
                   <select className="form-control"
@@ -384,7 +379,7 @@ const StudentForm = ({ tabDisplay }) => {
             <div className="col-12">
               <div className="form-row  align-items-center ">
                 <div className="form-group col-sm-3 col-label-fixed">
-                  <p className="mg-b-0 tx-medium ">Address:</p>
+                  <p className="mg-b-0 tx-medium ">Địa chỉ:</p>
                 </div>
                 <div className="form-group col-sm-9">
                   <input type="text" className="form-control" placeholder="Your address"
@@ -401,7 +396,7 @@ const StudentForm = ({ tabDisplay }) => {
             <div className="col-12">
               <div className="form-row  align-items-center ">
                 <div className="form-group col-sm-3 col-label-fixed">
-                  <p className="mg-b-0 tx-medium ">Target:</p>
+                  <p className="mg-b-0 tx-medium ">Mục tiêu:</p>
                 </div>
                 <div className="form-group col-sm-9 select-checkbox">
                   {
@@ -450,7 +445,7 @@ const StudentForm = ({ tabDisplay }) => {
             <div className="col-12">
               <div className="form-row  align-items-center ">
                 <div className="form-group col-sm-3 col-label-fixed">
-                  <p className="mg-b-0 tx-medium ">Hobbits:</p>
+                  <p className="mg-b-0 tx-medium ">Sở thích:</p>
                 </div>
                 <div className="form-group col-sm-9">
                   <input type="text" placeholder="Your hobbit" className="form-control"
@@ -467,7 +462,7 @@ const StudentForm = ({ tabDisplay }) => {
             <div className="col-12">
               <div className="form-row  align-items-center ">
                 <div className="form-group col-sm-3 col-label-fixed">
-                  <p className="mg-b-0 tx-medium ">Request with teacher:</p>
+                  <p className="mg-b-0 tx-medium ">Yêu cầu với giáo viên:</p>
                 </div>
                 <div className="form-group col-sm-9">
                   <textarea id="" rows="3" className="form-control" placeholder="Your notes"
@@ -486,12 +481,12 @@ const StudentForm = ({ tabDisplay }) => {
                 <div className="form-group col-sm-3 col-label-fixed"></div>
                 <div className="form-group col-sm-9 mg-b-0-f">
                   <button type="submit"
-                  disabled={loadingUpdateProfile ? true : ""}
-                  className="btn btn-primary rounded"
-                  style={{width: loadingUpdateProfile ? "138px" : "auto", color:"#fff" }}>
-                  {loadingUpdateProfile ?
-                  <i className="fa fa-spinner fa-spin"></i> : 
-                  "Save information"}
+                    disabled={loadingUpdateProfile ? true : ""}
+                    className="btn btn-primary rounded"
+                    style={{ width: loadingUpdateProfile ? "138px" : "auto", color: "#fff" }}>
+                    {loadingUpdateProfile ?
+                      <i className="fa fa-spinner fa-spin"></i> :
+                      "Save information"}
                   </button>
                 </div>
               </div>
@@ -551,77 +546,83 @@ const PasswordForm = () => {
     }
   }
 
-  return loadingPassword ? <SkeletonPassword /> :
-    <form className="metronic-form change-password-form" onSubmit={_onSubmit}>
-      {
-        error && error !== '' &&
-        <div className="alert alert-danger mg-b-10" role="alert">{error}</div>
-      }
-      <div className="form-account">
-        <div className="row">
-          <div className="col-12">
-            <div className="form-row align-items-center ">
-              <div className="form-group col-sm-3 col-label-fixed">
-                <p className="mg-b-0 tx-medium">Current password:</p>
-              </div>
-              <div className="form-group col-sm-9">
-                <input
-                  type={displayPassword ? "text" : "password"}
-                  autoComplete="off"
-                  className="form-control" name="OldPass"
-                  onChange={(e) => setOldPassword(e.target.value)} value={oldPassword} />
-              </div>
+  return <form className="metronic-form change-password-form" onSubmit={_onSubmit}>
+    {
+      error && error !== '' &&
+      <div className="alert alert-danger mg-b-10" role="alert">{error}</div>
+    }
+    <div className="form-account">
+      <div className="row">
+        <div className="col-12">
+          <div className="form-row align-items-center ">
+            <div className="form-group col-sm-3 col-label-fixed">
+              <p className="mg-b-0 tx-medium">Mật khẩu hiện tại</p>
+            </div>
+            <div className="form-group col-sm-9 col-password">
+              <input
+                type={displayPassword ? "text" : "password"}
+                autoComplete="off"
+                className="form-control" name="OldPass"
+                onChange={(e) => setOldPassword(e.target.value)} value={oldPassword} />
             </div>
           </div>
-          <div className="col-12">
-            <div className="form-row align-items-center ">
-              <div className="form-group col-sm-3 col-label-fixed">
-                <p className="mg-b-0 tx-medium">New password:</p>
-              </div>
-              <div className="form-group col-sm-9">
-                <input
-                  type={displayPassword ? "text" : "password"}
-                  autoComplete="off"
-                  className="form-control" name="NewPass"
-                  onChange={(e) => setNewPassword(e.target.value)} value={newPassword} />
-              </div>
+        </div>
+        <div className="col-12">
+          <div className="form-row align-items-center ">
+            <div className="form-group col-sm-3 col-label-fixed">
+              <p className="mg-b-0 tx-medium">Mật khẩu mới</p>
+            </div>
+            <div className="form-group col-sm-9 col-password">
+              <input
+                type={displayPassword ? "text" : "password"}
+                autoComplete="off"
+                className="form-control" name="NewPass"
+                onChange={(e) => setNewPassword(e.target.value)} value={newPassword} />
             </div>
           </div>
-          <div className="col-12">
-            <div className="form-row align-items-center ">
-              <div className="form-group col-sm-3 col-label-fixed">
-                <p className="mg-b-0 tx-medium">Confirm password:</p>
-              </div>
-              <div className="form-group col-sm-9">
-                <input
-                  type={displayPassword ? "text" : "password"}
-                  autoComplete="off"
-                  className="form-control" name="OldPass"
-                  onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} />
-              </div>
+        </div>
+        <div className="col-12">
+          <div className="form-row align-items-center ">
+            <div className="form-group col-sm-3 col-label-fixed">
+              <p className="mg-b-0 tx-medium">Xác nhận mật khẩu</p>
+            </div>
+            <div className="form-group col-sm-9 col-password">
+              <input
+                type={displayPassword ? "text" : "password"}
+                autoComplete="off"
+                className="form-control" name="OldPass"
+                onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} />
             </div>
           </div>
-          <div className="col-12">
-            <div className="form-group pd-l-2">
-              <div className="custom-control custom-checkbox">
-                <input type="checkbox" className="custom-control-input" id="displaypassword"
-                  onChange={() => setDisplayPassword(!displayPassword)} />
-                <label className="custom-control-label" htmlFor="displaypassword">Show password</label>
-              </div>
+        </div>
+        <div className="col-12">
+          <div className="form-group pd-l-2">
+            <div className="custom-control custom-checkbox">
+              <input type="checkbox" className="custom-control-input" id="displaypassword"
+                onChange={() => setDisplayPassword(!displayPassword)} />
+              <label className="custom-control-label" htmlFor="displaypassword">Hiển thị mật khẩu</label>
             </div>
           </div>
-          <div className="col-12">
-            <div className="form-row align-items-center ">
-              <div className="form-group col-sm-3 col-label-fixed">
-              </div>
-              <div className="form-group col-sm-9 mg-b-0-f">
-                <button type="submit" className="btn btn-primary">Save change</button>
-              </div>
+        </div>
+        <div className="col-12">
+          <div className="form-row align-items-center ">
+            <div className="form-group col-sm-3 col-label-fixed">
+            </div>
+            <div className="form-group col-sm-9 mg-b-0-f">
+              <button type="submit"
+                disabled={loadingPassword ? true : ""}
+                className="btn btn-primary rounded"
+                style={{ width: loadingPassword ? "110px" : "auto", color: "#fff" }}>
+                {loadingPassword ?
+                  <i className="fa fa-spinner fa-spin"></i> :
+                  "Save change"}
+              </button>
             </div>
           </div>
         </div>
       </div>
-    </form>
+    </div>
+  </form>
 }
 
 export default StudentForm;

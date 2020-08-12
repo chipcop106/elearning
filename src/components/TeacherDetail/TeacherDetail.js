@@ -122,8 +122,8 @@ const TeacherDetail = () => {
           <div className="teacher-header">
             <div className="teacher-avatar">
               <img src={!!state && state.TeacherIMG ? state.TeacherIMG : "../assets/img/default-avatar.png"}
-                 onError={(e)=>{e.target.onerror = null; e.target.src="../assets/img/default-avatar.png"}}
-                 alt="avatar" />
+                onError={(e) => { e.target.onerror = null; e.target.src = "../assets/img/default-avatar.png" }}
+                alt="avatar" />
             </div>
             {
               !!state && <div className="teacher-info">
@@ -153,19 +153,19 @@ const TeacherDetail = () => {
                   <a href={"#"} className={`${showTab === 1 ? 'active' : ''} tab-link h-100`}
                     data-index="0"
                     onClick={(e) => { e.preventDefault(); setShowTab(1) }}>
-                    <i className="fas fa-user mg-r-5"></i>TEACHER INFORMATION</a>
+                    <i className="fas fa-user mg-r-5"></i>THÔNG TIN</a>
                 </li>
                 <li className="tab-item h-auto">
                   <a href={"#"} className={`${showTab === 2 ? 'active' : ''} tab-link h-100`}
                     data-index="1"
                     onClick={(e) => { e.preventDefault(); setShowTab(2) }}>
-                    <i className="fas fa-calendar mg-r-5"></i>BOOKING SCHEDULE</a>
+                    <i className="fas fa-calendar mg-r-5"></i>ĐẶT LỊCH HỌC</a>
                 </li>
                 <li className="tab-item h-auto">
                   <a href={"#"} className={`${showTab === 3 ? 'active' : ''} tab-link h-100`}
                     data-index="2"
                     onClick={(e) => { e.preventDefault(); setShowTab(3) }}>
-                    <i className="fas fa-comment mg-r-5"></i>STUDENT COMMENT</a>
+                    <i className="fas fa-comment mg-r-5"></i>PHẢN HỒI</a>
                 </li>
               </ul>
             </div>
@@ -184,26 +184,40 @@ const TeacherDetail = () => {
                     <div className="slide-tab-content">
                       {
                         !!state && state.TeacherUID && (width > 768 ?
-                        <BookingSchedule
-                          TeacherUID={!!state && state.TeacherUID}
-                          onBookingId={onBookState.id}
-                          onCancelId={onCancelState.id}
-                          handleBookLesson={onHandleBookLesson}
-                          handleCancelLesson={onHandleCancelLesson} /> :
+                          <BookingSchedule
+                            TeacherUID={!!state && state.TeacherUID}
+                            onBookingId={onBookState.id}
+                            onCancelId={onCancelState.id}
+                            handleBookLesson={onHandleBookLesson}
+                            handleCancelLesson={onHandleCancelLesson} /> :
 
-                        <BookingScheduleMobile
-                          TeacherUID={!!state && state.TeacherUID}
-                          onBookingId={onBookState.id}
-                          handleBookLesson={onHandleBookLesson} />)
+                          <BookingScheduleMobile
+                            TeacherUID={!!state && state.TeacherUID}
+                            onBookingId={onBookState.id}
+                            handleBookLesson={onHandleBookLesson} />)
                       }
                       <div className="note mg-t-30">
                         <h5 className="sub-title"><i className="fas fa-sticky-note"></i>Notes:</h5>
                         <div className="introduce-content">
+                        <div className="mg-b-10 d-flex align-items-center mg-l-25">
+                              <span className="annotate annotate-available"></span>
+                              <span className="mx-2">Tiết học có sẵn</span>
+                              <span className="annotate annotate-others"></span>
+                              <span className="mx-2">Tiết học đã book</span>
+                              <span className="annotate annotate-me"></span>
+                              <span className="mx-2">Tiết học bạn đã đăng ký</span>
+                            </div>
                           <ul className="note-list">
-                            <li className="mg-b-10">Each session is 50 minutes</li>
+                            
+                            <li className="mg-b-10">Mỗi lớp học kéo dài trong 25 phút.</li>
+                            <li className="mg-b-10">Chọn tiết học có sẵn, bấm vào bút "Book" để đăng ký lớp học</li>
+                            <li className="mg-b-10">Chọn tiết học đã đăng ký, bấm vào bút "Cancel" để hủy lớp học</li>
+                            <li className="mg-b-10">Bạn chỉ có thể đăng ký lớp học ít nhất 30 phút trước khi bắt đầu học</li>
+                            <li className="mg-b-10">Bạn chỉ có thể hủy lớp học ít nhất 30 phút trước khi bắt đầu học</li>
+                            {/* <li className="mg-b-10">Each session is 50 minutes</li>
                             <li className="mg-b-10">To book a lesson, simply select the time frame and click the "Book" button</li>
                             <li className="mg-b-10">You can only BOOK a lesson 30 minutes before the lesson starts.</li>
-                            <li className="mg-b-10">You can only CANCEL the lesson 30 minutes before the className starts.</li>
+                            <li className="mg-b-10">You can only CANCEL the lesson 30 minutes before the className starts.</li> */}
                           </ul>
                         </div>
                       </div>
@@ -212,7 +226,7 @@ const TeacherDetail = () => {
                   <div className={`${showTab === 3 ? 'active' : ''} swiper-slide`}>
                     <div className="slide-tab-content">
                       {
-                        showTab == 3 && <StudentComment TeacherUID={!!state && state.TeacherUID}/>
+                        showTab == 3 && <StudentComment TeacherUID={!!state && state.TeacherUID} />
                       }
                     </div>
                   </div>
@@ -240,7 +254,7 @@ const TeacherDetail = () => {
           start={stateBookLesson.start}
           end={stateBookLesson.end}
           onBook={onBook} />
-          
+
         <ToastContainer />
       </div>
     }

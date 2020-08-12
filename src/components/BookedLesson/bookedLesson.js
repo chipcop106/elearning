@@ -149,7 +149,7 @@ const BookedLesson = () => {
   }, []);
 
   return <>
-    <h4 className="mg-b-30 gradient-heading"><i className="fas fa-calendar-check" />BOOKED LESSON</h4>
+    <h4 className="mg-b-30 gradient-heading"><i className="fas fa-calendar-check" />CÁC LỚP ĐÃ ĐĂNG KÝ</h4>
     {
       !!state ? <>
         <div className="feedback-container">
@@ -159,8 +159,8 @@ const BookedLesson = () => {
                 state.length + state.length === 0 ? (
                   <div className="empty-error tx-center mg-y-30 cr-item bg-white pd-15 rounded-5 shadow">
                     <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" />
-                    <p className=" tx-danger tx-medium">You don't have any lesson.</p>
-                    <a href="/ElearnStudent/bookingLesson" className="btn btn-primary">Book a lesson</a>
+                    <p className=" tx-danger tx-medium">Bạn không có buổi học nào sắp tới.</p>
+                    <a href="/ElearnStudent/bookingLesson" className="btn btn-primary">Đặt lịch học</a>
                   </div>) : ""
             }
             <ul className="list-wrap">

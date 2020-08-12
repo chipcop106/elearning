@@ -268,6 +268,7 @@
     min-height: calc(100vh - 167px);
 }
 
+
 .course-price {
     color: #ab0202;
     font-weight: 500;
@@ -281,6 +282,18 @@
     &.transparent {
         background: transparent;
     }
+}
+.table {
+    td{
+        padding:1rem;
+    }
+    th{
+        padding:10px 1rem;
+    }
+}
+
+.clrm-studentname{
+    white-space:nowrap;
 }
 
 .transparent {
@@ -2495,7 +2508,6 @@ a.no-hl {
     background: #fff;
     border-radius: 5px;
 }
-
 .profile-sidebar {
     flex-shrink: 0;
     padding: 50px 0 0 0;
@@ -2661,11 +2673,47 @@ a.no-hl {
     z-index: 1071 !important;
 }
 
-.navbar-header.custom-header-student {
+/* .custom-header-student .navbar-header {
     background-color: #fff;
+    height: auto;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     .navbar-brand {
-        border-right: 1px solid #e1e1e1;
+        border: none;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        position: relative;
+        &:after {
+            content: "";
+            position: absolute;
+            right:0;
+            top:5px;
+            width: 1px;
+            height: calc(100% - 10px);
+            background-color: #e1e1e1;
+        }
+        @include media(992px) {
+            padding-right: 15px;
+        }
+        @include media(500px) {
+            padding-right: 10px;
+            padding-left: 5px;
+        }
+    }
+    .dropdown-message .dropdown-link.new-indicator span,
+    .dropdown-notification .dropdown-link.new-indicator span {
+        background-color: #5ad927;
+    }
+    .dropdown-notification .dropdown-menu {
+        margin-top: 22.5px;
+        right: 0;
+        @include media(992px) {
+            margin-top: 21.5px;
+        }
+    }
+    .dropdown-profile .dropdown-menu {
+        @include media(992px) {
+            margin-top: 18px;
+        }
     }
     @media (min-width: 1200px)
     {
@@ -2677,12 +2725,33 @@ a.no-hl {
                 border-left: 1px solid #e1e1e1;
             }
         }
-        .dropdown-message .dropdown-link.new-indicator span,
-        .dropdown-notification .dropdown-link.new-indicator span {
-            background-color: #5ad927;
+    }
+    .container {
+        @media screen and (min-width: 1140px) {
+            padding: 0 15px;
         }
     }
-}
+    @include media(1199px) {
+        .navbar-right .dropdown:not(.dropdown-profile) {
+            padding: 0 15px;
+            .dropdown-menu {
+                margin-right: 0;
+                margin-left: 0;
+            }
+        }
+    }
+    .navbar-right .dropdown.dropdown-notification {
+        .dropdown-menu {
+            right: -68px;
+            &::before {
+                right: 82px;
+            }
+            &::after {
+                right: 83px;
+            }
+        }
+    }
+} */
 
 #js-book-calendar.calendar-student {
     .fc-event {
@@ -2704,6 +2773,14 @@ a.no-hl {
                 display: none;
             }
         }
+    }
+    .label-book {
+        @include media(1024px) {
+            font-size: 0.65rem;
+        }
+    }
+    .booked-others-slot {
+        background-color: #aa092c;
     }
 }
 
@@ -2953,9 +3030,7 @@ a.no-hl {
     }
 }
 
-table.table-striped tbody tr:nth-of-type(2n+1) {
-    background-color: #fff;
-}
+
 
 .table tbody tr {
     background: #fff;
@@ -5909,9 +5984,6 @@ body.drop-answer {
     }
    
     @media (min-width:992px) {
-        >.container {
-            max-width: 1340px !important;
-        }
         @media (min-width:1400px) {
             >.container{
                 padding: 0;
@@ -6024,7 +6096,7 @@ body.drop-answer {
 
 .dropdown-message .dropdown-link.new-indicator span,
 .dropdown-notification .dropdown-link.new-indicator span {
-    background-color: #71749a;
+    background-color: darken($second-color, 20%);
 }
 
 @media (min-width:576px) {
@@ -6039,11 +6111,12 @@ body.drop-answer {
 }
 
 footer.footer {
-    background-color: $primary-color;
-    color: #fff;
-
+    background-color: #fff;
+    color: $primary-color-dark;
+    border-top:0;
+    box-shadow:0px 0px 0px 0px rgba(0, 0, 0, 0.05);
     a {
-        color: #fff;
+        color: $primary-color-dark;
     }
 }
 
@@ -6388,10 +6461,10 @@ footer.footer {
     }
 
     .fc-timegrid-slot-label-cushion {
-        padding: 0 7px;
+        padding: 0 5px;
         padding-left: 20px;
         color: #a0a0a0;
-        font-weight: 500;
+        font-weight: 200;
         .hot-icon {
             position: absolute;
             left: 7px;
@@ -6434,11 +6507,10 @@ footer.footer {
             border-color: transparent;
         }
         &.fc-event-past {
-            background-color:#d8d8d8;
-            background-image: repeating-linear-gradient(-45deg,
-            transparent 0 2px,
-            #ccc 0 5px);
+            background-color: #ececec;
+            background-image: repeating-linear-gradient(-45deg, transparent 0 2px, #eaeaea 0 3px);
             border-color: #fff;
+            
             .booking-name{
                 color:#777;
                 
@@ -6452,9 +6524,11 @@ footer.footer {
             }
             &.available-slot{
                 .inner-content{
-                    display:none;
+                    color:#777;
+                    display:initial;
                 }
             }
+            
             .fix-btn{
                 display:none;
             }
@@ -6878,6 +6952,7 @@ footer.footer {
         animation: stripes 3s linear infinite;
         background-clip: text;
         color: transparent;
+        line-height: 1.5em;
         -webkit-background-clip: text;
         .fas, .fa{
             margin-right:5px;
@@ -7073,7 +7148,7 @@ input.time-only[readonly]{
             opacity:0;
         }
         &:before{
-            content:'Teacher Information';
+            content:'Thông tin Giáo viên';
             position:absolute;
             left:50%;
             transform:translate(-50%,0);
@@ -7252,6 +7327,19 @@ input.time-only[readonly]{
             }
         }
     }
+    &.teacher-custom{
+        @include media(480px){
+            .tab-item{
+                flex:1;
+                .tab-link{
+                    padding:5px;
+                    i{
+                        display:none;
+                    }
+                }
+            }
+        }
+    }
 }
 
 .main-title{
@@ -7406,7 +7494,7 @@ input.time-only[readonly]{
     }
     .tab-navigation{
         .tab-link{
-            font-size:0.85rem;
+            font-size:0.8rem;
         }
     }
 }
@@ -7584,7 +7672,7 @@ blockquote.messageText{
 
 .table-card{
     border:0;
-    box-shadow:0px 4px 10px 0px rgba(0,0,0,.15);
+    box-shadow:0px 0px 30px 0px rgba(82, 63, 105, 0.05);
     border-radius:16px;
     background:#fff;
     color:#b1b1b1;
@@ -8477,7 +8565,7 @@ blockquote.messageText{
 .safari{
     .metronic-form{
         select.form-control{
-        background-color:#F3F6F9;
+        background-color:#fff8f3;
         }
     }
     select.form-control{
@@ -8507,10 +8595,10 @@ body{
     }
     @include media(768px){
         >.card-body{
-            padding: 1.25rem 1.75rem;
+            padding: 1rem 1.25rem;
         }
         >.card-header{
-            padding:1.25rem 1.75rem;
+            padding:1rem 1.25rem;
         }
     }
 }
@@ -8538,4 +8626,213 @@ body{
     .tab-link{
         cursor:pointer;
     }
+}
+
+.tox.tox-tinymce{
+border-color:#e1e1e1;
+border-radius:0.42rem;
+}
+.tox:not([dir=rtl]) .tox-toolbar__group:not(:last-of-type){
+    border-color:#e1e1e1;
+}
+
+.card{
+    -webkit-box-shadow: 0px 0px 30px 0px rgba(82, 63, 105, 0.05);
+    box-shadow: 0px 0px 30px 0px rgba(82, 63, 105, 0.05);
+    border: 0;
+    border-radius:0.42rem;
+}
+
+input[type="date"].form-control, input[type="time"].form-control, input[type="datetime-local"].form-control, input[type="month"].form-control{
+    -webkit-appearance:none;
+}
+
+@media (max-width:768px){
+    .responsive-table{
+        position: relative;
+        display: flex;
+        width: 100%;
+        border-spacing: 0;
+        border-collapse: collapse;
+        thead{
+           
+            border: 0;
+            border-right: 1px solid rgba(72, 94, 144, 0.16);
+            tr{
+                display: flex;
+                flex-direction: column;
+                padding: 0;
+                height:100%;
+                th{
+                    display: inline-flex;
+                    align-items: center;
+                    text-align: right;
+                    margin: 0;
+                    min-height: 3.5rem;
+                    vertical-align: middle;
+                    font-size: 12px;
+                    padding-left: 0;
+                    justify-content: flex-end;
+                    flex: 1;
+                    min-width: auto;
+                    width: auto;
+                }
+            }
+        }
+        tbody{
+            position: relative;
+            display: block;
+            overflow-x: auto;
+            width: auto;
+            white-space: nowrap;
+            tr{
+                display: inline-block;
+                vertical-align: top;
+               
+            }
+            tr{
+                &:last-child{
+                    td{
+                        border-right:0;
+                    }
+                }
+                td{
+                    display: block;
+                    min-height: 3.5rem;
+                    text-align: left;
+                    margin: 0;
+                    vertical-align: top;
+                    padding:5px 15px;
+                    border-right: 1px solid #e1e1e1;
+                    border-top: 0;
+                    .btn >span{
+                        display:inline-block !important;
+                        vertical-align:middle
+                    }
+                }
+            }
+            @include scrollbars(3px, lighten($primary-color,20%), lighten($primary-color,42%));
+        }
+     
+    }
+}
+
+
+.table-striped{
+    tr:nth-child(even) {
+        background-color: #fffbf5;
+      }
+    
+}
+.table th, .table td{
+    border-top:1px solid rgba(72,94,144,0.16);
+    border-color:rgba(72,94,144,0.16);
+    
+}
+.table-hover tbody tr:hover{
+    background-color: #fffbf5;
+}
+
+
+@include media(768px){
+    .responsive-table-vertical{
+        display: block; 
+        tbody{
+            padding:5px 0;
+            tr{
+                margin-bottom: -1px;
+            }
+        }
+        thead, tbody, th, td, tr { 
+            display: block; 
+        }
+        
+        /* Hide table headers (but not display: none;, for accessibility) */
+        thead tr { 
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+        
+        tr { border: 1px solid #ccc; }
+        
+        td { 
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee; 
+            position: relative;
+            padding-left: 50%; 
+            text-align:left;
+        }
+        
+        td:before { 
+            content: attr(data-title);
+            /* Now like a table header */
+            position: absolute;
+            /* Top/left values mimic padding */
+            top: 8px;
+            left: 8px;
+            width: 45%; 
+            padding-right: 15px; 
+            white-space: nowrap;
+            height:100%;
+            font-weight:500;
+        }
+    }
+}
+
+.content{
+    padding-left:15px;
+    padding-right:15px;
+}
+
+.btn-primary.disabled, .btn-primary:disabled{
+    color:#fff;
+}
+
+#header:not(.custom-header-student) {
+    .dropdown-notification{
+        padding-right: 30px;
+        border-right: 1px solid #ffaa60;
+    }
+    .dropdown-profile{
+        margin-left:30px;
+    }
+    .avatar + .username{
+        color:#fff;
+    }
+}
+
+#js-book-calendar .fc-event.hide-event .fc-event-main {
+    display: none;
+}
+
+#js-book-calendar .fc-event.fc-event-past.hide-event {
+    background-color: #d8d8d9;
+}
+
+#js-book-calendar .fc-event.hide-event {
+    background-color: #fff;
+}
+
+.custom-header-student .navbar-right  svg {
+    color: #707070;
+}
+
+#header{
+    .avatar + .username{
+        white-space:nowrap;
+    }
+}
+
+.custom-header-student{
+   
+    .bottom-header{
+        display:none;
+    }
+}
+
+.custom-header-student + .content{
+    min-height: calc(100vh - 106px);
+    /* margin-top:60px; */
 }

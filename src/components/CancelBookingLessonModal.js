@@ -49,20 +49,20 @@ const CancelBookingLessonModal = ({ BookingID, LessionName, date, start, end, st
           </button>
         </div>
         <div className="modal-body">
-          <p id="newCampaignTitle">Lesson Name: <span className="tx-medium">{LessionName || ''}</span></p>
-          <p>Date: <span id="js-date-time" className="tx-medium">{date || ''}</span></p>
-          <p>Start time: <span id="js-start-time" className="tx-medium">{start || ''}</span></p>
-          <p>End time: <span id="js-end-time" className="tx-medium">{end || ''}</span></p>
+          <p id="newCampaignTitle">Lớp học: <span className="tx-medium">{LessionName || ''}</span></p>
+          <p>Ngày: <span id="js-date-time" className="tx-medium">{date || ''}</span></p>
+          <p>Bắt đầu: <span id="js-start-time" className="tx-medium">{start || ''}</span></p>
+          <p>Kết thúc: <span id="js-end-time" className="tx-medium">{end || ''}</span></p>
           <div className="metronic-form">
             <div className="form-group">
               <textarea style={{height: '100px'}}
                 className="form-control"
-                placeholder="Reason cancel"
+                placeholder="Lý do hủy"
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}></textarea>
             </div>
           </div>
-          <p className="tx-danger">Are you sure to cancel this lesson?</p>
+          <p className="tx-danger">Bạn có chắc muốn hủy lớp học này?</p>
         </div>
         <div className="modal-footer">
           <button type="button" className="btn btn-light" data-dismiss="modal">No</button>
