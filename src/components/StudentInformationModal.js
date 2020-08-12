@@ -35,7 +35,7 @@ const StudentInformationModal = React.forwardRef(({ studentId }, ref) => {
             stSex: res.Data.Gender,
             stLanguage:  res.Data.LanguageString,
             stTimeZone:  res.Data.TimeZoneString,
-            stDescription:  res.Data.Introduce,
+            stDescription:  res.Data.PersonalPreference,
             stSkypeId:  res.Data.SkypeID,
             stEmail:  res.Data.Email,
             stPhone: res.Data.Phone,
