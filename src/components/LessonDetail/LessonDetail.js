@@ -68,37 +68,37 @@ const LessonDetail = () => {
               <div className="col-md-6 col-sm-12">
                 {/* <!--thông tin buổi học--> */}
                 <div className="st-thontinbuoihoc">
-                  <h5 className="main-title">Lesson information</h5>
+                  <h5 className="main-title">Thông tin bài học</h5>
                   <div className="infomation__wrap">
                     <div className="st-time">
                       <p className="st-teacher-text">
                         <i className="fa fa-book st-icon wd-20 mg-r-5"></i>
-                        <span>Course name: <span>{state.DocumentName}</span></span>
+                        <span>Khóa học: <span>{state.DocumentName}</span></span>
                       </p>
                     </div>
                     <div className="st-time">
                       <p className="st-time-text">
                         <i className="fa fa-user-clock st-icon wd-20 mg-r-5"></i>
-                        <span className="tx-black tx-normal">Expired: </span>
+                        <span className="tx-black tx-normal">Lịch học: </span>
                         <span>{state.ScheduleTimeVN}</span>
                       </p>
                     </div>
                     <div className="st-time">
                       <p className="st-teacher-text">
                         <i className="fa fa-user-graduate st-icon wd-20 mg-r-5"></i>
-                        <span>Teacher:</span> <span className="st-tengv">{state.TeacherName}</span>
+                        <span>Giáo viên:</span> <span className="st-tengv">{state.TeacherName}</span>
                       </p>
                     </div>
                     <div className="st-time">
                       <p className="st-teacher-text">
                         <i className="fa fa-book-reader st-icon wd-20 mg-r-5"></i>
-                        <span>Student:</span> <span className="st-tengv">{state.StudentName}</span>
+                        <span>Học viên:</span> <span className="st-tengv">{state.StudentName}</span>
                       </p>
                     </div>
                     <div className="st-time">
                       <p className="st-teacher-text">
                         <i className="fa fa-book-open st-icon wd-20 mg-r-5"></i>
-                        <span>Material: <a href={state.MaterialLink} target="_blank">{state.Material}</a> </span>
+                        <span>Tài liệu: <a href={state.MaterialLink} target="_blank">{state.Material}</a> </span>
                       </p>
                     </div>
                   </div>
@@ -108,12 +108,12 @@ const LessonDetail = () => {
               <div className="col-md-6 col-sm-12">
                 {/* <!--thang danh gia--> */}
                 <div className="st-thangdanhgia">
-                  <h5 className="main-title">Rating</h5>
+                  <h5 className="main-title">Phản hồi</h5>
                   {
                     (state.Rate == 0 || state.Rate) && (<div className="d-block mg-b-15 st-rating">
                       <div className="cell text-left">
                         <i className="fa fa-smile st-icon wd-20 mg-r-5"></i>
-                        <span className="mg-r-5">Teacher rate:</span>
+                        <span className="mg-r-5">Giáo viên:</span>
                         <div className="d-inline-block st-noidung-rating">
                           <div className="rating-stars">
                             <span className="empty-stars">
@@ -142,7 +142,7 @@ const LessonDetail = () => {
                     (state.StudentRate == 0 || state.StudentRate) && (<div className="d-block st-rating">
                       <div className="cell text-left">
                         <i className="fa fa-smile st-icon wd-20 mg-r-5"></i>
-                        <span className="mg-r-5">Student rate:</span>
+                        <span className="mg-r-5">Học viên:</span>
                         <div className="d-inline-block st-noidung-rating">
                           <div className="rating-stars">
                             <span className="empty-stars">
@@ -171,11 +171,11 @@ const LessonDetail = () => {
               </div>
             </div>
             <div className="review__wrap mg-t-15 sec">
-              <h5 className="main-title">Review</h5>
+              <h5 className="main-title">Nhận xét</h5>
               {/* <!--/Đánh giá ngữ pháp-->*/}
               <div className="st-danhgianguphap">
                 <div className="st-title-danhgia mg-b-15">
-                  <h5 className="sub-title">Grammar</h5>
+                  <h5 className="sub-title">Ngữ pháp</h5>
                 </div>
                 <div className="row">
                   {
@@ -190,7 +190,7 @@ const LessonDetail = () => {
                       <!--Đánh giá phát âm--> */}
               <div className="st-danhgianguphap">
                 <div className="st-title-danhgia mg-b-15">
-                  <h5 className="sub-title">Pronounce</h5>
+                  <h5 className="sub-title">Phát âm</h5>
                 </div>
                 <div className="row">
                   {
@@ -205,7 +205,7 @@ const LessonDetail = () => {
                       <!--Đánh giá từ vựng--> */}
               <div className="st-danhgianguphap">
                 <div className="st-title-danhgia mg-b-15">
-                  <h5 className="sub-title">Vocabulary</h5>
+                  <h5 className="sub-title">Từ vựng</h5>
                 </div>
                 <div className="row">
                   {
@@ -220,7 +220,7 @@ const LessonDetail = () => {
                       <!--Từ cần ghi nhớ--> */}
               <div className="st-danhgianguphap">
                 <div className="st-title-danhgia mg-b-15">
-                  <h5 className="sub-title">Sentence Development And Speak</h5>
+                  <h5 className="sub-title">Đặt câu và giao tiếp</h5>
                 </div>
                 {
                   state.SentenceDevelopmentAndSpeak ? (
@@ -234,7 +234,7 @@ const LessonDetail = () => {
                       <!--Đánh giá giáo viên--> */}
               <div className="st-danhgianguphap">
                 <div className="st-title-danhgia mg-b-15">
-                  <h5 className="sub-title">General assessment</h5>
+                  <h5 className="sub-title">Nhận xét chung</h5>
                 </div>
                 {
                   state.Note ? (
@@ -248,7 +248,7 @@ const LessonDetail = () => {
                       <!--Đánh giá học viên--> */}
               <div className="st-danhgianguphap">
                 <div className="st-title-danhgia mg-b-15">
-                  <h5 className="sub-title">Student Feedback</h5>
+                  <h5 className="sub-title">Học viên phản hồi</h5>
                 </div>
                 {
                   Object.keys(state).length === 0 ? "" : (
@@ -256,7 +256,7 @@ const LessonDetail = () => {
                       <div className="st-item-danhgia">
                         <p dangerouslySetInnerHTML={{ __html: decodeURI(state.StudentEvaluation) }} style={{ wordBreak: "break-all" }}></p>
                       </div>
-                    ) : (<><p>You are not leave feedback for this lesson</p>
+                    ) : (<><p>Bạn chưa phản hồi về lớp học này</p>
                       <button className="btn btn-primary mg-r-10"
                         data-toggle="modal"
                         data-target="#js-md-rate"

@@ -26,7 +26,7 @@ const Faq = () => {
     </div>
     <div className="faq-container">
       <div className="d-xl-flex align-items-center justify-content-between mg-b-15 mg-t-30">
-        <h4 className="mg-b-0 gradient-heading"><i className="fas fa-comment-alt"></i> Frequently Asked Questions</h4>
+        <h4 className="mg-b-0 gradient-heading"><i className="fas fa-comment-alt"></i>CÁC CÂU HỎI THƯỜNG GẶP</h4>
       </div>
       {
         loading ? <SkeletonFaq /> :
@@ -55,7 +55,11 @@ const Faq = () => {
                     </div>
                   </div>
                 </div>
-              ): <span className="text-danger bold" style={{fontSize:'16px'}}>It's doesn't have any faq </span>
+              ):
+              <div className="card card-custom shadow">
+              <div className="card-body tx-center">
+            <span className="d-block tx-center text-danger bold" style={{fontSize:'16px'}}>It's doesn't have any faq</span>
+            <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" /></div></div>
             }
           </div>
       }

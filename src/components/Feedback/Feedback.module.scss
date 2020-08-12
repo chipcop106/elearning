@@ -23,8 +23,11 @@
 }
 
 .readmore {
+    display: inline-block;
     i {
         padding-left: 0;
+    }
+    &:hover i {
         animation: wiggle 1s infinite;
     }
 }

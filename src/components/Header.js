@@ -16,16 +16,16 @@ const Header = () => {
             </div>{/* navbar-menu-header */}
           </div>{/* navbar-menu-wrapper */}
           <div className="navbar-right">
-            <a id="navbarSearch" className="search-link"><i data-feather="search" className=""/></a>
+            <a id="navbarSearch" className="search-link"><i data-feather="search" className="" /></a>
             <div className="dropdown dropdown-message">
               <a className="dropdown-link new-indicator open-chat-nav">
-                <i data-feather="message-square" className=""/>
+                <i data-feather="message-square" className="" />
                 <span>5</span>
               </a>
             </div>{/* dropdown */}
             <div className="dropdown dropdown-notification">
               <a className="dropdown-link new-indicator" data-toggle="dropdown">
-                <i data-feather="bell" className=""/>
+                <i data-feather="bell" className="" />
                 <span>2</span>
               </a>
               <div className="dropdown-menu dropdown-menu-right">
@@ -33,7 +33,7 @@ const Header = () => {
                 <a className="dropdown-item">
                   <div className="media">
                     <div className="avatar avatar-sm avatar-online"><img src="../assets/img/teacher.jpg" className="rounded-circle" alt="" /></div>
-                    
+
                     <div className="media-body mg-l-15">
                       <p>Congratulate <strong>Socrates Itumay</strong> for work anniversaries</p>
                       <span>Mar 15 12:32pm</span>
@@ -43,7 +43,7 @@ const Header = () => {
                 <a className="dropdown-item">
                   <div className="media">
                     <div className="avatar avatar-sm avatar-online"><img src="../assets/img/teacher.jpg" className="rounded-circle" alt="" /></div>
-                    
+
                     <div className="media-body mg-l-15">
                       <p><strong>Joyce Chua</strong> just created a new blog post</p>
                       <span>Mar 13 04:16am</span>
@@ -53,7 +53,7 @@ const Header = () => {
                 <a className="dropdown-item">
                   <div className="media">
                     <div className="avatar avatar-sm avatar-online"><img src="../assets/img/teacher.jpg" className="rounded-circle" alt="" /></div>
-                    
+
                     <div className="media-body mg-l-15">
                       <p><strong>Althea Cabardo</strong> just created a new blog post</p>
                       <span>Mar 13 02:56am</span>
@@ -63,7 +63,7 @@ const Header = () => {
                 <a className="dropdown-item">
                   <div className="media">
                     <div className="avatar avatar-sm avatar-online"><img src="../assets/img/teacher.jpg" className="rounded-circle" alt="" /></div>
-                    
+
                     <div className="media-body mg-l-15">
                       <p><strong>Adrian Monino</strong> added new comment on your photo</p>
                       <span>Mar 12 10:40pm</span>
@@ -81,11 +81,11 @@ const Header = () => {
                   <span className="mg-l-10 bold">Phuong Uyen</span>
                   <i className="fa fa-caret-down mg-l-10 "></i>
                 </span>
-                
+
               </a>{/* dropdown-link */}
               <div className="dropdown-menu dropdown-menu-right tx-13">
                 <div className="avatar avatar-lg mg-b-15"><img src="../assets/img/teacher.jpg" className="rounded-circle" alt="" /></div>
-                <h6 className="tx-semibold mg-b-5">Mona Media</h6>
+                <h6 className="tx-semibold mg-b-5">Trần Lê Phương Uyên</h6>
                 <p className="mg-b-25 tx-12 tx-color-03">Administrator</p>
                 <a href="/teacherProfile.html" className="dropdown-item"><i data-feather="user" /> View Profile</a>
                 <div className="dropdown-divider" />
@@ -94,7 +94,7 @@ const Header = () => {
             </div>{/* dropdown */}
           </div>{/* navbar-right */}
         </div>
-      </header>{/* navbar */}
+      </header>
       <div className="bottom-header">
         <div className="container">
           <a id="js-burger-menu" className="burger-menu-bottom"><i data-feather="menu" /></a>

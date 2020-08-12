@@ -2537,18 +2537,28 @@ a.no-hl {
                 font-weight: 500;
                 transition: .2s;
             }
-            &.active {
+            &.hard-active, &.active {
                 a {
                     color: #fff;
-                    transform: scale(1.1);
                     padding: 15px 0 15px 20px;
                     text-transform: uppercase;
                     letter-spacing: .05rem;
-                    background-color: $second-color;
                     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
                 }
                 &:after {
-                    background-color: $second-color!important;
+                    display: none;
+                }
+            }
+            &.hard-active {
+                a {
+                    transform: scale(1.1)!important;
+                    background-color: $second-color;
+                }
+            }
+            &.active {
+                a {
+                    transform: scale(1);
+                    background-color: $primary-color;
                 }
             }
             &:hover {
@@ -2558,7 +2568,7 @@ a.no-hl {
                     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
                 }
                 &:after {
-                    background-color: $primary-color!important;
+                    display: none;
                 }
             }
             &:not(:last-child) {
@@ -2662,11 +2672,48 @@ a.no-hl {
 .modal {
     z-index: 1071 !important;
 }
-.custom-header-student .navbar-header{
+
+/* .custom-header-student .navbar-header {
     background-color: #fff;
+    height: auto;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     .navbar-brand {
-        border-right: 1px solid #e1e1e1;
+        border: none;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        position: relative;
+        &:after {
+            content: "";
+            position: absolute;
+            right:0;
+            top:5px;
+            width: 1px;
+            height: calc(100% - 10px);
+            background-color: #e1e1e1;
+        }
+        @include media(992px) {
+            padding-right: 15px;
+        }
+        @include media(500px) {
+            padding-right: 10px;
+            padding-left: 5px;
+        }
+    }
+    .dropdown-message .dropdown-link.new-indicator span,
+    .dropdown-notification .dropdown-link.new-indicator span {
+        background-color: #5ad927;
+    }
+    .dropdown-notification .dropdown-menu {
+        margin-top: 22.5px;
+        right: 0;
+        @include media(992px) {
+            margin-top: 21.5px;
+        }
+    }
+    .dropdown-profile .dropdown-menu {
+        @include media(992px) {
+            margin-top: 18px;
+        }
     }
     @media (min-width: 1200px)
     {
@@ -2678,12 +2725,33 @@ a.no-hl {
                 border-left: 1px solid #e1e1e1;
             }
         }
-        .dropdown-message .dropdown-link.new-indicator span,
-        .dropdown-notification .dropdown-link.new-indicator span {
-            background-color: #5ad927;
+    }
+    .container {
+        @media screen and (min-width: 1140px) {
+            padding: 0 15px;
         }
     }
-}
+    @include media(1199px) {
+        .navbar-right .dropdown:not(.dropdown-profile) {
+            padding: 0 15px;
+            .dropdown-menu {
+                margin-right: 0;
+                margin-left: 0;
+            }
+        }
+    }
+    .navbar-right .dropdown.dropdown-notification {
+        .dropdown-menu {
+            right: -68px;
+            &::before {
+                right: 82px;
+            }
+            &::after {
+                right: 83px;
+            }
+        }
+    }
+} */
 
 #js-book-calendar.calendar-student {
     .fc-event {
@@ -2705,6 +2773,14 @@ a.no-hl {
                 display: none;
             }
         }
+    }
+    .label-book {
+        @include media(1024px) {
+            font-size: 0.65rem;
+        }
+    }
+    .booked-others-slot {
+        background-color: #aa092c;
     }
 }
 
@@ -5908,15 +5984,7 @@ body.drop-answer {
     }
    
     @media (min-width:992px) {
-      
     box-shadow: 0px 1px 12px 0px rgba(0,0,0,.25);
-    }
-
-
-
-    
-
-    .hd-menu-list {
         display: flex;
         align-items: stretch;
         padding: 0;
@@ -6880,6 +6948,7 @@ footer.footer {
         animation: stripes 3s linear infinite;
         background-clip: text;
         color: transparent;
+        line-height: 1.5em;
         -webkit-background-clip: text;
         .fas, .fa{
             margin-right:5px;
@@ -7075,7 +7144,7 @@ input.time-only[readonly]{
             opacity:0;
         }
         &:before{
-            content:'Teacher Information';
+            content:'Thông tin Giáo viên';
             position:absolute;
             left:50%;
             transform:translate(-50%,0);
@@ -7422,7 +7491,7 @@ input.time-only[readonly]{
     }
     .tab-navigation{
         .tab-link{
-            font-size:0.85rem;
+            font-size:0.8rem;
         }
     }
 }
@@ -8684,10 +8753,7 @@ input[type="date"].form-control, input[type="time"].form-control, input[type="da
                 &:nth-child(even){
                     background:rgba(247,125,20,.07);
                 }
-            }
         }
-        thead, tbody, th, td, tr { 
-            display: block; 
         }
         
         /* Hide table headers (but not display: none;, for accessibility) */
@@ -8715,11 +8781,6 @@ input[type="date"].form-control, input[type="time"].form-control, input[type="da
             /* Top/left values mimic padding */
             top: 1rem;
             left: 1rem;
-            width: 45%; 
-            padding-right: 15px; 
-            white-space: nowrap;
-            height:100%;
-            font-weight:500;
         }
     }
 }

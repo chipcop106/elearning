@@ -134,7 +134,7 @@ const BookingScheduleMobile = ({ TeacherUID, onBookingId, handleBookLesson }) =>
         <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
       </div>
       <div id="js-book-calendar-mobile" className="fc fc-unthemed fc-ltr" height="500">
-        <span className="tx-danger mg-b-15">Range time from 06:00 to 23:00</span>
+        <span className="tx-danger mg-b-15">Lịch học từ 06:00 đến 23:00</span>
         <div className="metronic-form">
           <div className="form-row">
             <div className="col-12 form-group">

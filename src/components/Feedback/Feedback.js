@@ -118,20 +118,54 @@ const Feedback = () => {
 
   return !loading && (<>
     <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
-      <h4 className="mg-b-0 gradient-heading"><i className="fas fa-comment-dots"></i>FEEDBACK</h4>
+      <h4 className="mg-b-0 gradient-heading"><i className="fas fa-comment-dots"></i>PHẢN HỒI</h4>
     </div>
     <div className="feedback-container">
       <div className="fb-summary-container">
         {
           overview && Object.keys(overview).length > 0 ? <>
-            <p className="tx-16">Last 100 Parent Feedback Average: <span className="tx-warning tx-20 tx-bold">{overview.Avarage}</span></p>
+            <p className="tx-16">Trung bình 100 phản hồi gần nhất: <span className="tx-warning tx-20 tx-bold">{overview.Avarage}</span></p>
+        
+           {/*  <div className="dropdown">
+                <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+                  Tất Cả<b className="caret"></b></a>
+                <ul className="dropdown-menu">
+                    <li><a href="#">
+                      <i className="fa fa-star"></i>
+                      <i className="fa fa-star"></i>
+                      <i className="fa fa-star"></i>
+                      <i className="fa fa-star"></i>
+                      <i className="fa fa-star"></i>
+                      </a></li>
+                      <li><a href="#">
+                      <i className="fa fa-star"></i>
+                      <i className="fa fa-star"></i>
+                      <i className="fa fa-star"></i>
+                      <i className="fa fa-star"></i>
+                      </a></li>
+                      <li><a href="#">
+                      <i className="fa fa-star"></i>
+                      <i className="fa fa-star"></i>
+                      <i className="fa fa-star"></i>
+                      </a></li>
+                      <li><a href="#">
+                      <i className="fa fa-star"></i>
+                      <i className="fa fa-star"></i>
+                      </a></li>
+                      <li><a href="#">
+                      <i className="fa fa-star"></i>
+                      </a></li>
+                </ul>
+            </div>
+            */}
+
             <div className="fb-summary">
               <div className="fb-type w-100">
                 <div className="fb-radio">
                   <label>
                     <input type="radio" name="fbType" group="feedback" defaultChecked
                       onClick={(e) => fetchListEvaluation(e, 0)} />
-                    <span>All feedbacks</span>
+                    <span>Tất cả</span>
                     <span className="number">{overview.AllEvaluation}</span>
                   </label>
                 </div>
@@ -223,7 +257,11 @@ const Feedback = () => {
                   Note={item.Note}
                   Rate={item.Rate}
                   LinkDetail={item.LinkDetail}
-                  DocumentName={item.DocumentName} />) : <span className="text-danger bold" style={{ fontSize: '16px' }}>It's doesn't have any feedback </span>
+                  DocumentName={item.DocumentName} />) : 
+                  <div className="card card-custom shadow">
+                  <div className="card-body tx-center">
+                <span className="d-block tx-center text-danger bold" style={{fontSize:'16px'}}>Bạn không có phản hồi nào</span>
+                <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" /></div></div>
             }
           </div>
       }

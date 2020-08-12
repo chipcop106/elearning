@@ -109,46 +109,48 @@ const PaymentHistory = () => {
     }
     <div className="table-tiket">
       <div className="table-responsive">
-        <table className="table tx-nowrap">
-          <thead className="thead-light tx-center">
+        <table className="table table-bordered tx-center tx-nowrap">
+          <thead className="thead-primary">
             <tr>
-              <th>Course Name</th>
-              <th>Amount</th>
-              <th>Start</th>
-              <th>End</th>
-              <th>Method</th>
-              <th>Payment Date</th>
-              <th>Expiration Date</th>
-              <th>Status</th>
-              <th>Total Lesson</th>
+              <th className="mw-200">Khóa học</th>
+              <th>Số Buổi Học</th>
+              <th>Số Tiền</th>
+              <th>Ngày thanh toán</th>
+              <th>Kỳ Hạn</th>
+              <th>Trạng Thái</th>
             </tr>
           </thead>
           <tbody>
             {
-              loading ? <SkeletonLessonHistoryCard column={9} /> :
+              loading ? <SkeletonLessonHistoryCard column={6} /> :
                 !!state && Array.isArray(state) && state.length > 0 ?
                   state.map((item, index) =>
                     <tr key={index}>
-                      <td>{item.PlanName}</td>
+                      <td className="tx-left mw-200">
+                        <span className="d-block bold" style={{ whiteSpace: "normal" }}>{item.PlanName}</span>
+                        <span className="d-block">
+                          {`Bắt đầu: ${item.StartDate && item.StartDate.split(" ")[0]}`}
+                        </span>
+                        <span className="d-block">
+                          {`Kết thúc: ${item.EndDate && item.EndDate.split(" ")[0]}`}
+                        </span>
+                      </td>
+                      <td>{item.TotalLesson}</td>
                       <td>{item.Amount}</td>
-                      <td>{item.StartDate}</td>
-                      <td>{item.EndDate}</td>
-                      <td>{item.PaymentTypeString}</td>
-                      <td>{moment(item.PaymentDate).format("YYYY-MM-DD")}</td>
+                      <td>{item.PaymentDate && moment(item.PaymentDate).format("DD/MM/YYYY")}</td>
                       <td>{item.ExpirationDate}</td>
-                      <th><span className={`badge badge-${
+                      <td><span className={`badge badge-${
                         item.Status === 1 ? 'warning' :
                           item.Status === 2 ? "success" : "danger"} pd-5 tx-12 wd-75`}>
                         {
                           item.Status === 1 ? "Chưa kích hoạt" :
                             item.Status === 2 ? "Đã kích hoạt" : "Hết hạn"
                         }
-                      </span></th>
-                      <th>{item.TotalLesson}</th>
+                      </span></td>
                     </tr>) :
                   <tr style={{ backgroundColor: "transparent" }}>
                     <td colSpan="9">
-                      <NOT_DATA_FOUND />
+                      <span className="d-block text-center text-danger bold" style={{ fontSize: '16px' }}>Bạn chưa mua khóa học nào</span>
                     </td>
                   </tr>
             }

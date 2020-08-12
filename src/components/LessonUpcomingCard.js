@@ -65,20 +65,20 @@ const LessonUpcomingCard = ({
                 {date}</span>
               <span className="mg-r-15 tx-gray-600 tx-medium d-inline-block">
                  <i className="feather-16 mg-r-5" data-feather="clock"></i>
-                {`Start: ${start}`}</span>
+                {`Bắt đầu: ${start}`}</span>
               <span className="mg-r-15 tx-gray-600 tx-medium d-inline-block">
                 <i className="feather-16 mg-r-5" data-feather="clock"></i>
-                {`End: ${end}`}</span>
+                {`Kết thúc: ${end}`}</span>
             </div>
             {
               SpecialRequest &&  <div className="course-note mg-t-15">
-              <h6 className="mg-b-3 tx-bold">Lesson notes:</h6>
+              <h6 className="mg-b-3 tx-bold">Ghi chú cho giáo viên:</h6>
               <p className="tx-14 mg-b-0" style={{wordBreak:"break-all"}}>{SpecialRequest}</p>
             </div>
             }
             {
               !!DocumentName && <div className="course-docs mg-t-15">
-              <h6 className="mg-b-3 tx-bold">Documents:</h6>
+              <h6 className="mg-b-3 tx-bold">Tài liệu:</h6>
               <div> <a href={LessionMaterial} target="_blank">{DocumentName}</a></div>
             </div>
             }
@@ -88,7 +88,7 @@ const LessonUpcomingCard = ({
               <a href={`skype:${SkypeID}?chat`}
                   className="btn btn-sm btn-info d-flex justify-content-center align-items-center tx-medium"
                     rel="noopener">
-                <div><i className="fab fa-skype mg-r-5"></i>JOIN CLASS</div>
+                <div><i className="fab fa-skype mg-r-5"></i>VÀO HỌC</div>
               </a>
               <a href={"#"} className="btn btn-sm btn-success tx-medium" data-toggle="modal" data-target="#js-md-required"
                 onClick={() => handleRequireLesson(
@@ -104,7 +104,7 @@ const LessonUpcomingCard = ({
                   end,
                   DocumentName,
                   SkypeID)}>
-                <i className="fas fa-edit mg-r-5"></i>REQUIRE TEACHER</a>
+                <i className="fas fa-edit mg-r-5"></i>GHI CHÚ</a>
             </div>
             <div className="action-right">
               {
@@ -114,7 +114,7 @@ const LessonUpcomingCard = ({
                   onClick={(e) => handleCancelBooking(e, BookingID, LessionName, date, start, end)}
                   data-toggle="modal" data-target="#md-cancel-schedule"
                   data-placement="top">
-                  <div><i className="fas fa-times-circle"></i> CANCEL LESSON</div>
+                  <div><i className="fas fa-times-circle"></i> HỦY LỚP</div>
                 </a>
               }
             </div>

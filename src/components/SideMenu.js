@@ -17,7 +17,7 @@ const SideMenu = () => {
       <li className={activePage.indexOf("/ElearnStudent/DashBoard".toUpperCase()) !== -1 ? "active" : ""}>
         <a href="/ElearnStudent/DashBoard">Dashboard</a>
       </li>
-      <li className={activePage.indexOf("/ElearnStudent/bookingLesson".toUpperCase()) !== -1 ? "active" : ""}>
+      <li className={activePage.indexOf("/ElearnStudent/bookingLesson".toUpperCase()) !== -1 ? "active hard-active" : "hard-active"}>
         <a href="/ElearnStudent/bookingLesson">Book a lesson</a>
       </li>
       <li className={activePage.indexOf("/ElearnStudent/Announcements".toUpperCase()) !== -1 ? "active" : ""}>

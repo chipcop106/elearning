@@ -27,7 +27,7 @@ const RequireLessonModal = ({
   const requireLesson = () => toast.success(REQUEST_SUCCESS, toastInit);
   const requireLessonFail = () => toast.error(FETCH_ERROR, toastInit);
   const requireLessonAlert1 = () => toast.warn(FILL_NOTES, toastInit);
-  const requireLessonAlert2 = () => toast.warn("Maximum 200 letters", toastInit);
+  const requireLessonAlert2 = () => toast.warn("Tối đa 200 ký tự", toastInit);
 
   const fetchAPI = async (params) => {
     const res = await requestLessonAPI(params);
@@ -98,20 +98,20 @@ const RequireLessonModal = ({
                         {date}</span>
                       <span className="mg-r-15 tx-gray-600 tx-medium d-inline-block">
                         <i className="feather-16 mg-r-5" data-feather="clock"></i>
-                        {`Start: ${start}`}</span>
+                        {`Bắt đầu: ${start}`}</span>
                       <span className="mg-r-15 tx-gray-600 tx-medium d-inline-block">
                         <i className="feather-16 mg-r-5" data-feather="clock"></i>
-                        {`End: ${end}`}</span>
+                        {`Kết thúc: ${end}`}</span>
                     </div>
                     {
                       SpecialRequest && <div className="course-note mg-t-15">
-                        <h6 className="mg-b-3">Lesson notes:</h6>
+                        <h6 className="mg-b-3">Ghi chú:</h6>
                         <p className="tx-14 mg-b-0" style={{wordBreak:"break-all"}}> {SpecialRequest} </p>
                       </div>
                     }
                     {
                       DocumentName && LessionMaterial && <div className="course-docs mg-t-15">
-                        <h6 className="mg-b-3">Documents:</h6>
+                        <h6 className="mg-b-3">Tài liệu:</h6>
                         <div>
                           <a href={LessionMaterial} target="_blank">{DocumentName}</a>
                         </div>
@@ -119,11 +119,11 @@ const RequireLessonModal = ({
                     }
                     <div className="required-list mg-t-15 bd-t pd-t-15">
                       <div className="required-text-box metronic-form">
-                        <label className="tx-medium">Note for teachers:</label>
+                        <label className="tx-medium">Ghi chú cho giáo viên:</label>
                         <label className="tx-danger d-block">Please write in English (Max 200 letters)</label>
                         <div className="form-group mg-b-5-f">
                           <textarea name="message" rows="4" className="form-control"
-                            placeholder="Note for teachers"
+                            placeholder="Ghi chú cho giáo viên"
                             value={!!state ? state : ""}
                             onChange={(e) => setState(e.target.value)} ></textarea>
                         </div>

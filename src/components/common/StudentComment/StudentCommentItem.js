@@ -59,7 +59,7 @@ const StudentCommentItem = ({
         </div>
         {
           LinkDetail && <div className="readmore">
-          <a href={LinkDetail}>See Detail <i className="fas fa-arrow-right"></i></a>
+          <a href={LinkDetail}>Xem chi tiết <i className="fas fa-arrow-right"></i></a>
           </div>
         }
       </div>

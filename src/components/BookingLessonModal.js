@@ -30,7 +30,7 @@ const BookingLessonModal = ({
   const [bookState, setBookState] = React.useState(null);
   const bookingToastFail = () => toast.error(FETCH_ERROR, toastInit);
   const bookingToastFail2 = (text) => toast.error(text, toastInit);
-  const requireLessonAlert = () => toast.warn("Maximum 200 letters", toastInit);
+  const requireLessonAlert = () => toast.warn("Tối đa 200 ký tự", toastInit);
 
   const fetchAPI = async (params) => {
       const res = await bookingLessonAPI(params);
@@ -135,10 +135,10 @@ const BookingLessonModal = ({
                           {date}</span>
                         <span className="mg-r-15 tx-gray-600 tx-medium d-inline-block">
                           <i className="feather-16 mg-r-5" data-feather="clock"></i>
-                          {`Start: ${start}`}</span>
+                          {`Bắt đầu: ${start}`}</span>
                         <span className="mg-r-15 tx-gray-600 tx-medium d-inline-block">
                           <i className="feather-16 mg-r-5" data-feather="clock"></i>
-                          {`End: ${end}`}</span>
+                          {`Kết thúc: ${end}`}</span>
                       </div>
                       {/*
                         note && <div className="course-note mg-t-15">
@@ -156,7 +156,7 @@ const BookingLessonModal = ({
                       */}
                       <div className="required-list mg-t-15 bd-t pd-t-15">
                         <div className="required-text-box metronic-form">
-                          <label className="tx-medium">Note for teachers:</label>
+                          <label className="tx-medium">Ghi chú cho giáo viên:</label>
                           <label className="tx-danger d-block">Please write in English (Max 200 letters)</label>
                           <div className="form-group mg-b-5-f">
                             <textarea name="message" rows="4" className="form-control"

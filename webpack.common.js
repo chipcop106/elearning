@@ -36,7 +36,6 @@ module.exports = {
     'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/StudentDashboard.js',
     'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js',
     'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js', 
-    'app': ['./src/scss/custom.scss', './src/assets/js/custom.js'], 
   },
   output: {
     path: appPaths.dist,

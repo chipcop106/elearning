@@ -64,7 +64,7 @@ const reducer = (prevState, { type, payload }) => {
 
 const BookingLesson = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
-  const [teachersList, setTeacherList] = React.useState([])
+  const [teachersList, setTeacherList] = React.useState(null)
   const [loading, setLoading] = React.useState(false)
   const [onBookState, setOnBookState] = React.useState(initialOnBookState)
   const [stateBookLesson, setStateBookLesson] = React.useState(initialBookLesson);
@@ -80,7 +80,7 @@ const BookingLesson = () => {
   const getAPI = async (params) => {
     setLoading(true);
     const res = await getListTeacher(params);
-    if (res.Code === 1 && res.Data.length > 0) {
+    if (res.Code === 1) {
       setTeacherList(res.Data);
       setPageSize(res.PageSize);
       setTotalResult(res.TotalResult)
@@ -157,7 +157,7 @@ const BookingLesson = () => {
   }
 
   const onSearch = (e, page) => {
-    setTeacherList([]);
+    setTeacherList(null);
     e && e.preventDefault();
 
     let x = [];
@@ -346,10 +346,10 @@ const BookingLesson = () => {
         <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
       </div>
       <div className="d-xl-flex align-items-center justify-content-between ">
-        <h4 className="mg-b-30 d-block gradient-heading"><i className="fas fa-calendar-alt"></i> BOOKING LESSON</h4>
+        <h4 className="mg-b-30 d-block gradient-heading"><i className="fas fa-calendar-alt"></i>ĐĂNG KÝ HỌC</h4>
       </div>
       <div className="media-body-wrap pd-15 shadow">
-      <p className="mg-b-0 mg-t-15">Select one day:</p>
+      <p className="mg-b-0 mg-t-15">Chọn ngày:</p>
       <div className="calendar__picker swiper-container">
         <div className="calendar-slider swiper-wrapper">
         </div>
@@ -358,25 +358,25 @@ const BookingLesson = () => {
           <button type="button" className="next-btn"><i className="fa fa-chevron-right" aria-hidden="true"></i></button>
         </div>
       </div>
-      <a href="#" className="btn btn-danger mg-b-15" id="js-select-today"><i className="fa fa-calendar mg-r-5"></i>Select today</a>
+      <a href="#" className="btn btn-danger mg-b-15" id="js-select-today"><i className="fa fa-calendar mg-r-5"></i>Chọn hôm nay</a>
       <div className="filter-group-wrap metronic-form">
         <div className="filter-group pd-t-20">
           <div className="filter-row row">
             <div className="left col-md-2">
-              <h5>CONDITIONS</h5>
+              <h5>THÔNG TIN</h5>
             </div>
             <div className="right col-md-10">
               <div className="form-row">
                 <div className="col-sm-6 col-md-3 item">
-                  <a href={"#"} className="form-control nationality" name="txt-full-name" onClick={(e) => { e.preventDefault() }}>Nation</a>
+                  <a href={"#"} className="form-control nationality" name="txt-full-name" onClick={(e) => { e.preventDefault() }}>Quốc gia</a>
                 </div>
                 <div className="col-sm-6 col-md-3 item">
-                  <select type="text" className="form-control " name="gender" onChange={handleChange}
+                  <select type="text" className="form-control" name="gender" onChange={handleChange}
                     defaultValue="0">
-                    <option value="0">Gender</option>
-                    <option value="1">Male</option>
-                    <option value="2">Female</option>
-                    <option value="3">Other</option>
+                    <option value="0">Giới tính</option>
+                    <option value="1">Nam</option>
+                    <option value="2">Nữ</option>
+                    <option value="3">Khác</option>
                   </select>
                 </div>
                 <div className="col-sm-12 col-md-6 item">
@@ -405,7 +405,7 @@ const BookingLesson = () => {
         <div className="filter-group pd-t-20">
           <div className="filter-row row from-to-group">
             <div className="left col-md-2">
-              <h5>TIMES</h5>
+              <h5>THỜI GIAN</h5>
             </div>
             <div className="right col-md-10">
               <div className="form-row">
@@ -458,7 +458,7 @@ const BookingLesson = () => {
         <div className="filter-group pd-t-20">
           <div className="filter-row row">
             <div className="left col-md-2">
-              <h5>SEARCH</h5>
+              <h5>TÊN</h5>
             </div>
             <div className="right col-md-10">
               <div className="form-row">
@@ -478,12 +478,12 @@ const BookingLesson = () => {
       <div className="filter-group pd-t-10 mg-t-10 bd-t" id="list-tutor">
         <div className="filter-row row">
           <div className="left col-md-2">
-            <h5>List Tutor</h5>
+            <h5>Danh sách GV</h5>
           </div>
           <div className="right col-md-10" style={{ alignItems: 'center', display: 'inline-flex' }}>
             <div className="custom-control custom-checkbox">
               <input type="checkbox" className="custom-control-input" id="display-schedule" />
-              <label className="custom-control-label" htmlFor="display-schedule">Show schedule</label>
+              <label className="custom-control-label" htmlFor="display-schedule">Hiển thị lịch</label>
             </div>
           </div>
         </div>
@@ -492,7 +492,7 @@ const BookingLesson = () => {
             <div className="table-tutor">
               <ul className="list-tutors">
                 {
-                  !!teachersList && teachersList.length > 0 && teachersList.map(item =>
+                  !!teachersList && teachersList.length > 0 ? teachersList.map(item =>
                     <li className="tutor" key={item.TeacherUID}>
                       <div className="totor-detail">
                         <a href={`/ElearnStudent/teacherDetail?ID=${item.TeacherUID}`} className="tutor-wrap">
@@ -543,6 +543,9 @@ const BookingLesson = () => {
                           </ul>
                         </div>
                       </div>
+                    </li>):
+                    (!!teachersList && <li className="mg-l-15 w-100 d-block text-center">
+                      <span class="tx-danger" style={{fontSize: '16px'}}>Không tìm thấy giáo viên</span>
                     </li>)
                 }
               </ul>
