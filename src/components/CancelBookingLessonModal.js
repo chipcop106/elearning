@@ -4,11 +4,9 @@ import { cancelLessonAPI } from '../api/studentAPI';
 import { toast } from 'react-toastify';
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
-import { FILL_REASON } from '~components/common/Constant/toast';
 
 const CancelBookingLessonModal = ({ BookingID, LessionName, date, start, end, style, callback }) => {
   const [reason, setReason] = React.useState("")
-  const reasonTooShortAlert = () => toast.warn(FILL_REASON, toastInit);
 
   const getAPI = async (params) => {
     /* start: -1 */
@@ -16,12 +14,12 @@ const CancelBookingLessonModal = ({ BookingID, LessionName, date, start, end, st
     const res = await cancelLessonAPI(params);
     if (res.Code === 1) callback && callback(params.BookingID, 1);
     else callback && callback(params.BookingID, 0);
-}
+  }
 
 
   const onSubmitCancelLesson = () => {
     if (reason.length <= 0) {
-      reasonTooShortAlert()
+      return;
     }
     else {
       getAPI({
@@ -43,30 +41,29 @@ const CancelBookingLessonModal = ({ BookingID, LessionName, date, start, end, st
     <div className="modal-dialog modal-dialog-centered modal-sm" role="document">
       <div className="modal-content">
         <div className="modal-header bg-danger">
-          <h5 className="modal-title tx-white">Warning</h5>
+          <h5 className="modal-title tx-white">Bạn muốn hủy buổi học</h5>
           <button type="button" className="close" data-dismiss="modal" aria-label="Close">
             <span className="tx-white" aria-hidden="true">&times;</span>
           </button>
         </div>
         <div className="modal-body">
-          <p id="newCampaignTitle">Lớp học: <span className="tx-medium">{LessionName || ''}</span></p>
-          <p>Ngày: <span id="js-date-time" className="tx-medium">{date || ''}</span></p>
-          <p>Bắt đầu: <span id="js-start-time" className="tx-medium">{start || ''}</span></p>
-          <p>Kết thúc: <span id="js-end-time" className="tx-medium">{end || ''}</span></p>
+          <p id="newCampaignTitle">Tên buổi học: <span className="tx-medium">{LessionName || ''}</span></p>
+          <p>Ngày học: <span id="js-date-time" className="tx-medium">{date || ''}</span></p>
+          <p>Giờ học: <span id="js-start-time" className="tx-medium">{`${start || ''} - ${end || ''}`}</span></p>
           <div className="metronic-form">
             <div className="form-group">
-              <textarea style={{height: '100px'}}
+              <textarea style={{ height: '100px' }}
                 className="form-control"
                 placeholder="Lý do hủy"
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}></textarea>
             </div>
           </div>
-          <p className="tx-danger">Bạn có chắc muốn hủy lớp học này?</p>
+          <p className="tx-danger">Vui lòng điền lý do để chúng tôi hỗ trợ bạn tốt hơn</p>
         </div>
         <div className="modal-footer">
-          <button type="button" className="btn btn-light" data-dismiss="modal">No</button>
-          <button type="button" className="btn btn-primary" onClick={onSubmitCancelLesson}>Yes</button>
+          <button type="button" className="btn btn-light" data-dismiss="modal">KHÔNG</button>
+          <button type="button" className="btn btn-primary" onClick={onSubmitCancelLesson}>GỬI YÊU CẦU</button>
         </div>
       </div>
     </div>

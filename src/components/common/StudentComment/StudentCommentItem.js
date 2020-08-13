@@ -6,6 +6,7 @@ const StudentCommentItem = ({
   ScheduleTimeVN,
   TeacherName,
   TeacherIMG,
+  TeacherUID,
   Note,
   Rate,
   LinkDetail,
@@ -25,7 +26,12 @@ const StudentCommentItem = ({
       </div>
       <div className="fb-info">
         <div className="name-rating">
-          <p className="name">{!!TeacherName ? TeacherName : !!StudentName ? StudentName: ""}</p>
+          {
+            !!TeacherName ?
+            <a className="no-hl" href={`/ElearnStudent/teacherDetail?ID=${TeacherUID}`}><p className="name">{TeacherName}</p></a>: 
+            !!StudentName ?
+            <p className="name">{TeacherName}</p>: ""
+          }
           <div className="rating-wrap">
             <div className="rating-stars">
               <span className="empty-stars">

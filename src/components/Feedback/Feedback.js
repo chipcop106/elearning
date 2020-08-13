@@ -10,52 +10,6 @@ import { NOT_DATA_FOUND } from "~components/common/Constant/message"
 
 import styles from "~components/Feedback/Feedback.module.scss"
 
-const initialState = [
-  {
-    id: randomId(),
-    StudentUID: randomId(),
-    StudentName: 'Truong Van Lam',
-    StudentIMG: 'https://i.pinimg.com/236x/aa/84/88/aa8488c0bdc927ac836586c004c7cb12.jpg',
-    Evaluation: 'This course is so great',
-    CreatedDate: new Date(),
-    LessionName: 'Lesson 6: ReactJS application',
-    LessionID: randomId(),
-    Rate: 3.5,
-  },
-  {
-    id: randomId(),
-    StudentUID: randomId(),
-    StudentName: 'Truong Van Lam',
-    StudentIMG: 'https://i.pinimg.com/236x/aa/84/88/aa8488c0bdc927ac836586c004c7cb12.jpg',
-    Evaluation: 'This course is so great',
-    CreatedDate: new Date(),
-    LessionName: 'Lesson 6: ReactJS application',
-    LessionID: randomId(),
-    Rate: 5,
-  },
-  {
-    id: randomId(),
-    StudentUID: randomId(),
-    StudentName: 'Hoang Van Thai',
-    StudentIMG: 'https://i.pinimg.com/236x/aa/84/88/aa8488c0bdc927ac836586c004c7cb12.jpg',
-    Evaluation: 'This course is so great',
-    CreatedDate: new Date(),
-    LessionName: 'Lesson 6: ReactJS application',
-    LessionID: randomId(),
-    Rate: 4,
-  },
-  {
-    id: randomId(),
-    StudentUID: randomId(),
-    StudentName: 'Truong Van Lam',
-    StudentIMG: 'https://i.pinimg.com/236x/aa/84/88/aa8488c0bdc927ac836586c004c7cb12.jpg',
-    Evaluation: 'Hello world',
-    CreatedDate: new Date(),
-    LessionName: 'Lesson 6: ReactJS application',
-    LessionID: randomId(),
-    Rate: 1,
-  }
-]
 
 const Feedback = () => {
   const [overview, setOverview] = React.useState({});
@@ -99,7 +53,8 @@ const Feedback = () => {
     setLoadingListEvaluation(false);
   }
 
-  const fetchListEvaluation = (e, rateFilter) => {
+  const fetchListEvaluation = (e) => {
+    let rateFilter = parseInt(e.target.value);
     if(rateFilter === rate) return;
     setRate(rateFilter);
     _GetListEvaluationAPI({
@@ -116,134 +71,35 @@ const Feedback = () => {
     })
   }, []);
 
-  return !loading && (<>
-    <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
+  return <> 
+  {
+    !loading && <>
+    <div className="d-sm-flex align-items-center justify-content-between mg-b-30">
       <h4 className="mg-b-0 gradient-heading"><i className="fas fa-comment-dots"></i>PHẢN HỒI</h4>
+      {
+        overview && Object.keys(overview).length > 0 && <div className="form-group d-inline-block mg-b-0-f mg-t-15 mg-sm-t-0-f">
+        <select className="form-control" style={{fontFamily:"FontAwesome",color:'#fd7e14'}}
+          onChange={fetchListEvaluation}>
+              <option value="0">Tất cả ({overview.AllEvaluation})</option>
+              <option value="5">&#xf005; &#xf005; &#xf005; &#xf005; &#xf005; ({overview.EvaluationRate5})</option>
+              <option value="4">&#xf005; &#xf005; &#xf005; &#xf005; ({overview.EvaluationRate4})</option>
+              <option value="3">&#xf005; &#xf005; &#xf005; ({overview.EvaluationRate3})</option>
+              <option value="2">&#xf005; &#xf005; ({overview.EvaluationRate2})</option>
+              <option value="1">&#xf005; ({overview.EvaluationRate1})</option>
+          </select>
+        </div>
+      }
     </div>
-    <div className="feedback-container">
-      <div className="fb-summary-container">
+    <div className="fb-summary-container">
         {
           overview && Object.keys(overview).length > 0 ? <>
-            <p className="tx-16">Trung bình 100 phản hồi gần nhất: <span className="tx-warning tx-20 tx-bold">{overview.Avarage}</span></p>
-        
-           {/*  <div className="dropdown">
-                <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                  Tất Cả<b className="caret"></b></a>
-                <ul className="dropdown-menu">
-                    <li><a href="#">
-                      <i className="fa fa-star"></i>
-                      <i className="fa fa-star"></i>
-                      <i className="fa fa-star"></i>
-                      <i className="fa fa-star"></i>
-                      <i className="fa fa-star"></i>
-                      </a></li>
-                      <li><a href="#">
-                      <i className="fa fa-star"></i>
-                      <i className="fa fa-star"></i>
-                      <i className="fa fa-star"></i>
-                      <i className="fa fa-star"></i>
-                      </a></li>
-                      <li><a href="#">
-                      <i className="fa fa-star"></i>
-                      <i className="fa fa-star"></i>
-                      <i className="fa fa-star"></i>
-                      </a></li>
-                      <li><a href="#">
-                      <i className="fa fa-star"></i>
-                      <i className="fa fa-star"></i>
-                      </a></li>
-                      <li><a href="#">
-                      <i className="fa fa-star"></i>
-                      </a></li>
-                </ul>
-            </div>
-            */}
-
-            <div className="fb-summary">
-              <div className="fb-type w-100">
-                <div className="fb-radio">
-                  <label>
-                    <input type="radio" name="fbType" group="feedback" defaultChecked
-                      onClick={(e) => fetchListEvaluation(e, 0)} />
-                    <span>Tất cả</span>
-                    <span className="number">{overview.AllEvaluation}</span>
-                  </label>
-                </div>
-              </div>
-              <div className="fb-type">
-                <div className="fb-radio">
-                  <label>
-                    <input type="radio" name="fbType" group="feedback"
-                      onClick={(e) => fetchListEvaluation(e, 5)} />
-                    <span>
-                      <i className="star fa fa-star"></i>
-                      <i className="star fa fa-star"></i>
-                      <i className="star fa fa-star"></i>
-                      <i className="star fa fa-star"></i>
-                      <i className="star fa fa-star"></i>
-                      <span className="number">{overview.EvaluationRate5}</span>
-                    </span>
-                  </label>
-                </div>
-              </div>
-              <div className="fb-type">
-                <div className="fb-radio">
-                  <label>
-                    <input type="radio" name="fbType" group="feedback"
-                      onClick={(e) => fetchListEvaluation(e, 4)} />
-                    <span>
-                      <i className="star fa fa-star"></i>
-                      <i className="star fa fa-star"></i>
-                      <i className="star fa fa-star"></i>
-                      <i className="star fa fa-star"></i>
-                      <span className="number">{overview.EvaluationRate4}</span>
-                    </span>
-                  </label>
-                </div>
-              </div>
-              <div className="fb-type">
-                <div className="fb-radio">
-                  <label>
-                    <input type="radio" name="fbType" group="feedback"
-                      onClick={(e) => fetchListEvaluation(e, 3)} />
-                    <span>
-                      <i className="star fa fa-star"></i>
-                      <i className="star fa fa-star"></i>
-                      <i className="star fa fa-star"></i>
-                      <span className="number">{overview.EvaluationRate3}</span>
-                    </span>
-                  </label>
-                </div>
-              </div>
-              <div className="fb-type">
-                <div className="fb-radio">
-                  <label>
-                    <input type="radio" name="fbType" group="feedback"
-                      onClick={(e) => fetchListEvaluation(e, 2)} />
-                    <span>
-                      <i className="star fa fa-star"></i>
-                      <i className="star fa fa-star"></i>
-                      <span className="number">{overview.EvaluationRate2}</span>
-                    </span>
-                  </label>
-                </div>
-              </div>
-              <div className="fb-type">
-                <div className="fb-radio">
-                  <label>
-                    <input type="radio" name="fbType" group="feedback"
-                      onClick={(e) => fetchListEvaluation(e, 1)} />
-                    <span>
-                      <i className="star fa fa-star"></i>
-                      <span className="number">{overview.EvaluationRate1}</span>
-                    </span>
-                  </label>
-                </div>
-              </div>
-            </div></> :
+            <p className="tx-16">Trung bình 100 phản hồi gần nhất: <span className="tx-warning tx-20 tx-bold">{overview.Avarage}</span></p></> :
             (!loading && <NOT_DATA_FOUND />)
         }
       </div>
+      </>
+  }
+    <div className="feedback-container">
       {
         loadingListEvaluation ? <SkeletonFeedback /> :
           <div className="fb-list">
@@ -254,13 +110,14 @@ const Feedback = () => {
                   ScheduleTimeVN={item.ScheduleTimeVN}
                   TeacherName={item.TeacherName}
                   TeacherIMG={item.TeacherIMG}
+                  TeacherUID={item.TeacherUID}
                   Note={item.Note}
                   Rate={item.Rate}
                   LinkDetail={item.LinkDetail}
                   DocumentName={item.DocumentName} />) : 
                   <div className="card card-custom shadow">
                   <div className="card-body tx-center">
-                <span className="d-block tx-center text-danger bold" style={{fontSize:'16px'}}>Bạn không có phản hồi nào</span>
+              <span className="d-block tx-center text-danger bold" style={{fontSize:'16px'}}>Bạn không có phản hồi {rate}<i className="fa fa-star"></i> nào</span>
                 <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" /></div></div>
             }
           </div>
@@ -278,7 +135,6 @@ const Feedback = () => {
         onChange={handlePageChange.bind(this)} />
     }
   </>
-  )
 }
 
 ReactDOM.render(<Feedback />, document.getElementById('react-feedback'));
