@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getUpcomingClass, cancelSchedule } from '~src/api/teacherAPI';
+import { getUpcomingClass, cancelSchedule, addScheduleLog } from '~src/api/teacherAPI';
 import SkeletonLessonCard from '~components/common/Skeleton/SkeletonLessonCard';
 import Skeleton from 'react-loading-skeleton';
 import { convertDateFromTo as cvDate, checkCancelTime } from '~src/utils';
@@ -71,6 +71,18 @@ const UpComingList = ({itemShow}) => {
         setIsLoading(false);
     }
 
+    const handleEnterClass = async (lesson) => {
+        
+        try {
+            const res = await addScheduleLog({BookingID:lesson.BookingID});
+            if(res.Code === 1){
+                window.location.href = `skype:${lesson.skypeId}?chat`;
+            }
+        } catch (error) {
+            console.log(error?.message ?? `Can't add schedule log !!`)
+        }
+    }
+
 
     const $mdCancel = $('#md-cancel-schedule');
     const handleCancelLesson = (lessonData) => {
@@ -105,7 +117,7 @@ const UpComingList = ({itemShow}) => {
             <div className="course-horizental">
                 <div className="list-wrap ">
                     <div className="table-responsive">
-                        <table className="table table-custom table-borderless table-vcenter">
+                        <table className="table table-custom table-borderless table-vcenter responsive-table">
                             <thead>
                                 <tr className="tx-gray-600 tx-normal">
                                     <th className="tx-center"></th>
@@ -137,7 +149,7 @@ const UpComingList = ({itemShow}) => {
                                         </td>
                                     </tr>
                                 ) : !!state && state.length > 0 ? (
-                                    [...state].map((ls, index) => index <= itemShow.value  && (
+                                    [...state].map((ls, index) => index < itemShow.value  && (
                                         <tr key={`${index}`}>
                                             <td className="valign-middle tx-center">
                                                 <span className="avatar avatar-md d-inline-block ">
@@ -150,7 +162,7 @@ const UpComingList = ({itemShow}) => {
                                                     onClick={(e) => {
                                                         e.preventDefault();
                                                         showStudentModal(ls.StudentUID)
-                                                    }} className="tx-primary mg-b-5 d-inline-block"
+                                                    }} className="mg-b-5 d-inline-block tx-black"
                                                 >
                                                     {ls.StudentName}
                                                 </a>
@@ -168,7 +180,7 @@ const UpComingList = ({itemShow}) => {
                                                 </p>
                                             </td>
                                             <td className="tx-nowrap tx-right">
-                                                <a href={`skype:${ls.SkypeID}?chat`} className="btn btn-info btn-sm mg-r-10 " target="_blank" rel="noopener"><i className="fab fa-skype"></i> <span className="d-none d-xl-inline mg-l-5">Join class</span></a>
+                                                <a onClick={(e) => {e.preventDefault(); handleEnterClass(ls)}} href={`skype:${ls.SkypeID}?chat`} className="btn btn-info btn-sm mg-r-10 " target="_blank" rel="noopener"><i className="fab fa-skype"></i> <span className="d-none d-xl-inline mg-l-5">Join class</span></a>
                                                 {
                                                     checkCancelTime(cvDate(ls.ScheduleTimeVN).dateObject) ? (<a href={`#`} onClick={(e) => {
                                                         e.preventDefault();

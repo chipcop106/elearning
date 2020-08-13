@@ -20,29 +20,35 @@ const ChangePassword = () => {
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [reNewPassword, setReNewPassword] = useState('');
+    const [submitLoading, setSubmitLoading] = useState(false);
     const { errors, register, handleSubmit, setError, clearErrors } = useForm({
         mode: 'onSubmit',
         resolver: yupResolver(Schema),
     });
 
     const onSubmit = async (data) => {
-        const res = await updatePassAPI({
-            OldPass: data.oldPassword,
-            NewPass: data.newPassword
-        });
-        res.Code === 1 && toast.success('Change password success', {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 2000
-        });
-        res.Code !== 1 && setError("wrongPassword",{
-            type:"manual",
-            message:"Old password not correct, please try again !!"
-        });
-        feather.replace();
+        setSubmitLoading(true);
+        try{
+            const res = await updatePassAPI({
+                OldPass: data.oldPassword,
+                NewPass: data.newPassword
+            });
+            res.Code === 1 && toast.success('Change password success', {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 2000
+            });
+            res.Code !== 1 && setError("wrongPassword", {
+                type: "manual",
+                message: "Old password not correct, please try again !!"
+            });
+        }catch(err){
+            console.log(err?.mesage ?? 'Call api updatePassAPI không thành công !!');
+        }
+        setSubmitLoading(true);
     }
 
     useEffect(() => {
-       
+
     }, []);
 
     return (
@@ -64,7 +70,7 @@ const ChangePassword = () => {
                                     <i class="fas fa-exclamation-circle mg-r-10"></i> <span className="">{errors.wrongPassword?.message}</span>
                                 </div>
                                 <span onClick={() => clearErrors("wrongPassword")} ><i data-feather="x"></i></span>
-                           
+
                             </div>)}
                         <div className="row ">
                             <div className="form-group col-sm-4 mg-sm-t-10">
@@ -102,14 +108,25 @@ const ChangePassword = () => {
 
                         <div className="row">
                             <div className="col-sm-8 offset-sm-4">
-                                <button type="submit" className="btn btn-primary"><i className="fa fa-save mg-r-5"></i>Update password</button>
+                                <button type="submit" className="btn btn-primary d-inline-flex align-items-center" disabled={submitLoading}>
+                                    {
+                                        submitLoading ? (
+                                            <div className="spinner-border wd-20 ht-20 mg-r-5" role="status">
+                                                <span className="sr-only">Submitting...</span>
+                                            </div>
+                                        )
+                                            : (<><i className="fa fa-save mg-r-5"></i></>)
+                                    }
+                                    <span>{submitLoading ? 'Updating' : 'Update'} password</span>
+
+                                </button>
                             </div>
                         </div>
 
                     </div>
                 </div>
             </form>
-          
+
         </>
     )
 }

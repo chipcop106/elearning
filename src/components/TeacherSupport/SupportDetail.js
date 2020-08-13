@@ -2,10 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { randomId } from "~src/utils"
 import TeacherSupportModal from "~components/TeacherSupportModal"
-import { ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Skeleton from 'react-loading-skeleton';
 import styles from "~components/TeacherSupport/teacherSupport.module.scss"
-
+import { getTicketDetail, cancelTicketSupport } from '~src/api/teacherAPI';
+import Moment from 'moment';
+import {Modal, Button} from 'react-bootstrap'
+import TinyEditor,{ imageUploadHandle } from '~components/common/TinyEditor';
 const initialState = {
     author: 'Trương Văn Lam',
     location: 'Vietnam',
@@ -31,64 +34,158 @@ const initialState = {
 }
 
 
-const SupportDetail = ({onClickBack, detailId}) => {
+const ModalConfirmCancel = ({show, hideConfirm, _onSubmit}) => {
+    return (
+        <Modal
+            show={show}
+            onHide={hideConfirm}
+            size="sm"
+            dialogClassName="modal-warning"
+            centered={true}
+        >
+             <Modal.Header >
+                <h3>Warning !!</h3>
+             </Modal.Header>
+            <Modal.Body>
+                <p>Do you want to cancel this ticket ?</p>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="danger" onClick={_onSubmit}>
+                    Cancel
+           </Button>
+                <Button variant="light" onClick={hideConfirm}>
+                    Close
+           </Button>
+            </Modal.Footer>
+        </Modal>
+    )
+}
+
+
+const SupportDetail = ({ onClickBack, detailId, afterCancelSuccess }) => {
     const [state, setState] = React.useState(null);
     const [isLoading, setIsLoading] = React.useState(true);
-    
+    const [show, setShow] = React.useState(false);
+    const [showEdit, setShowEdit] = React.useState(false);
     const getDetail = async () => {
         setIsLoading(true);
-        //Call API
-        await setTimeout(() => {
-            setState(initialState)
-            setIsLoading(false);
-        }, 1500)
- 
-   
+        try {
+            const res = await getTicketDetail({ ID: detailId });
+            res.Code === 1 && setState(res.Data);
+        } catch (err) {
+            console.log(err?.message ?? 'Call api getTicketDetail không thành công !!');
+        }
+        setIsLoading(false);
     }
+
+    const showModal = () => setShow(true);
+    const hideModal = () => setShow(false);
 
     const _onClickBack = (e) => {
         e.preventDefault();
         onClickBack();
     }
 
+    const _onClickCancel = (e) => {
+        e.preventDefault();
+        showModal();
+    }
+
+    // const _onClickEdit = (e) => {
+    //     e.preventDefault();
+    //     //showModal();
+    // }
+
+    const cancelTicket = async () => {
+        try {
+            const res = await cancelTicketSupport({ID:state.ID});
+            res.Code === 1 && toast.success('Ticket was cancelled !!');
+            res.Code !== 1 && toast.error('Ticket cancel failed !!');
+            afterCancelSuccess(state.ID);
+        } catch (error) {
+            console.log(error?.message ?? 'Ticket cancel failed');
+        }
+        hideModal();
+    
+    }
+
     React.useEffect(() => {
         getDetail();
-    },[detailId])
+        $('.btn-icon').tooltip();
+    }, [detailId])
     return (
         <>
             <div className="">
-                <button type="button" className="btn btn-sm btn-light mg-b-15" onClick={_onClickBack}><i className="fas fa-arrow-left mg-r-5" ></i> Back</button>
-                <div className="mg-b-30 bd-b pd-b-10 d-flex align-items-center justify-content-between">
-                    <h5 className="mg-b-0">{isLoading ? <Skeleton width={200} height={25}/> : state?.title ?? ''}</h5>
-                    <span className="tx-gray-300">{isLoading ? <Skeleton width={100} height={25}/> : state?.date ?? ''}</span>
+                <div className="d-flex align-items-center justify-content-between mg-b-30" style={{marginLeft:'-10px', marginRight:'-10px'}}>
+                    <button type="button" className="btn btn-sm btn-light mg-x-10" onClick={_onClickBack}><i className="fas fa-arrow-left mg-r-5" ></i> Back</button>
                 </div>
                 
-                <div className="d-flex align-items-center">
-                    <span className="avatar avatar-md">
-                        {
-                            isLoading ? (<Skeleton circle={true} width={48} height={48}/>) 
-                            :  <img src={state?.avatar ?? '../assets/img/default-avatar.png'} className="rounded-circle" /> 
-                        }
-                    </span>
-                    <div className="mg-l-10">
-                        <h6 className="tx-semibold mg-b-0">{isLoading ? <Skeleton width={100} height={25}/> : state?.author ?? ''}</h6>
-                        <span className="tx-color-03">{isLoading ? <Skeleton width={100} height={25}/> : state?.location ?? ''}</span>
+
+                <div className="mg-b-30 bd-b pd-b-10 d-flex align-items-center justify-content-between">
+                    <h5 className="mg-b-0">{isLoading ? <Skeleton width={200} height={25} /> : state?.SupportTitle ?? ''}</h5>
+                   
+                </div>
+
+                <div className="content-answer">
+                    <div className="d-flex justify-content-between">
+                        <div className="d-flex align-items-center">
+                            <span className="avatar avatar-md">
+                                {
+                                    isLoading ? (<Skeleton circle={true} width={48} height={48} />)
+                                        : <img src={state?.TeacherIMG ?? '../assets/img/default-avatar.png'} className="rounded-circle"  onError={(e) => { e.target.onerror = null; e.target.src = "../assets/img/default-avatar.png" }}/>
+                                }
+                            </span>
+                            <div className="mg-l-10">
+                                <h6 className="tx-semibold mg-b-0">{isLoading ? <Skeleton width={100} height={25} /> : state?.TeacherName ?? ''}</h6>
+                                <span className="tx-gray-300">{isLoading ? <Skeleton width={100} height={25} /> : Moment(state?.CreatedDate).format('DD/MM/YYYY HH:mm') ?? ''}</span>
+                            </div>
+                        </div>
+                        <div className="action d-flex align-items-center">
+                            {/* <button 
+                            data-toggle="tooltip" data-placement="top" title="Edit ticket"
+                            type="button" className="btn btn-icon btn-warning mg-r-10 btn-sm wd-35" onClick={_onClickEdit}><i className="fas fa-pen" ></i></button> */}
+                            {
+                                !!state && !!state.Status && state.Status !== 4 && (
+                                    <button 
+                             data-toggle="tooltip" data-placement="top" title="Cancel ticket"
+                            type="button" className="btn btn-icon btn-danger btn-sm wd-35" onClick={_onClickCancel}><i className="fas fa-times" ></i></button>
+                                )
+                            }
+                            
+                        </div>
                     </div>
+                    {
+                        isLoading ? <div className="pd-y-30"><Skeleton count={5} /></div> : <div className="pd-y-30" dangerouslySetInnerHTML={{ __html: decodeURI(state?.SupportContent) ?? '' }}></div>
+                    }
                 </div>
                 {
-                    isLoading ? <div className="pd-y-30"><Skeleton count={5}/></div> :  <div className="pd-y-30" dangerouslySetInnerHTML={{__html:state?.content ?? ''}}></div>
-                }
-               
-                <div className="file-include pd-y-15 bd-t">
-                    <h6>File attachment:</h6>
-                    <div className="d-flex align-items-center flex-wrap">
-                        {
-                            isLoading ? <Skeleton width={100} height={25}/> : !!state && !!state.files && [...state.files].map(file => <a key={`${file.id}`} href={file.url} className="mg-5"><i className="fas fa-file mg-r-5"></i> {file.name}</a>)
-                        }
-                    </div>
-                </div>
-            </div>
+                    !!state && !!state.AdminReplyContent && state.AdminReplyContent !== '' && (
+                        <>
+                            <hr className="mg-b-30 mg-t-0" style={{ borderStyle: 'dashed' }} />
 
+                            <div className="content-answer">
+                                <div className="d-flex align-items-center">
+                                    <span className="avatar avatar-md">
+                                        {
+                                            isLoading ? (<Skeleton circle={true} width={48} height={48} />)
+                                                : <img src={'../assets/img/default-avatar.png'} className="rounded-circle" />
+                                        }
+                                    </span>
+                                    <div className="mg-l-10">
+                                        <h6 className="tx-semibold mg-b-0">{state?.AdminReplyName ?? ''}</h6>
+                                        <span className="tx-gray-300">{isLoading ? <Skeleton width={100} height={25} /> : Moment(state?.AdminReplyDate).format('DD/MM/YYYY HH:mm') ?? ''}</span>
+                                    </div>
+                                </div>
+                                {
+                                    isLoading ? <div className="pd-y-30"><Skeleton count={5} /></div> : <div className="pd-y-30" dangerouslySetInnerHTML={{ __html: state?.AdminReplyContent ?? '' }}></div>
+                                }
+                            </div>
+                        </>
+                    )
+                }
+
+            </div>
+            <ModalConfirmCancel show={show} hideConfirm={hideModal} _onSubmit={cancelTicket}/>
         </>
     )
 }

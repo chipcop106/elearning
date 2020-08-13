@@ -9,17 +9,19 @@ const OperationRow = ({data}) => {
     const {OparationTime, CreatedBy, ScheduleTimeOfTeacher, ScheduleTimeLocal, Previous, UpdatedAction} = data;
     return (
         <tr>
-            <td>{OparationTime}</td>
-            <td className="tx-center">{CreatedBy}</td>
-            <td>{ScheduleTimeLocal}</td>
-            <td>{ScheduleTimeOfTeacher}</td>
-            <td className="tx-center">
+            <td data-title="Operation time">{OparationTime}</td>
+            
+            <td data-title="Time (Local)">{ScheduleTimeLocal}</td>
+            <td data-title="Time (VN)">{ScheduleTimeOfTeacher}</td>
+            {/* <td className="tx-center">
                 {Previous === 'Close' ? <span className="badge badge-danger">Closed</span> : <span className="badge badge-success">Open</span>}
-                {/* <span className="badge badge-danger">Closed</span> */}
-            </td>
-            <td className="tx-center">
-                {UpdatedAction === 'Close' ? <span className="badge badge-danger">Closed</span> : <span className="badge badge-success">Open</span>}
+                <span className="badge badge-danger">Closed</span>
+            </td> */}
+            <td data-title="Operator" className="tx-center"><span className="badge badge-info pd-5 tx-12">{CreatedBy}</span></td>
+            <td data-title="Action" className="tx-center">
+                {/* {UpdatedAction === 'Close' ? <span className="badge badge-danger">Closed</span> : <span className="badge badge-success">Open</span>} */}
                 {/* <span className="badge badge-success">Open</span> */}
+                {<p className="mg-b-0">{UpdatedAction}</p>}
             </td>
         </tr>
     )
@@ -31,7 +33,8 @@ const ScheduleLogTable = ({ showStudentModal }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [pageNumber, setPageNumber] = useState(1);
     const [data, setData] = useState(null);
-
+    const [pageSize, setPageSize] = useState(0);
+    const [totalResult, setTotalResult] = useState(0);
     const loadScheduleLogData = async () => {
         try {
             const res = await getScheduleLog({
@@ -39,6 +42,8 @@ const ScheduleLogTable = ({ showStudentModal }) => {
             });
             if (res?.Code && res.Code === 1) {
                 setData(res.Data);
+                setPageSize(res.PageSize);
+                setTotalResult(res.TotalResult);
             } else {
                 console.log('Code response khác 1');
             }
@@ -63,16 +68,16 @@ const ScheduleLogTable = ({ showStudentModal }) => {
             {
                 isLoading ? <SkeletonTable /> : (
                     <>
-                        <div className="table-responsive mg-b-15">
-                            <table className="table">
-                                <thead className="thead-light">
+                        <div className="mg-b-15">
+                            <table className="table responsive-table-vertical table-schedule-log table-hover">
+                                <thead className="thead-primary">
                                     <tr>
                                         <th>Operation time</th>
-                                        <th className="tx-center">Operator</th>
                                         <th>Schedule time (Local)</th>
                                         <th>Schedule time (VN)</th>
-                                        <th className="tx-center">Previous Action</th>
-                                        <th className="tx-center">Updated Action</th>
+                                        <th className="tx-center">Operator</th>
+                                        {/* <th className="tx-center">Action</th> */}
+                                        <th className="tx-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -81,14 +86,14 @@ const ScheduleLogTable = ({ showStudentModal }) => {
                             </table>
                         </div>
 
-                        {!!data && !!data.length > 10 && (
-                            <Pagination 
+                        {totalResult > pageSize && (
+                            <Pagination
                                 innerClass="pagination"
                                 activePage={pageNumber}
-                                itemsCountPerPage={10}
-                                totalItemsCount={100}
+                                itemsCountPerPage={pageSize}
+                                totalItemsCount={totalResult}
                                 pageRangeDisplayed={5}
-                                onChange={_handlePageChange}
+                                onChange={(page) => setPageNumber(page)}
                                 itemClass="page-item"
                                 linkClass="page-link"
                                 activeClass="active"

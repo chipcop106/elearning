@@ -7,9 +7,9 @@ import NumberFormat from 'react-number-format'
 
 const RenderRow = ({ data }) => {
     return (<tr>
-        <td className="tx-left wd-150">{data.CreatedDate}</td>
-        <td className="tx-center"><NumberFormat value={`${data.Salary}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /></td>
-        <td className="tx-center">{data.Note}</td>
+        <td data-title="Date" className="tx-left wd-md-150">{data.CreatedDate}</td>
+        <td data-title="Total salary" className="tx-center"><NumberFormat value={`${data.Salary}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /></td>
+        <td data-title="Note" className="tx-center">{data.Note}</td>
     </tr>)
 }
 
@@ -24,8 +24,8 @@ const PaymentHistory = () => {
         setIsLoading(true);
         const params = {
             Page: parseInt(pageNumber), //Int
-            FromDate: fromDate === '' ? fromDate : moment(new Date(fromDate)).format('DD/MM/YYYY'), // string dd/mm/yyyy
-            ToDate: toDate === '' ? toDate : moment(new Date(toDate)).format('DD/MM/YYYY') // string dd/mm/yyyy
+            FromDate: fromDate.length === 0 ? '' : moment(new Date(fromDate)).format('DD/MM/YYYY'), // string dd/mm/yyyy
+            ToDate: toDate.length === 0 ? '' : moment(new Date(toDate)).format('DD/MM/YYYY') // string dd/mm/yyyy
         };
         const res = await getPaymentHistory(params);
         res.Code === 1 ? setData(res.Data) : setData([]);
@@ -38,29 +38,37 @@ const PaymentHistory = () => {
 
     return (
         <div className="card card-custom">
-            <div className="card-header d-lg-flex justify-content-between align-items-center pd-x-20-f pd-y-15-f">
-                <h5 className="tx-dark mg-lg-b-0">Payment history</h5>
+            <div className="card-header d-md-flex justify-content-between align-items-center pd-x-20-f pd-y-15-f">
+                <h5 className="tx-dark mg-lg-b-0 mg-b-15">Payment history</h5>
                 <div className="gv-datime-luong">
                     <div className="form-row from-to-group" id="filter-time">
-                        <div className="wd-sm-200 col">
+                        <div className="d-flex flex-wrap-0 form-row pd-x-5 flex-grow-1">
+
+                        
+                        <div className="wd-sm-200 pd-x-5 wd-100p mg-b-10 mg-sm-b-0">
                             <Flatpickr
                                 options={{
                                     dateFormat: "d/m/Y",
+                                    mode:'single',
+                                    maxDate: new Date()
                                 }}
                                 className="form-control"
                                 onChange={(date) => setFromDate(date)}
                                 placeholder="From date"
                             />
                         </div>
-                        <div className="wd-sm-200 col">
+                        <div className="wd-sm-200 pd-x-5 wd-100p">
                             <Flatpickr
                                 options={{
                                     dateFormat: "d/m/Y",
+                                    maxDate: new Date(),
+                                    mode:'single',
                                     onOpen: function (selectedDates, dateStr, instance) {
-                                        console.log(instance);
-                                        if (fromDate === '') return;
+                                        if(fromDate.length === 0){
+                                            instance.set("minDate", null);
+                                            return;
+                                        }
                                         instance.set("minDate", new Date(fromDate));
-
                                     }
                                 }}
                                 className="form-control"
@@ -69,17 +77,19 @@ const PaymentHistory = () => {
 
                             />
                         </div>
-                        <div className="flex-grow-0 tx-right flex-shrink-0 pd-x-5">
-                            <button type="button" className="btn btn-primary " onClick={loadHistoryAPI}><i className="fa fa-search" /></button>
+                        </div>
+                        <div className="flex-grow-0 tx-right flex-shrink-0 pd-x-5 wd-100p wd-sm-auto tx-left mg-t-10 mg-sm-t-0">
+                            <button type="button" className="btn btn-primary wd-100p wd-sm-auto" onClick={loadHistoryAPI}><i className="fa fa-search" /></button>
                         </div>
                     </div>
+                    
                 </div>
 
             </div>
             <div className="card-body pd-20-f">
-                <div className="table-responsive">
-                    <table className="table">
-                        <thead className="thead-light">
+                <div className="">
+                    <table className="table responsive-table-vertical table-schedule-log table-hover ">
+                        <thead className="thead-primary">
                             <tr className="gv-bg-table">
                                 <th className="tx-left">Date </th>
                                 <th className="tx-center">Total salary</th>

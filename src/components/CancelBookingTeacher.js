@@ -16,16 +16,15 @@ const CancelBookingTeacher = ({BookingID, LessionName, date, start, end, style, 
   const getAPI = async (params) => {
     /* start: -1 */
     let status = -1;
-    callback && callback(params.BookingID, status)
     const lessons = await cancelLesson(params);
     status = lessons.Code; /* success:1 , fail: 0*/
     if (status === 1) {
-      cancelToastSuccess()
+      cancelToastSuccess();
+      callback && callback(params.BookingID, status)
     }
     else {
-      cancelToastFail()
+      toast.error(lessons?.Message ?? "Cancel lesson fail, some errors happened!", toastInit);
     }
-    callback && callback(params.BookingID, status);
   }
 
 

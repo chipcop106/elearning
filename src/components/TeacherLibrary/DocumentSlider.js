@@ -14,7 +14,7 @@ const SkeletonCourse = () => {
     )
 }
 
-const DocumentSlider = ({ categoryID, slideTitle, moreLink, titleIcon, getNewest = false }) => {
+const DocumentSlider = ({ categoryID, slideTitle, moreLink, titleIcon, getNewest = false, limitSlide = 5 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [listItems, setListItems] = useState(null);
     const slideRef = useRef(true);
@@ -23,8 +23,26 @@ const DocumentSlider = ({ categoryID, slideTitle, moreLink, titleIcon, getNewest
             // Optional parameters
             direction: 'horizontal',
             loop: false,
-            slidesPerView: 4,
-            spaceBetween:10,
+            slidesPerView: 2,
+            spaceBetween:20,
+            breakpoints:{
+                320:{
+                    slidesPerView: 2,
+                    spaceBetween:20,
+                },
+                600:{
+                    slidesPerView: 3,
+                    spaceBetween:20,
+                },
+                992:{
+                    slidesPerView: 4,
+                    spaceBetween:20,
+                },
+                1400:{
+                    slidesPerView: limitSlide,
+                    spaceBetween:20,
+                }
+            },
             // Navigation arrows
             navigation: {
                 nextEl: '.swiper-button-next',

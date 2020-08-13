@@ -9,22 +9,22 @@ export const appSettings = {
         control: (oldStyle, state) => {
             return {
                 ...oldStyle,
-                borderColor: state.isFocused ? '#fd7e14' : '#c0ccda',
+                borderColor: (state.isFocused || state.isSelected || state.isHovered) ? '#fd7e14 !important' : '#c0ccda',
                 outline: 0,
-                boxShadow: state.isFocused ? '0 0 0 0.2rem rgba(253, 126, 20, 0.25)' : 'none',
+                boxShadow:state.isFocused ? '0 0 0 0.2rem rgba(253, 126, 20, 0.25)' : 'none',
                 borderRadius:'3px'
             } 
         },
         multiValue: (oldStyle, state) => {
             return {
                 ...oldStyle,
-                backgroundColor: '#fd7e14',
+                backgroundColor: 'rgba(253,126,20,.38)',
             }
         },
         multiValueLabel: (oldStyle, state) => {
             return {
                 ...oldStyle,
-                color:'#fff'
+                color:'#021737'
             }
         },
         option: (oldStyle, state) => {
@@ -33,7 +33,6 @@ export const appSettings = {
                 backgroundColor: state.isSelected ? '#fd7e14' : state.isFocused ? 'rgba(253, 126, 20, 0.25)' : '#fff',
             }
         },
-      
     },
-    UID: 1071, //20 teacher || 1071 student
+    UID: 20, //20 teacher || 1071 student
 }

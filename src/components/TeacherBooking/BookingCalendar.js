@@ -5,7 +5,6 @@ import ActiveSlotModal from './ActiveSlotModal';
 import CloseSlotModal from './CloseSlotModal';
 import CancelSlotModal from './CancelSlotModal';
 import { toast } from 'react-toastify';
-
 let calendar;
 const pad = (n) => (n >= 10 ? n : "0" + n);
 Date.prototype.addHours = function (h) {
@@ -233,25 +232,26 @@ const bookingCalendar = () => {
     const allEventDidMount = (event, relatedEvents, revert) => {
         console.log(event);
     }
-
+    let $toggleCheckbox;
     const initCalendar = () => {
         //const createEventSlots
 
         const calendarEl = document.getElementById("js-book-calendar");
 
-        let $toggleCheckbox;
+       
         const $closeModal = $('#md-close-slot');
         const $cancelModal = $('#md-cancel-slot');
 
         const eventDidMount = (args) => {
         //    console.log("eventDidMount", args);
-            const { event } = args;
-            if (!args.isPast) {
-                $(args.el).tooltip({
+            const { event, el } = args;
+            el.setAttribute("tab-index", 0);
+            if (!args.isPast && ![...el.classList].includes('booked-slot')) {
+                $(el).tooltip({
                     html: true,
                     title: `
                       <p class="mg-b-5">${moment(event.start).format(
-                        "dddd, MM / YYYY"
+                        "dddd, DD/MM/YYYY"
                     )}</p>
                 <p class="mg-b-5">Start: ${moment(event.start).format(
                         "hh:mm A"
@@ -259,7 +259,7 @@ const bookingCalendar = () => {
                 <p class="mg-b-5">End: ${moment(event.end).format("hh:mm A")}</p>
                 `,
                     animation: false,
-                    template: `<div class="tooltip tooltip-primary" role="tooltip">
+                    template: `<div class="tooltip" role="tooltip">
                     <div class="tooltip-arrow">
                     </div>
                     <div class="tooltip-inner">
@@ -269,6 +269,25 @@ const bookingCalendar = () => {
                     trigger: "hover",
                 });
             }
+            
+            !!el && [...el.classList].includes('booked-slot') && $(el).popover({
+                html:true,
+                container: 'body',
+                trigger: 'hover',
+                title:'Booked information',
+                content: `  
+                <p class="mg-b-5"><span class="tx-medium mg-r-5">Course:</span>${event.extendedProps.bookInfo?.DocumentName ?? ''}</p>
+                <p class="mg-b-5"><span class="tx-medium mg-r-5">Lesson:</span>${event.extendedProps.bookInfo?.LessonName ?? ''}</p>
+                <p class="mg-b-5"><span class="tx-medium mg-r-5">Student:</span>${event.extendedProps.bookInfo?.name ?? ''}</p>
+                <p class="mg-b-5"><span class="tx-medium mg-r-5">Date:</span>${moment(event.start).format(
+                    'dddd, DD/MM/YYYY'
+                )}</p>
+            <p class="mg-b-5"><span class="tx-medium mg-r-5">Start:</span>${moment(event.start).format(
+                    'hh:mm A'
+                )}</p>
+            <p class="mg-b-0"><span class="tx-medium mg-r-5">End:</span>${moment(event.end).format('hh:mm A')}</p>
+           `
+            });
 
             !!$toggleCheckbox && showStudentToggle();
             const events = calendar.getEvents();
@@ -294,12 +313,17 @@ const bookingCalendar = () => {
                 dayHeaders[i].querySelector('.booked').textContent = bookedSlot;
                 dayHeaders[i].querySelector('.total').textContent = totalSlot;
             }
-         
         };
 
         const eventClick = (args) => {
             const element = args.el;
-            
+            if(!!$toggleCheckbox && $toggleCheckbox.prop('checked') === true && ![...element.classList].includes("booked-slot") ){
+                toast.warning('Please uncheck "Only show student booking hours" before open or booking slot !!',{
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: 5000
+                });
+                return;
+            }
             if (
                 [...element.classList].includes("fc-event-past") ||
                 ![...element.classList].includes("empty-slot")
@@ -433,7 +457,7 @@ const bookingCalendar = () => {
                                 <a href="javascript:;" class="fix-btn cancel-schedule" data-schedule='${
                             JSON.stringify(data)
                             }'>Cancel</a>`
-                            : ` <i class="fas fa-copyright"></i><span class="label-book">AVAILABLE</span>`
+                            : `<span class="label-book"><i class="fas fa-copyright"></i>AVAILABLE</span>`
                         }
                         ${
                         available
@@ -507,7 +531,7 @@ const bookingCalendar = () => {
         function showStudentToggle() {
             const value = $toggleCheckbox.prop('checked');
             const nonBookedEvents = $('.fc-event:not(.booked-slot)');
-            value ? nonBookedEvents.hide() : nonBookedEvents.show();
+            value ? nonBookedEvents.addClass('hide-event') : nonBookedEvents.removeClass('hide-event');
         }
 
     }
@@ -556,7 +580,7 @@ const bookingCalendar = () => {
             if (res.Code === 1) {
                 setAvailableEvent({
                     ...data,
-                    OpenDayID:res?.Data?.ID ?? 0
+                    OpenDayID:res?.Data?.OpenDayID ?? 0
                 });
                 toast.success('Open slot success', {
                     position: toast.POSITION.TOP_CENTER,
@@ -619,11 +643,10 @@ const bookingCalendar = () => {
                     autoClose: 2000
                 });
             } else {
-                toast.error('Cancel slot failed', {
+                toast.error(res?.Message ?? 'Cancel slot failed', {
                     position: toast.POSITION.TOP_CENTER,
                     autoClose: 2000
                 });
-                console.log('Call api không thành công, xem lại tham số !');
             }
             
         } catch (error) {
@@ -662,7 +685,16 @@ const bookingCalendar = () => {
                 <div className="time-zone"></div>
                 <div id="js-book-calendar" className="fc fc-unthemed fc-ltr" />
             </div>
-
+            <div className="notice pd-20 bg-primary-light rounded-5 mg-t-30">
+                <h5 className="mg-b-15 tx-primary"><i className="fas fa-file"></i> Notes:</h5>
+                <ul className="mg-b-0">
+                    <li>Each session is 25 minutes</li>
+                    <li>To open a slot, simply select the time frame in calendar</li>
+                    <li>To close a slot, select the time available in calendar and click "Close"</li>
+                    <li>To cancel a booked lesson, select the booked frame in calendar and click "Cancel"</li>
+                    <li>You can only CANCEL the lesson 30 minutes before the lesson starts.</li>
+                </ul>
+            </div>
             <ActiveSlotModal
                 data={activeModal}
                 handleOpenSlot={_openSlot}

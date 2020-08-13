@@ -9,18 +9,19 @@ module.exports = {
   entry: {
     "polyfill": "@babel/polyfill",
     'Footer': componentEnrtryPrefix + '/Footer.js',
-    /* 'login': componentEnrtryPrefix + 'Login/Login.js',
-    'signup': componentEnrtryPrefix + 'Signup/Signup.js', */
     'app': ['./src/scss/custom.scss', './src/assets/js/custom.js'],
     'ProfileSidebar': componentEnrtryPrefix + '/ProfileSidebar.js',
     'Header': componentEnrtryPrefix + '/Header.js',
-    
-    /* 'teacherHome': componentEnrtryPrefix + 'TeacherHome/teacherHome.js',
+    'teacherHome': componentEnrtryPrefix + 'TeacherHome/teacherHome.js',
     'teacherClassRooms': componentEnrtryPrefix + 'TeacherClassRooms/teacherClassRooms.js',
+    'teacherFeedbackDetail': componentEnrtryPrefix + 'TeacherFeedbackDetail/teacherFeedbackDetail.js',
+    'teacherBooking': componentEnrtryPrefix + 'TeacherBooking/teacherBooking.js',
     'teacherLibrary': componentEnrtryPrefix + 'TeacherLibrary/teacherLibrary.js',
+    'teacherSupport': componentEnrtryPrefix + 'TeacherSupport/teacherSupport.js',
     'teacherReport': componentEnrtryPrefix + 'TeacherReport/teacherReport.js',
     'teacherPayment': componentEnrtryPrefix + 'TeacherPayment/teacherPayment.js',
     'teacherFeedback': componentEnrtryPrefix + 'TeacherFeedback/teacherFeedback.js',
+    'teacherProfile': componentEnrtryPrefix + 'TeacherProfile/teacherProfile.js', 
     'teacherLessonDetail': componentEnrtryPrefix + 'TeacherLessonDetail/teacherLessonDetail.js',
     'teacherSupport': componentEnrtryPrefix + 'TeacherSupport/teacherSupport.js',
     'teacherProfile': componentEnrtryPrefix + 'TeacherProfile/teacherProfile.js',

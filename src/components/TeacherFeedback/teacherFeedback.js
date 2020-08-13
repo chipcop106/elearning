@@ -57,7 +57,7 @@ const commentDemo = [
 ];
 
 
-const FeedbackRow = ({ data: { id, stName, stAvatar, stFeedback, lessonTime, lessonName, rating } }) => {
+const FeedbackRow = ({ data: { id, stName, stAvatar, stFeedback, lessonTime, lessonName, rating, FeedbackLink } }) => {
     const [content, setContent] = React.useState('');
     const [isEditing, setIsEditing] = React.useState(false);
     const _showReply = (event) => {
@@ -97,7 +97,7 @@ const FeedbackRow = ({ data: { id, stName, stAvatar, stFeedback, lessonTime, les
     return (
         <div className="fb-item">
             <div className="fb-avatar">
-                <img src={stAvatar} alt="avatar" className="avatar" />
+                <img src={stAvatar || '../assets/img/default-avatar.png'} alt="avatar" className="avatar" />
             </div>
             <div className="fb-info">
                 <div className="name-rating mg-b-0-f">
@@ -134,7 +134,6 @@ const FeedbackRow = ({ data: { id, stName, stAvatar, stFeedback, lessonTime, les
                 >
                     <>
                         {isEditing && (
-
                             <div className="reply-box">
                                 <div className="form-group cmt-box">
                                     <textarea rows={5} className="form-control" value={content} onChange={_onChange} placeholder="Feedback content..." />
@@ -151,8 +150,8 @@ const FeedbackRow = ({ data: { id, stName, stAvatar, stFeedback, lessonTime, les
 
                 {!isEditing && (
                     <div className="actions">
-                        <a href="teacherLessonDetail.html" className="btn btn-sm btn-warning mg-r-10" target="_blank" rel="noopener"><i className="fas fa-vote-yea mg-r-5" /> Detail lesson</a>
-                        <a href={`#`} className="btn btn-sm btn-outline-twitter btn-icon btn-reply" onClick={_showReply}><i className="fas fa-reply" /> Reply</a>
+                        <a href={FeedbackLink} className="btn btn-sm btn-warning mg-r-10" target="_blank" rel="noopener"><i className="fas fa-vote-yea mg-r-5" /> Detail lesson</a>
+                        {/* <a href={`#`} className="btn btn-sm btn-outline-twitter btn-icon btn-reply" onClick={_showReply}><i className="fas fa-reply" /> Reply</a> */}
                     </div>
                 )
 
@@ -313,18 +312,24 @@ const TeacherFeedback = () => {
                 Rate:filterValue !== '' ? parseInt(filterValue) : 0,
                 Page:pageNumber
             });
-            res.Code === 1 && res.Data.length > 0 && setFeedbacks(res.Data.map(fb => {
-                return {
-                    ...fb,
-                    id: fb.StudentUID,
-                    stName: fb.StudentName,
-                    stAvatar: fb.StudentIMG,
-                    stFeedback: fb.Evaluation,
-                    lessonTime: '12/06/2020 10:30AM (GTM + 7)',
-                    lessonName: fb.Lession,
-                    rating: fb.Rate,
-                }
-            }));
+            if(res.Code === 1){
+                res.Data.length > 0 ? setFeedbacks(res.Data.map(fb => {
+                    return {
+                        ...fb,
+                        id: fb.StudentUID,
+                        stName: fb.StudentName,
+                        stAvatar: fb.StudentIMG,
+                        stFeedback: fb.Evaluation,
+                        lessonTime: fb?.ScheduleDate ?? '',
+                        lessonName: fb.Lession,
+                        rating: fb.Rate,
+                        FeedbackLink:fb.FeedbackLink
+                    }
+                })) : setFeedbacks([]);
+                setPageSize(res.PageSize);
+                setTotalResult(res.TotalResult);
+            }
+             
         } catch (error) {
             setFeedbacks([]);
             console.log(error.message);
@@ -338,7 +343,7 @@ const TeacherFeedback = () => {
 
     React.useEffect(() => {
         fetchFeedback();
-    }, [filterValue])
+    }, [filterValue, pageNumber])
 
     return (
         <>
@@ -353,8 +358,8 @@ const TeacherFeedback = () => {
                     {
                         isLoading ? <SkeletonFeedback /> : (
                             <>
-                                {!!feedbacks && feedbacks.length > 0 && [...feedbacks].map(fb => <FeedbackRow
-                                    key={`${fb.id}`}
+                                {!!feedbacks && feedbacks.length > 0 ? [...feedbacks].map((fb, index) => <FeedbackRow
+                                    key={`${index + randomId()}`}
                                     data={{
                                         id: fb.id,
                                         stName: fb?.stName ?? '',
@@ -362,11 +367,18 @@ const TeacherFeedback = () => {
                                         stFeedback: fb?.stFeedback ?? '',
                                         lessonTime: fb?.lessonTime ?? '',
                                         lessonName: fb?.lessonName ?? '',
-                                        rating: fb.rating
+                                        rating: fb.rating,
+                                        FeedbackLink: fb.FeedbackLink
                                     }}
-                                />)
+                                />) : (<div className="card card-custom">
+                                    <div className="card-body tx-center">
+                    
+                                        <img src="../assets/img/empty.svg" alt="empty" className="wd-250 mg-x-auto mg-b-30-f mg-t-30"/>
+                                        <div className="tx-center tx-danger tx-16">No rating {filterValue} <i className="fa fa-star tx-warning"></i> from students</div>
+                                    </div>
+                                </div>)
                                 }
-                                {!!totalResult && totalResult >= pageSize && (
+                                {totalResult > pageSize && (
                                     <Pagination
                                         innerClass="pagination justify-content-end"
                                         activePage={pageNumber}

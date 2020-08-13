@@ -6,6 +6,8 @@ import { convertDateFromTo as cvDate, checkCancelTime } from '~src/utils';
 import Flatpickr from 'react-flatpickr';
 import CancelBookingTeacher from '~components/CancelBookingTeacher';
 import Pagination from 'react-js-pagination';
+import StudentInformationModal from '~components/StudentInformationModal'
+
 const BookingRequest = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [lessons, setLessons] = useState(null);
@@ -16,6 +18,16 @@ const BookingRequest = () => {
     const [toDate, setToDate] = useState('');
     const [pageSize, setPageSize] = useState(null);
     const [totalResult, setTotalResult] = useState(null);
+    const [studentId, setStudentId] = React.useState(null);
+
+    const mdStudentInfo = React.useRef(true);
+
+    const showStudentModal = (studentId) => {
+        setStudentId(studentId);
+        $(mdStudentInfo.current).appendTo('body').modal('show');
+    }
+
+    
     const loadBookingRequestData = async () => {
         setIsLoading(true);
         try {
@@ -26,6 +38,7 @@ const BookingRequest = () => {
                 setLessons(res.Data);
                 setPageSize(res.PageSize);
                 setTotalResult(res.TotalResult);
+              
             } else {
                 console.log(res);
             }
@@ -49,13 +62,11 @@ const BookingRequest = () => {
         setLessons(newUpcomings);
     }
 
+
     useEffect(() => {
         loadBookingRequestData();
     }, [pageNumber])
 
-    useEffect(() => {
-        console.log({ totalResult, pageSize });
-    }, [totalResult, pageSize])
 
     return (
         <>
@@ -115,16 +126,16 @@ const BookingRequest = () => {
                             </>
                         ) : (
                                 <>
-
                                     {!!lessons && !!lessons.length > 0 ? lessons.map(lesson => <div key={`${lesson.BookingID}`} className="col-lg-6">
                                         <LessonCard
                                             lessonId={lesson.BookingID}
-                                            courseName={lesson.DocumentName}
-                                            studentName={lesson.StudentName}
+                                            courseName={lesson?.DocumentName ?? ''}
+                                            studentName={lesson?.StudentName ?? ''}
+                                            lessonName={lesson?.LessionName ?? ''}
                                             lessonDate={cvDate(lesson.ScheduleTimeVN).date}
                                             lessonStart={cvDate(lesson.ScheduleTimeVN).fromTime}
                                             lessonEnd={cvDate(lesson.ScheduleTimeVN).endTime}
-                                            lessonStatus={lesson.LessonName}
+                                            lessonStatus={lesson.lessionName}
                                             // cancellable={checkCancelTime(cvDate(lesson.ScheduleTimeVN).dateObject)}
                                             cancellable={true} //Only for test cancel action, use above code for production
                                             skypeId={lesson.SkypeID}
@@ -136,6 +147,8 @@ const BookingRequest = () => {
                                                 link: lesson.LessionMaterial
                                             }]}
                                             handleCancelLesson={handleCancelLesson}
+                                            showStudentModal={showStudentModal}
+                                            StudentUID={lesson.StudentUID}
                                         />
                                     </div>) : (
                                             <div className="empty-error tx-center mg-y-30 bg-white mg-x-auto">
@@ -169,6 +182,10 @@ const BookingRequest = () => {
                 date={cancelData?.lessonDate ?? ''}
                 LessionName={cancelData?.lessonName ?? ''}
                 callback={refreshListUpcoming}
+            />
+            <StudentInformationModal
+                ref={mdStudentInfo}
+                studentId={studentId}
             />
         </>
     );

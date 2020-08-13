@@ -1,37 +1,74 @@
 import React, { useState, useEffect, createRef } from 'react';
 import ReactDOM from 'react-dom';
-import SkeletonTable from '~components/common/Skeleton/SkeletonTable';
-import { getUpcomingClass } from '~src/api/teacherAPI';
+import Skeleton from 'react-loading-skeleton';
+import { getUpcomingClass, addScheduleLog } from '~src/api/teacherAPI';
 import Pagination from "react-js-pagination";
+import {Popover, OverlayTrigger, Overlay} from 'react-bootstrap';
 
 const UpcomingRow = ({ data, showStudentModal }) => {
-    const { ScheduleTimeVN, ScheduleTimeUTC, StudentName, StudentUID, DocumentName, LessionName, SkypeID, StatusString, Status, LessionMaterial } = data;
+    const { BookingID, ScheduleTimeVN, ScheduleTimeUTC, StudentName, StudentUID, DocumentName, LessionName, SkypeID, StatusString, Status, LessionMaterial, Gender, SpecialRequest } = data;
+    const handleEnterClass = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await addScheduleLog({ BookingID });
+            if (res.Code === 1) {
+                window.location.href = `skype:${SkypeID}?chat`;
+            }
+        } catch (error) {
+            console.log(error?.message ?? `Can't add schedule log !!`)
+        }
+    }
+
+    const popover = (
+        <Popover id="popover-basic">
+            <Popover.Title as="h3">Student note</Popover.Title>
+            <Popover.Content>
+                {SpecialRequest}
+            </Popover.Content>
+        </Popover>
+    );
+
+
     return (
         <tr>
             <td className="clr-time">
                 <div className="mg-b-5">
-                    <span className="tx-medium mg-r-5"><i className="fa fa-clock"></i> VN:</span>
+                    <span className=" mg-r-5"><i className="fa fa-clock tx-primary"></i> VN:</span>
                     <span className="tx-gray-500">{ScheduleTimeVN}</span>
                 </div>
                 <div className="mg-b-5">
-                    <span className="tx-medium mg-r-5"><i className="fa fa-clock"></i> UTC:</span>
+                    <span className=" mg-r-5"><i className="fa fa-clock tx-primary"></i> UTC:</span>
                     <span className="tx-gray-500">{ScheduleTimeUTC}</span>
                 </div>
             </td>
             <td className="clr-lesson">
                 <div className="mg-b-5">
-                    <span className="tx-primary tx-medium">{DocumentName}</span>
+                    <span className=" mg-r-5">Course:</span>
+                    <span className="tx-gray-500">{DocumentName}</span>
                 </div>
                 <div className="mg-b-5">
-                    <span className="tx-medium mg-r-5">Lesson name:</span>
+                    <span className=" mg-r-5">Lesson:</span>
                     <span className="tx-gray-500">{LessionName}</span>
                 </div>
-
             </td>
             <td className="clr-student">
-                <a href={`#`} onClick={(e) => { e.preventDefault(); showStudentModal(StudentUID) }} className="clrm-studentname">{StudentName}<i className="fa fa-mars mg-l-10 clrm-icon-male" /></a>
+                <a href={`#`} onClick={(e) => { e.preventDefault(); showStudentModal(StudentUID) }} className="clrm-studentname">{StudentName}<i className={`fa fa-${Gender === 0 ? 'venus' : Gender === 1 ? 'mars' : 'genderless'} mg-l-10 clrm-icon-male`} /></a>
+            </td>
+            <td className="tx-center">
+                {SpecialRequest && SpecialRequest !== '' && 
+                   
+                    <OverlayTrigger trigger="click" placement="auto" overlay={popover} rootClose>
+                        <a href="#" className="d-inline-block pd-5 tx-gray-500 text-hover-primary" tabIndex="0">
+                            <i className="fas fa-file-alt tx-24 "></i>
+                        </a>
+                    </OverlayTrigger> 
+                  
+                    
+               }
+                
             </td>
             <td className="clr-status">
+            <span className={`badge badge-${Status === 1 ? 'primary tx-white' : 'success'} pd-5`}>{Status === 1 ? 'BOOKED' : 'FINISHED'}</span>
                 <span className={`badge badge-${Status === 1 ? 'warning' : 'success'} pd-5`}>{StatusString && StatusString.toString().toUpperCase()}</span>
                 {/* {status === 1 && <span className="badge badge-warning pd-5">BOOKED</span>}
                 {status === 2 && <span className="badge badge-success pd-5">FINISHED</span>} */}
@@ -39,84 +76,112 @@ const UpcomingRow = ({ data, showStudentModal }) => {
             </td>
             <td className="clr-actions">
                 <a href={LessionMaterial} className="btn btn-sm btn-warning rounded-5 mg-r-10" target="_blank" rel="noopener"><i className="fa fa-book-open clrm-icon" /> Material</a>
-                <a href={`skype:${SkypeID}?chat`} className=" btn btn-sm btn-warning rounded-5"><i className="fab fa-skype clrm-icon" /> Enter Class</a>
+                <a href={`skype:${SkypeID}?chat`} className=" btn btn-sm btn-warning rounded-5" onClick={handleEnterClass}><i className="fab fa-skype clrm-icon" /> Enter Class</a>
 
             </td>
         </tr>
     )
 }
 
-const UpCommingTable = ({ updateSwiperHeight, showStudentModal }) => {
+const UpCommingTable = ({showStudentModal }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [pageNumber, setPageNumber] = useState(1);
     const [data, setData] = useState(null);
+    const [pageSize, setPageSize] = useState(0);
+    const [totalResult, setTotalResult] = useState(0);
 
     const loadUpcomingClasses = async () => {
         try {
             const res = await getUpcomingClass({ Page: pageNumber });
             if (res?.Code && res.Code === 1) {
                 setData(res.Data);
+                setPageSize(res.PageSize);
+                setTotalResult(res.TotalResult);
             } else {
                 console.log('Code response khác 1');
             }
             setIsLoading(false);
-            updateSwiperHeight();
             return;
         } catch (error) {
             console.log(error);
             setIsLoading(false);
         }
         setData([]);
+
     }
 
-    const _onClickPage = (e) => {
-        const target = e.target;
-    }
 
     useEffect(() => {
         loadUpcomingClasses();
-    }, [])
+    }, [pageNumber])
 
     return (
         <>
-            {
-                isLoading ? <SkeletonTable /> : (
-                    <>
-                        <div className="table-responsive">
-                            <table className="table table-classrooms">
-                                <thead>
-                                    <tr className="thead-light">
-                                        <th className="clr-time">Scheduled Times</th>
-                                        <th className="clr-lesson">Course</th>
-                                        <th className="clr-student">Student</th>
-                                        <th className="clr-status">Status</th>
-                                        <th className="clr-action">Actions</th>
-                                    </tr>
-                                </thead>
-                                {/*1 item*/}
-                                <tbody>
-                                    {!!data && !!data.length > 0 ? data.map(item => <UpcomingRow key={`${item.BookingID}`} data={item} showStudentModal={showStudentModal} />) 
-                                    : (<tr><td colSpan={5}><span className="tx-danger d-block tx-center tx-medium tx-16">No upcoming classes.</span></td></tr>)}
-                                </tbody>
-                            </table>
-                        </div>
+            <div className="table-responsive mg-b-15">
+                <table className="table table-classrooms table-borderless responsive-table table-hover">
+                    <thead className="thead-primary">
+                        <tr className="">
+                            <th className="clr-time">Schedule</th>
+                            <th className="clr-lesson">Lesson</th>
+                            <th className="clr-student">Student</th>
+                            <th className="clr-student">Note</th>
+                            <th className="clr-status">Status</th>
+                            <th className="clr-action">Actions</th>
+                        </tr>
+                    </thead>
+                    {/*1 item*/}
+                    <tbody>
+                        {isLoading ? (
+                            <>
+                                <tr>
+                                    <td><Skeleton /></td>
+                                    <td><Skeleton /></td>
+                                    <td><Skeleton /></td>
+                                    <td><Skeleton /></td>
+                                    <td><Skeleton /></td>
+                                    <td><Skeleton /></td>
+                                </tr>
+                                <tr>
+                                    <td><Skeleton /></td>
+                                    <td><Skeleton /></td>
+                                    <td><Skeleton /></td>
+                                    <td><Skeleton /></td>
+                                    <td><Skeleton /></td>
+                                    <td><Skeleton /></td>
+                                </tr>
+                                <tr>
+                                    <td><Skeleton /></td>
+                                    <td><Skeleton /></td>
+                                    <td><Skeleton /></td>
+                                    <td><Skeleton /></td>
+                                    <td><Skeleton /></td>
+                                    <td><Skeleton /></td>
+                                </tr>
+                            </>
+                        ) : (
+                                !!data && !!data.length > 0 ? data.map(item => <UpcomingRow key={`${item.BookingID}`} data={item} showStudentModal={showStudentModal} />)
+                                    : (<tr><td colSpan={5}><span className="tx-danger d-block tx-center tx-medium tx-16">No upcoming classes.</span></td></tr>)
+                            )
+                        }
 
-                        {!!data && !!data.length > 10 && (
-                            <Pagination
-                                innerClass="pagination"
-                                activePage={pageNumber}
-                                itemsCountPerPage={10}
-                                totalItemsCount={100}
-                                pageRangeDisplayed={5}
-                                onChange={_handlePageChange}
-                                itemClass="page-item"
-                                linkClass="page-link"
-                                activeClass="active"
-                            />
-                        )}
-                    </>
-                )
-            }
+                    </tbody>
+                </table>
+            </div>
+
+            {totalResult > pageSize && (
+                <Pagination
+                    innerClass="pagination"
+                    activePage={pageNumber}
+                    itemsCountPerPage={pageSize}
+                    totalItemsCount={totalResult}
+                    pageRangeDisplayed={5}
+                    onChange={(page) => setPageNumber(page)}
+                    itemClass="page-item"
+                    linkClass="page-link"
+                    activeClass="active"
+                />
+            )}
+
         </>
     )
 }

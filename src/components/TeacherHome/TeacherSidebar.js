@@ -113,10 +113,29 @@ const TeacherSidebar = () => {
 
     const fetchData = async () => {
         setIsLoading(true);
-        const res = await getTeacherInfo();
-        if (res.Code === 1 && res.Data) {
-            setState(res.Data);
+        try {
+            const res = await getTeacherInfo();
+            if (res.Code === 1) {
+                setState({
+                    ...state,
+                    Avatar: res.Data?.AvatarThumnail ?? '',
+                    FullName: res.Data?.FullName ?? '',
+                    Address: "Hồ Chí Minh",
+                    Gender: 1,
+                    BirthDay: "2020-07-10T09:52:14.5215882+07:00",
+                    SkypeID: "live:shockdie1995",
+                    Phone: res.Data?.Phone ?? '',
+                    Username: "thaivietdat",
+                    Email: res.Data?.Email ?? '',
+                    TotalClass: res.Data?.TotalClass ?? 0,
+                    TotalDaysExperience: res.Data?.TotalDaysExperience ?? 0,
+                    TotalStudent: res.Data?.TotalStudent ?? 0,
+                });
+            }
+        } catch (error) {
+            
         }
+     
         setIsLoading(false);
     }
 
@@ -206,7 +225,7 @@ const TeacherSidebar = () => {
                                     </div>
                                     {/*end::Text*/}
                                     {/*begin::label*/}
-                                    <span className="badge bg-gray-200 pd-y-10 tx-14 wd-35 mg-l-15">28</span>
+                                    <span className="badge bg-gray-200 pd-y-10 tx-14 wd-35 mg-l-15">{state?.TotalStudent ?? 0}</span>
                                     {/*end::label*/}
                                 </div>
                                 {/*end::Item*/}
@@ -230,7 +249,7 @@ const TeacherSidebar = () => {
                                     </div>
                                     {/*end::Text*/}
                                     {/*begin::label*/}
-                                    <span className="badge bg-gray-200 pd-y-10 tx-14 wd-35 mg-l-15">7</span>
+                                    <span className="badge bg-gray-200 pd-y-10 tx-14 wd-35 mg-l-15">{state?.TotalClass ?? 0}</span>
                                     {/*end::label*/}
                                 </div>
                                 {/*end::Item*/}
@@ -254,7 +273,7 @@ const TeacherSidebar = () => {
                                     </div>
                                     {/*end::Text*/}
                                     {/*begin::label*/}
-                                    <span className="badge bg-gray-200 pd-y-10 tx-14 wd-35 mg-l-15">30</span>
+                                    <span className="badge bg-gray-200 pd-y-10 tx-14 wd-35 mg-l-15">{state?.TotalDaysExperience ?? 0}</span>
                                     {/*end::label*/}
                                 </div>
                                 {/*end::Item*/}

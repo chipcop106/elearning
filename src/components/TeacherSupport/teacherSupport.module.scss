@@ -45,3 +45,16 @@
 .table-custom tbody tr:nth-child(even){
     background-color:rgba(255,222,193,.13);
 }
+
+.badge-number{
+    font-size: 1rem;
+    font-weight: 400;
+    display: inline-flex;
+    width: 35px;
+    color: $primary-color;
+    height: 35px;
+    align-items: center;
+    background-color: rgba($primary-color, 0.05);
+    border-radius: 0.42rem;
+    justify-content: center;
+}

@@ -2,7 +2,8 @@ var isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
 var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
 if (isSafari && iOS) {
-    document.querySelector('body').classList.add('safari ios');
+    document.querySelector('body').classList.add('safari');
+    document.querySelector('body').classList.add('ios');
 } else if(isSafari) {
     document.querySelector('body').classList.add('safari')
 }
@@ -146,9 +147,11 @@ $(document).ready(function() {
         $(this).val(value);
     });
     const btnToggleMenu = document.getElementById('js-burger-menu');
+    const bodyToggleMenu = document.getElementsByTagName('body')[0];
     const toggleMobileMenu = (e) => {
         e.preventDefault();
         btnToggleMenu.classList.toggle('active');
+        bodyToggleMenu.classList.toggle('menu-open');
     }
     const menuOverlay =  document.querySelector('.menu-overlay');
     if(menuOverlay){

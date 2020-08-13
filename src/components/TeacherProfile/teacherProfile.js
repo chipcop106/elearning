@@ -9,17 +9,22 @@ import styles from './teacherProfile.module.scss'
 import ChangePassword from './ChangePassword';
 import PaymentInfo from './PaymentInfo';
 import {ToastContainer} from 'react-toastify';
+import {Provider as ProfileProvider} from '~src/context/ProfileContext'; 
 
 const TeacherProfile = () => {
-    const [activePage, setActivePage] = useState('profile')
+    const [activePage, setActivePage] = useState('profile');
+
     const handleActivePage = page => {
         setActivePage(page);
     }
+
+
     return (
         <>
+            <ProfileProvider>
             <h3 className="mg-b-30">Profile</h3>
-            <div className="d-flex flex-wrap flex-md-nowrap">
-                <div className="wd-md-350 wd-100p flex-shrink-0 mg-b-30 mg-md-b-0 mg-md-r-30">
+            <div className="d-flex flex-wrap flex-lg-nowrap">
+                <div className="wd-lg-350 wd-100p flex-shrink-0 mg-b-30 mg-lg-b-0 mg-lg-r-30">
                     <Sidebar setActive={handleActivePage} activePage={activePage}/>
                 </div>
                 <div className="flex-grow-1">
@@ -59,6 +64,7 @@ const TeacherProfile = () => {
                 draggable
                 pauseOnHover
             />
+            </ProfileProvider>
         </>
     )
 }
