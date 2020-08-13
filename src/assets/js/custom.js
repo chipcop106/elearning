@@ -147,9 +147,11 @@ $(document).ready(function() {
         $(this).val(value);
     });
     const btnToggleMenu = document.getElementById('js-burger-menu');
+    const bodyToggleMenu = document.getElementsByTagName('body')[0];
     const toggleMobileMenu = (e) => {
         e.preventDefault();
         btnToggleMenu.classList.toggle('active');
+        bodyToggleMenu.classList.toggle('menu-open');
     }
     const menuOverlay =  document.querySelector('.menu-overlay');
     if(menuOverlay){

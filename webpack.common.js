@@ -9,8 +9,6 @@ module.exports = {
   entry: {
     "polyfill": "@babel/polyfill",
     'Footer': componentEnrtryPrefix + '/Footer.js',
-    /* 'login': componentEnrtryPrefix + 'Login/Login.js',
-    'signup': componentEnrtryPrefix + 'Signup/Signup.js', */
     'app': ['./src/scss/custom.scss', './src/assets/js/custom.js'],
     'ProfileSidebar': componentEnrtryPrefix + '/ProfileSidebar.js',
     'Header': componentEnrtryPrefix + '/Header.js',

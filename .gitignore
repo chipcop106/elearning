@@ -3,6 +3,7 @@ dist/
 **/.DS_STORE
 .DS_STORE
 .DS_Store
+*.DS_Store
 package-lock.json
 yarn-error.log
 src/**/.DS_STORE
