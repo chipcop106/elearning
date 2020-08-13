@@ -1,14 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PurchasedCourseCard from "./PurchasedCourseCard";
-import SkeletonLessonCard from "../common/Skeleton/SkeletonLessonCard";
-import { randomId } from "../../utils.js"
+import SkeletonLessonCard from "~components/common/Skeleton/SkeletonLessonCard";
+import { randomId } from "~src/utils.js"
+import Pagination from "react-js-pagination";
 
 const initialState = [{
-  id:randomId(),
-  teacher: "Hoàng Thị Quyên",
+  CoursesID:randomId(),
+  TeacherName: "Hoàng Thị Quyên",
   avatar: "interface-2.jpg",
-  courseName: "IELST - Professional",
+  CoursesName: "IELST - Professional",
   total: 20,
   completed: 30,
   incoming: 20,
@@ -16,12 +17,12 @@ const initialState = [{
   status: "ongoing",
   start: "20/04/2020",
   end: "20/12/2020",
-  courseMaterial: "ITLEST 8.0 EASY",
+  CourseMaterial: "ITLEST 8.0 EASY",
 }, {
-  id:randomId(),
-  teacher: "Hoàng Văn Thái",
+  CoursesID:randomId(),
+  TeacherName: "Hoàng Văn Thái",
   avatar: "interface-2.jpg",
-  courseName: "IELST - Professional",
+  CoursesName: "IELST - Professional",
   total: 20,
   completed: 30,
   incoming: 20,
@@ -29,12 +30,17 @@ const initialState = [{
   status: "finished",
   start: "20/04/2020",
   end: "20/12/2020",
-  courseMaterial: "ITLEST 8.0 EASY",
+  CourseMaterial: "ITLEST 8.0 EASY",
 }]
 const PurchasedCourseList = () => {
+  const [page, setPage] = React.useState(1)
   const [state, setState] = React.useState(initialState);
 
   const [loading, setLoading] = React.useState(false);
+
+  const handlePageChange = (pageNumber) =>  {
+    setPage(pageNumber);
+  }
 
   React.useEffect(() => {
     setLoading(true);
@@ -45,7 +51,7 @@ const PurchasedCourseList = () => {
   }, []);
 
   
-  return <React.Fragment>
+  return <>
      <div className="subcription-title lh-base">
         <h5>Purchased course</h5>
         <ul className="mg-0">
@@ -90,9 +96,9 @@ const PurchasedCourseList = () => {
               loading ? <SkeletonLessonCard key={item.id}/> :
               <PurchasedCourseCard
                 key={item.id}
-                id={item.id}
+                CoursesID={item.CoursesID}
                 avatar={item.avatar}
-                name={item.courseName}
+                CoursesName={item.CoursesName}
                 total={item.total}
                 completed={item.completed}
                 incoming={item.incoming}
@@ -100,21 +106,19 @@ const PurchasedCourseList = () => {
                 status={item.status}
                 start={item.start}
                 end={item.end}
-                material={item.courseMaterial} />)
+                CourseMaterial={item.CourseMaterial} />)
           }
         </ul>
       </div>
-      <nav aria-label="Page navigation" className="mg-t-15">
-        <ul className="pagination mg-b-0 justify-content-end">
-          <li className="page-item disabled"><a className="page-link page-link-icon" href="#"><i
-            data-feather="chevron-left"></i></a></li>
-          <li className="page-item active"><a className="page-link" href="#">1</a></li>
-          <li className="page-item"><a className="page-link" href="#">2</a></li>
-          <li className="page-item"><a className="page-link" href="#">3</a></li>
-          <li className="page-item"><a className="page-link page-link-icon" href="#"><i
-            data-feather="chevron-right"></i></a></li>
-        </ul>
-      </nav>
-    </React.Fragment>
+      <Pagination
+          innerClass="pagination justify-content-end"
+          activePage={page}
+          itemsCountPerPage={10}
+          totalItemsCount={450}
+          pageRangeDisplayed={3}
+          itemClass="page-item"
+          linkClass="page-link"
+          onChange={handlePageChange.bind(this)} />
+    </>
 }
 export default PurchasedCourseList;

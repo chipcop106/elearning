@@ -1,3 +1,13 @@
+var isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
+var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+if (isSafari && iOS) {
+    document.querySelector('body').classList.add('safari');
+    document.querySelector('body').classList.add('ios');
+} else if(isSafari) {
+    document.querySelector('body').classList.add('safari')
+}
+
 $(document).ready(function() {
     $('body').on('click', function() {
         $('.off-canvas').removeClass('show');
@@ -88,7 +98,7 @@ $(document).ready(function() {
     });
    
     $(".datetimepicker").flatpickr({
-        dateFormat: "d/m/yy",
+        dateFormat: "d/m/Y",
         onOpen: function (selectedDates, dateStr, instance) {
             let element = instance.element;
             if (!this.element.classList.contains("to-date")) return;
@@ -106,6 +116,9 @@ $(document).ready(function() {
                     )
                 );
         },
+        onValueUpdate: function(selectedDates, dateStr, instance) {
+            this.element.setAttribute('value', dateStr);
+        }
     });
 
 
@@ -134,11 +147,42 @@ $(document).ready(function() {
         $(this).val(value);
     });
     const btnToggleMenu = document.getElementById('js-burger-menu');
+    const bodyToggleMenu = document.getElementsByTagName('body')[0];
     const toggleMobileMenu = (e) => {
         e.preventDefault();
         btnToggleMenu.classList.toggle('active');
+        bodyToggleMenu.classList.toggle('menu-open');
+    }
+    const menuOverlay =  document.querySelector('.menu-overlay');
+    if(menuOverlay){
+        menuOverlay.addEventListener('click',toggleMobileMenu);
+        btnToggleMenu.addEventListener('click',toggleMobileMenu);
     }
 
-    document.querySelector('.menu-overlay').addEventListener('click',toggleMobileMenu);
-    btnToggleMenu.addEventListener('click',toggleMobileMenu);
+    $('.toggle-sidebar').on('click', function(){
+        $('#js-component-profilesidebar').addClass('active');
+        $(".sidebar-overlay").css("left", $("#js-component-profilesidebar").innerWidth() + "px");
+    })
+    $(document).on('click','.sidebar-overlay',function(){
+        $('#js-component-profilesidebar').removeClass('active');
+        $(this).css("left","-100%");
+    })
+
+    /* $(window).scroll(function() {
+        if (window.innerWidth >= 992) {
+            if ($(window).scrollTop() > 0)
+                $("#js-component-profilesidebar").addClass('fixed')
+            else
+                $("#js-component-profilesidebar").removeClass('fixed')
+        }
+        if ($(window).scrollTop() > $("header.navbar-header").innerHeight()) {
+            $("header.navbar-header").addClass("navbar-header-fixed")
+        }
+    })
+
+    $(window).resize(function () {
+        if (window.innerWidth < 992) {
+            $("#js-component-profilesidebar").removeClass('fixed')
+        }
+    }); */
 });

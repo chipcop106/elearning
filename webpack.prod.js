@@ -7,6 +7,8 @@ const merge = require('webpack-merge');
 const common = require('./webpack.common');
 const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
 const {
   CleanWebpackPlugin
 } = require('clean-webpack-plugin');
@@ -51,7 +53,7 @@ const accountHTML = generateHtmlPlugins('./src/account', 'account');
 
 module.exports = merge(common,{
   mode: "production",
-  // devtool: 'source-map',
+  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -78,7 +80,6 @@ module.exports = merge(common,{
       
     ]
   },
-  watch: true,
   plugins: [
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
@@ -93,4 +94,7 @@ module.exports = merge(common,{
     ],
   })
   ].concat(teacherHTML).concat(accountHTML)
+  // optimization: {
+  //   minimizer: [new UglifyJsPlugin()],
+  // },
 });

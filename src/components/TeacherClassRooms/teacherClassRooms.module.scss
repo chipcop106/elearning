@@ -23,6 +23,9 @@
 }
 .clr-actions{
     width:16.6rem;
+    .btn-detail{
+        width:117px;
+    }
 }
 .clr-student, .clr-status, .clr-finishType, .clr-id{
     text-align: center;
@@ -40,4 +43,32 @@
             vertical-align: middle;
         }
     }
+}
+
+
+@media (max-width:768px){
+    .table-classrooms.responsive-table{
+        thead th{
+            min-height: 3.5rem;
+        }
+         tbody tr{
+            td{
+                border-left:0;
+                padding: 5px 10px;
+                &.clr-actions{
+                    padding-top: 10px;
+                    width: auto;
+                    text-align: left;
+                }
+                &.clr-student, &.clr-status, &.clr-feedbackStatus, .clr-id{
+                    display: flex;
+                    align-items: center;
+                  
+                }
+            }
+         }
+         
+        
+    }
+    
 }

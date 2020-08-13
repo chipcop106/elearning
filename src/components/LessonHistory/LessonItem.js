@@ -1,19 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const LessonItem = ({ name, date, start, end, teacher }) => {
+const LessonItem = ({
+  BookingID,
+  DocumentID,
+  DocumentDetailID,
+  DocumentName,
+  LessionName,
+  LessonDetail,
+  start,
+  end,
+  date,
+  TeacherUID,
+  TeacherName,
+  Status,
+  StatusString,
+}) => {
   return <tr>
-      <td>{name}</td>
-      <td>{date}</td>
-      <td className="tx-nowrap">
-        <span>{start}</span>
-        <i className="fas fa-long-arrow-alt-right mg-x-2"></i>
-        <span>{end}</span>
-      </td>
-      <td><a href="teacherDetail.html">{teacher}</a></td>
-      <td><span className="tx-success">Checked</span></td>
-      <td><a href="lessonDetail.html" className="btn btn-primary">Detail</a></td>
-      </tr>
+    <td>{DocumentName}</td>
+    <td>{date}</td>
+    <td style={{whiteSpace:"pre-line"}}>
+      {LessionName}
+    </td>
+    <td><a href={`/ElearnStudent/teacherDetail?ID=${TeacherUID}`}>{TeacherName}</a></td>
+    <td><span className="tx-success">{StatusString}</span></td>
+    <td>
+      {
+        LessonDetail && LessonDetail.split("ID=")[1] !== "0" && 
+        <a href={LessonDetail} className="btn btn-primary">Chi tiết</a>
+      }</td>
+  </tr>
 }
 
 export default LessonItem;

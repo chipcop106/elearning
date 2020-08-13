@@ -1,253 +1,264 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import StudentComment from "./StudentComment"
+import StudentComment from "../common/StudentComment/StudentComment"
 import BookingSchedule from "./BookingSchedule"
+import BookingScheduleMobile from "./BookingScheduleMobile"
 import TeacherInformation from "./TeacherInformation"
 import CancelBookingLessonModal from "~components/CancelBookingLessonModal"
 import BookingLessonModal from "~components/BookingLessonModal"
 import SkeletonLessonCard from "~components/common/Skeleton/SkeletonLessonCard"
 
 import { nationMapToFlag, randomId } from '~src/utils'
+import { getTeacherInfo } from "~src/api/studentAPI"
 
-const initialState = {
-  name: "Huỳnh Thị Lan Anh",
-  image: "https://theamericanschool.edu.vn/wp-content/uploads/2020/01/Ms-Hong-Nguyen-Vietnamese.jpg",
-  nation: "U.S.",
-  video: "https://www.youtube.com/embed/mJzpX_YrC10",
-  desc: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus sunt delectus itaque veritatis quidem tempora, nesciunt excepturi dolores impedit consectetur cumque natus! Debitis unde repellat incidunt aut molestiae, possimus accusamus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam quisquam debitis dolor veniam non saepe voluptas consectetur culpa sequi illum, doloribus in minima officia ut id deleniti consequuntur ipsum corporis?",
-  introduce: `While I have no soccer skills, I once played in a fairly competitive adult soccer league with my then-teenage stepson. I was terrible, but I played because he asked me to. (When your kids get older and ask you to do something with them, the first time you say no might be the last time you get asked.) I was trying to match the drollness of my "Wow" when my stepson stepped in, half-smile on his lips and full twinkle in his eyes, and rescued me by saying, "Come on, we need to get ready." Was Louis cocky? Certainly, but only on the surface. His $400 cleats, carbon fiber shin guards, and "I'm the king of the business world" introduction was an unconscious effort to protect his ego. His introduction said, "Hey, I might not turn out to be good at soccer, but out there in the real world, where it really matters, I am the Man." As we took the field before a game, a guy on the other team strutted over, probably picking me out because I was clearly the oldest player on the field. (There's a delightful sentence to write.)`,
-  experience: [
-    {
-      fromTime: "12/2018",
-      toTime: "02/2019",
-      position: "Tutor Teacher",
-      desc: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus doloremque voluptatem eius eveniet quae, iste et, harum, commodi ad voluptates blanditiis vero a? Delectus, provident! Quos ea amet aperiam quisquam!`,
-    }, {
-      fromTime: "12/2018",
-      toTime: "02/2019",
-      position: "Tutor Teacher",
-      desc: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus doloremque voluptatem eius eveniet quae, iste et, harum, commodi ad voluptates blanditiis vero a? Delectus, provident! Quos ea amet aperiam quisquam!`,
-    }, {
-      fromTime: "12/2018",
-      toTime: "02/2019",
-      position: "Tutor Teacher",
-      desc: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus doloremque voluptatem eius eveniet quae, iste et, harum, commodi ad voluptates blanditiis vero a? Delectus, provident! Quos ea amet aperiam quisquam!`,
-    }],
-  certificate: [{
-    time: "12/2018",
-    course: "IELST 8.0 Certificate",
-    desc: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus doloremque voluptatem eius eveniet quae, iste et, harum, commodi ad voluptates blanditiis vero a? Delectus, provident! Quos ea amet aperiam quisquam!`,
-  }, {
-    time: "02/2019",
-    course: "Bachelor Certificate Information Of Technologies",
-    desc: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus doloremque voluptatem eius eveniet quae, iste et, harum, commodi ad voluptates blanditiis vero a? Delectus, provident! Quos ea amet aperiam quisquam!`,
-  }],
-  schedule: [{
-    id: randomId(),
-    day: "03/7/2020",
-    courseName: "English For Today",
-    timeStart: "12:30",
-    timeEnd: "13:00",
-    status: "available",
-  }, {
-    id: randomId(),
-    day: "03/7/2020",
-    courseName: "English For Today",
-    timeStart: "13:30",
-    timeEnd: "14:00",
-    status: "available",
-  }, {
-    id: randomId(),
-    day: "03/7/2020",
-    courseName: "English For Today",
-    timeStart: "08:00",
-    timeEnd: "08:30",
-    status: "available",
-  }, {
-    id: randomId(),
-    day: "03/7/2020",
-    courseName: "English For Today",
-    timeStart: "20:30",
-    timeEnd: "21:00",
-    status: "available",
-  }, {
-    id: randomId(),
-    day: "04/7/2020",
-    courseName: "TOEIC Basic",
-    timeStart: "01:30",
-    timeEnd: "02:00",
-    status: "booked",
-    student: "Hoàng Văn Thái"
-  }, {
-    id: randomId(),
-    day: "04/7/2020",
-    courseName: "Grammar",
-    timeStart: "12:30",
-    timeEnd: "13:00",
-    status: "available",
-  }, {
-    id: randomId(),
-    day: "04/7/2020",
-    courseName: "TOEIC Advanced",
-    timeStart: "15:30",
-    timeEnd: "16:00",
-    status: "available",
-  }, {
-    id: randomId(),
-    day: "03/7/2020",
-    courseName: "IELTS 6.0",
-    timeStart: "09:30",
-    timeEnd: "10:00",
-    status: "booked",
-    student: "Hoàng Văn Thái"
-  }, {
-    id: randomId(),
-    day: "02/7/2020",
-    courseName: "IELTS 6.0",
-    timeStart: "22:30",
-    timeEnd: "23:00",
-    status: "booked",
-    student: "Hoàng Văn Thái"
-  }],
-}
+import { ToastContainer } from 'react-toastify'
+import styles from '~components/TeacherDetail/TeacherDetail.module.scss';
+
+const width = window?.innerWidth;
 
 const initialCancelLesson = {
-  id: "",
-  name: "",
+  BookingID: "",
+  LessionName: "",
   date: "",
   start: "",
   end: "",
 }
 
 const initialBookLesson = {
-  id: "",
-  name: "",
+  StudyTimeID: "",
+  LessionName: "",
+  TeacherUID: "",
+  TeacherIMG: "",
+  TeacherName: "",
+  Rate: null,
   date: "",
   start: "",
   end: "",
 }
 
+const initialOnBookState = {
+  id: null,
+}
+
+const initialOnCancelState = {
+  id: null,
+}
+
 const TeacherDetail = () => {
-  const [state, setState] = React.useState(initialState)
+  const [state, setState] = React.useState(null)
   const [stateCancelLesson, setStateCancelLesson] = React.useState(initialCancelLesson);
   const [stateBookLesson, setStateBookLesson] = React.useState(initialBookLesson);
-
+  const [onBookState, setOnBookState] = React.useState(initialOnBookState)
+  const [onCancelState, setOnCancelState] = React.useState(initialOnCancelState)
   const [loading, setLoading] = React.useState(false);
+  const [showTab, setShowTab] = React.useState(2);
 
-  React.useEffect(() => {
+  const getAPI = async (params) => {
     setLoading(true);
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
+    const res = await getTeacherInfo(params);
+    if (res.Code === 1) {
+      setState(res.Data)
+      $('#js-video-modal iframe').attr('src', res.Data.LinkVideoIntroduce);
+    }
+    setLoading(false);
+  }
 
-
-  const onHandleBookLesson = (id, name, date, start, end) => {
+  const onHandleBookLesson = (StudyTimeID, LessionName, date, start, end) => {
     setStateBookLesson({
       ...stateBookLesson,
-      id,
-      name,
+      StudyTimeID,
+      LessionName,
+      TeacherUID: state && state.TeacherUID,
+      TeacherIMG: state && state.TeacherIMG,
+      TeacherName: state && state.TeacherName,
       date,
       start,
-      end
+      end,
     })
   }
 
-  const onHandleCancelLesson = (id, name, date, start, end) => {
+  const onBook = (TeacherUID, StudyTimeID, date, status) => {
+    setOnBookState({
+      id: randomId(),
+    })
+  }
+
+  const onCancel = (id, status) => {
+    if (status == 1)
+      setOnCancelState({
+        id,
+      })
+    else if (status == 0) {
+      setOnCancelState({
+        id: "fail",
+      })
+    }
+  }
+
+  const onHandleCancelLesson = (BookingID, LessionName, date, start, end) => {
     setStateCancelLesson({
       ...stateCancelLesson,
-      id,
-      name,
+      BookingID,
+      LessionName,
       date,
       start,
       end
     })
   }
 
-  return (
-    <div className="teacher__detail__wrap card-box">
-      <div className="teacher__detail">
-        {
-          loading ? <SkeletonLessonCard /> :
-            <div className="teacher-header">
-              <div className="teacher-avatar">
-                <img src={state.image} alt="avatar" />
-              </div>
-              <div className="teacher-info">
+  React.useEffect(() => {
+    let search = window.location.search;
+    let params = new URLSearchParams(search);
+    let ID = params.get('ID');
+    getAPI({
+      TeacherUID: ID,
+    })
+  }, [])
+
+  return loading ? <SkeletonLessonCard /> : <>
+    {
+      <div className="teacher__detail__wrap shadow card-box">
+        <div className="teacher__detail">
+          <div className="teacher-header">
+            <div className="teacher-avatar">
+              <img src={!!state && state.TeacherIMG ? state.TeacherIMG : "../assets/img/default-avatar.png"}
+                onError={(e) => { e.target.onerror = null; e.target.src = "../assets/img/default-avatar.png" }}
+                alt="avatar" />
+            </div>
+            {
+              !!state && <div className="teacher-info">
                 <div className="teacher-name">
-                  <h5 className="name">{state.name}</h5>
+                  <h5 className="name">{state.TeacherName}</h5>
                   <div className="nation">
-                    <span className={`flag-icon flag-icon-${nationMapToFlag(state.nation)} flag-icon-squared mg-r-5`}></span>
+                    <span className={`flag-icon flag-icon-${state.TeacherNational ? nationMapToFlag(state.TeacherNational) : "vn"} flag-icon-squared mg-r-5`}></span>
                     <span className="badge badge-light"><span className="tx-success"><i
                       className="fa fa-check-circle"></i> Verified</span></span>
                   </div>
                 </div>
                 <div className="teacher-summary">
-                  <a href="#js-video-modal" data-src={state.video}
-                    className="tx-primary" id="video-teacher"><i className="fas fa-play-circle "></i>Xem video giới thiệu</a>
-                  <p className="mg-b-0 mg-t-10">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus sunt delectus itaque veritatis quidem tempora, nesciunt excepturi dolores impedit consectetur cumque natus! Debitis unde repellat incidunt aut molestiae, possimus accusamus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam quisquam debitis dolor veniam non saepe voluptas consectetur culpa sequi illum, doloribus in minima officia ut id deleniti consequuntur ipsum corporis?</p>
+                  <a href="#js-video-modal"
+                    data-toggle="modal"
+                    data-target="#js-video-modal"
+                    data-src={state.LinkVideoIntroduce}
+                    className="tx-primary" id="video-teacher"><i className="fas fa-play-circle mg-r-5"></i>Xem video giới thiệu</a>
+                  <p className="mg-b-0 mg-t-10">{state.IntroduceContent}</p>
                 </div>
               </div>
-            </div>
-        }
-        <div className="teacher-body">
-          <div className="tab-navigation">
-            <ul className="list-tab" id="js-list-tab">
-              <li className="tab-item">
-                <a href={"#"} className="tab-link active" data-index="0">TEACHER INFORMATION</a>
-              </li>
-              <li className="tab-item">
-                <a href={"#"} className="tab-link " data-index="1">BOOKING SCHEDULE</a>
-              </li>
-              <li className="tab-item">
-                <a href={"#"} className="tab-link " data-index="2">STUDENT COMMENT</a>
-              </li>
-            </ul>
+            }
           </div>
-          <div className="tab-navigation-content">
-            <div className="swiper-container" id="js-teacher__info">
-              <div className="teacher__info-wrap swiper-wrapper">
-                <div className="swiper-slide">
-                  <div className="slide-tab-content">
-                    <TeacherInformation
-                      introduce={state.introduce}
-                      experience={state.experience}
-                      certificate={state.certificate} />
+          <div className="teacher-body">
+            <div className="tab-navigation">
+              <ul className="list-tab align-items-stretch" id="js-list-tab">
+                <li className="tab-item h-auto">
+                  <a href={"#"} className={`${showTab === 1 ? 'active' : ''} tab-link h-100`}
+                    data-index="0"
+                    onClick={(e) => { e.preventDefault(); setShowTab(1) }}>
+                    <i className="fas fa-user mg-r-5"></i>THÔNG TIN</a>
+                </li>
+                <li className="tab-item h-auto">
+                  <a href={"#"} className={`${showTab === 2 ? 'active' : ''} tab-link h-100`}
+                    data-index="1"
+                    onClick={(e) => { e.preventDefault(); setShowTab(2) }}>
+                    <i className="fas fa-calendar mg-r-5"></i>ĐẶT LỊCH HỌC</a>
+                </li>
+                <li className="tab-item h-auto">
+                  <a href={"#"} className={`${showTab === 3 ? 'active' : ''} tab-link h-100`}
+                    data-index="2"
+                    onClick={(e) => { e.preventDefault(); setShowTab(3) }}>
+                    <i className="fas fa-comment mg-r-5"></i>PHẢN HỒI</a>
+                </li>
+              </ul>
+            </div>
+            <div className="tab-navigation-content">
+              <div className="swiper-container" id="js-teacher__info">
+                <div className="teacher__info-wrap swiper-wrapper">
+                  <div className={`${showTab === 1 ? 'active' : ''} swiper-slide`}>
+                    <div className="slide-tab-content">
+                      <TeacherInformation
+                        IntroduceContent={!!state && state.IntroduceContent}
+                        Experience={!!state && state.Experience}
+                        Certificate={!!state && state.Certificate} />
+                    </div>
                   </div>
-                </div>
-                <div className="swiper-slide">
-                  <div className="slide-tab-content">
-                    <BookingSchedule
-                      schedule={state.schedule}
-                      handleBookLesson={onHandleBookLesson}
-                      handleCancelLesson={onHandleCancelLesson} />
+                  <div className={`${showTab === 2 ? 'active' : ''} swiper-slide`}>
+                    <div className="slide-tab-content">
+                      {
+                        !!state && state.TeacherUID && (width > 768 ?
+                          <BookingSchedule
+                            TeacherUID={!!state && state.TeacherUID}
+                            onBookingId={onBookState.id}
+                            onCancelId={onCancelState.id}
+                            handleBookLesson={onHandleBookLesson}
+                            handleCancelLesson={onHandleCancelLesson} /> :
+
+                          <BookingScheduleMobile
+                            TeacherUID={!!state && state.TeacherUID}
+                            onBookingId={onBookState.id}
+                            handleBookLesson={onHandleBookLesson} />)
+                      }
+                      <div className="note mg-t-30">
+                        <h5 className="sub-title"><i className="fas fa-sticky-note"></i>Notes:</h5>
+                        <div className="introduce-content">
+                        <div className="mg-b-10 d-flex align-items-center mg-l-25">
+                              <span className="annotate annotate-available"></span>
+                              <span className="mx-2">Tiết học có sẵn</span>
+                              <span className="annotate annotate-others"></span>
+                              <span className="mx-2">Tiết học đã book</span>
+                              <span className="annotate annotate-me"></span>
+                              <span className="mx-2">Tiết học bạn đã đăng ký</span>
+                            </div>
+                          <ul className="note-list">
+                            
+                            <li className="mg-b-10">Mỗi lớp học kéo dài trong 25 phút.</li>
+                            <li className="mg-b-10">Chọn tiết học có sẵn, bấm vào bút "Book" để đăng ký lớp học</li>
+                            <li className="mg-b-10">Chọn tiết học đã đăng ký, bấm vào bút "Cancel" để hủy lớp học</li>
+                            <li className="mg-b-10">Bạn chỉ có thể đăng ký lớp học ít nhất 30 phút trước khi bắt đầu học</li>
+                            <li className="mg-b-10">Bạn chỉ có thể hủy lớp học ít nhất 30 phút trước khi bắt đầu học</li>
+                            {/* <li className="mg-b-10">Each session is 50 minutes</li>
+                            <li className="mg-b-10">To book a lesson, simply select the time frame and click the "Book" button</li>
+                            <li className="mg-b-10">You can only BOOK a lesson 30 minutes before the lesson starts.</li>
+                            <li className="mg-b-10">You can only CANCEL the lesson 30 minutes before the className starts.</li> */}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="swiper-slide">
-                  <div className="slide-tab-content">
-                    <StudentComment />
+                  <div className={`${showTab === 3 ? 'active' : ''} swiper-slide`}>
+                    <div className="slide-tab-content">
+                      {
+                        showTab == 3 && <StudentComment TeacherUID={!!state && state.TeacherUID} />
+                      }
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <CancelBookingLessonModal
+          BookingID={stateCancelLesson.BookingID}
+          LessionName={stateCancelLesson.LessionName}
+          date={stateCancelLesson.date}
+          start={stateCancelLesson.start}
+          end={stateCancelLesson.end}
+          callback={onCancel} />
+
+        <BookingLessonModal
+          StudyTimeID={stateBookLesson.StudyTimeID}
+          LessionName={stateBookLesson.LessionName}
+          TeacherUID={stateBookLesson.TeacherUID}
+          TeacherIMG={stateBookLesson.TeacherIMG}
+          TeacherName={stateBookLesson.TeacherName}
+          Rate={stateBookLesson.Rate}
+          date={stateBookLesson.date}
+          start={stateBookLesson.start}
+          end={stateBookLesson.end}
+          onBook={onBook} />
+
+        <ToastContainer />
       </div>
-      <CancelBookingLessonModal
-        id={stateCancelLesson.id}
-        name={stateCancelLesson.name}
-        date={stateCancelLesson.date}
-        start={stateCancelLesson.start}
-        end={stateCancelLesson.end} />
-      <BookingLessonModal
-        id={stateBookLesson.id}
-        name={stateBookLesson.name}
-        date={stateBookLesson.date}
-        start={stateBookLesson.start}
-        end={stateBookLesson.end} />
-    </div>
-  )
+    }
+  </>
 }
 
 ReactDOM.render(<TeacherDetail />, document.getElementById("react-teacher-detail"));

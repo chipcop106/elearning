@@ -12,5 +12,5 @@
       "~lib/*": ["src/lib/*"]
     }
   },
-  "exclude": ["node_modules", "**/node_modules/*",  "dist", "config", ".vscode", "src/lib", "src/assets"]
+  "exclude": ["node_modules/*", "**/node_modules/*",  "dist", "config", ".vscode", "src/lib", "src/assets"]
 }

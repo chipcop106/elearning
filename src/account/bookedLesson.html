@@ -36,65 +36,13 @@
 
 <body>
   <div id="header"></div>
-  <div class="content content-fixed">
+  <div class="content content-fixed mg-t-0 mg-lg-t-60-f">
     <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0 dashboard-page">
       <div class="media d-block d-lg-flex">
+        <i class="fas fa-align-left fa-2x toggle-sidebar d-inline-block d-lg-none mg-b-15"></i>
         <div id="js-component-profilesidebar"></div>
         <!-- profile-sidebar -->
-        <div class="media-body mg-t-30 mg-lg-t-0 pd-lg-x-10 body__content">
-          <div class="d-xl-flex align-items-center justify-content-between mg-b-30">
-            <h4 class="mg-b-0 gradient-heading"><i class="fas fa-calendar-check"></i>BOOKED LESSON</h4>
-          </div>
-          <div class="mg-t-30 feedback-container">
-            <div class="fb-summary-container">
-              <div class="fb-summary pd-t-0-f bd-t-0-f">
-                <div class="fb-type">
-                  <div class="fb-radio">
-                    <label>
-                      <input type="radio" name="fbType" group="feedback" checked>
-                      <span>All lesson <span class="number">32</span></span>
-                    </label>
-                  </div>
-                </div>
-                <div class="fb-type">
-                  <div class="fb-radio">
-                    <label>
-                      <input type="radio" name="fbType" group="feedback">
-                      <span>Incoming <span class="number">22</span></span>
-                    </label>
-                  </div>
-                </div>
-                <div class="fb-type">
-                  <div class="fb-radio">
-                    <label>
-                      <input type="radio" name="fbType" group="feedback">
-                      <span>Completed <span class="number">10</span></span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="course-horizental mg-t-20">
-              <div class="empty-error tx-center mg-y-30 cr-item bg-white">
-                <img src="../assets/img/no-booking.svg" alt="image" class="wd-200 mg-b-15">
-                <p class=" tx-danger tx-medium">You don't have any lesson.</p>
-                <a href="bookingLesson.html" class="btn btn-primary">Book a lesson</a>
-              </div>
-             <div id="react-booked-lesson"></div>
-            </div>
-          </div>
-          <nav aria-label="Page navigation" class="mg-t-10">
-            <ul class="pagination mg-b-0 justify-content-end">
-              <li class="page-item disabled"><a class="page-link page-link-icon" href="#"><i
-                    data-feather="chevron-left"></i></a></li>
-              <li class="page-item active"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link page-link-icon" href="#"><i
-                    data-feather="chevron-right"></i></a></li>
-            </ul>
-          </nav>
-        </div><!-- media-body -->
+       <div class="media-body body__content" id="react-booked-lesson"></div>
       </div>
     </div>
   </div>
@@ -109,7 +57,7 @@
   <script src="../lib/select2/dist/js/select2.min.js"></script>
   <script src="../assets/js/dashforge.js"></script>
   <script src="../assets/js/swiper/js/swiper.min.js"></script>
-  
+  <script src="../assets/js/custom.js"></script>
   <script>
     $(document).ready(function () {
       $('[data-toggle="tooltip"]').tooltip();

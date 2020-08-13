@@ -1,78 +1,89 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import styles from '~components/Signup/Signup.module.scss';
+import { useForm } from "react-hook-form";
 
-const initialState = {
-  email:"",
-  name:"",
-  password: "",
-  passwordConfirm: "",
-}
+import styles from '~components/Login/Login.module.scss';
 
-const reducer = (prevState, { type, payload }) => {
-  switch (type) {
-      case "STATE_CHANGE": {
-          return {
-              ...prevState,
-              [payload.key]: payload.value
-          }
-      }
-      default: return prevState;
-      break;
-  }
-}
+import { yupResolver } from '@hookform/resolvers';
+import * as Yup from "yup";
+
+const schema = Yup.object().shape({
+  name: Yup.string()
+    .required('Name is must not empty'),
+  phone: Yup.number()
+    .typeError('Invalid phone number')
+    .integer('Invalid phone number')
+    .required('Phone is must not empty'),
+  password: Yup.string()
+    .required('Password is must not empty')
+    .min(6, "Password must at least 6 characters"),
+  passwordConfirm: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'Passwords must match')
+});
 
 const Signup = () => {
-  const [state, dispatch] = React.useReducer(reducer, initialState);
+  const { register, handleSubmit, errors, setValue, control } = useForm({
+    resolver: yupResolver(schema)
+  });
+  const onSubmit = data => console.log(data)
 
-  const handleChange = (e) => {
-      const target = e.target;
-      const value = target.type === 'checkbox' ? target.checked : target.value;
-      const key = target.getAttribute("name");
-      dispatch({ type: "STATE_CHANGE", payload: { key, value } })
-  }
-  
-  const onSubmit = (e) => {
-      e.preventDefault()
-      console.log(state)
-  }
-
-  return (
-    <form onSubmit={onSubmit}>
-      <div className="input-group form-group">
-        <div className="input-group-prepend">
-          <span className="input-group-text"><i className="fas fa-envelope" /></span>
-        </div>
-        <input type="text" name="email" className="form-control" placeholder="Email" onChange={handleChange}/>
-      </div>
-      <div className="input-group form-group">
-        <div className="input-group-prepend">
-          <span className="input-group-text"><i className="fas fa-user" /></span>
-        </div>
-        <input type="text" name="name" className="form-control" placeholder="Name" onChange={handleChange}/>
-      </div>
-      <div className="input-group form-group">
-        <div className="input-group-prepend">
-          <span className="input-group-text"><i className="fas fa-key" /></span>
-        </div>
-        <input type="password" name="password" className="form-control" placeholder="Password" onChange={handleChange}/>
-      </div>
-      <div className="input-group form-group">
-        <div className="input-group-prepend">
-          <span className="input-group-text"><i className="fas fa-key" /></span>
-        </div>
-        <input type="password" name="passwordConfirm" className="form-control" placeholder="Confirm password" onChange={handleChange}/>
-      </div>
-      <div className="confirm">
-        <input className="mr-2" id="confirm" type="checkbox" />
-        <label className="mb-0" htmlFor="confirm">Agree to our Terms of Services</label>
-      </div>
-      <div className="form-group">
-        <button type="submit" className="btn signup_btn mr-2">Signup</button>
-        <a href="login.html">Login</a>
-      </div>
-    </form>
-  )
+  return <form className="login100-form validate-form" autoComplete="off"
+    onSubmit={handleSubmit(onSubmit)}>
+    <span className="login100-form-title">Signup</span>
+    <div className="wrap-input100 validate-input">
+      <input className="input100" type="text" name="phone" placeholder="Phone"
+        ref={register} />
+      <span className="focus-input100" />
+      <span className="symbol-input100">
+        <i className="fa fa-phone" aria-hidden="true" />
+      </span>
+    </div>
+    {
+      errors.phone && <span className="text-danger d-block mb-2">{errors.phone.message}</span>
+    }
+    <div className="wrap-input100 validate-input">
+      <input className="input100" type="text" name="name" placeholder="Name"
+        ref={register} />
+      <span className="focus-input100" />
+      <span className="symbol-input100">
+        <i className="fa fa-user" aria-hidden="true" />
+      </span>
+    </div>
+    {
+      errors.name && <span className="text-danger d-block mb-2">{errors.name.message}</span>
+    }
+    <div className="wrap-input100 validate-input" data-validate="Password is required">
+      <input className="input100" type="password" name="password" placeholder="Password"
+        ref={register} />
+      <span className="focus-input100" />
+      <span className="symbol-input100">
+        <i className="fa fa-lock" aria-hidden="true" />
+      </span>
+    </div>
+    {
+      errors.password && <span className="text-danger d-block mb-2">{errors.password.message}</span>
+    }
+    <div className="wrap-input100 validate-input" data-validate="Password is required">
+      <input className="input100" type="password" name="passwordConfirm" placeholder="Confirm password"
+        ref={register} />
+      <span className="focus-input100" />
+      <span className="symbol-input100">
+        <i className="fa fa-lock" aria-hidden="true" />
+      </span>
+    </div>
+    {
+      errors.passwordConfirm && <span className="text-danger d-block mb-2">{errors.passwordConfirm.message}</span>
+    }
+    <div className="container-login100-form-btn">
+      <button type="submit" className="login100-form-btn">Signup</button>
+    </div>
+    <div className="text-center p-t-136">
+      <span className="txt2">
+        Already have account? <a className="txt2 text-hl" href="login.html">Login</a>
+        <i className="fa fa-long-arrow-right m-l-5" aria-hidden="true" />
+      </span>
+    </div>
+  </form >
 }
 
 ReactDOM.render(<Signup />, document.getElementById('signup'));

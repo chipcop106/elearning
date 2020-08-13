@@ -1,232 +1,279 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SkeletonLessonDetail from "../common/Skeleton/SkeletonLessonDetail";
+import SkeletonLessonDetail from "~components/common/Skeleton/SkeletonLessonDetail";
+import RatingLessonModal from "~components/RatingLessonModal";
+import { getEvaluation } from "~src/api/studentAPI";
+import { ToastContainer } from 'react-toastify';
 
-import StudentComment from "../TeacherDetail/StudentComment"
+import styles from '~components/LessonDetail/LessonDetail.module.scss';
+
+
+const renderRatingStars = (rate) => {
+  return rate == 5 ?
+    <span className="badge badge-light text-white bg-success mg-l-5">
+      <i className="fa fa-check-circle mg-r-3"></i>Very Good </span> :
+    rate == 4 ?
+      <span className="badge badge-light text-white bg-success mg-l-5">
+        <i className="fa fa-check-circle mg-r-3"></i>Good</span> :
+      rate == 3 ?
+        <span className="badge badge-light text-white bg-info mg-l-5">
+          <i className="fa fa-check-circle mg-r-3"></i>OK</span> :
+        rate == 2 ?
+          <span className="badge badge-light text-white bg-warning mg-l-5">
+            <i className="fa fa-check-circle mg-r-3"></i>Bad</span> :
+          rate == 1 ?
+            <span className="badge badge-light text-white bg-danger mg-l-5">
+              <i className="fa fa-check-circle mg-r-3"></i>Very Bad</span> :
+            <span className="badge badge-light text-white bg-black-4 mg-l-5">Not Rated</span>
+}
 
 const LessonDetail = () => {
+  const [state, setState] = React.useState({})
   const [loading, setLoading] = React.useState(false)
 
-  React.useEffect(() => {
+  const getAPI = async (params) => {
     setLoading(true);
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-    return () => clearTimeout(timer);
+    const res = await getEvaluation(params);
+    if (res.Code === 1) {
+      setState(res.Data)
+    }
+    setLoading(false);
+  }
+
+  const onCallbackRating = (result, message, rating, BookingID, TeacherUID) => {
+    if (result === 1) {
+      setState({
+        ...state,
+        StudentEvaluation: message,
+        StudentRating: rating,
+      })
+    }
+  }
+
+  React.useEffect(() => {
+    let search = window.location.search;
+    let params = new URLSearchParams(search);
+    let ID = params.get('ID');
+    getAPI({
+      ElearnBookingID: ID,
+    })
   }, []);
 
-  return <React.Fragment>
-      {
-      loading?<SkeletonLessonDetail/>:
-        <React.Fragment>
-        <div className="row">
-        <div className="col-md-6 col-sm-12">
-          {/* <!--thông tin buổi học--> */}
-          <div className="st-thontinbuoihoc">
-            <h5 className="main-title">
-              Lesson information</h5>
-            <div className="infomation__wrap">
-              <div className="st-time">
-                <p className="st-teacher-text">
-                  <i className="fa fa-book st-icon wd-20 mg-r-5"></i>
-                  <span>Course name: <a href={"#"}>IELST 8.0 Professional</a></span>
-                </p>
-              </div>
-              <div className="st-time">
-                <p className="st-time-text">
-                  <i className="fa fa-user-clock st-icon wd-20 mg-r-5"></i>
-                  <span className="tx-black tx-normal">Expired:</span>
-                  <span> 16:00 09/04/2020 - 16:50 09/04/2020</span>
-                </p>
-              </div>
-              <div className="st-time">
-                <p className="st-teacher-text">
-                  <i className="fa fa-user-graduate st-icon wd-20 mg-r-5"></i>
-                  <span>Teacher:</span> <span className="st-tengv">Hoàng Thị Uyên Phương</span>
-                </p>
-              </div>
-              <div className="st-time">
-                <p className="st-teacher-text">
-                  <i className="fa fa-book-open st-icon wd-20 mg-r-5"></i>
-                  <span>Material: <a href={"#"}>Solutions - Grade 6 - UNIT 6J [PART 1] - REVIEW
-                        3</a> </span>
-                </p>
-              </div>
-            </div>
-          </div>
-          {/* <!--/thông tin buổi học--> */}
-        </div>
-        <div className="col-md-6 col-sm-12">
-          {/* <!--thang danh gia--> */}
-          <div className="st-thangdanhgia">
-            <h5 className="main-title">
-              Rating</h5>
-            <div className="st-rating">
-              <div className="cell">
-                <span className="label">Grammar:</span>
-              </div>
-              <div className="cell">
-                <p className="st-noidung-rating">
-                  <i className="fas fa-star st-icon-star"></i>
-                  <i className="fas fa-star st-icon-star"></i>
-                  <i className="fas fa-star st-icon-star"></i>
-                  <i className="fas fa-star st-icon-star"></i>
-                  <i className="fas fa-star-half-alt st-icon-star"></i>
-                  <span className="badge badge-light tx-success mg-l-5"><i
-                    className="fa fa-check-circle"></i> Very Good</span>
-                </p>
-              </div>
-            </div>
-            <div className="st-rating">
-              <div className="cell">
-                <span className="label">Volcabualary:</span>
-              </div>
-              <div className="cell">
-                <p className="st-noidung-rating">
-                  <i className="fas fa-star st-icon-star"></i>
-                  <i className="fas fa-star st-icon-star"></i>
-                  <i className="fas fa-star st-icon-star"></i>
-                  <i className="fas fa-star st-icon-star"></i>
-                  <i className="fas fa-star-half-alt st-icon-star"></i>
-                  <span className="badge badge-light tx-success mg-l-5"><i
-                    className="fa fa-check-circle"></i> Very Good</span>
-                </p>
-              </div>
-            </div>
-            <div className="st-rating">
-              <div className="cell">
-                <span className="label">Pronunciation:</span>
-              </div>
-              <div className="cell">
-                <p className="st-noidung-rating">
-                  <i className="fas fa-star st-icon-star"></i>
-                  <i className="fas fa-star st-icon-star"></i>
-                  <i className="fas fa-star st-icon-star"></i>
-                  <i className="fas fa-star st-icon-star"></i>
-                  <i className="fas fa-star-half-alt st-icon-star"></i>
-                  <span className="badge badge-light tx-success mg-l-5"><i
-                    className="fa fa-check-circle"></i> Very Good</span>
-                </p>
-              </div>
-            </div>
-            <div className="st-rating">
-              <div className="cell">
-                <span className="label">Fluency/Coherence:</span>
-              </div>
-              <div className="cell">
-                <p className="st-noidung-rating">
-                  <i className="fas fa-star st-icon-star"></i>
-                  <i className="fas fa-star st-icon-star"></i>
-                  <i className="fas fa-star st-icon-star"></i>
-                  <i className="fas fa-star st-icon-star"></i>
-                  <i className="fas fa-star-half-alt st-icon-star"></i>
-                  <span className="badge badge-light tx-success mg-l-5"><i
-                    className="fa fa-check-circle"></i> Very Good</span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="review__wrap sec">
-        <h5 className="main-title">Review</h5>
-        <div className="st-danhgianguphap  mg-b-30">
-          <div className="st-title-danhgia mg-b-15">
-            <h5 className="sub-title">Grammar:</h5>
-          </div>
-          <div className="st-item-danhgia">
+  return <>
+    {
+      loading ? <SkeletonLessonDetail /> :
+        <>
+          <div className="media-body-wrap pd-15 shadow">
             <div className="row">
-              <div className="col-6">
-                <p><b>You said</b> </p>
+              <div className="col-md-6 col-sm-12">
+                {/* <!--thông tin buổi học--> */}
+                <div className="st-thontinbuoihoc">
+                  <h5 className="main-title">Thông tin bài học</h5>
+                  <div className="infomation__wrap">
+                    <div className="st-time">
+                      <p className="st-teacher-text">
+                        <i className="fa fa-book st-icon wd-20 mg-r-5"></i>
+                        <span>Khóa học: <span>{state.DocumentName}</span></span>
+                      </p>
+                    </div>
+                    <div className="st-time">
+                      <p className="st-time-text">
+                        <i className="fa fa-user-clock st-icon wd-20 mg-r-5"></i>
+                        <span className="tx-black tx-normal">Lịch học: </span>
+                        <span>{state.ScheduleTimeVN}</span>
+                      </p>
+                    </div>
+                    <div className="st-time">
+                      <p className="st-teacher-text">
+                        <i className="fa fa-user-graduate st-icon wd-20 mg-r-5"></i>
+                        <span>Giáo viên:</span> <span className="st-tengv">{state.TeacherName}</span>
+                      </p>
+                    </div>
+                    <div className="st-time">
+                      <p className="st-teacher-text">
+                        <i className="fa fa-book-reader st-icon wd-20 mg-r-5"></i>
+                        <span>Học viên:</span> <span className="st-tengv">{state.StudentName}</span>
+                      </p>
+                    </div>
+                    <div className="st-time">
+                      <p className="st-teacher-text">
+                        <i className="fa fa-book-open st-icon wd-20 mg-r-5"></i>
+                        <span>Tài liệu: <a href={state.MaterialLink} target="_blank">{state.Material}</a> </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                {/* <!--/thông tin buổi học--> */}
               </div>
-              <div className="col-6">
-                <p><b>You should said</b></p>
+              <div className="col-md-6 col-sm-12">
+                {/* <!--thang danh gia--> */}
+                <div className="st-thangdanhgia">
+                  <h5 className="main-title">Phản hồi</h5>
+                  {
+                    (state.Rate == 0 || state.Rate) && (<div className="d-block mg-b-15 st-rating">
+                      <div className="cell text-left">
+                        <i className="fa fa-smile st-icon wd-20 mg-r-5"></i>
+                        <span className="mg-r-5">Giáo viên:</span>
+                        <div className="d-inline-block st-noidung-rating">
+                          <div className="rating-stars">
+                            <span className="empty-stars">
+                              <i className="star fa fa-star"></i>
+                              <i className="star fa fa-star"></i>
+                              <i className="star fa fa-star"></i>
+                              <i className="star fa fa-star"></i>
+                              <i className="star fa fa-star"></i>
+                            </span>
+                            <span className="filled-stars" style={{ width: `${state.Rate * 20}%` }}>
+                              <i className="star fa fa-star"></i>
+                              <i className="star fa fa-star"></i>
+                              <i className="star fa fa-star"></i>
+                              <i className="star fa fa-star"></i>
+                              <i className="star fa fa-star"></i>
+                            </span>
+                          </div>
+                         {
+                           renderRatingStars(state.Rate)
+                         }
+                        </div>
+                      </div>
+                    </div>)
+                  }
+                  {
+                    (state.StudentRate == 0 || state.StudentRate) && (<div className="d-block st-rating">
+                      <div className="cell text-left">
+                        <i className="fa fa-smile st-icon wd-20 mg-r-5"></i>
+                        <span className="mg-r-5">Học viên:</span>
+                        <div className="d-inline-block st-noidung-rating">
+                          <div className="rating-stars">
+                            <span className="empty-stars">
+                              <i className="star fa fa-star"></i>
+                              <i className="star fa fa-star"></i>
+                              <i className="star fa fa-star"></i>
+                              <i className="star fa fa-star"></i>
+                              <i className="star fa fa-star"></i>
+                            </span>
+                            <span className="filled-stars" style={{ width: `${state.StudentRate * 20}%` }}>
+                              <i className="star fa fa-star"></i>
+                              <i className="star fa fa-star"></i>
+                              <i className="star fa fa-star"></i>
+                              <i className="star fa fa-star"></i>
+                              <i className="star fa fa-star"></i>
+                            </span>
+                          </div>
+                          {
+                            renderRatingStars(state.StudentRate)
+                          }
+                        </div>
+                      </div>
+                    </div>)
+                  }
+                </div>
               </div>
             </div>
-          </div>
-          <hr />
-          <div className="st-item-danhgia">
-            <div className="row">
-              <div className="col-6">
-                <p>This evening we went to the cinema </p>
+            <div className="review__wrap mg-t-15 sec">
+              <h5 className="main-title">Nhận xét</h5>
+              {/* <!--/Đánh giá ngữ pháp-->*/}
+              <div className="st-danhgianguphap">
+                <div className="st-title-danhgia mg-b-15">
+                  <h5 className="sub-title">Ngữ pháp</h5>
+                </div>
+                <div className="row">
+                  {
+                    state.Grammar ? (<div className="col-12">
+                      <div className="st-item-danhgia">
+                        <p dangerouslySetInnerHTML={{ __html: decodeURI(state.Grammar) }} style={{ wordBreak: "break-all" }}></p>
+                      </div></div>) : ""
+                  }
+                </div>
               </div>
-              <div className="col-6">
-                <p>This evening we are going to the cinema </p>
+              {/* <!--/Đánh giá ngữ pháp-->
+                      <!--Đánh giá phát âm--> */}
+              <div className="st-danhgianguphap">
+                <div className="st-title-danhgia mg-b-15">
+                  <h5 className="sub-title">Phát âm</h5>
+                </div>
+                <div className="row">
+                  {
+                    state.Pronunciation ? (<div className="col-12">
+                      <div className="st-item-danhgia">
+                        <p dangerouslySetInnerHTML={{ __html: decodeURI(state.Pronunciation) }} style={{ wordBreak: "break-all" }}></p>
+                      </div></div>) : ""
+                  }
+                </div>
               </div>
-            </div>
-          </div>
-          <hr />
-          <div className="st-item-danhgia">
-            <div className="row">
-              <div className="col-6">
-                <p>This evening we went to the cinema </p>
+              {/* <!--/Đánh giá phát âm-->
+                      <!--Đánh giá từ vựng--> */}
+              <div className="st-danhgianguphap">
+                <div className="st-title-danhgia mg-b-15">
+                  <h5 className="sub-title">Từ vựng</h5>
+                </div>
+                <div className="row">
+                  {
+                    state.Vocabulary ? (<div className="col-12">
+                      <div className="st-item-danhgia">
+                        <p dangerouslySetInnerHTML={{ __html: decodeURI(state.Vocabulary) }} style={{ wordBreak: "break-all" }}></p>
+                      </div></div>) : ""
+                  }
+                </div>
               </div>
-              <div className="col-6">
-                <p>This evening we are going to the cinema </p>
-              </div>
-            </div>
-          </div>
-          <hr />
-          <div className="st-item-danhgia">
-            <div className="row">
-              <div className="col-6">
-                <p>This evening we went to the cinema </p>
-              </div>
-              <div className="col-6">
-                <p>This evening we are going to the cinema </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* <!--Đánh giá phát âm--> */}
-        <div className="st-danhgianguphap  mg-b-30">
-          <div className="st-title-danhgia mg-b-15">
-            <h5 className="sub-title">Pronounce</h5>
-          </div>
-          <div className="row">
-            <div className="col-lg-4 col-md-6 col-sm-12">
-              <div className="st-item-danhgia">
-                <p>larger /lɑːdʒər/</p>
-              </div>
-            </div>
-            <div className="col-lg-4 col-md-6 col-sm-12">
-              <div className="st-item-danhgia">
-                <p>languages /ˈlæŋ.ɡwɪdʒəz/</p>
-              </div>
-            </div>
-            <div className="col-lg-4 col-md-6 col-sm-12">
-              <div className="st-item-danhgia">
-                <p>lived /lɪvd/</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* <!--/Đánh giá phát âm-->
+              {/* <!--/Đánh giá từ vựng-->
                       <!--Từ cần ghi nhớ--> */}
-        <div className="st-danhgianguphap  mg-b-30">
-          <div className="st-title-danhgia mg-b-15">
-            <h5 className="sub-title">Memorize</h5>
+              <div className="st-danhgianguphap">
+                <div className="st-title-danhgia mg-b-15">
+                  <h5 className="sub-title">Đặt câu và giao tiếp</h5>
+                </div>
+                {
+                  state.SentenceDevelopmentAndSpeak ? (
+                    <div className="st-item-danhgia">
+                      <p dangerouslySetInnerHTML={{ __html: decodeURI(state.SentenceDevelopmentAndSpeak) }} style={{ wordBreak: "break-all" }}></p>
+                    </div>
+                  ) : ""
+                }
+              </div>
+              {/* <!--/Từ cần ghi nhớ-->
+                      <!--Đánh giá giáo viên--> */}
+              <div className="st-danhgianguphap">
+                <div className="st-title-danhgia mg-b-15">
+                  <h5 className="sub-title">Nhận xét chung</h5>
+                </div>
+                {
+                  state.Note ? (
+                    <div className="st-item-danhgia">
+                      <p dangerouslySetInnerHTML={{ __html: decodeURI(state.Note) }} style={{ wordBreak: "break-all" }}></p>
+                    </div>
+                  ) : ""
+                }
+              </div>
+              {/* <!--/Đánh giá giáo viên-->
+                      <!--Đánh giá học viên--> */}
+              <div className="st-danhgianguphap">
+                <div className="st-title-danhgia mg-b-15">
+                  <h5 className="sub-title">Học viên phản hồi</h5>
+                </div>
+                {
+                  Object.keys(state).length === 0 ? "" : (
+                    state.StudentEvaluation ? (
+                      <div className="st-item-danhgia">
+                        <p dangerouslySetInnerHTML={{ __html: decodeURI(state.StudentEvaluation) }} style={{ wordBreak: "break-all" }}></p>
+                      </div>
+                    ) : (<><p>Bạn chưa phản hồi về lớp học này</p>
+                      <button className="btn btn-primary mg-r-10"
+                        data-toggle="modal"
+                        data-target="#js-md-rate"
+                      >Leave Feedback</button></>))
+                }
+              </div>
+            </div>
+            <RatingLessonModal
+              BookingID={state.ElearnBookingID}
+              TeacherUID={state.TeacherUID}
+              TeacherName={state.TeacherName}
+              callback={onCallbackRating} />
           </div>
-          <div className="st-item-danhgia">
-            <p>arrangements /əˈreɪndʒ.məntz/ - plans or preparations for a future event</p>
-          </div>
-        </div>
-        {/* <!--/Từ cần ghi nhớ-->
-                      <!--Đánh giá chung--> */}
-        <div className="st-danhgianguphap  mg-b-30">
-          <div className="st-title-danhgia mg-b-15">
-            <h5 className="sub-title">General assessment</h5>
-          </div>
-          <div className="st-item-danhgia">
-            <p>Kiet, you always try to speak up and take part in the discussion actively. With grammar, very minor slips are noticed.~ Teacher Rylie💖 (Solutions - Grade 6 - UNIT 6J [PART 1] page 100, page 103, page 108 )</p>
-          </div>
-          {/* <!--/Đánh giá chung--> */}
-        </div>{/* <!-- media-body --> */}
-      </div>
-      </React.Fragment>
+        </>
     }
-      <StudentComment/>
-      </React.Fragment>
+    <ToastContainer />
+  </>
 }
 
 ReactDOM.render(<LessonDetail />, document.getElementById('react-lesson-detail'));

@@ -1,84 +1,78 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import NotificationItem from './NotificationItem';
-import SkeletonNotification from "../common/Skeleton/SkeletonNotification";
-import { randomId } from "../../utils"
-
-const initialState = [{
-  id: randomId(),
-  title: "Chương Trình “Giúp Bạn Học Ngay, Nhận Quà Liền Tay",
-  thumnail: "https://www.campusfrance.org/sites/default/files/parrainage.jpg",
-  author: "Trường Minh",
-  time: "20/04/2019 10:30AM",
-  content: `Activate a modal without writing JavaScript. Set data-toggle="modal" on a controller element, like a button...`
-},{
-  id: randomId(),
-  title: "Chương Trình “Giúp Bạn Học Ngay, Nhận Quà Liền Tay",
-  thumnail: "https://www.campusfrance.org/sites/default/files/parrainage.jpg",
-  author: "Trường Minh",
-  time: "20/04/2019 10:30AM",
-  content: `Activate a modal without writing JavaScript. Set data-toggle="modal" on a controller element, like a button...`
-},{
-  id: randomId(),
-  title: "Chương Trình “Giúp Bạn Học Ngay, Nhận Quà Liền Tay",
-  thumnail: "https://www.campusfrance.org/sites/default/files/parrainage.jpg",
-  author: "Trường Minh",
-  time: "20/04/2019 10:30AM",
-  content: `Activate a modal without writing JavaScript. Set data-toggle="modal" on a controller element, like a button...`
-},{
-  id: randomId(),
-  title: "Chương Trình “Giúp Bạn Học Ngay, Nhận Quà Liền Tay",
-  thumnail: "https://www.campusfrance.org/sites/default/files/parrainage.jpg",
-  author: "Trường Minh",
-  time: "20/04/2019 10:30AM",
-  content: `Activate a modal without writing JavaScript. Set data-toggle="modal" on a controller element, like a button...`
-}]
+import SkeletonNotification from "~components/common/Skeleton/SkeletonNotification";
+import Pagination from "react-js-pagination";
+import { getAllNotification } from "~src/api/studentAPI"
 
 const Notification = () => {
-  const [state, setState] = React.useState(initialState)
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(0);
+  const [totalResult, setTotalResult] = React.useState(0);
+  const [state, setState] = React.useState([])
   const [loading, setLoading] = React.useState(false)
-  React.useEffect(() => {
+
+  const handlePageChange = (pageNumber) => {
+    if (page !== pageNumber) {
+      setPage(pageNumber);
+      getAPI({
+        page: pageNumber,
+      });
+    }
+  }
+
+  const getAPI = async (params) => {
     setLoading(true);
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-    return () => clearTimeout(timer);
+    const res = await getAllNotification(params);
+    if (res.Code === 1) {
+      setState(res.Data)
+      setPageSize(res.PageSize);
+      setTotalResult(res.TotalResult)
+    }
+    setLoading(false);
+  }
+
+  React.useEffect(() => {
+    getAPI({
+      page,
+    });
   }, []);
 
-
-  return <React.Fragment>
-      <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
-        <h4 className="mg-b-0 gradient-heading"><i className="fas fa-bell" /> NOTIFICATION</h4>
+  return <>
+    <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
+      <h4 className="mg-b-0 gradient-heading"><i className="fas fa-bell" /> NOTIFICATION</h4>
+    </div>
+    <div className="blog__wrapper">
+      <div className="row row-sm mg-b-25 blog-list">
+        {
+          loading ? <SkeletonNotification /> :
+          !!state && Array.isArray(state) && state.length > 0 ?
+              state.map(item =>
+                <div className="col-md-6 col-lg-4 mg-t-20" key={item.NotificationID}>
+                  <NotificationItem
+                    NotificationID={item.NotificationID}
+                    NotificationTitle={item.NotificationTitle}
+                    NotificationIMG={item.NotificationIMG}
+                    CreatedBy={item.CreatedBy}
+                    CreatedDate={item.CreatedDate}
+                    NotificationContent={item.NotificationContent}
+                    URL={item.URL} />
+                </div>) : <div className="col-12"><span className="text-danger bold" style={{fontSize:'16px'}}>It's doesn't have any blog </span></div>
+        }
       </div>
-      <div className="blog__wrapper">
-        <div className="row row-sm mg-b-25 blog-list">
-            {
-              !!state && Array.isArray(state) && state.length>0 && state.map(item => 
-                  <div className="col-md-6 col-lg-4 mg-t-20" key={item.id}>
-                    {
-                      loading ? <SkeletonNotification/> :
-                      <NotificationItem
-                          title={item.title}
-                          thumnail={item.thumnail}
-                          author={item.author}
-                          time={item.time}
-                          content={item.content}/>
-                    }
-                </div>
-              )
-            }
-        </div>
-        <nav aria-label="Page navigation" className="mg-t-15">
-          <ul className="pagination mg-b-0 justify-content-center">
-            <li className="page-item disabled"><a className="page-link page-link-icon" href="#"><i data-feather="chevron-left" /></a></li>
-            <li className="page-item active"><a className="page-link" href="#">1</a></li>
-            <li className="page-item"><a className="page-link" href="#">2</a></li>
-            <li className="page-item"><a className="page-link" href="#">3</a></li>
-            <li className="page-item"><a className="page-link page-link-icon" href="#"><i data-feather="chevron-right" /></a></li>
-          </ul>
-        </nav>
-      </div>
-      </React.Fragment>
+      {
+        pageSize < totalResult && <Pagination
+          innerClass="pagination justify-content-center"
+          activePage={page}
+          itemsCountPerPage={pageSize}
+          totalItemsCount={totalResult}
+          pageRangeDisplayed={3}
+          itemClass="page-item"
+          linkClass="page-link"
+          onChange={handlePageChange.bind(this)} />
+      }
+    </div>
+  </>
 }
 
 ReactDOM.render(<Notification />, document.getElementById('react-notification'));

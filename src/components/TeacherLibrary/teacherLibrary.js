@@ -1,127 +1,48 @@
-import React from 'react';
+import React, {useState, useReducer, useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import DocumentSlider from './DocumentSlider';
+import Skeleton from 'react-loading-skeleton';
+import {getListCategoryLibrary} from '~src/api/teacherAPI';
 
-const TeachingCirriculum = [
-    {
-        id: 1,
-        title: 'Teaching Cirriculum 1',
-        imageUrl: 'https://mshoagiaotiep.com/uploads/images/userfiles/2020/02/khoa_hoc_tieng_anh_giao_tiep.jpg',
-        urlDownload: 'http://mona.media',
-        category: 'IELTS 8.0 Professional'
-    },
-    {
-        id: 2,
-        title: 'Teaching Cirriculum 2',
-        imageUrl: 'https://mshoagiaotiep.com/uploads/images/userfiles/2020/02/khoa_hoc_tieng_anh_giao_tiep.jpg',
-        urlDownload: 'http://mona.media',
-        category: 'IELTS 8.0 Professional'
-    },
-    {
-        id: 3,
-        title: 'Teaching Cirriculum 2',
-        imageUrl: 'https://mshoagiaotiep.com/uploads/images/userfiles/2020/02/khoa_hoc_tieng_anh_giao_tiep.jpg',
-        urlDownload: 'http://mona.media',
-        category: 'IELTS 8.0 Professional'
-    },
-    {
-        id: 4,
-        title: 'Teaching Cirriculum 4',
-        imageUrl: 'https://mshoagiaotiep.com/uploads/images/userfiles/2020/02/khoa_hoc_tieng_anh_giao_tiep.jpg',
-        urlDownload: 'http://mona.media',
-        category: 'IELTS 8.0 Professional'
-    },
-    {
-        id: 5,
-        title: 'Teaching Cirriculum 5',
-        imageUrl: 'https://mshoagiaotiep.com/uploads/images/userfiles/2020/02/khoa_hoc_tieng_anh_giao_tiep.jpg',
-        urlDownload: 'http://mona.media',
-        category: 'IELTS 8.0 Professional'
-    }
-]
-
-const categories = [
-    {
-        id: 1,
-        title: 'Adults Courses'
-    },
-    {
-        id: 2,
-        title: 'Kids Courses'
-    },
-    {
-        id: 3,
-        title: 'Teens Courses'
-    },
-    {
-        id: 4,
-        title: 'Free Talks'
-    },
-    {
-        id: 5,
-        title: 'IELTS'
-    }
-]
 
 const TeacherLibrary = () => {
+    const [isLoading, setIsLoading] = useState(true);
+    const [categories, setCategories] = useState([]);
 
-    const initSwiper = () => {
-        const mySwiper = new Swiper('.swiper-container', {
-            // Optional parameters
-            direction: 'horizontal',
-            loop: true,
-            slidesPerView: 4,
-            // If we need pagination
-            pagination: {
-                el: '.swiper-pagination',
-            },
-            // Navigation arrows
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            // And if we need scrollbar
-        });
+    const getCategories = async () => {
+        setIsLoading(true);
+        const res = await getListCategoryLibrary();
+        if(res.Code !== 1) return;
+        setCategories(res.Data);
+        setIsLoading(false);
     }
 
-    React.useEffect(() => {
-        initSwiper();
-    });
+    useEffect(() => {
+        getCategories();
+    },[])
 
     return (
         <>
             <div className="library-wrap">
                 {/*s1*/}
-                <div className="row">
+                <div className="row mg-b-30">
                     <div className="col-sm-12 col-ms-12 col-lg-4 col-xl-3 bannerAndSlide  mb-2 ">
-                        <div className="banner">
+                        <div className="banner tx-center">
                             <a href="#">
-                                <img src="https://via.placeholder.com/300x250" alt="" className="img-banner" />
+                                <img src="../assets/img/library.svg" alt="" className="img-banner" />
                             </a>
                         </div>
                     </div>
                     <div className="col-sm-12 col-ms-12 col-lg-8 col-xl-9 bannerAndSlide">
                         <div className="banner-slide">
-                            <DocumentSlider listItems={TeachingCirriculum} slideTitle='Teaching Cirriculum' />
+                            <DocumentSlider categoryID={2} slideTitle='New Cirriculum' getNewest={true} limitSlide={4} />
                             {/*/foundation*/}
                         </div>
                     </div>
                 </div>
-                {/*s2*/}
-                {/*/right*/}
-                <div className="mg-y-30 filter-category">
-                    <div className="list-button py-2 mt-2 mb-2">
-                        {!!categories && categories.length > 0 && categories.map(cat => <a key={`${cat.title}`} className="btn btn-primary mg-x-10" href="#">{cat.title}</a>)}
-                    </div>
-                </div>
-                {/*foundation*/}
-                <DocumentSlider listItems={TeachingCirriculum} slideTitle='Adults Courses' titleIcon="fa-user" />
-                {/*/foundation*/}
-                <DocumentSlider listItems={TeachingCirriculum} slideTitle='Kids Courses' titleIcon="fa-baby" />
-                <DocumentSlider listItems={TeachingCirriculum} slideTitle='Teens Courses' titleIcon="fa-child" />
-                <DocumentSlider listItems={TeachingCirriculum} slideTitle='Free Talks' titleIcon="fa-microphone" />
-                <DocumentSlider listItems={TeachingCirriculum} slideTitle='IELTS' />
-                {/*foundation copy*/}
+                {
+                    !!categories && categories.length > 0 && [...categories].map(category => <DocumentSlider key={`${category.ID}`} categoryID={category.ID} slideTitle={category.CategoryLibrary}/>)
+                }
             </div>
 
         </>

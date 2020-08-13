@@ -1,187 +1,232 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { randomId } from '~src/utils'
-import RatingLessonModal from '~components/StudentDashBoard/RatingLessonModal'
-import RequireLessonModal from '~components/StudentDashboard/RequireLessonModal'
-import LessonHistoryCard from "~components/StudentDashBoard/LessonHistoryCard"
-import LessonUpcomingCard from "~components/StudentDashBoard/LessonUpcomingCard"
+import RequireLessonModal from '~components/RequireLessonModal'
+import LessonUpcomingCard from "~components/LessonUpcomingCard"
 import CancelBookingLessonModal from "~components/CancelBookingLessonModal"
 import SkeletonLessonCard from "~components/common/Skeleton/SkeletonLessonCard"
+import { getUpcomingLessons } from "~src/api/studentAPI"
+import { convertDateFromTo, checkCancelTime } from "~src/utils.js"
+import Pagination from "react-js-pagination";
+import { ToastContainer } from 'react-toastify'
+import { FETCH_ERRORS } from "~components/common/Constant/message"
+import { toast } from 'react-toastify';
+import 'react-toastify/scss/main.scss'
+import { toastInit } from "~src/utils"
+import { CANCEL_BOOKING_SUCCESS, FETCH_ERROR } from '~components/common/Constant/toast';
 
 import styles from '~components/BookedLesson/bookedLesson.module.scss'
 
-let initialState = {
-  upcomingLesson: [{
-    id: randomId(),
-    teacher: "Hoàng Thị Uyên Phương",
-    images: "https://image.engoo.com/teacher/15867/p2872.jpg",
-    courseName: "IELST - Professional",
-    date: "03/07/2020",
-    startTime: "12:30",
-    endTime: "13:00",
-    note: "Prepare speaking topic",
-    documents: ["ReadingSpeaking.doc", "Listening.doc"],
-    skype: "http://skype.com/abc",
-  }, {
-    id: randomId(),
-    teacher: "Hoàng Văn Thái",
-    images: "https://images.unsplash.com/photo-1593087989983-e887d642a19c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-    courseName: "IELST - Beginner",
-    date: "11/07/2020",
-    startTime: "10:30",
-    endTime: "11:00",
-    note: "Prepare speaking topic",
-    documents: ["ReadingSpeaking.doc", "Listening.doc"],
-    skype: "http://skype.com/abc",
-  }],
-  lessonHistory: [{
-    id: randomId(),
-    teacher: "Hoàng Thị Uyên Phương",
-    images: "https://image.engoo.com/teacher/15867/p2872.jpg",
-    courseName: "IELST - Professional",
-    date: "24/06/2020",
-    startTime: "10:30",
-    endTime: "11:00",
-    note: "Student have a good speaking skill",
-    ratingCourse: "90",
-  }, {
-    id: randomId(),
-    teacher: "Hoàng Văn Thái",
-    images: "https://images.unsplash.com/photo-1593087989983-e887d642a19c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-    courseName: "IELST - Beginner",
-    date: "15/06/2020",
-    startTime: "10:00",
-    endTime: "14:00",
-    note: "Student have a good speaking skill",
-    ratingCourse: "75",
-  }],
-}
 const initialCancelLesson = {
-  id:"",
-  name:"",
+  BookingID: "",
+  LessionName: "",
   date: "",
   start: "",
   end: "",
 }
-const initialRatingLesson = {
-  id:"",
-  teacher: "",
-}
 const initialRequireLesson = {
-  id:"",
- avatar:"",
- teacher:"",
- name:"",
- note:"",
- date:"",
- start:"",
- end:"",
- documents:"",
- skype:"",
+  BookingID: "",
+  avatar: "",
+  TeacherUID: "",
+  TeacherName: "",
+  LessionMaterial: "",
+  LessionName: "",
+  SpecialRequest: "",
+  date: "",
+  start: "",
+  end: "",
+  DocumentName: "",
+  SkypeID: "",
 }
 
 const BookedLesson = () => {
-    const [state, setState] = React.useState(initialState);
+  const [state, setState] = React.useState(null);
+  const [page, setPage] = React.useState(1)
+  const [pageSize, setPageSize] = React.useState(0);
+  const [totalResult, setTotalResult] = React.useState(0);
+  const cancelToastSuccess = () => toast.success(CANCEL_BOOKING_SUCCESS, toastInit);
+  const cancelToastFail = () => toast.error(FETCH_ERROR, toastInit);
+
+  const [lock, setLock] = React.useState({
+    id: "",
+    lock: false,
+  })
   const [stateCancelLesson, setStateCancelLesson] = React.useState(initialCancelLesson);
-  const [stateRatingLesson, setStateRatingLesson] = React.useState(initialRatingLesson);
   const [stateRequireLesson, setStateRequireLesson] = React.useState(initialRequireLesson);
 
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
 
-  const handleRatingLesson = (id, teacher) => {
-    setStateRatingLesson({...stateRatingLesson,
-      id,
-      teacher})
+  const handlePageChange = (pageNumber) => {
+    if (page !== pageNumber) {
+      setPage(pageNumber);
+      getAPI({
+        Page: pageNumber,
+      })
+    }
   }
-
-  const handleRequireLesson = (id, avatar, teacher, name, note, date, start, end, documents, skype) => {
-   setStateRequireLesson({...stateRequireLesson,
-    id,
-     avatar,
-     teacher,
-     name,
-     note,
-     date,
-     start,
-     end,
-     documents,
-     skype })
-  }
-
-  const handleCancelBooking = (id, name, date, start, end) => {
-    setStateCancelLesson({...stateCancelLesson,
-      id,
-      name,
+  const handleRequireLesson = (BookingID, avatar, TeacherUID, TeacherName, LessionMaterial, LessionName, SpecialRequest, date, start, end, DocumentName, SkypeID) => {
+    setStateRequireLesson({
+      ...stateRequireLesson,
+      BookingID,
+      avatar,
+      TeacherUID,
+      TeacherName,
+      LessionMaterial,
+      LessionName,
+      SpecialRequest,
       date,
       start,
-      end})
+      end,
+      DocumentName,
+      SkypeID
+    })
+  }
+  const handleCancelBooking = (BookingID, LessionName, date, start, end) => {
+    setStateCancelLesson({
+      ...stateCancelLesson,
+      BookingID,
+      LessionName,
+      date,
+      start,
+      end
+    })
+  }
+  const cbCancelBooking = (id, result) => {
+    if (result === -1) //Start Call API, lock the card
+    {
+      setLock({
+        id,
+        lock: true
+      })
+    }
+    else { //After call API, unlock the card
+      setLock({
+        id,
+        lock: false
+      })
+      if (result === 1) { // cancel lesson success
+        cancelToastSuccess();
+        if (pageSize < totalResult) {
+          getAPI({
+            Page: 1,
+          })
+          setPage(1);
+        }
+        else {
+          let newUpcomingLessions = [...state];
+          newUpcomingLessions = newUpcomingLessions.filter(item => item.BookingID !== id)
+          setState(newUpcomingLessions)
+        }
+      }
+      else cancelToastFail(); //Cancel Lesson Fail
+    }
+  }
+  const cbRequireLesson = (SpecialRequest, BookingID, TeacherUID) => {
+    let newState = [...state]
+    const index = newState.findIndex
+      (item => item.BookingID === BookingID && item.TeacherUID === TeacherUID);
+    newState[index].SpecialRequest = SpecialRequest;
+    setState(newState)
+  }
+  const getAPI = async (params) => {
+    setLoading(true);
+    const res = await getUpcomingLessons(params);
+    if (res.Code === 1) {
+      setState(res.Data)
+      setPageSize(res.PageSize);
+      setTotalResult(res.TotalResult)
+    }
+    else {
+      setState(null);
+    }
+    setLoading(false);
   }
 
   React.useEffect(() => {
-    setLoading(true);
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-    return () => clearTimeout(timer);
+    getAPI({
+      Page: 1,
+    })
   }, []);
 
-  return <React.Fragment>
-     <ul className="list-wrap">
+  return <>
+    <h4 className="mg-b-30 gradient-heading"><i className="fas fa-calendar-check" />CÁC LỚP ĐÃ ĐĂNG KÝ</h4>
+    {
+      !!state ? <>
+        <div className="feedback-container">
+          <div className="course-horizental animated fadeInUp am-animation-delay-1">
+            {
+              !!state && !!state &&
+                state.length + state.length === 0 ? (
+                  <div className="empty-error tx-center mg-y-30 cr-item bg-white pd-15 rounded-5 shadow">
+                    <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" />
+                    <p className=" tx-danger tx-medium">Bạn không có buổi học nào sắp tới.</p>
+                    <a href="/ElearnStudent/bookingLesson" className="btn btn-primary">Đặt lịch học</a>
+                  </div>) : ""
+            }
+            <ul className="list-wrap">
+              {
+                !!state && state.length > 0 &&
+                state.map(item => loading ? <SkeletonLessonCard key={item.BookingID} /> :
+                  <LessonUpcomingCard
+                    key={item.BookingID}
+                    BookingID={item.BookingID}
+                    TeacherUID={item.TeacherUID}
+                    avatar={item.TeacherIMG}
+                    TeacherName={item.TeacherName}
+                    LessionName={item.LessionName}
+                    LessionMaterial={item.LessionMaterial}
+                    start={convertDateFromTo(item.ScheduleTimeVN).fromTime}
+                    end={convertDateFromTo(item.ScheduleTimeVN).endTime}
+                    date={convertDateFromTo(item.ScheduleTimeVN).date}
+                    SpecialRequest={item.SpecialRequest}
+                    DocumentName={item.DocumentName}
+                    SkypeID={item.SkypeID}
+                    onHandleCancelBooking={handleCancelBooking}
+                    onHandleRequireLesson={handleRequireLesson}
+                    lock={lock}
+                    cancelable={checkCancelTime(convertDateFromTo(item.ScheduleTimeVN).dateObject)} />)
+              }
+            </ul>
+          </div>
+        </div>
         {
-          state.upcomingLesson.map(item => loading?<SkeletonLessonCard key={item.id}/>:
-            <LessonUpcomingCard
-              key={item.id}
-              id={item.id}
-              avatar={item.images}
-              teacher={item.teacher}
-              name={item.courseName}
-              note={item.note}
-              date={item.date}
-              start={item.startTime}
-              end={item.endTime}
-              documents={item.documents}
-              skype={item.skype}
-              onHandleCancelBooking={handleCancelBooking}
-              onHandleRequireLesson={handleRequireLesson} />)
+          pageSize < totalResult && <Pagination
+            innerClass="pagination justify-content-end mt-3"
+            activePage={page}
+            itemsCountPerPage={pageSize}
+            totalItemsCount={totalResult}
+            pageRangeDisplayed={3}
+            itemClass="page-item"
+            linkClass="page-link"
+            onChange={handlePageChange.bind(this)} />
         }
-        {
-          state.lessonHistory.map(item => loading?<SkeletonLessonCard key={item.id}/>:
-            <LessonHistoryCard
-              key={item.id}
-              id={item.id}
-              avatar={item.images}
-              teacher={item.teacher}
-              name={item.courseName}
-              date={item.date}
-              note={item.note}
-              start={item.startTime}
-              end={item.endTime}
-              rating={item.ratingCourse}
-              onHandleRatingLesson={handleRatingLesson} />)
-        }
-      </ul>
-      <RatingLessonModal
-        id={stateRatingLesson.id}
-        teacher={stateRatingLesson.teacher} />
-      <RequireLessonModal
-        id={stateRequireLesson.id}
-        avatar={stateRequireLesson.avatar}
-        teacher={stateRequireLesson.teacher}
-        name={stateRequireLesson.name}
-        note={stateRequireLesson.note}
-        date={stateRequireLesson.date}
-        start={stateRequireLesson.start}
-        end={stateRequireLesson.end}
-        documents={stateRequireLesson.documents}
-        skype={stateRequireLesson.skype}/>
-       <CancelBookingLessonModal
-        id={stateCancelLesson.id}
-        name={stateCancelLesson.name}
-        date={stateCancelLesson.date}
-        start={stateCancelLesson.start}
-        end={stateCancelLesson.end} />
-  </React.Fragment>
+        <RequireLessonModal
+          BookingID={stateRequireLesson.BookingID}
+          avatar={stateRequireLesson.avatar}
+          TeacherUID={stateRequireLesson.TeacherUID}
+          TeacherName={stateRequireLesson.TeacherName}
+          LessionName={stateRequireLesson.LessionName}
+          LessionMaterial={stateRequireLesson.LessionMaterial}
+          SpecialRequest={stateRequireLesson.SpecialRequest}
+          date={stateRequireLesson.date}
+          start={stateRequireLesson.start}
+          end={stateRequireLesson.end}
+          DocumentName={stateRequireLesson.DocumentName}
+          SkypeID={stateRequireLesson.SkypeID}
+          callback={cbRequireLesson} />
+
+        <CancelBookingLessonModal
+          BookingID={stateCancelLesson.BookingID}
+          LessionName={stateCancelLesson.LessionName}
+          date={stateCancelLesson.date}
+          start={stateCancelLesson.start}
+          end={stateCancelLesson.end}
+          callback={cbCancelBooking} />
+
+        <ToastContainer />
+      </> : (!loading && <FETCH_ERRORS />)
+    }
+  </>
 }
 
 ReactDOM.render(<BookedLesson />, document.getElementById('react-booked-lesson'));

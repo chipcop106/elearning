@@ -1,386 +1,359 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import styles from '~components/TeacherDetail/BookingSchedule.module.scss';
+import { getScheduleByTeacherUID } from "~src/api/studentAPI";
+import { toast } from 'react-toastify';
+import 'react-toastify/scss/main.scss'
+import { toastInit } from "~src/utils"
+import { FETCH_ERROR, CANCEL_BOOKING_SUCCESS, BOOKING_SUCCESS } from '~components/common/Constant/toast';
 
 let calendar;
+Date.prototype.addHours = function (h) {
+  this.setTime(this.getTime() + h * 60 * 60 * 1000);
+  return this;
+};
+const getDifferentMinBetweenTime = (startDate, endDate) => {
+  const oneMinutes = 1000 * 60;
+  const startTime = startDate.getTime();
+  const endTime = endDate.getTime();
+  const diffTime = endTime - startTime + (startDate.getTimezoneOffset() * 60 * 1000);
+  return Math.round(diffTime / oneMinutes);
+};
+let mondayOfWeek = new Date(new Date().setDate(new Date().getDate() - new Date().getDay() + 1));
+const dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const hotTime = [5, 6, 7, 8, 9, 13, 14, 15, 16];
 
-const BookingSchedule = ({ schedule, handleBookLesson, handleCancelLesson }) => {
+let uid = localStorage.getItem("uid") ? localStorage.getItem("uid") : "";
 
-  const bookLesson = (id, name, date, start, end) => {
-    handleBookLesson(id, name, date, start, end)
+const BookingSchedule = ({
+  TeacherUID,
+  handleBookLesson,
+  handleCancelLesson,
+  onBookingId,
+  onCancelId
+}) => {
+
+  const [eventSource, setEventSource] = React.useState([])
+  const [loading, setLoading] = React.useState(false)
+  const [activeDate, setActiveDate] = React.useState(mondayOfWeek)
+
+  const cancelToastSuccess = () => toast.success(CANCEL_BOOKING_SUCCESS, toastInit);
+  const cancelToastFail = () => toast.error(FETCH_ERROR, toastInit);
+  const bookingToastSuccess = () => toast.success(BOOKING_SUCCESS, toastInit);
+
+  const bookLesson = (StudyTimeID, LessionName, date, start, end) => {
+    handleBookLesson(StudyTimeID, LessionName, date, start, end)
   }
 
-  const cancelLesson = (id, name, date, start, end) => {
-    handleCancelLesson(id, name, date, start, end)
+  const cancelLesson = (BookingID, LessionName, date, start, end) => {
+    handleCancelLesson(BookingID, LessionName, date, start, end)
   }
 
   const calendarInit = () => {
-
-    let eventList = [];
-    for (let i = 0; i < schedule.length; i++) {
-      eventList.push({
-        id: schedule[i].id,
-        title: schedule[i].status === "booked" ? "Event Booked" : "Event Hot Available",
-        courseName: schedule[i].courseName,
-        day: schedule[i].day,
-        timeStart: schedule[i].timeStart,
-        timeEnd: schedule[i].timeEnd,
-        start: new Date(moment(schedule[i].day + ' ' + schedule[i].timeStart, "DD/MM/YYYY hh:mm")),
-        end: new Date(moment(schedule[i].day + ' ' + schedule[i].timeEnd, "DD/MM/YYYY hh:mm")),
-        eventType: 0, // 0 : Bình thường || 1 : Hot
-        bookStatus: schedule[i].status === "booked" ? true : false,
-        bookInfo: schedule[i].student ? {
-          name: schedule[i].student
-        } : null,
-        available: schedule[i].status === "booked" ? false : true,
-        isEmptySlot: false,
-      })
-    }
-
-    Date.prototype.addHours = function (h) {
-      this.setTime(this.getTime() + h * 60 * 60 * 1000);
-      return this;
-    };
-
-    const getDifferentMinBetweenTime = (startDate, endDate) => {
-      const oneMinutes = 1000 * 60;
-      const startTime = startDate.getTime();
-      const endTime = endDate.getTime();
-      const diffTime = endTime - startTime + (startDate.getTimezoneOffset()*60*1000);
-      return Math.round(diffTime / oneMinutes);
-    };
-
-    $(document).ready(function () {
-      //Add hourse Prototype
-
-      const dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-      const monthNames = [
-        "Tháng 1",
-        "Tháng 2",
-        "Tháng 3",
-        "Tháng 4",
-        "Tháng 5",
-        "Tháng 6",
-        "Tháng 7",
-        "Tháng 8",
-        "Tháng 9",
-        "Tháng 10",
-        "Tháng 11",
-        "Tháng 12",
-      ];
-      const monthNamesShort = [
-        "Thg 1",
-        "Thg 2",
-        "Thg 3",
-        "Thg 4",
-        "Thg 5",
-        "Thg 6",
-        "Thg 7",
-        "Thg 8",
-        "Thg 9",
-        "Thg 10",
-        "Thg 11",
-        "Thg 12",
-      ];
-
-      const hotTime = [5, 6, 7, 8, 9, 13, 14, 15, 16];
-
-      const date = new Date();
-      const d = date.getDate();
-      const m = date.getMonth() + 1;
-      const y = date.getFullYear();
-
-      //const createEventSlots
-
-      const calendarEl = document.getElementById("js-book-calendar");
-      let $toggleCheckbox;
-      const hotTimeSlot = [
-        {
-          dateIndex: 0,
-          hotTime: [5, 6, 7, 8, 13, 14, 15],
-        },
-        {
-          dateIndex: 1,
-          hotTime: [5, 6, 7, 8, 13, 14, 15],
-        },
-        {
-          dateIndex: 2,
-          hotTime: [5, 6, 7, 8, 13, 14, 15],
-        },
-      ];
-
-      const eventDidMount = (args) => {
-        console.log("eventDidMount", args);
-        const { event } = args;
-        let toggleStudent = document.getElementById('student-toggle-checkbox');
-        console.log(toggleStudent);
+    const calendarEl = document.getElementById("js-book-calendar");
+    let $toggleCheckbox;
+    const eventDidMount = (args) => {
+      const { event } = args;
+      let toggleStudent = document.getElementById('student-toggle-checkbox');
+      //console.log(toggleStudent);
+      if (!args.isPast) {
         $(args.el).tooltip({
           html: true,
-          title: `
-<p class="mg-b-5">${moment(event.start).format(
-            "dddd, MM / YYYY"
-          )}</p>
-<p class="mg-b-5">Start: ${moment(event.start).format(
-            "hh:mm A"
-          )}</p>
-<p class="mg-b-5">End: ${moment(event.end).format("hh:mm A")}</p>
-`,
+          title: `<p class="mg-b-5">${moment(event.start).format("dddd, DD/MM/YYYY")}</p>
+            <p class="mg-b-5">Start: ${moment(event.start).format("hh:mm A")}</p>
+            <p class="mg-b-5">End: ${moment(event.end).format("hh:mm A")}</p>`,
           animation: false,
-          template: `<div class="tooltip tooltip-primary" role="tooltip">
-<div class="tooltip-arrow">
-</div>
-<div class="tooltip-inner">
-
-</div>
-</div>`,
+          template: `<div class="tooltip" role="tooltip">
+                <div class="tooltip-arrow"></div><div class="tooltip-inner"></div>
+              </div>`,
           trigger: "hover",
         });
-        !!$toggleCheckbox && showStudentToggle();
-      };
-
-      const toggleStudentView = () => {
-
       }
+      !!$toggleCheckbox && showStudentToggle();
+      const events = calendar.getEvents();
+      const dayHeaders = document.querySelectorAll('.fc-col-header-cell');
+      if(dayHeaders.length > 0)
+        for(let i = 0; i < dayHeaders.length; i++){
+          if("data-date" in dayHeaders[i].dataset) continue;
+          const date = dayHeaders[i].getAttribute('data-date');
+          const dateHD = new Date(date);
+          let bookedSlot = 0;
+          let totalSlot = 0;
 
-      const eventClick = (args) => {
-       /*  Handle when click on cell const element = args.el;
-        if ([...element.classList].includes("available-slot") &&
-          !([...element.classList].includes("empty-slot") || [...element.classList].includes("fc-event-past"))
-        ) {
-          const { start, end } = args.event;
+          events.map(event => {
+            const eventDate = new Date(event.extendedProps.Start.split('T')[0]);
+            if(eventDate.getTime() === dateHD.getTime()){
+              (event.extendedProps.bookStatus || event.extendedProps.available) && totalSlot++;
+              event.extendedProps.bookStatus && bookedSlot++;
+            }
+          });
+          dayHeaders[i].querySelector('.booked').textContent = bookedSlot;
+          dayHeaders[i].querySelector('.total').textContent = totalSlot;
         }
-        return; */
-      };
+    };
 
-      calendar = new FullCalendar.Calendar(calendarEl, {
-        height: 600,
-        expandRows: true,
-        slotMinTime: "01:00",
-        slotMaxTime: "23:00",
-        headerToolbar: {
-          start: '', // will normally be on the left. if RTL, will be on the right
-          center: '',
-          end: 'today,prev,title,next' // will normally be on the right. if RTL, will be on the left
-        },
-        titleFormat: { year: "numeric", month: "short" },
-        navLinks: true, // can click day/week names to navigate views
-        editable: false,
-        stickyHeaderDates: true,
-        selectable: true,
-        nowIndicator: true,
-        allDaySlot: false,
-        allDayDefault: false,
-        dayMaxEvents: true, // allow "more" link when too many events
-        eventOverlap: false,
-        initialDate: new Date(),
-        initialView: "timeGridWeek",
-        firstDay: 1,
-        slotDuration: "00:30",
-        slotLabelInterval: "00:30",
-        slotEventOverlap: false,
-        selectOverlap: function (event) {
-          return event.rendering === "background";
-        },
-        slotLabelContent: function (arg) {
-          //  console.log('slotLabelContent', arg);
-          const hour = arg.date.getHours();
+    const eventClick = (args) => {
+      /*  Handle when click on cell const element = args.el;
+       if ([...element.classList].includes("available-slot") &&
+         !([...element.classList].includes("empty-slot") || [...element.classList].includes("fc-event-past"))
+       ) {
+         const { start, end } = args.event;
+       }
+       return; */
+    };
 
-          let templateEl = document.createElement("div");
-          templateEl.setAttribute("class", "slot-label");
-          const html = `
-  ${
-            hotTime.includes(hour)
-              ? `<i class="fa fa-fire tx-danger hot-icon"></i>`
-              : ""
-            }
-  ${arg.text.toUpperCase()}
-  `;
-          templateEl.innerHTML = html;
-          return { html };
+    calendar = new FullCalendar.Calendar(calendarEl, {
+      height: 600,
+      expandRows: true,
+      slotMinTime: "06:00",
+      slotMaxTime: "23:00",
+      eventSources: eventSource,
+      headerToolbar: {
+        start: '', // will normally be on the left. if RTL, will be on the right
+        center: '',
+        end: 'today,prev,title,next' // will normally be on the right. if RTL, will be on the left
+      },
+      titleFormat: { year: "numeric", month: "short" },
+      navLinks: true, // can click day/week names to navigate views
+      editable: false,
+      stickyHeaderDates: true,
+      selectable: true,
+      nowIndicator: true,
+      allDaySlot: false,
+      allDayDefault: false,
+      dayMaxEvents: true, // allow "more" link when too many events
+      eventOverlap: false,
+      initialDate: new Date(activeDate),
+      initialView: "timeGridWeek",
+      firstDay: 1,
+      slotDuration: "00:30",
+      slotLabelInterval: "00:30",
+      slotEventOverlap: false,
+      customButtons: {
+        prev: {
+          click: function () {
+            calendar.prev();
+            setActiveDate(calendar.getDate())
+          }
         },
+        next: {
+          click: function () {
+            calendar.next();
+            setActiveDate(calendar.getDate())
+          }
+        },
+        today: {
+          text: "Today",
+          click: function () {
+            calendar.today();
+            let today = calendar.getDate();
+            /* Fetch data from Monday of this week */
+            setActiveDate(new Date(today.setDate(today.getDate() - today.getDay() + 1)))
+          }
+        }
+      },
+      selectOverlap: function (event) {
+        return event.rendering === "background";
+      },
+      slotLabelContent: function (arg) {
+        //  console.log('slotLabelContent', arg);
+        const hour = arg.date.getHours();
 
-        dayHeaderContent: function (args) {
-          let count = 0;
-          let slot = 0;
-          schedule.map(item => {
-            if (
-              (parseInt(item.day.split('/')[0]) === args.date.getDate()) &&
-              (parseInt(item.day.split('/')[1]) === args.date.getMonth() + 1) &&
-              (parseInt(item.day.split('/')[2]) === args.date.getFullYear())
-            ) {
-              count++;
-              if (item.status === "booked") slot++
-            }
-          })
-          const days = args.date.getDay();
-          const d = args.date.getDate();
-          const html = `<span class="hd-date">${d} </span><span class="hd-day">${dayNamesShort[days]}</span>
-  <div class="slot">${slot}/${count}</div>`;
-          return { html };
-        },
+        let templateEl = document.createElement("div");
+        templateEl.setAttribute("class", "slot-label");
+        const html = `${hotTime.includes(hour) ? `<i class="fa fa-fire tx-danger hot-icon"></i>` : ""}
+          ${arg.text.toUpperCase()}`;
+        templateEl.innerHTML = html;
+        return { html };
+      },
 
-        eventClassNames: function (args) {
-          const { event, isPast, isStart } = args;
-          const {
-            bookInfo,
-            eventType,
-            bookStatus,
-            available,
-            isEmptySlot,
-          } = event.extendedProps;
-          let classLists = bookStatus ? "booked-slot" : "available-slot";
-          classLists += eventType === 1 ? " hot-slot " : "";
-          classLists += isEmptySlot ? " empty-slot" : "";
-          return classLists;
-        },
-        eventContent: function (args) {
-          let templateEl = document.createElement("div");
-          const { event, isPast, isStart } = args;
-          const {
-            bookInfo,
-            eventType,
-            bookStatus,
-            available,
-            isEmptySlot,
-            courseName,
-            day,
-            timeStart,
-            timeEnd
-          } = event.extendedProps;
-          let minutesTilStart = getDifferentMinBetweenTime(new Date(), args.event._instance.range.start)
-          const html = `
-  ${
-            !isEmptySlot
-              ? `
+      dayHeaderContent: function (args) {
+        const days = args.date.getDay();
+        const d = args.date.getDate();
+        const html = `<span class="hd-date">${d} </span><span class="hd-day">${dayNamesShort[days]}
+          </span><div class="slot pd-3"> <span class="booked hl">0</span> / <span class="total hl">0</span>
+          </div>`;
+        return { html };
+      },
+
+      eventClassNames: function (args) {
+        const { event } = args;
+        const {
+          eventType,
+          bookStatus,
+          bookInfo,
+          isEmptySlot,
+        } = event.extendedProps;
+        let classLists = bookStatus ?
+        bookInfo.StudentUID.toString() == uid.toString() ? "booked-slot": "booked-others-slot"
+        : "available-slot";
+        classLists += eventType === 1 ? " hot-slot " : "";
+        classLists += isEmptySlot ? " empty-slot" : "";
+        return classLists;
+      },
+      eventContent: function (args) {
+        let templateEl = document.createElement("div");
+        const { event, isPast, isStart } = args;
+        const {
+          bookInfo,
+          bookStatus,
+          isEmptySlot,
+          title,
+          BookingID,
+        } = event.extendedProps;
+        let minutesTilStart = getDifferentMinBetweenTime(new Date(), args.event._instance.range.start)
+        const html = `${!isEmptySlot ? `
     <div class="inner-book-wrap ">
-    <div class="inner-content">
-    ${
-              bookStatus
-                ? `
-      <span class="label-book booked"><i class="fas ${
-                isPast ? "fa-check" : "fa-user-graduate"
-                }"></i> ${isPast ? "FINISHED" : "BOOKED"}</span> 
-      <p class="booking-name">${bookInfo.name}</p>
-      ${minutesTilStart < 30 && minutesTilStart > 0
-                  ? `
+    <div class="inner-content text-center mg-t-10"> ${bookStatus ? `
+      <span class="label-book booked">
+      <i class="fas ${isPast ? "fa-check" : "fa-user-graduate"
+            }"></i> ${isPast ? "FINISHED" : "BOOKED"}</span>
+      ${ minutesTilStart > 30 && bookInfo.StudentUID.toString() == uid.toString() ? `
         <a href="javascript:;" class="fix-btn cancel-schedule"
         data-toggle="modal"
         data-target="#md-cancel-schedule"
+        data-bookingID="${BookingID}"
         data-id="${event.id}"
+        data-title="${bookInfo.LessonName}"
         data-start="${event.start}"
         data-end="${event.end}">Cancel</a>
         `: ""}`
-                : ` <i class="fas fa-copyright"></i><span class="label-book">AVAILABLE</span>`
-              }
-    ${
-              available && (minutesTilStart > 30 || minutesTilStart < 0)
-                ? `<a href="javascript:;" class="fix-btn book-schedule"
-                 data-toggle="modal"
-                 data-target="#md-book-schedule"
-                data-id="${event.id}"
-                data-start="${event.start}"
-                data-end="${event.end}"}>Book</a>`
-                : ""
-              }
-    </div>
-    </div>`
-              : ""
-            }
-  `;
-          templateEl.innerHTML = html;
-          return { domNodes: [templateEl] };
-        },
+            : ` <i class="fas fa-copyright"></i><span class="label-book">AVAILABLE</span>`
+          }
+      ${!bookStatus && (minutesTilStart > 30) ?
+            `<a href="javascript:;" class="fix-btn book-schedule"
+          data-toggle="modal"
+          data-target="#md-book-schedule"
+          data-id="${event.id}"
+          data-title="${event._def.extendedProps.courseName}"
+          data-start="${event.start}"
+          data-end="${event.end}"}>Book</a>`
+            : ""}
+        </div>
+        </div>` : ""
+          }`;
+        templateEl.innerHTML = html;
+        return { domNodes: [templateEl] };
+      },
 
-        eventClick: eventClick,
-        //  select: function (info) {
-
-        //  },
-        eventDidMount: eventDidMount,
-
-        // eventDidMount: function(arg) { console.log('eventDidMount', arg) },
-        // nowIndicatorDidMount: function(arg) { console.log('nowIndicatorDidMount', arg) },
-        // nowIndicatorContent: function(arg) { console.log('nowIndicatorContent', arg); return 'hi' },
-        // viewClassNames: 'sup',
-        // dayCellClassNames: function(arg) { console.log('dayCellClassNames', arg) },
-
-        // datesDidUpdate: function() { console.log('datesDidUpdate') },
-        // viewDidMount: function (args){
-
-        //   console.log('viewdidmount', args);
-        // },
-
-        nowIndicatorDidMount: function (args) {
-          console.log("nowIndicatorDidMount", args);
-        },
-        events: eventList,
-      });
-
-      calendar.render();
-      if ($(".fc-toolbar-chunk:first-child").html() == "") {
-        $(".fc-toolbar-chunk:first-child").append(
-          `<div class="custom-control custom-checkbox" id="student-toggle">
-    <input type="checkbox" class="custom-control-input" id="student-toggle-checkbox">
-    <label class="custom-control-label" for="student-toggle-checkbox">Only show student booking hours</label>
-    </div>`
-        );
-      }
-
-      $('body').on('click', '.book-schedule', function (e) {
-        e.preventDefault();
-        const id = this.getAttribute('data-id');
-        let index = schedule.findIndex(x => x.id === id)
-        const name = schedule[index].courseName;
-        const date =  moment(this.getAttribute('data-start')).format("DD/MM/YYYY");
-        const start = moment(this.getAttribute('data-start')).format("HH:mm A");
-        const end = moment(this.getAttribute('data-end')).format("HH:mm A");
-        bookLesson(id, name, date, start, end);
-      });
-
-      $('body').on('click', '.cancel-schedule', function (e) {
-        e.preventDefault();
-        const id = this.getAttribute('data-id');
-        let index = schedule.findIndex(x => x.id === id)
-        const name = schedule[index].courseName;
-        const date =  moment(this.getAttribute('data-start')).format("DD/MM/YYYY");
-        const start = moment(this.getAttribute('data-start')).format("HH:mm A");
-        const end = moment(this.getAttribute('data-end')).format("HH:mm A");
-        cancelLesson(id, name, date, start, end);
-      });
-
-      $toggleCheckbox = $('#student-toggle-checkbox');
-
-      $('body').on('change', $toggleCheckbox, showStudentToggle);
-
-      function showStudentToggle() {
-        const value = $toggleCheckbox.prop('checked');
-        const nonBookedEvents = $('.fc-event:not(.booked-slot)');
-        value ? nonBookedEvents.hide() : nonBookedEvents.show();
-      }
+      eventClick: eventClick,
+      eventDidMount: eventDidMount,
+      nowIndicatorDidMount: function (args) {
+        //console.log("nowIndicatorDidMount", args);
+      },
+      //events: eventList,
     });
+
+    calendar.render();
+
+    if ($(".fc-toolbar-chunk:first-child").html() == "") {
+      $(".fc-toolbar-chunk:first-child").append(
+        `<div class="custom-control custom-checkbox" id="student-toggle">
+    <input type="checkbox" class="custom-control-input" id="student-toggle-checkbox">
+    <label class="custom-control-label" for="student-toggle-checkbox">Chỉ hiển thị lịch đã book</label>
+    </div>`);
+    }
+
+    $('body').on('click', '.book-schedule', function (e) {
+      e.preventDefault();
+      const StudyTimeID = this.getAttribute('data-id');
+      const LessionName = this.getAttribute('data-title')
+      const date = moment(this.getAttribute('data-start')).format("DD/MM/YYYY");
+      const start = moment(this.getAttribute('data-start')).format("HH:mm A");
+      const end = moment(this.getAttribute('data-end')).format("HH:mm A");
+      bookLesson(StudyTimeID, LessionName, date, start, end);
+    });
+
+    $('body').on('click', '.cancel-schedule', function (e) {
+      e.preventDefault();
+      const BookingID = this.getAttribute('data-bookingID');
+      const LessionName = this.getAttribute('data-title')
+      const date = moment(this.getAttribute('data-start')).format("DD/MM/YYYY");
+      const start = moment(this.getAttribute('data-start')).format("HH:mm A");
+      const end = moment(this.getAttribute('data-end')).format("HH:mm A");
+      cancelLesson(BookingID, LessionName, date, start, end);
+    });
+
+    $toggleCheckbox = $('#student-toggle-checkbox');
+
+    $('body').on('change', $toggleCheckbox, showStudentToggle);
+
+    function showStudentToggle() {
+      const value = $toggleCheckbox.prop('checked');
+      //const availableEvents = $('.fc-event.available-slot');
+      const availableEvents = $('.fc-event:not(.booked-slot)')
+      value ? availableEvents.addClass('hide-event') : availableEvents.removeClass('hide-event');
+    }
+
+  }
+
+  const getAPI = async (params, callback) => {
+    setLoading(true);
+    const res = await getScheduleByTeacherUID(params);
+    if (res.Code === 1) {
+      const newEvents = res.Data.map(event => {
+        return {
+          ...event,
+          id: event.StudyTimeID,
+          title: event.title || '',
+          start: new Date(event.Start),
+          end: new Date(event.End),
+          eventType: event.eventType,
+          bookStatus: event.bookStatus,
+          bookInfo: event.bookInfo,
+          available: event.available,
+          isEmptySlot: event.isEmptySlot
+        }
+      })
+      setEventSource(newEvents)
+    }
+    !!callback && callback();
+    setLoading(false);
   }
 
   React.useEffect(() => {
-    calendarInit();
-  }, [schedule])
+    if (!!calendar) {
+      let eventsInstance = calendar.getEventSources();
+      eventsInstance[0] && eventsInstance[0].remove();
+      calendar.addEventSource(eventSource);
+    }
+  }, [eventSource])
 
-  return (
-    <React.Fragment>
-      <div className="book__calendar">
-        <div id="js-book-calendar" className="fc fc-unthemed fc-ltr"
-          height="500"></div>
+  React.useEffect(() => {
+    getAPI({
+      TeacherUID,
+      Date: moment(activeDate).format("DD/MM/YYYY"),
+    });
+  }, [activeDate]);
+
+  React.useEffect(() => {
+    if (onCancelId !== null) {
+      onCancelId === "fail" ? cancelToastFail() :
+        getAPI({
+          TeacherUID,
+          Date: moment(activeDate).format("DD/MM/YYYY"),
+        }, cancelToastSuccess);
+    }
+  }, [onCancelId]);
+
+  React.useEffect(() => {
+    if (onBookingId !== null)
+      getAPI({
+        TeacherUID,
+        Date: moment(activeDate).format("DD/MM/YYYY"),
+      }, !!onBookingId ? bookingToastSuccess : null);
+  }, [onBookingId]);
+
+  React.useEffect(() => {
+    TeacherUID && calendarInit();
+  }, [])
+
+  return <>
+    <div className="book__calendar">
+      <div className={`${loading ? '' : 'd-none'} overlay`}>
+        <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
       </div>
-      <div className="note mg-t-30">
-        <h5 className="sub-title"> <i className="fas fa-sticky-note"></i>Notes:</h5>
-        <div className="introduce-content">
-          <ul className="note-list">
-            <li>Each session is 50 minutes</li>
-            <li>To book a lesson, simply select the time frame and click the "Book" button</li>
-            <li>You can only BOOK a lesson 30 minutes before the lesson starts.</li>
-            <li>You can only CANCEL the lesson 30 minutes before the className starts.</li>
-          </ul>
-        </div>
-      </div>
-    </React.Fragment>
-  )
+      <div id="js-book-calendar" className="calendar-student fc fc-unthemed fc-ltr" height="500"></div>
+    </div>
+  </>
 }
 export default BookingSchedule;

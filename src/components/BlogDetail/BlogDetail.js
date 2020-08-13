@@ -1,56 +1,76 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import SkeletonBlogCard from "../common/Skeleton/SkeletonBlogCard"
+import SkeletonBlogCard from "~components/common/Skeleton/SkeletonBlogCard"
+import { getNotificationDetailAPI } from "~src/api/studentAPI"
+import { getFormattedDate } from "~src/utils"
+import { NOT_DATA_FOUND } from "~components/common/Constant/message"
 
+import styles from "~components/BlogDetail/BlogDetail.module.scss"
 const BlogDetail = () => {
+  const [state, setState] = React.useState(null)
   const [loading, setLoading] = React.useState(false);
 
-  React.useEffect(() => {
+  const getAPI = async (params) => {
     setLoading(true);
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-    return () => clearTimeout(timer);
+    const res = await getNotificationDetailAPI(params);
+    if (res.Code === 1) {
+      setState(res.Data)
+    }
+    setLoading(false);
+  }
+
+  React.useEffect(() => {
+    let search = window.location.search;
+    let params = new URLSearchParams(search);
+    let ID = params.get('ID');
+    getAPI({
+      NotificationID: ID,
+    });
   }, []);
 
-  return (
-    loading?<SkeletonBlogCard/>:<React.Fragment>
-      <div className="content-blog bd-0-f">
-        <div className="post-detail-cover">
-          <img src="https://www.campusfrance.org/sites/default/files/parrainage.jpg" alt="banner" className="banner-img" />
-        </div>
-        <div className="post-content">
-          <div className="thread_title">
-            <span>Chương Trình “Giúp Bạn Học Ngay, Nhận Quà Liền Tay”</span>
-          </div>
-          <div className="author">
-            <a href={"#"} className="avatar"><img src="../assets/img/teacher.jpg" alt="avatar" /></a>
-            <div className="author-info">
-              <a href={"#"} className="username"><span className="hasVerifiedBadge">Administrtor</span></a>
-              <div className="date-comment-view">
-                <span className="date"><span className="DateTime" title="11:20 ngày 2/10/19"> 02/10/2019</span></span>
-                <span className="comment">Comment: 7</span>
-                <span className="comment">Like: 32</span>
-              </div>
+  return  <div className="media-body">
+    <nav aria-label="breadcrumb">
+      <ol className="breadcrumb breadcrumb-style1 mg-b-30">
+        <li className="breadcrumb-item tx-primary">
+          <a href="/ElearnStudent/notification"><i className="fas fa-bell mg-r-5"></i> Notification</a></li>
+        {
+          !!state && <li className="breadcrumb-item active"
+            aria-current="page">{state.NotificationTitle}</li>
+        }
+      </ol>
+    </nav>
+    {
+      loading ? <SkeletonBlogCard /> : <>
+        {
+          !!state ? <div className="content-blog pd-15 shadow rounded-5">
+            <div className="post-detail-cover">
+              <img src={state.NotificationIMG} alt="banner" className="banner-img" />
             </div>
-          </div>
-          <article>
-            <blockquote className="messageText">
-              Dành tặng cho các học viên tại E-learn khi giới thiệu và giúp bạn bè đăng ký học khóa học tại E-learn để cải thiện ngay trình độ Tiếng Anh. <br /> Cụ thể như sau:<br />
-              •	Bạn sẽ được nhận ngay 1.000.000 VND / lần khi giới thiệu bạn bè đăng kí thành công khóa học tiếng Anh tại E-learn.<br />
-              •	Người được bạn giới thiệu cũng sẽ được giảm đến 1.000.000 VND học phí tùy vào gói học đã đăng ký.<br />
-              •	Người được giới thiệu là học viên mới chưa từng sử dụng sản phẩm và dịch vụ của E-learn.<br /><br />
-              Hãy cùng E-learn giúp các bạn học được đắm chìm trong môi trường học Tiếng Anh 1-1 với giáo viên bản ngữ nhé.<br />
-              Mỗi ngày chỉ cần dành 25 – 50 phút nghe nói thỏa thích, các bạn có thể giao tiếp Tiếng Anh tự tin với người nước ngoài.<br /><br />
-              <h6 className="">Cách thức đăng ký chương trình:</h6>
-              •	Học viên hoặc phụ huynh của học viên khi giới thiệu bạn đến học tại E-learn vui lòng gửi thông tin người được bạn giới thiệu cho chuyên viên tư vấn.<br />
-              •	Người được giới thiệu khi đăng ký thành công khóa học tại E-learn vui lòng đề cập tên học viên giới thiệu để được giảm học phí ngay cho học phí lần đầu này.<br />
-            </blockquote>
-          </article>
-        </div>
-      </div>
-    </React.Fragment>
-  )
+            <div className="post-content">
+              <div className="thread_title">
+                <span>{state.NotificationTitle}</span>
+              </div>
+              <div className="author">
+                {/* <a href={"#"} className="avatar">
+              <img src={state.IMG ? state.IMG : "../assets/img/default-avatar.png"} alt="avatar" />
+              </a> */}
+                <div className="author-information">
+                  <span className="main-color bg-transparent username">
+                    <span className="hasVerifiedBadge">{state.CreatedBy}</span></span>
+                  <div className="date-comment-view">
+                    <span className="date"><span className="DateTime" title={moment(state.CreatedDate).format("LLLL")}>{getFormattedDate(state.CreatedDate)}</span></span>
+                  </div>
+                </div>
+              </div>
+              <article dangerouslySetInnerHTML={{ __html: state.NotificationContent }}></article>
+            </div>
+          </div> :<div className="card card-custom shadow">
+            <div className="card-body tx-center">
+          <span className="d-block tx-center text-danger bold" style={{fontSize:'16px'}}>Không có thông báo nào</span>
+          <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" /></div></div>
+        } </>
+    }
+  </div>
 }
 
 ReactDOM.render(<BlogDetail />, document.getElementById('react-blog-detail'));

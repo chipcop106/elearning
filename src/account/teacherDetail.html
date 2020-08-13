@@ -22,8 +22,8 @@
   <link href="../lib/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../assets/js/swiper/css/swiper.min.css">
   <!-- Mona CSS -->
-  
-  
+
+
   <link rel="stylesheet" href="../assets/css/csscustom.css">
 
   <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
@@ -36,14 +36,15 @@
 
 <body>
   <div id="header"></div>
-  <div class="content content-fixed">
+  <div class="content content-fixed mg-t-0 mg-lg-t-60-f">
     <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0 dashboard-page">
       <div class="media d-block d-lg-flex">
+        <i class="fas fa-align-left fa-2x toggle-sidebar d-inline-block d-lg-none mg-b-15"></i>
         <div id="js-component-profilesidebar"></div>
         <!-- profile-sidebar -->
-        <div class="media-body mg-t-30 mg-lg-t-0 pd-lg-x-10 body__content">
+        <div class="media-body body__content">
           <div class="d-xl-flex align-items-center justify-content-between mg-b-30">
-            <h4 class="mg-b-0 gradient-heading"><i class="fas fa-address-card"></i>TEACHER INFORMATION</h4>
+            <h4 class="mg-b-0 gradient-heading"><i class="fas fa-address-card"></i>THÔNG TIN GIÁO VIÊN</h4>
           </div>
           <div id="react-teacher-detail"></div>
           <!-- media-body -->
@@ -51,7 +52,7 @@
       </div>
     </div>
 
-   
+
     <!-- Modal Video -->
     <div class="modal fade effect-scale" id="js-video-modal" tabindex="-1" role="dialog"
       aria-labelledby="videoModalTitle" aria-hidden="true">
@@ -63,7 +64,7 @@
             </button>
             <!-- 16:9 aspect ratio -->
             <div class="embed-responsive embed-responsive-16by9 mg-t-30">
-              <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/mJzpX_YrC10" frameborder="0"
+              <iframe class="embed-responsive-item" frameborder="0"
                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen></iframe>
             </div>
@@ -77,44 +78,6 @@
   <script src="../assets/js/fullcalendar-5.0.0-beta.4/lib/main.min.js"></script>
   <script src='../assets/js/fullcalendar-5.0.0-beta.4/lib/locales/vi.js'></script>
 
-  <script>
-    $(document).ready(function () {
-      const teacherInfoSwiper = new Swiper('.swiper-container', {
-        loop: false,
-        freeModeMomentum: false,
-        preventInteractionOnTransition: true,
-        simulateTouch: false,
-        autoHeight: true,
-      })
-
-      const listTab = document.getElementById('js-list-tab');
-      const tabLinks = listTab.querySelectorAll('.tab-link');
-      const swapTab = (e) => {
-        e.preventDefault();
-        const element = e.target;
-        const indexSlide = element.dataset?.index ?? 0;
-        teacherInfoSwiper.slideTo(indexSlide, 500, false);
-        [...tabLinks].map(link => link === element ? link.classList.add('active') : link.classList.remove('active'));
-      }
-      [...tabLinks].map(link => {
-        link.addEventListener('click', swapTab);
-      });
-
-      let $videoSrc;
-      let $videoModal = $('#js-video-modal');
-      let $iframe = $videoModal.find('iframe');
-      $('#video-teacher').click(function () {
-        $videoSrc = $(this).attr('data-src');
-        $iframe.attr('src', $videoSrc);
-        $videoModal.modal('show');
-      });
-
-      $videoModal.on('hide.bs.modal', function (e) {
-        // a poor man's stop video
-        $iframe.attr('src', $videoSrc);
-      })
-    });
-  </script>
   <script src="../lib/jquery/dist/jquery.min.js"></script>
   <script src="../lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../lib/feather-icons/dist/feather.min.js"></script>
@@ -124,6 +87,7 @@
   <script src="../lib/select2/dist/js/select2.min.js"></script>
   <script src="../assets/js/dashforge.js"></script>
   <script src="../assets/js/swiper/js/swiper.min.js"></script>
-  
+  <script src="../assets/js/custom.js"></script>
 </body>
+
 </html>

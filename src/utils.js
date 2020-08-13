@@ -1,4 +1,4 @@
-
+import moment from 'moment';
 
 export const randomId = () => {
     let dt = new Date().getTime();
@@ -37,7 +37,7 @@ export const nationMapToFlag = (nation) => {
     let map = {
         ca: "Canada",
         my: "Malaysia",
-        vn: "Vietnam",
+        vn: ["Viet Nam", "Việt Nam"],
         us: "U.S.",
         jp: "Japan",
         kr: "South Korea",
@@ -45,13 +45,59 @@ export const nationMapToFlag = (nation) => {
         bg: "Bangladesh",
         id: "India",
         th: "Thailand",
+        cn: "China",
+        id: "Indonesia",
+        in: "India",
     }
     let result;
     for (const [key, value] of Object.entries(map)) {
-        if (value === nation) {
+        if (value === nation || value.includes(nation)) {
             result = key;
             break;
         }
     }
     return result;
+}
+
+export const convertDateFromTo = (dateStr) => {
+    const dateArr = dateStr.split('-');
+    const date = moment(dateArr[0].trim(), 'DD/MM/YYYY HH:mm').format('dddd, DD/MM/YYYY');
+    const dateObject = moment(dateArr[0].trim(), 'DD/MM/YYYY HH:mm').toDate();
+    const fromTime = moment(dateArr[0].trim(), 'DD/MM/YYYY HH:mm').format('HH:mm');
+    const endTime = dateArr[1].trim()
+    return {
+        dateObject, date, fromTime, endTime
+    }
+}
+
+const getDifferentMinBetweenTime = (startDate, endDate) => {
+    const startTime = startDate.getTime();
+    const endTime = endDate.getTime();
+    const diffTime = endTime - startTime;
+    return  Math.floor((diffTime/1000/60) << 0)
+};
+
+export const checkCancelTime = (startTime) => {
+    const diff = getDifferentMinBetweenTime(new Date(startTime), new Date());
+    return diff < 30 ? true : false
+}
+
+export const getFormattedDate = (dateStr) => {
+    let result = dateStr;
+    if(dateStr && dateStr.includes("-"))
+    {
+        const dateArr = dateStr.split("-");
+        result = `${dateArr[2].substring(0,2)}/${dateArr[1]}/${dateArr[0]}`;
+    }
+    return result;
+}
+
+export const toastInit = {
+    position: "top-right",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
 }
