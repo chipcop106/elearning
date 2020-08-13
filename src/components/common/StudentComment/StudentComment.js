@@ -41,7 +41,7 @@ const StudentComment = ({ TeacherUID }) => {
     })
   }, [])
   return loading ? <>
-  <Skeleton className="mb-2" height={20} width={250} />
+  <Skeleton className="mb-2" height={20} width={200} />
     <SkeletonFeedback/>
     </> : <>
     <div className="tc-comment-wrap bd-t-0-f mg-t-0-f pd-t-0-f">

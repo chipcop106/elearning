@@ -249,14 +249,14 @@ const RatingLessonModal = ({ BookingID, TeacherUID, TeacherName, callback }) => 
               </div>
               <div className="row metronic-form">
                 <div className="form-group col-12">
-                  <label>Ý kiến của bạn:</label>
+                  <label>Nhận xét của bạn (Vui lòng viết bằng Tiếng Anh):</label>
                   <textarea name="message" rows="5" className="form-control" onChange={handleChange} value={state.message}></textarea>
                 </div>
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-light" data-dismiss="modal">Close</button>
-              <button type="button" className="btn btn-primary" onClick={onSubmitRating}>Save</button>
+              <button type="button" className="btn btn-light" data-dismiss="modal">Đóng</button>
+              <button type="button" className="btn btn-primary" onClick={onSubmitRating}>Gửi phản hồi</button>
             </div>
           </form>
         </div>

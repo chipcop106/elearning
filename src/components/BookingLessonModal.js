@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
 import { bookingLessonAPI, getLessonBookAPI } from "~src/api/studentAPI";
-import { FETCH_ERROR } from '~components/common/Constant/toast';
+import { FETCH_ERROR, MAX_200 } from '~components/common/Constant/toast';
 
 import styles from '~components/BookingLessonModal.module.scss';
 
@@ -30,7 +30,7 @@ const BookingLessonModal = ({
   const [bookState, setBookState] = React.useState(null);
   const bookingToastFail = () => toast.error(FETCH_ERROR, toastInit);
   const bookingToastFail2 = (text) => toast.error(text, toastInit);
-  const requireLessonAlert = () => toast.warn("Tối đa 200 ký tự", toastInit);
+  const requireLessonAlert = () => toast.warn(MAX_200, toastInit);
 
   const fetchAPI = async (params) => {
       const res = await bookingLessonAPI(params);
@@ -157,7 +157,7 @@ const BookingLessonModal = ({
                       <div className="required-list mg-t-15 bd-t pd-t-15">
                         <div className="required-text-box metronic-form">
                           <label className="tx-medium">Ghi chú cho giáo viên:</label>
-                          <label className="tx-danger d-block">Please write in English (Max 200 letters)</label>
+                          <label className="tx-danger d-block">Vui lòng viết bằng Tiếng Anh (tối đa 200 ký tự)</label>
                           <div className="form-group mg-b-5-f">
                             <textarea name="message" rows="4" className="form-control"
                               placeholder="Note for teachers"
@@ -165,7 +165,7 @@ const BookingLessonModal = ({
                               onChange={(e) => setState(e.target.value)} ></textarea>
                           </div>
                           <label className="tx-danger text-right d-block">
-                            {`${state.length > 0 ? `You entered ${state.length} letter${state.length>1?"s":""}`: "*"}`}
+                            {`${state.length > 0 ? `Bạn đã nhập ${state.length} ký tự`: "*"}`}
                             </label>
                         </div>
                       </div>
@@ -174,8 +174,8 @@ const BookingLessonModal = ({
                 </div>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-light" data-dismiss="modal">Close</button>
-                <button type="button" className="btn btn-primary" onClick={handleBookingLesson}>Book</button>
+                <button type="button" className="btn btn-light" data-dismiss="modal">Đóng</button>
+                <button type="button" className="btn btn-primary" onClick={handleBookingLesson}>Đăng ký</button>
               </div>
             </form>
           </div>
@@ -194,10 +194,10 @@ const BookingLessonModal = ({
             </button>
           </div>
           <div className="modal-body">
-            <p className="tx-danger">Some errors happened, please retry!!</p>
+            <p className="tx-danger">Đã có lỗi xảy ra, xin vui lòng thử lại</p>
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-primary" data-dismiss="modal">Close</button>
+            <button type="button" className="btn btn-primary" data-dismiss="modal">Đóng</button>
           </div>
         </div>
       </div>

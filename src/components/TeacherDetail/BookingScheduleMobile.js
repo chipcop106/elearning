@@ -20,8 +20,8 @@ const BookingScheduleMobile = ({ TeacherUID, onBookingId, handleBookLesson }) =>
   const [learnTime, setLearnTime] = React.useState([]);
 
   const bookingToastSuccess = () => toast.success(BOOKING_SUCCESS, toastInit);
-  const TimeAlertToast = () => toast.warn("You cannot choose this time", toastInit);
-  const TimeAlert2Toast = () => toast.warn("You cannot choose time in past", toastInit);
+  const TimeAlertToast = () => toast.warn("Hãy chọn múi giờ từ 6:00 đến 23:00", toastInit);
+  const TimeAlert2Toast = () => toast.warn("Bạn không thể chọn múi giờ trong quá khứ", toastInit);
 
   const onHandleBooking = (StudyTimeID, LessionName, date, start, end) => {
     handleBookLesson(StudyTimeID, LessionName, date, start, end)
@@ -192,7 +192,7 @@ const BookingScheduleMobile = ({ TeacherUID, onBookingId, handleBookLesson }) =>
           </div>
         </div>
       </div>
-      <div className="tutor-schedule d-block tutor-schedule-mobile">
+      <div className="tutor-schedule d-block tutor-schedule-mobile custom-student">
         <ul className="ul-schedule">
           {
             !!schedule && schedule.length > 0 && learnTime.map((item, index) => {
@@ -233,7 +233,7 @@ const BookingScheduleMobile = ({ TeacherUID, onBookingId, handleBookLesson }) =>
                         LessionName,
                         moment(start).format('DD/MM/YYYY'),
                         moment(start).format('HH:mm A'),
-                        moment(end).format('HH:mm A'))} >Book now</button> : (status == "registed" ? "Booked" : "")
+                        moment(end).format('HH:mm A'))} >Đang mở</button> : (status == "registed" ? "Đã đăng ký" : "")
                   }
                 </span>
               </li>

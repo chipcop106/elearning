@@ -6,6 +6,8 @@ import BookingScheduleMobile from "./BookingScheduleMobile"
 import TeacherInformation from "./TeacherInformation"
 import CancelBookingLessonModal from "~components/CancelBookingLessonModal"
 import BookingLessonModal from "~components/BookingLessonModal"
+import PopUpCancelLesson from "~components/PopUpCancelLesson"
+
 import SkeletonLessonCard from "~components/common/Skeleton/SkeletonLessonCard"
 
 import { nationMapToFlag, randomId } from '~src/utils'
@@ -22,6 +24,7 @@ const initialCancelLesson = {
   date: "",
   start: "",
   end: "",
+  reason: "",
 }
 
 const initialBookLesson = {
@@ -51,7 +54,7 @@ const TeacherDetail = () => {
   const [onBookState, setOnBookState] = React.useState(initialOnBookState)
   const [onCancelState, setOnCancelState] = React.useState(initialOnCancelState)
   const [loading, setLoading] = React.useState(false);
-  const [showTab, setShowTab] = React.useState(2);
+  const [showTab, setShowTab] = React.useState(1);
 
   const getAPI = async (params) => {
     setLoading(true);
@@ -83,11 +86,16 @@ const TeacherDetail = () => {
     })
   }
 
-  const onCancel = (id, status) => {
-    if (status == 1)
+  const onCancel = (id, status, LessionName, date, start, end, reason) => {
+    if (status == 1) {
       setOnCancelState({
         id,
       })
+      setStateCancelLesson({
+        ...stateCancelLesson,
+        reason,
+      })
+    }
     else if (status == 0) {
       setOnCancelState({
         id: "fail",
@@ -153,19 +161,19 @@ const TeacherDetail = () => {
                   <a href={"#"} className={`${showTab === 1 ? 'active' : ''} tab-link h-100`}
                     data-index="0"
                     onClick={(e) => { e.preventDefault(); setShowTab(1) }}>
-                    <i className="fas fa-user mg-r-5"></i>THÔNG TIN</a>
+                    <i className="fas fa-user mg-r-5"></i>ĐẶT LỊCH HỌC</a>
                 </li>
                 <li className="tab-item h-auto">
                   <a href={"#"} className={`${showTab === 2 ? 'active' : ''} tab-link h-100`}
                     data-index="1"
                     onClick={(e) => { e.preventDefault(); setShowTab(2) }}>
-                    <i className="fas fa-calendar mg-r-5"></i>ĐẶT LỊCH HỌC</a>
+                    <i className="fas fa-calendar mg-r-5"></i>THÔNG TIN GIÁO VIÊN</a>
                 </li>
                 <li className="tab-item h-auto">
                   <a href={"#"} className={`${showTab === 3 ? 'active' : ''} tab-link h-100`}
                     data-index="2"
                     onClick={(e) => { e.preventDefault(); setShowTab(3) }}>
-                    <i className="fas fa-comment mg-r-5"></i>PHẢN HỒI</a>
+                    <i className="fas fa-comment mg-r-5"></i>HỌC VIÊN NHẬN XÉT</a>
                 </li>
               </ul>
             </div>
@@ -173,14 +181,6 @@ const TeacherDetail = () => {
               <div className="swiper-container" id="js-teacher__info">
                 <div className="teacher__info-wrap swiper-wrapper">
                   <div className={`${showTab === 1 ? 'active' : ''} swiper-slide`}>
-                    <div className="slide-tab-content">
-                      <TeacherInformation
-                        IntroduceContent={!!state && state.IntroduceContent}
-                        Experience={!!state && state.Experience}
-                        Certificate={!!state && state.Certificate} />
-                    </div>
-                  </div>
-                  <div className={`${showTab === 2 ? 'active' : ''} swiper-slide`}>
                     <div className="slide-tab-content">
                       {
                         !!state && state.TeacherUID && (width > 768 ?
@@ -190,7 +190,6 @@ const TeacherDetail = () => {
                             onCancelId={onCancelState.id}
                             handleBookLesson={onHandleBookLesson}
                             handleCancelLesson={onHandleCancelLesson} /> :
-
                           <BookingScheduleMobile
                             TeacherUID={!!state && state.TeacherUID}
                             onBookingId={onBookState.id}
@@ -198,29 +197,30 @@ const TeacherDetail = () => {
                       }
                       <div className="note mg-t-30">
                         <h5 className="sub-title"><i className="fas fa-sticky-note"></i>Notes:</h5>
-                        <div className="introduce-content">
-                        <div className="mg-b-10 d-flex align-items-center mg-l-25">
-                              <span className="annotate annotate-available"></span>
-                              <span className="mx-2">Tiết học có sẵn</span>
-                              <span className="annotate annotate-others"></span>
-                              <span className="mx-2">Tiết học đã book</span>
-                              <span className="annotate annotate-me"></span>
-                              <span className="mx-2">Tiết học bạn đã đăng ký</span>
-                            </div>
-                          <ul className="note-list">
-                            
-                            <li className="mg-b-10">Mỗi lớp học kéo dài trong 25 phút.</li>
-                            <li className="mg-b-10">Chọn tiết học có sẵn, bấm vào bút "Book" để đăng ký lớp học</li>
-                            <li className="mg-b-10">Chọn tiết học đã đăng ký, bấm vào bút "Cancel" để hủy lớp học</li>
-                            <li className="mg-b-10">Bạn chỉ có thể đăng ký lớp học ít nhất 30 phút trước khi bắt đầu học</li>
-                            <li className="mg-b-10">Bạn chỉ có thể hủy lớp học ít nhất 30 phút trước khi bắt đầu học</li>
-                            {/* <li className="mg-b-10">Each session is 50 minutes</li>
-                            <li className="mg-b-10">To book a lesson, simply select the time frame and click the "Book" button</li>
-                            <li className="mg-b-10">You can only BOOK a lesson 30 minutes before the lesson starts.</li>
-                            <li className="mg-b-10">You can only CANCEL the lesson 30 minutes before the className starts.</li> */}
-                          </ul>
+                        <div className="annotate_wrap mg-b-10 d-flex flex-wrap align-items-center">
+                          <span className="annotate annotate-available"></span>
+                          <span>Tiết học có sẵn</span>
+                          <span className="annotate annotate-others"></span>
+                          <span>Tiết học đã được đăng ký</span>
+                          <span className="annotate annotate-me"></span>
+                          <span>Tiết học bạn đã đăng ký</span>
                         </div>
+                        <ul className="note-list pd-x-20">
+                          <li className="mg-b-10">Mỗi lớp học kéo dài trong 25 phút.</li>
+                          <li className="mg-b-10">Chọn tiết học có sẵn, bấm vào bút "Book" để đăng ký lớp học</li>
+                          <li className="mg-b-10">Chọn tiết học đã đăng ký, bấm vào bút "Cancel" để hủy lớp học</li>
+                          <li className="mg-b-10">Bạn chỉ có thể đăng ký lớp học ít nhất 30 phút trước khi bắt đầu học</li>
+                          <li className="mg-b-10">Bạn chỉ có thể hủy lớp học ít nhất 30 phút trước khi bắt đầu học</li>
+                        </ul>
                       </div>
+                    </div>
+                  </div>
+                  <div className={`${showTab === 2 ? 'active' : ''} swiper-slide`}>
+                    <div className="slide-tab-content">
+                      <TeacherInformation
+                        IntroduceContent={!!state && state.IntroduceContent}
+                        Experience={!!state && state.Experience}
+                        Certificate={!!state && state.Certificate} />
                     </div>
                   </div>
                   <div className={`${showTab === 3 ? 'active' : ''} swiper-slide`}>
@@ -254,6 +254,13 @@ const TeacherDetail = () => {
           start={stateBookLesson.start}
           end={stateBookLesson.end}
           onBook={onBook} />
+
+        <PopUpCancelLesson
+          LessionName={stateCancelLesson.LessionName}
+          date={stateCancelLesson.date}
+          start={stateCancelLesson.start}
+          end={stateCancelLesson.end}
+          reason={stateCancelLesson.reason} />
 
         <ToastContainer />
       </div>

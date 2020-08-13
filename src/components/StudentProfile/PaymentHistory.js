@@ -150,7 +150,7 @@ const PaymentHistory = () => {
                     </tr>) :
                   <tr style={{ backgroundColor: "transparent" }}>
                     <td colSpan="9">
-                      <span className="d-block text-center text-danger bold" style={{ fontSize: '16px' }}>Bạn chưa mua khóa học nào</span>
+                      <span className="d-block text-center tx-danger tx-medium">Bạn chưa mua khóa học nào</span>
                     </td>
                   </tr>
             }

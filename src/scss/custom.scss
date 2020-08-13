@@ -2552,7 +2552,6 @@ a.no-hl {
         li {
             margin-bottom: 0;
             transition: .3s;
-
             a {
                 display: block;
                 padding: 10px 0 10px 20px;
@@ -2561,8 +2560,6 @@ a.no-hl {
                 font-weight: 500;
                 transition: .2s;
             }
-
-            &.hard-active,
             &.active {
                 a {
                     color: #fff;
@@ -2570,42 +2567,21 @@ a.no-hl {
                     text-transform: uppercase;
                     letter-spacing: .05rem;
                     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+                    background-color: $primary-color;
                 }
-
                 &:after {
                     display: none;
                 }
             }
-
-            &.hard-active {
+            &:not(.active):hover {
                 a {
-                    transform: scale(1.1) !important;
-                    background-color: $second-color;
-                }
-            }
-
-            &.active {
-                a {
-                    transform: scale(1);
-                    background-color: $primary-color;
-                }
-            }
-
-            &:hover {
-                a {
-                    color: #fff;
-                    background-color: $primary-color;
-                    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-                }
-
-                &:after {
-                    display: none;
+                    color: $primary-color;
+                    padding-left: 25px;
                 }
             }
 
             &:not(:last-child) {
                 position: relative;
-
                 &:after {
                     content: "";
                     position: absolute;
@@ -2617,7 +2593,6 @@ a.no-hl {
                     transition: background-color .2s;
                 }
             }
-
             &:last-child {
                 margin-bottom: 0;
             }
@@ -2834,6 +2809,38 @@ a.no-hl {
 
     .booked-others-slot {
         background-color: #aa092c;
+    }
+}
+
+.tutor-schedule.custom-student {
+    .ul-schedule {
+        li {
+            &.registed {
+                .status {
+                    padding: 1px 6px;
+                    background-color: #999;
+                    color: #fff;
+                    border-radius: 3px;
+                }
+            }
+        }
+    }
+}
+
+.booking__container {
+    @media (min-width: 768px) {
+        .filter-group-wrap .filter-group {
+            .filter-row {
+                .left {
+                    flex-basis: 170px;
+                    max-width: 170px;
+                }
+                .right {
+                    flex-grow: 1;
+                    max-width: calc(100% - 170px);
+                }
+            }
+        }
     }
 }
 
@@ -7068,7 +7075,7 @@ footer.footer {
     animation: stripes 3s linear infinite;
     background-clip: text;
     color: transparent;
-    line-height: 1.5em;
+    line-height: 1.8em;
     -webkit-background-clip: text;
 
     .fas,

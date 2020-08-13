@@ -2,12 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 const initialState = {
-  Asia: ["Philippines", "Bangladesh", "Japan", "India", "Malaysia", "South Korea", "Myanmar", "Thailand", "Vietnam", "Pakistan"],
-  NorthAmerica: ["U.S.", "Canada"],
-  Europe: ["Lithuania", "France", "Macedonia", "Sweden", "Italy", "Spain", "Germany", "Poland"],
+  Asia: ["Philipine"],
+  Europe: ["Anh"]
 }
 
-const RenderListNation = ({ list }) => {
+/* const RenderListNation = ({ list }) => {
   return Object.keys(list).map(key =>
     <fieldset className="form-fieldset mg-b-10" key={key}>
       <legend className="legend-checkbox">
@@ -26,6 +25,27 @@ const RenderListNation = ({ list }) => {
           </div>)
       }
     </fieldset>)
+} */
+
+const RenderListNation = () => {
+  return <>
+    <fieldset className="form-fieldset mg-b-10">
+      {/* <legend className="legend-checkbox">
+      <div className="custom-control custom-checkbox">
+        <input type="checkbox" className="custom-control-input" id={`asia-main`} />
+        <label className="custom-control-label" htmlFor={`asia-main`}>Châu Á</label>
+      </div>
+    </legend> */}
+      <div className="custom-control custom-checkbox national-checkbox">
+        <input type="checkbox" className="custom-control-input" id={`asia-Philipine`} />
+        <label className="custom-control-label" htmlFor={`asia-Philipine`}>Philipine</label>
+      </div>
+      <div className="custom-control custom-checkbox national-checkbox">
+        <input type="checkbox" className="custom-control-input" id={`europe-England`} />
+        <label className="custom-control-label" htmlFor={`europe-England`}>Anh</label>
+      </div>
+    </fieldset>
+  </>
 }
 
 const ListNation = ({ selectNation }) => {
@@ -38,6 +58,7 @@ const ListNation = ({ selectNation }) => {
       }
     })
     const value = array.join(",");
+    console.log(value)
     selectNation(value);
   }
 
@@ -75,17 +96,17 @@ const ListNation = ({ selectNation }) => {
       <div className="modal-dialog modal-lg" role="document">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title" id="editTitle">Quốc Gia</h5>
+            <h5 className="modal-title" id="editTitle">Quốc tịch</h5>
             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
           </div>
           <div className="modal-body">
-            <RenderListNation list={state} />
+            <RenderListNation />
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-light" data-dismiss="modal">Close</button>
-            <button type="button" className="btn btn-primary" data-dismiss="modal">Choose</button>
+            <button type="button" className="btn btn-light" data-dismiss="modal">Đóng</button>
+            <button type="button" className="btn btn-primary" data-dismiss="modal">Chọn</button>
           </div>
         </div>
       </div>

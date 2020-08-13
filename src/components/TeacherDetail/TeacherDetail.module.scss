@@ -211,3 +211,18 @@
 .annotate-me {
   background-color: #58cd20;
 }
+.teacher__info-wrap .slide-tab-content {
+  padding: 30px 1px 0 1px;
+}
+
+.annotate_wrap  {
+  span:nth-child(even) {
+   margin: 0 10px;
+  }
+  @include media(768px) {
+    span:nth-child(even) {
+      width: calc(100% - 60px);
+      margin-top: 10px;
+    }
+  }
+}

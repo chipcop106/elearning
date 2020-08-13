@@ -357,7 +357,7 @@ const StudentForm = ({ tabDisplay }) => {
               </div>
               <div className="form-row align-items-center">
                 <div className="form-group col-sm-3 col-label-fixed">
-                  <p className="mg-b-0 tx-medium">Timezone:</p>
+                  <p className="mg-b-0 tx-medium">Múi giờ:</p>
                 </div>
                 <div className="form-group col-sm-9">
                   {
@@ -396,7 +396,7 @@ const StudentForm = ({ tabDisplay }) => {
             <div className="col-12">
               <div className="form-row  align-items-center ">
                 <div className="form-group col-sm-3 col-label-fixed">
-                  <p className="mg-b-0 tx-medium ">Mục tiêu:</p>
+                  <p className="mg-b-0 tx-medium ">Mục tiêu học Tiếng Anh:</p>
                 </div>
                 <div className="form-group col-sm-9 select-checkbox">
                   {

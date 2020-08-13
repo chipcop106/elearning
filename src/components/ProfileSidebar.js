@@ -8,6 +8,7 @@ const ProfileSidebar = () => {
   const [state, setState] = React.useState({})
   const [loading, setLoading] = React.useState(false);
 
+
   const getAPI = async () => {
     setLoading(true);
     const res = await getProfile();

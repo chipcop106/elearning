@@ -155,11 +155,12 @@ const LessonHistory = () => {
                   data.length == 0 ?
                   <tr style={{ backgroundColor: "transparent" }}>
                     <td colSpan="6" className="tx-center">
-                      <span className="text-danger bold" style={{ fontSize: '16px' }}>
+                      <span className="tx-danger tx-medium">
                         {
-                          (start.length > 0 && end.length > 0) ||
-                            (start.length == 0 && end.length == 0) ?
+                          (start.length > 0 && end.length > 0) ?
                             `Bạn chưa đăng ký lớp học nào từ ${start.length > 0 ? `${start}` : ""}  ${end.length > 0 ? `đến ${end}` : ""}` :
+                            (start.length == 0 && end.length == 0) ?
+                            `Bạn chưa đăng ký lớp học nào` :
                             start.length == 0 ?
                               `Bạn chưa đăng ký lớp học nào trước ${end}` :
                               `Bạn chưa đăng ký lớp học nào sau ${start}`

@@ -18,28 +18,28 @@ const SkeletonProfileSidebar = () => {
           <Skeleton width={`80%`} height={30} />
         </div>
         <div className="w-100 mb-2 pd-l-10 text-left">
-          <Skeleton width={120} height={20} />
+          <Skeleton width={80} height={20} />
         </div>
         <div className="w-100 mb-2 pd-l-10 text-left">
           <Skeleton width={80} height={20} />
         </div>
         <div className="w-100 mb-2 pd-l-10 text-left">
-          <Skeleton width={100} height={20} />
+          <Skeleton width={120} height={20} />
         </div>
         <div className="w-100 mb-2 pd-l-10 text-left">
-          <Skeleton width={85} height={20} />
+          <Skeleton width={90} height={20} />
         </div>
         <div className="w-100 mb-2 pd-l-10 text-left">
-          <Skeleton width={113} height={20} />
+          <Skeleton width={150} height={20} />
         </div>
         <div className="w-100 mb-2 pd-l-10 text-left">
-          <Skeleton width={104} height={20} />
+          <Skeleton width={120} height={20} />
         </div>
         <div className="w-100 mb-2 pd-l-10 text-left">
-          <Skeleton width={75} height={20} />
+          <Skeleton width={80} height={20} />
         </div>
         <div className="w-100 mb-4 pd-l-10 text-left">
-          <Skeleton width={35} height={20} />
+          <Skeleton width={150} height={20} />
         </div>
       </div>
     </div>

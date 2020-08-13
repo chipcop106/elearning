@@ -39,7 +39,7 @@ const Notification = () => {
   }, []);
 
   return <>
-    <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
+    <div className="d-xl-flex align-items-center justify-content-between mg-b-15">
       <h4 className="mg-b-0 gradient-heading"><i className="fas fa-bell" /> NOTIFICATION</h4>
     </div>
     <div className="blog__wrapper">
@@ -57,7 +57,7 @@ const Notification = () => {
                     CreatedDate={item.CreatedDate}
                     NotificationContent={item.NotificationContent}
                     URL={item.URL} />
-                </div>) : <div className="col-12"><span className="text-danger bold" style={{fontSize:'16px'}}>It's doesn't have any blog </span></div>
+                </div>) : <div className="col-12"><span className="tx-danger tx-medium">Hiện không có thông báo nào</span></div>
         }
       </div>
       {

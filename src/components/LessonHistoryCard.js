@@ -66,11 +66,11 @@ const LessonHistoryCard = ({
               </div>
             }
             <div className="course-rate mg-t-15">
-              <h6 className="mg-b-3 tx-bold">Phản hồi:</h6>
+              <h6 className="mg-b-3 tx-bold">Đánh giá buổi học:</h6>
               <div className="rating-wrap ">
                 {
                   Status === 3 || Status === 4 ?
-                    <span className="tx-danger" style={{ fontSize: '16px' }}>Lớp học này đã bi hủy.</span> :
+                    <span className="tx-danger tx-medium">Lớp học này đã bị hủy.</span> :
                     Rate ? (<div className="rating-stars">
                       <span className="empty-stars">
                         <i className="star fa fa-star"></i>
@@ -90,18 +90,11 @@ const LessonHistoryCard = ({
                       className="rate-now"
                       data-toggle="modal"
                       data-target="#js-md-rate"
-                      onClick={() => handleRatingLesson(BookingID, TeacherUID, TeacherName)}>Để lại phản hồi!</a>)
+                      onClick={() => handleRatingLesson(BookingID, TeacherUID, TeacherName)}>Để lại đánh giá!</a>)
                 }
               </div>
             </div>
           </div>
-          {/* <div className="course-actions mg-t-15">
-              <div className="action-left">
-                <a href={`/ElearnStudent/lessonDetail?ID=${BookingID}`} className="btn btn-sm btn-warning mg-r-10" target="_blank"
-                  rel="noopener">
-                  <i className="fas fa-vote-yea mg-r-5"></i> <span>Detail lesson</span></a>
-              </div>
-            </div> */}
         </div>
       </div>
     </li>

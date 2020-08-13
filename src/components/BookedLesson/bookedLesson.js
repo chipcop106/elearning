@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom'
 import RequireLessonModal from '~components/RequireLessonModal'
 import LessonUpcomingCard from "~components/LessonUpcomingCard"
 import CancelBookingLessonModal from "~components/CancelBookingLessonModal"
+import PopUpCancelLesson from "~components/PopUpCancelLesson"
+
 import SkeletonLessonCard from "~components/common/Skeleton/SkeletonLessonCard"
 import { getUpcomingLessons } from "~src/api/studentAPI"
 import { convertDateFromTo, checkCancelTime } from "~src/utils.js"
@@ -23,6 +25,7 @@ const initialCancelLesson = {
   date: "",
   start: "",
   end: "",
+  reason: "",
 }
 const initialRequireLesson = {
   BookingID: "",
@@ -91,7 +94,7 @@ const BookedLesson = () => {
       end
     })
   }
-  const cbCancelBooking = (id, result) => {
+  const cbCancelBooking = (id, result, LessionName, date, start, end, reason) => {
     if (result === -1) //Start Call API, lock the card
     {
       setLock({
@@ -105,7 +108,10 @@ const BookedLesson = () => {
         lock: false
       })
       if (result === 1) { // cancel lesson success
-        cancelToastSuccess();
+        setStateCancelLesson({
+          ...stateCancelLesson,
+          reason,
+        })
         if (pageSize < totalResult) {
           getAPI({
             Page: 1,
@@ -117,6 +123,7 @@ const BookedLesson = () => {
           newUpcomingLessions = newUpcomingLessions.filter(item => item.BookingID !== id)
           setState(newUpcomingLessions)
         }
+        $('#md-cancel-schedule-popup').modal("show");
       }
       else cancelToastFail(); //Cancel Lesson Fail
     }
@@ -149,7 +156,7 @@ const BookedLesson = () => {
   }, []);
 
   return <>
-    <h4 className="mg-b-30 gradient-heading"><i className="fas fa-calendar-check" />CÁC LỚP ĐÃ ĐĂNG KÝ</h4>
+    <h4 className="mg-b-15 gradient-heading"><i className="fas fa-calendar-check" />CÁC LỚP ĐÃ ĐĂNG KÝ</h4>
     {
       !!state ? <>
         <div className="feedback-container">
@@ -222,6 +229,13 @@ const BookedLesson = () => {
           start={stateCancelLesson.start}
           end={stateCancelLesson.end}
           callback={cbCancelBooking} />
+
+        <PopUpCancelLesson
+          LessionName={stateCancelLesson.LessionName}
+          date={stateCancelLesson.date}
+          start={stateCancelLesson.start}
+          end={stateCancelLesson.end}
+          reason={stateCancelLesson.reason} />
 
         <ToastContainer />
       </> : (!loading && <FETCH_ERRORS />)

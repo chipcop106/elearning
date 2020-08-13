@@ -30,7 +30,7 @@ const BlogDetail = () => {
 
   return  <div className="media-body">
     <nav aria-label="breadcrumb">
-      <ol className="breadcrumb breadcrumb-style1 mg-b-30">
+      <ol className="breadcrumb breadcrumb-style1 mg-b-15">
         <li className="breadcrumb-item tx-primary">
           <a href="/ElearnStudent/notification"><i className="fas fa-bell mg-r-5"></i> Notification</a></li>
         {
@@ -66,7 +66,7 @@ const BlogDetail = () => {
             </div>
           </div> :<div className="card card-custom shadow">
             <div className="card-body tx-center">
-          <span className="d-block tx-center text-danger bold" style={{fontSize:'16px'}}>Không có thông báo nào</span>
+          <span className="d-block tx-center tx-danger tx-medium">Không có thông báo nào</span>
           <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" /></div></div>
         } </>
     }

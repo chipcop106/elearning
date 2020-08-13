@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
 import { requestLessonAPI } from '~src/api/studentAPI';
-import { FETCH_ERROR, REQUEST_SUCCESS, FILL_NOTES } from '~components/common/Constant/toast';
+import { FETCH_ERROR, REQUEST_SUCCESS, FILL_NOTES, MAX_200 } from '~components/common/Constant/toast';
 
 import styles from "~components/RequireLessonModal.module.scss";
 
@@ -27,7 +27,7 @@ const RequireLessonModal = ({
   const requireLesson = () => toast.success(REQUEST_SUCCESS, toastInit);
   const requireLessonFail = () => toast.error(FETCH_ERROR, toastInit);
   const requireLessonAlert1 = () => toast.warn(FILL_NOTES, toastInit);
-  const requireLessonAlert2 = () => toast.warn("Tối đa 200 ký tự", toastInit);
+  const requireLessonAlert2 = () => toast.warn(MAX_200, toastInit);
 
   const fetchAPI = async (params) => {
     const res = await requestLessonAPI(params);
@@ -120,7 +120,7 @@ const RequireLessonModal = ({
                     <div className="required-list mg-t-15 bd-t pd-t-15">
                       <div className="required-text-box metronic-form">
                         <label className="tx-medium">Ghi chú cho giáo viên:</label>
-                        <label className="tx-danger d-block">Please write in English (Max 200 letters)</label>
+                        <label className="tx-danger d-block">Vui lòng viết bằng Tiếng Anh (tối đa 200 ký tự)</label>
                         <div className="form-group mg-b-5-f">
                           <textarea name="message" rows="4" className="form-control"
                             placeholder="Ghi chú cho giáo viên"
@@ -128,7 +128,7 @@ const RequireLessonModal = ({
                             onChange={(e) => setState(e.target.value)} ></textarea>
                         </div>
                         <label className="tx-danger text-right d-block">
-                          {`${!!state && state.length > 0 ? `You entered ${state.length} letter${state.length>1?"s":""}`: "*"}`}
+                          {`${!!state && state.length > 0 ? `Bạn đã nhập ${state.length} ký tự`: "*"}`}
                         </label>
                       </div>
                     </div>
@@ -137,8 +137,8 @@ const RequireLessonModal = ({
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-light" data-dismiss="modal">Close</button>
-              <button type="button" className="btn btn-primary" onClick={onSubmitRequire}>Request</button>
+              <button type="button" className="btn btn-light" data-dismiss="modal">Đóng</button>
+              <button type="button" className="btn btn-primary" onClick={onSubmitRequire}>Gửi yêu cầu</button>
             </div>
           </form>
         </div>

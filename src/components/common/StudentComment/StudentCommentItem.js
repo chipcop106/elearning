@@ -30,7 +30,7 @@ const StudentCommentItem = ({
             !!TeacherName ?
             <a className="no-hl" href={`/ElearnStudent/teacherDetail?ID=${TeacherUID}`}><p className="name">{TeacherName}</p></a>: 
             !!StudentName ?
-            <p className="name">{TeacherName}</p>: ""
+            <p className="name">{StudentName}</p>: ""
           }
           <div className="rating-wrap">
             <div className="rating-stars">

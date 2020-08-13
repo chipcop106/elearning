@@ -111,7 +111,7 @@ const ListSchedule = ({
                   moment(start).format('HH:mm A'),
                   moment(end).format('HH:mm A'),
                   BookingID)
-                } >Đăng ký</button> : (status == "registed" ? "Đã đăng ký" : "")
+                } >Đang mở</button> : (status == "registed" ? "Đã đăng ký" : "")
             }
           </span>
         </li>

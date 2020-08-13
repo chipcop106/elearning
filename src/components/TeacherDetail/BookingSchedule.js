@@ -203,7 +203,7 @@ const BookingSchedule = ({
         let minutesTilStart = getDifferentMinBetweenTime(new Date(), args.event._instance.range.start)
         const html = `${!isEmptySlot ? `
     <div class="inner-book-wrap ">
-    <div class="inner-content text-center mg-t-10"> ${bookStatus ? `
+    <div class="inner-content"> ${bookStatus ? `
       <span class="label-book booked">
       <i class="fas ${isPast ? "fa-check" : "fa-user-graduate"
             }"></i> ${isPast ? "FINISHED" : "BOOKED"}</span>
@@ -331,7 +331,7 @@ const BookingSchedule = ({
         getAPI({
           TeacherUID,
           Date: moment(activeDate).format("DD/MM/YYYY"),
-        }, cancelToastSuccess);
+        }, function(){ $('#md-cancel-schedule-popup').modal("show") });
     }
   }, [onCancelId]);
 

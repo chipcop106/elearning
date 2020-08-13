@@ -90,7 +90,7 @@ const LessonUpcomingCard = ({
                     rel="noopener">
                 <div><i className="fab fa-skype mg-r-5"></i>VÀO HỌC</div>
               </a>
-              <a href={"#"} className="btn btn-sm btn-success tx-medium" data-toggle="modal" data-target="#js-md-required"
+              <a href={"#"} className="btn btn-sm bg-gray-300 tx-medium" data-toggle="modal" data-target="#js-md-required"
                 onClick={() => handleRequireLesson(
                   BookingID,
                   avatar,
@@ -108,7 +108,7 @@ const LessonUpcomingCard = ({
             </div>
             <div className="action-right">
               {
-                cancelable && <a href={"#"} className="btn btn-sm btn-danger d-flex justify-content-center align-items-center tx-medium"
+                cancelable && <a href={"#"} className="btn btn-sm bg-gray-300 d-flex justify-content-center align-items-center tx-medium"
                   rel="noopener" data-toggle="tooltip"
                   title="You can only cancel this lesson before start for 30 minutes !!"
                   onClick={(e) => handleCancelBooking(e, BookingID, LessionName, date, start, end)}

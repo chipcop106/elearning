@@ -324,13 +324,14 @@ const BookingLesson = () => {
   React.useEffect(() => {
     initCalendar();
     fetchListLevelPurpose();
-    $('#display-schedule').on('change', function () {
+    
+ /*    $('#display-schedule').on('change', function () {
       if ($('#display-schedule').prop('checked') === true) {
         $('.tutor-schedule').slideDown();
       } else {
         $('.tutor-schedule').slideUp();
       }
-    });
+    }); */
 
     $('.nationality').click(function () {
       $('#div-nationality').modal();
@@ -346,7 +347,7 @@ const BookingLesson = () => {
         <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
       </div>
       <div className="d-xl-flex align-items-center justify-content-between ">
-        <h4 className="mg-b-30 d-block gradient-heading"><i className="fas fa-calendar-alt"></i>ĐĂNG KÝ HỌC</h4>
+        <h4 className="mg-b-15 d-block gradient-heading"><i className="fas fa-calendar-alt"></i>ĐĂNG KÝ HỌC</h4>
       </div>
       <div className="media-body-wrap pd-15 shadow">
       <p className="mg-b-0 mg-t-15">Chọn ngày:</p>
@@ -368,7 +369,7 @@ const BookingLesson = () => {
             <div className="right col-md-10">
               <div className="form-row">
                 <div className="col-sm-6 col-md-3 item">
-                  <a href={"#"} className="form-control nationality" name="txt-full-name" onClick={(e) => { e.preventDefault() }}>Quốc gia</a>
+                  <a href={"#"} className="form-control nationality" name="txt-full-name" onClick={(e) => { e.preventDefault() }}>Quốc tịch</a>
                 </div>
                 <div className="col-sm-6 col-md-3 item">
                   <select type="text" className="form-control" name="gender" onChange={handleChange}
@@ -388,7 +389,7 @@ const BookingLesson = () => {
                     getOptionLabel={label => label}
                     getOptionValue={value => value}
                     className="basic-multi-select"
-                    placeholder="Select Level Purpose"
+                    placeholder="Chương trình học"
                     classNamePrefix="select"
                     onChange={val => {
                       dispatch({
@@ -458,7 +459,7 @@ const BookingLesson = () => {
         <div className="filter-group pd-t-20">
           <div className="filter-row row">
             <div className="left col-md-2">
-              <h5>TÊN</h5>
+              <h5>TÊN GIÁO VIÊN</h5>
             </div>
             <div className="right col-md-10">
               <div className="form-row">
@@ -477,15 +478,15 @@ const BookingLesson = () => {
       </div>
       <div className="filter-group pd-t-10 mg-t-10 bd-t" id="list-tutor">
         <div className="filter-row row">
-          <div className="left col-md-2">
-            <h5>Danh sách GV</h5>
+          <div className="left col-12">
+            <h5>Danh sách giáo viên</h5>
           </div>
-          <div className="right col-md-10" style={{ alignItems: 'center', display: 'inline-flex' }}>
+         {/*  <div className="right col-md-10" style={{ alignItems: 'center', display: 'inline-flex' }}>
             <div className="custom-control custom-checkbox">
               <input type="checkbox" className="custom-control-input" id="display-schedule" />
               <label className="custom-control-label" htmlFor="display-schedule">Hiển thị lịch</label>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="filter-row row">
           <div className="col-sm-12">
@@ -495,7 +496,7 @@ const BookingLesson = () => {
                   !!teachersList && teachersList.length > 0 ? teachersList.map(item =>
                     <li className="tutor" key={item.TeacherUID}>
                       <div className="totor-detail">
-                        <a href={`/ElearnStudent/teacherDetail?ID=${item.TeacherUID}`} className="tutor-wrap">
+                        <a href={`/ElearnStudent/teacherDetail?ID=${item.TeacherUID}`} className="tutor-wrap no-hl">
                           <span className="tutor-avatar">
                             <img src={item.TeacherIMG ? item.TeacherIMG : "../assets/img/default-avatar.png"} alt=""
                             onError={(e)=>{e.target.onerror = null; e.target.src="../assets/img/default-avatar.png"}} />
@@ -522,10 +523,10 @@ const BookingLesson = () => {
                                 <div className="tutor-rate-point">{item.Rate.toFixed(1)}</div>
                               </div>
                             </div>
-                            <h6 className="mg-t-5"><span className={`flag-icon flag-icon-${item.National ? nationMapToFlag(item.National): "vn"} flag-icon-squared`}></span>{item.TeacherName}</h6>
+                            <h6 className="mg-t-5"><span className={`flag-icon flag-icon-${item.National ? nationMapToFlag(item.National): "vn"} flag-icon-squared`}></span> {item.TeacherName}</h6>
                           </div>
                         </a>
-                        <div className="tutor-schedule">
+                        <div className="tutor-schedule d-block custom-student">
                           <ul className="ul-schedule">
                             <ListSchedule
                               onBookStudyTimeID={onBookState.StudyTimeID}
@@ -544,8 +545,8 @@ const BookingLesson = () => {
                         </div>
                       </div>
                     </li>):
-                    (!!teachersList && <li className="mg-l-15 w-100 d-block text-center">
-                      <span class="tx-danger" style={{fontSize: '16px'}}>Không tìm thấy giáo viên</span>
+                    (!!teachersList && <li className="w-100 d-block text-center">
+                      <span class="tx-danger tx-medium">Không tìm thấy giáo viên phù hợp</span>
                     </li>)
                 }
               </ul>

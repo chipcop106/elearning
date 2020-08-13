@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 const TeacherInformation = ({ IntroduceContent, Experience, Certificate }) => {
   return <React.Fragment>
       <div className="content-block mg-b-15-f">
-        <h5 className="main-title">Giớ thiệu</h5>
+        <h5 className="main-title">Giới thiệu</h5>
         <div className="introduce-content">{IntroduceContent}</div>
       </div>
       <div className="content-block mg-b-15-f">

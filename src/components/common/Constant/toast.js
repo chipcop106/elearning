@@ -7,7 +7,7 @@ export const UPDATE_PROFILE_SUCCESS = "Câp nhật thông tin thành công!";
 export const RATING_SUCCESS = "Cảm ơn bạn đã để lại phản hồi!";
 export const REQUEST_SUCCESS = "Cảm ơn bạn đã để lại ghi chú!";
 
-
+export const MAX_200 = "Tối đa 200 ký tự!";
 export const FILL_NOTES = "Xin hãy điền thông tin ghi chú!";
 export const FILL_REASON = "Xin hãy điền lý do hủy lớp!";
 export const FILL_RATING = "Xin hãy đánh giá cho giáo viên!";
