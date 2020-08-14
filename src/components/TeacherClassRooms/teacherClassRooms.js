@@ -22,7 +22,7 @@ const TeacherClassRooms = () => {
     const unMountComponents = () => {
         mdStudentInfo.current = false;
     }
- 
+
     React.useEffect(() => {
         return unMountComponents;
     }, []);
@@ -32,10 +32,10 @@ const TeacherClassRooms = () => {
             <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
                 <h3 className="text-dark font-weight-bold mg-b-0">Classrooms</h3>
             </div>
-            <div className="teacher__detail__wrap card card-custom">
-                <div className="teacher__detail card-body">
-                    <div className="teacher-body mg-t-0-f">
-                        <div className="tab-navigation teacher-custom">
+            <div className="teacher__detail__wrap ">
+                <div className="teacher__detail ">
+                    <div className="teacher-body mg-t-0-f card card-custom">
+                        <div className="tab-navigation teacher-custom card-body">
                             <ul className="list-tab" id="js-list-tab">
                                 <li className={`tab-item`} onClick={() => setActiveTab('upcoming')}>
                                     <a className={`tab-link ${activeTab === 'upcoming' ? 'active' : ''}`}><i className="far fa-calendar-alt"></i> Upcoming classes</a>
@@ -48,28 +48,24 @@ const TeacherClassRooms = () => {
                                 </li>
                             </ul>
                         </div>
-                        <div className="tab-navigation-content">
-                            <div className="swiper-container" id="js-teacher__info">
-                                <div className="teacher__info-wrap pd-t-30">
+                        <div className="teacher__info-wrap pd-t-0-f card-body">
                                 <Tab.Container
-                                activeKey={activeTab}
-                                defaultActiveKey={activeTab}
-                            >
-                                <Tab.Content>
-                                    <Tab.Pane eventKey="upcoming">
-                                        <UpComingTable showStudentModal={showStudentModal} />
-                                    </Tab.Pane>
-                                    <Tab.Pane eventKey="missing">
-                                        <MissingFeedbackTable />
-                                    </Tab.Pane>
-                                    <Tab.Pane eventKey="allclass">
-                                        <AllClassesTable showStudentModal={showStudentModal} />
-                                    </Tab.Pane>
-                                </Tab.Content>
-                            </Tab.Container>
-                                </div>
+                                    activeKey={activeTab}
+                                    defaultActiveKey={activeTab}
+                                >
+                                    <Tab.Content>
+                                        <Tab.Pane eventKey="upcoming">
+                                            <UpComingTable showStudentModal={showStudentModal} />
+                                        </Tab.Pane>
+                                        <Tab.Pane eventKey="missing">
+                                            <MissingFeedbackTable />
+                                        </Tab.Pane>
+                                        <Tab.Pane eventKey="allclass">
+                                            <AllClassesTable showStudentModal={showStudentModal} />
+                                        </Tab.Pane>
+                                    </Tab.Content>
+                                </Tab.Container>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>
