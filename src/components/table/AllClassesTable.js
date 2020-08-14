@@ -46,13 +46,11 @@ const AllClassRow = ({ data, showStudentModal }) => {
     const handleEnterClass = async (e) => {
         e.preventDefault();
         try {
-            const res = await addScheduleLog({ BookingID });
-            if (res.Code === 1) {
-                window.location.href = `skype:${SkypeID}?chat`;
-            }
+            const res = addScheduleLog({ BookingID });
         } catch (error) {
             console.log(error?.message ?? `Can't add schedule log !!`)
         }
+        window.location.href = `skype:${SkypeID}?chat`;
     }
 
     return (
@@ -75,16 +73,16 @@ const AllClassRow = ({ data, showStudentModal }) => {
             </td>
             <td className="clr-time">
                 <div className="mg-b-5">
-                    <span className=" mg-r-5 tx-nowrap"><i className="fa fa-clock tx-primary"></i> VN:</span>
+                    <span className=" mg-r-5 tx-nowrap"><i className="fa fa-clock tx-primary"></i> VN time:</span>
                     <span className="tx-gray-500">{ScheduleTimeVN}</span>
                 </div>
                 <div className="">
-                    <span className=" mg-r-5 tx-nowrap"><i className="fa fa-clock tx-primary"></i> UTC:</span>
+                    <span className=" mg-r-5 tx-nowrap"><i className="fa fa-clock tx-primary"></i> Your time:</span>
                     <span className="tx-gray-500">{ScheduleTimeUTC}</span>
                 </div>
             </td>
             <td className="clr-status">
-                <span className={`badge badge-${Status === 1 ? 'primary tx-white' : 'success'} pd-5`}>{StatusString && StatusString.toString().toUpperCase()}</span>
+                <span className={`badge badge-${Status === 1 ? 'primary tx-white' : 'success'} pd-5`}>{Status === 1 ? 'BOOKED' : 'FINISHED'}</span>
                 {/* {Status === 1 && <span className="badge badge-warning pd-5">BOOKED</span>}
                 {Status === 2 && <span className="badge badge-success pd-5">FINISHED</span>} */}
             </td>
@@ -98,7 +96,7 @@ const AllClassRow = ({ data, showStudentModal }) => {
             </td>
             <td className="clr-actions">
                 {<a href={LessionMaterial} className="btn btn-sm btn-warning rounded-5 mg-r-10" target="_blank" rel="noopener"><i className="fa fa-book-open clrm-icon" /> Material</a>}
-                {Status === 1 && <a href={`skype:${SkypeID}?chat`} className=" btn btn-sm btn-warning rounded-5" onClick={handleEnterClass}><i className="fab fa-skype clrm-icon" /> Enter Class</a>}
+                {Status === 1 && <a href={`skype:${SkypeID}?chat`} className=" btn btn-sm btn-warning rounded-5" onClick={handleEnterClass}><i className="fab fa-skype clrm-icon" /> Go to Classroom</a>}
                 {Status === 2 && <a target="_blank" rel="noopener" href={`/ElearnTeacher/FeedbackDetail?ID=${BookingID}`} className=" btn btn-sm btn-info btn-detail rounded-5"><i className="fas fa-info-circle" /> View Detail</a>}
             </td>
         </tr>

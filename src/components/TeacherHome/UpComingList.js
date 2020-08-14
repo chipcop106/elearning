@@ -46,14 +46,16 @@ const initialState = [
 ]
 
 
-
+let totalResult = 0;
+let pageSize = 0;
 
 const UpComingList = ({itemShow}) => {
     const [state, setState] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [cancelData, setCancelData] = useState(null);
     const [showCancel, setShowcancel] = useState(false);
-    const [studentId, setStudentId] = React.useState(null);
+    const [studentId, setStudentId] = useState(null);
+    const [pageNumber, setPageNumber] = useState(1);
     const mdStudentInfo = React.useRef(true);
 
     const showStudentModal = (studentId) => {
@@ -62,9 +64,11 @@ const UpComingList = ({itemShow}) => {
     }
     const fetchData = async () => {
         setIsLoading(true);
-        const res = await getUpcomingClass({ Page: 1 });
+        const res = await getUpcomingClass({ Page: pageNumber });
         if (res.Code === 1 && res.Data) {
             setState(res.Data);
+            totalResult = res.TotalResult;
+            pageSize = res.PageSize;
         } else {
             setState([]);
         }
@@ -74,13 +78,11 @@ const UpComingList = ({itemShow}) => {
     const handleEnterClass = async (lesson) => {
         
         try {
-            const res = await addScheduleLog({BookingID:lesson.BookingID});
-            if(res.Code === 1){
-                window.location.href = `skype:${lesson.skypeId}?chat`;
-            }
+            const res = addScheduleLog({BookingID:lesson.BookingID});
         } catch (error) {
             console.log(error?.message ?? `Can't add schedule log !!`)
         }
+        window.location.href = `skype:${lesson.skypeId}?chat`;
     }
 
 
@@ -117,7 +119,7 @@ const UpComingList = ({itemShow}) => {
             <div className="course-horizental">
                 <div className="list-wrap ">
                     <div className="table-responsive">
-                        <table className="table table-custom table-borderless table-vcenter responsive-table">
+                        <table className="table table-custom table-borderless responsive-table">
                             <thead>
                                 <tr className="tx-gray-600 tx-normal">
                                     <th className="tx-center"></th>
@@ -162,22 +164,31 @@ const UpComingList = ({itemShow}) => {
                                                     onClick={(e) => {
                                                         e.preventDefault();
                                                         showStudentModal(ls.StudentUID)
-                                                    }} className="mg-b-5 d-inline-block tx-black"
+                                                    }} className="mg-b-0 d-inline-block tx-black"
                                                 >
                                                     {ls.StudentName}
                                                 </a>
-                                                <p className="mg-b-0 tx-gray-400">Vietnam</p>
                                             </td>
                                             <td>
-                                                <p className="mg-b-5">{ls.DocumentName}</p>
-                                                <p className="mg-b-0 tx-gray-400">Lesson: {ls.LessionName}</p>
+                                                <div className="mg-b-0">
+                                                    <span className=" mg-r-5">Course:</span>
+                                                    <span className="tx-gray-500">{ls.DocumentName}</span>
+                                                </div>
+                                                <div className="mg-b-0">
+                                                    <span className=" mg-r-5">Lesson:</span>
+                                                    <span className="tx-gray-500">{ls.LessionName}</span>
+                                                </div>
                                             </td>
                                             <td>
-                                                <p className="mg-r-15 d-block mg-b-5"><i className="fa fa-calendar  mg-r-5 tx-primary" /> {cvDate(ls.ScheduleTimeVN).date}</p>
-                                                <p className="mg-r-15 d-block mg-b-0 tx-gray-400 tx-nowrap">
-                                                    <i className="fa fa-clock  mg-r-5 tx-primary" /> {cvDate(ls.ScheduleTimeVN).fromTime}
-                                                    <i className="fas fa-arrow-right mg-x-5 tx-10"></i>{cvDate(ls.ScheduleTimeVN).endTime}
-                                                </p>
+                                                <div className="mg-b-0">
+                                                    <span className=" mg-r-5"><i className="fa fa-clock tx-primary"></i> VN time:</span>
+                                                    <span className="tx-gray-500">{ls.ScheduleTimeVN}</span>
+                                                </div>
+                                                <div className="mg-b-0">
+                                                    <span className=" mg-r-5"><i className="fa fa-clock tx-primary"></i> Your time:</span>
+                                                    <span className="tx-gray-500">{ls.ScheduleTimeUTC}</span>
+                                                </div>
+
                                             </td>
                                             <td className="tx-nowrap tx-right">
                                                 <a onClick={(e) => {e.preventDefault(); handleEnterClass(ls)}} href={`skype:${ls.SkypeID}?chat`} className="btn btn-info btn-sm mg-r-10 " target="_blank" rel="noopener"><i className="fab fa-skype"></i> <span className="d-none d-xl-inline mg-l-5">Join class</span></a>
@@ -208,40 +219,19 @@ const UpComingList = ({itemShow}) => {
                             </tbody>
                         </table>
                     </div>
-                    {/* 
-                        <div className="row">
-                            {!!state && state.length > 0 ? (
-                                [...state].map((lesson, index) => index < 6 && <div className="col-12" key={`${lesson.BookingID}`}>
-                                    <LessonCard
-                                        lessonId={lesson.BookingID}
-                                        courseName={lesson.DocumentName}
-                                        studentName={lesson.StudentName}
-                                        lessonDate={cvDate(lesson.ScheduleTimeVN).date}
-                                        lessonStart={cvDate(lesson.ScheduleTimeVN).fromTime}
-                                        lessonEnd={cvDate(lesson.ScheduleTimeVN).endTime}
-                                        lessonStatus={lesson.LessonName}
-                                        cancellable={checkCancelTime(cvDate(lesson.ScheduleTimeVN).dateObject)}
-                                        // cancellable={true} //Only for test cancel action, use above code for production
-                                        skypeId={lesson.SkypeID}
-                                        studentNote={lesson.SpecialRequest}
-                                        documents={[{
-                                            id: randomId(),
-                                            name: "Tài liệu",
-                                            extension: "",
-                                            link: lesson.LessionMaterial
-                                        }]}
-                                        handleCancelLesson={handleCancelLesson}
-                                    />
-                                </div>)
-                            ) : (
-                                <div className="empty-error tx-center mg-y-30 bg-white mg-x-auto">
-                                    <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" />
-                                    <p className=" tx-danger tx-medium">You don't have any book lesson with student</p>
-                                </div>
-                                )
-                            }
-                        </div>
-                     */}
+                    {totalResult > pageSize && itemShow > 10 && (
+                        <Pagination
+                            innerClass="pagination"
+                            activePage={pageNumber}
+                            itemsCountPerPage={pageSize}
+                            totalItemsCount={totalResult}
+                            pageRangeDisplayed={5}
+                            onChange={(page) => setPageNumber(page)}
+                            itemClass="page-item"
+                            linkClass="page-link"
+                            activeClass="active"
+                        />
+                    )}
                 </div>
             </div>
 

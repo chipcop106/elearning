@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { getListEventsOfWeek, setEventAvailable, setEventClose } from '~src/api/teacherAPI';
+import { getListEventsOfWeek, setEventAvailable, setEventClose, addScheduleLog } from '~src/api/teacherAPI';
 import { cancelLesson } from '~src/api/optionAPI';
 import ActiveSlotModal from './ActiveSlotModal';
 import CloseSlotModal from './CloseSlotModal';
 import CancelSlotModal from './CancelSlotModal';
 import { toast } from 'react-toastify';
+import { Modal, Button } from 'react-bootstrap';
+import {getDifferentMinBetweenTime, checkCancelTime} from '~src/utils'
+
 let calendar;
 const pad = (n) => (n >= 10 ? n : "0" + n);
 Date.prototype.addHours = function (h) {
@@ -14,14 +17,10 @@ Date.prototype.addHours = function (h) {
 
 Date.prototype.addDays = function (days) { return new Date(this.getTime() + (864e5 * days)); };
 
-const getDifferentMinBetweenTime = (startDate, endDate) => {
-    const oneMinutes = 1000 * 60 * 60;
-    const startTime = startDate.getTime();
-    const endTime = endDate.getTime();
-    const diffTime = endTime - startTime;
-    return Math.round(diffTime / oneMinutes);
-};
-
+var popWhitelist = $.fn.tooltip.Constructor.Default.whiteList; //White list data attribute;
+popWhitelist.a.push('data-skype');
+popWhitelist.a.push('data-schedule');
+popWhitelist.a.push('disabled');
 
 //Add hourse Prototype
 const dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -173,10 +172,12 @@ const initEvents = [
 ]
 
 
+
 const bookingCalendar = () => {
     const [eventSource, setEventSource] = useState(initEvents);
     const [activeDate, setActiveDate] = useState(new Date());
     const [isLoading, setIsLoading] = useState(true);
+    const [showErrorBook, setShowErrorBook] = useState(false);
     const [activeModal, setActiveModal] = useState({
         id: '',
         studentName: '',
@@ -227,36 +228,40 @@ const bookingCalendar = () => {
     }
 
     const triggerTodayCalendar = () => {
+        console.log('Today clicked')
         setActiveDate(new Date());
     }
-    const allEventDidMount = (event, relatedEvents, revert) => {
-        console.log(event);
-    }
+ 
     let $toggleCheckbox;
     const initCalendar = () => {
         //const createEventSlots
 
         const calendarEl = document.getElementById("js-book-calendar");
 
-       
+
         const $closeModal = $('#md-close-slot');
         const $cancelModal = $('#md-cancel-slot');
 
         const eventDidMount = (args) => {
-        //    console.log("eventDidMount", args);
+            //    console.log("eventDidMount", args);
             const { event, el } = args;
-            el.setAttribute("tab-index", 0);
+            const data = {
+                ...event.extendedProps,
+                id: event.id,
+                start: event.start,
+                end: event.end
+            }
+            el.setAttribute("tabindex", -1);
             if (!args.isPast && ![...el.classList].includes('booked-slot')) {
                 $(el).tooltip({
                     html: true,
                     title: `
-                      <p class="mg-b-5">${moment(event.start).format(
-                        "dddd, DD/MM/YYYY"
+                    <p class="mg-b-0 tx-nowrap">Your time: ${moment(event.extendedProps?.TeacherStart ?? new Date()).format(
+                        "DD/MM/YYYY hh:mm A"
                     )}</p>
-                <p class="mg-b-5">Start: ${moment(event.start).format(
-                        "hh:mm A"
+                      <p class="mg-b-0 tx-nowrap">VN time: ${moment(event.start).format(
+                        "DD/MM/YYYY hh:mm A"
                     )}</p>
-                <p class="mg-b-5">End: ${moment(event.end).format("hh:mm A")}</p>
                 `,
                     animation: false,
                     template: `<div class="tooltip" role="tooltip">
@@ -269,56 +274,76 @@ const bookingCalendar = () => {
                     trigger: "hover",
                 });
             }
-            
+
+            let diff = getDifferentMinBetweenTime( new Date(), event.start);
+            let cancelable = diff > 60 ? true : false;
+
             !!el && [...el.classList].includes('booked-slot') && $(el).popover({
-                html:true,
+                html: true,
                 container: 'body',
-                trigger: 'hover',
-                title:'Booked information',
+                trigger: "focus",
+                title: 'Booked information',
                 content: `  
-                <p class="mg-b-5"><span class="tx-medium mg-r-5">Course:</span>${event.extendedProps.bookInfo?.DocumentName ?? ''}</p>
-                <p class="mg-b-5"><span class="tx-medium mg-r-5">Lesson:</span>${event.extendedProps.bookInfo?.LessonName ?? ''}</p>
-                <p class="mg-b-5"><span class="tx-medium mg-r-5">Student:</span>${event.extendedProps.bookInfo?.name ?? ''}</p>
-                <p class="mg-b-5"><span class="tx-medium mg-r-5">Date:</span>${moment(event.start).format(
-                    'dddd, DD/MM/YYYY'
-                )}</p>
-            <p class="mg-b-5"><span class="tx-medium mg-r-5">Start:</span>${moment(event.start).format(
-                    'hh:mm A'
-                )}</p>
-            <p class="mg-b-0"><span class="tx-medium mg-r-5">End:</span>${moment(event.end).format('hh:mm A')}</p>
-           `
+                <p class="mg-b-5"><span class="mg-r-5">Course:</span><span class="tx-medium">${event.extendedProps.bookInfo?.DocumentName ?? ''}</span></p>
+                <p class="mg-b-5"><span class="mg-r-5">Lesson:</span><span class="tx-medium">${event.extendedProps.bookInfo?.LessonName ?? ''}</span></p>
+                <p class="mg-b-5"><span class="mg-r-5">Student:</span><span class="tx-medium">${event.extendedProps.bookInfo?.name ?? ''}</span></p>
+                <p class="mg-b-5"><span class="mg-r-5">Your time:</span><span class="tx-medium">${moment(event.extendedProps?.TeacherStart ?? new Date()).format(
+                    'DD/MM/YYYY hh:mm A'
+                )}</span></p>
+                <p class="mg-b-0"><span class="mg-r-5">VN time:</span><span class="tx-medium">${moment(event.start).format(
+                    'DD/MM/YYYY hh:mm A'
+                )}</span></p>
+
+                <div class="action mg-t-15">
+                    <a href="#" data-schedule='${JSON.stringify(data)}' class="btn btn-sm btn-info btn-block tx-white-f mg-b-10 join-class-skype" target="_blank" rel="noopener">Go to Classroom</a>
+                    ${cancelable ? `<a href="#" class="btn btn-sm btn-danger btn-block cancel-schedule" data-schedule='${JSON.stringify(data)}'>Cancel lesson</a>` : `<a href="#" class="btn btn-sm btn-block btn-disabled">Cancel lesson</a>` }
+                    ${cancelable ? '' : '<p class="mg-b-0 tx-danger mg-t-10">Sorry, you cannot cancel the class</p>' }
+                </div>
+
+                `
+            }).on("click", function() {
+                $(this).popover("show");
+            });;
+
+            $(document).on('click', function(event) {
+                let $el = $(el);
+                if(!$(event.target).closest($el).length &&
+                    !$(event.target).closest(".popover").length) {
+                    $el.popover("hide");
+                }
             });
 
             !!$toggleCheckbox && showStudentToggle();
             const events = calendar.getEvents();
             const dayHeaders = document.querySelectorAll('.fc-col-header-cell');
-           // console.log({dayHeaders});
-            if(dayHeaders.length > 0)
-            for(let i = 0; i < dayHeaders.length; i++){
-              //  console.log(dayHeaders[i]);
-                if("data-date" in dayHeaders[i].dataset) continue;
-                const date = dayHeaders[i].getAttribute('data-date');
-                const dateHD = new Date(date);
-                let bookedSlot = 0;
-                let totalSlot = 0;
-                events.map(event => {
-                    const eventDate = new Date(event.extendedProps.Start.split('T')[0]);
-                    if(eventDate.getTime() === dateHD.getTime()){
-                        (event.extendedProps.available === true || event.extendedProps.bookStatus === true) && totalSlot++;
-                        event.extendedProps.bookStatus === true && bookedSlot++;
-                    }
-                });
-                // console.log(dayHeaders[i]);
-                // console.log({bookedSlot, totalSlot});
-                dayHeaders[i].querySelector('.booked').textContent = bookedSlot;
-                dayHeaders[i].querySelector('.total').textContent = totalSlot;
-            }
+            // console.log({dayHeaders});
+            if (dayHeaders.length > 0)
+                for (let i = 0; i < dayHeaders.length; i++) {
+                    //  console.log(dayHeaders[i]);
+                    if ("data-date" in dayHeaders[i].dataset) continue;
+                    const date = dayHeaders[i].getAttribute('data-date');
+                    const dateHD = new Date(date);
+                    let bookedSlot = 0;
+                    let totalSlot = 0;
+                    events.map(event => {
+                        const eventDate = new Date(event.extendedProps.Start.split('T')[0]);
+                        if (eventDate.getTime() === dateHD.getTime()) {
+                            (event.extendedProps.available === true || event.extendedProps.bookStatus === true) && totalSlot++;
+                            event.extendedProps.bookStatus === true && bookedSlot++;
+                        }
+                    });
+                    // console.log(dayHeaders[i]);
+                    // console.log({bookedSlot, totalSlot});
+                    dayHeaders[i].querySelector('.booked').textContent = bookedSlot;
+                    dayHeaders[i].querySelector('.total').textContent = totalSlot;
+                }
         };
 
         const eventClick = (args) => {
             const element = args.el;
-            if(!!$toggleCheckbox && $toggleCheckbox.prop('checked') === true && ![...element.classList].includes("booked-slot") ){
-                toast.warning('Please uncheck "Only show student booking hours" before open or booking slot !!',{
+            const { start, end, id } = args.event;
+            if (!!$toggleCheckbox && $toggleCheckbox.prop('checked') === true && ![...element.classList].includes("booked-slot")) {
+                toast.warning('Please uncheck "Only show student booking hours" before open or booking slot !!', {
                     position: toast.POSITION.TOP_CENTER,
                     autoClose: 5000
                 });
@@ -329,11 +354,12 @@ const bookingCalendar = () => {
                 ![...element.classList].includes("empty-slot")
             )
                 return;
-            const { start, end, id } = args.event;
-            // const modalConfirm = document.getElementById("md-active-slot");
-            // const dateEl = modalConfirm.querySelector("#js-date-time");
-            // const startEl = modalConfirm.querySelector("#js-start-time");
-            // const endEl = modalConfirm.querySelector("#js-end-time");
+            const diff = getDifferentMinBetweenTime(new Date(), start);
+            if(diff < 60 ){
+                setShowErrorBook(true);
+                return;
+            } 
+
             setActiveModal({
                 ...activeModal,
                 ...args.event.extendedProps,
@@ -341,9 +367,6 @@ const bookingCalendar = () => {
                 start: moment(start).format("HH:mm A"),
                 end: moment(end).format("HH:mm A")
             });
-            // dateEl.textContent = moment(start).format("DD/MM/YYYY");
-            // startEl.textContent = moment(start).format("HH:mm A");
-            // endEl.textContent = moment(end).format("HH:mm A");
             $("#md-active-slot").appendTo('body').modal("show");
         };
 
@@ -389,7 +412,7 @@ const bookingCalendar = () => {
                         ? `<i class="fa fa-fire tx-danger hot-icon"></i>`
                         : ""
                     }
-                ${arg.text.toUpperCase()}
+                ${moment(arg.date).format('hh:mm A')}
                 `;
                 templateEl.innerHTML = html;
                 return { html };
@@ -398,7 +421,7 @@ const bookingCalendar = () => {
             dayHeaderContent: function (args) {
                 const days = args.date.getDay();
                 const d = args.date.getDate();
-             
+
                 const html = `
                     <div class="header-container">
                         <div class="date-wrap">
@@ -452,11 +475,8 @@ const bookingCalendar = () => {
                             ? `
                                 <span class="label-book booked"><i class="fas ${
                             isPast ? "fa-check" : "fa-user-graduate"
-                            }"></i> ${isPast ? "FINISHED" : "BOOKED"}</span> 
-                                <p class="booking-name">${bookInfo.name}</p>
-                                <a href="javascript:;" class="fix-btn cancel-schedule" data-schedule='${
-                            JSON.stringify(data)
-                            }'>Cancel</a>`
+                            }"></i> ${isPast ? "FINISHED" : "BOOKED"}</span>
+                                `
                             : `<span class="label-book"><i class="fas fa-copyright"></i>AVAILABLE</span>`
                         }
                         ${
@@ -494,13 +514,17 @@ const bookingCalendar = () => {
         $('body').on('click', '.cancel-schedule', function (e) {
             e.preventDefault();
             const eventData = JSON.parse(this.getAttribute('data-schedule'));
+            
             setActiveModal({
                 ...activeModal,
                 ...eventData,
                 studentName: eventData.bookInfo?.name ?? '',
-                date: moment(eventData.start).format('dddd, DD/MM/YYYY'),
-                start: moment(eventData.start).format('hh:mm A'),
-                end: moment(eventData.end).format('hh:mm A')
+                courseName: eventData.bookInfo?.DocumentName ?? '',
+                lessonName: eventData.bookInfo?.LessonName ?? '',
+                teacherTime:moment(eventData?.bookInfo?.TeacherStart ?? new Date()).format(
+                    'DD/MM/YYYY hh:mm A'
+                ),
+                vnTime: moment(eventData.start).format('DD/MM/YYYY hh:mm A'),
             });
 
             $cancelModal.appendTo('body').modal('show');
@@ -510,6 +534,7 @@ const bookingCalendar = () => {
         $('body').on('click', '.close-schedule', function (e) {
             e.preventDefault();
             const eventData = JSON.parse(this.getAttribute('data-schedule'));
+
             setActiveModal({
                 ...activeModal,
                 ...eventData,
@@ -520,6 +545,19 @@ const bookingCalendar = () => {
             $closeModal.appendTo('body').modal('show');
             // alert("Close slot available ID : " + eventData);
         });
+
+        $('body').on('click', '.join-class-skype', async function (e) {
+            e.preventDefault();
+            const eventData = JSON.parse(this.getAttribute('data-schedule'));
+            try {
+                addScheduleLog({BookingID:eventData.BookingID});
+            } catch (error) {
+                console.log(error?.message ?? `Can't add schedule log !!`)
+            }
+            window.location.href = `skype:${eventData?.bookInfo?.SkypeID ??''}?chat`;
+        });
+
+
 
         $('body').on('click', '#js-book-calendar .fc-next-button', triggerNextCalendar);
         $('body').on('click', '#js-book-calendar .fc-prev-button', triggerPrevCalendar);
@@ -542,7 +580,7 @@ const bookingCalendar = () => {
             available: true,
             bookStatus: false,
             isEmptySlot: false,
-            OpenDayID:newProps.OpenDayID
+            OpenDayID: newProps.OpenDayID
         } : event)
         setEventSource(newSources);
     }
@@ -580,7 +618,7 @@ const bookingCalendar = () => {
             if (res.Code === 1) {
                 setAvailableEvent({
                     ...data,
-                    OpenDayID:res?.Data?.OpenDayID ?? 0
+                    OpenDayID: res?.Data?.OpenDayID ?? 0
                 });
                 toast.success('Open slot success', {
                     position: toast.POSITION.TOP_CENTER,
@@ -621,7 +659,7 @@ const bookingCalendar = () => {
                 });
                 console.log('Call api không thành công, xem lại tham số !');
             }
-            
+
         } catch (error) {
             console.log('Error openSlot !', error);
         }
@@ -634,7 +672,7 @@ const bookingCalendar = () => {
         try {
             const res = await cancelLesson({
                 BookingID: data.BookingID,
-                ReasonCancleOfTeacher:data.reason
+                ReasonCancleOfTeacher: data.reason
             });
             if (res.Code === 1) {
                 cancelBookedEvent(data);
@@ -648,7 +686,7 @@ const bookingCalendar = () => {
                     autoClose: 2000
                 });
             }
-            
+
         } catch (error) {
             console.log('Error openSlot !', error);
         }
@@ -668,7 +706,7 @@ const bookingCalendar = () => {
 
     useEffect(() => {
         getEventByWeek();
-       // console.log(activeDate);
+        // console.log(activeDate);
     }, [activeDate]);
 
     useEffect(() => {
@@ -688,10 +726,10 @@ const bookingCalendar = () => {
             <div className="notice pd-20 bg-primary-light rounded-5 mg-t-30">
                 <h5 className="mg-b-15 tx-primary"><i className="fas fa-file"></i> Notes:</h5>
                 <ul className="mg-b-0">
-                    <li>Each session is 25 minutes</li>
-                    <li>To open a slot, simply select the time frame in calendar</li>
-                    <li>To close a slot, select the time available in calendar and click "Close"</li>
-                    <li>To cancel a booked lesson, select the booked frame in calendar and click "Cancel"</li>
+                    <li>Each class is 25 minutes</li>
+                    <li>To open a slot, simply select the time Slot and click on it</li>
+                    <li>To close a slot, simple select the Available Slot and click on it.</li>
+                    <li>To cancel a Booked Class, select the Booked Slot and click "Cancel lesson"</li>
                     <li>You can only CANCEL the lesson 30 minutes before the lesson starts.</li>
                 </ul>
             </div>
@@ -709,6 +747,25 @@ const bookingCalendar = () => {
                 data={activeModal}
                 handleCancelSlot={_cancelSlot}
             />
+            <Modal
+                show={showErrorBook}
+                onHide={() => setShowErrorBook(false)}
+                size="sm"
+                centered
+                bsPrefix="modal"
+            >  
+                <Modal.Header bsPrefix="modal-header bg-danger tx-white pd-10">
+                    <Modal.Title bsPrefix='modal-title tx-white'>Open slot failed !</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p className="mg-b-0">Sorry, you cannot open this class.  It is less than 60 mins to starting time.</p>
+                    <div className="tx-right mg-t-15">
+                        <Button size="sm" variant="light" onClick={() => setShowErrorBook(false)}>
+                            Close
+                        </Button>
+                    </div>
+                </Modal.Body>
+            </Modal>
         </>
     )
 }
