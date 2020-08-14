@@ -25,15 +25,16 @@ module.exports = {
     'teacherLessonDetail': componentEnrtryPrefix + 'TeacherLessonDetail/teacherLessonDetail.js',
      'faq': componentEnrtryPrefix + 'Faq/Faq.js', 
      'blogDetail': componentEnrtryPrefix + 'BlogDetail/BlogDetail.js',
-    'notification': componentEnrtryPrefix + 'Notification/Notification.js', */
+    'notification': componentEnrtryPrefix + 'Notification/Notification.js',
     'lessonDetail': componentEnrtryPrefix + 'LessonDetail/LessonDetail.js',
     'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js',
     'feedback': componentEnrtryPrefix + 'Feedback/Feedback.js',
     'teacherDetail': componentEnrtryPrefix + 'TeacherDetail/TeacherDetail.js',
     'bookingLesson': componentEnrtryPrefix + 'StudentBooking/BookingLesson.js',
     'lessonHistory': componentEnrtryPrefix + 'LessonHistory/LessonHistory.js',
+    'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js', */
+    'studentMessage': componentEnrtryPrefix + 'StudentMessage/StudentMessage.js',
     'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/StudentDashboard.js',
-    'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js',
   },
   output: {
     path: appPaths.dist,

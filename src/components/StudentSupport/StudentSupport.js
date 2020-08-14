@@ -139,24 +139,24 @@ const StudentSupport = () => {
           state={selectedDetail}
           _onClickBack={handleClickBack} /> : <>
             <div className="tab-navigation">
-              <ul className="list-tab" id="js-list-tab">
-                <li className="tab-item">
-                  <a href={"#"} className={`${filter === 0 ? 'active' : ''} tab-link`}
+              <ul className="list-tab align-items-stretch" id="js-list-tab">
+                <li className="tab-item h-auto">
+                  <a href={"#"} className={`${filter === 0 ? 'active' : ''} tab-link h-100`}
                     data-index={0}
                     onClick={(e) => { e.preventDefault(); setFilter(0) }}>TẤT CẢ</a>
                 </li>
-                <li className="tab-item">
-                  <a href={"#"} className={`${filter === 1 ? 'active' : ''} tab-link`}
+                <li className="tab-item h-auto">
+                  <a href={"#"} className={`${filter === 1 ? 'active' : ''} tab-link h-100`}
                     data-index={0}
                     onClick={(e) => { e.preventDefault(); setFilter(1) }}>ĐÃ XỬ LÝ</a>
                 </li>
-                <li className="tab-item">
-                  <a href={"#"} className={`${filter === 2 ? 'active' : ''} tab-link`}
+                <li className="tab-item h-auto">
+                  <a href={"#"} className={`${filter === 2 ? 'active' : ''} tab-link h-100`}
                     data-index={0}
                     onClick={(e) => { e.preventDefault(); setFilter(2) }}>ĐANG XỬ LÝ</a>
                 </li>
-                <li className="tab-item">
-                  <a href={"#"} className={`${filter === 3 ? 'active' : ''} tab-link`}
+                <li className="tab-item h-auto">
+                  <a href={"#"} className={`${filter === 3 ? 'active' : ''} tab-link h-100`}
                     data-index={0}
                     onClick={(e) => { e.preventDefault(); setFilter(3) }}>ĐÃ HỦY</a>
                 </li>

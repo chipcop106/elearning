@@ -249,7 +249,7 @@ const LessonDetail = () => {
                       <!--Đánh giá học viên--> */}
               <div className="st-danhgianguphap">
                 <div className="st-title-danhgia mg-b-15">
-                  <h5 className="sub-title">Học viên phản hồi</h5>
+                  <h5 className="sub-title">Học viên đánh giá</h5>
                 </div>
                 {
                   Object.keys(state).length === 0 ? "" : (
@@ -257,11 +257,11 @@ const LessonDetail = () => {
                       <div className="st-item-danhgia">
                         <p dangerouslySetInnerHTML={{ __html: decodeHTML(state.StudentEvaluation) }} style={{ wordBreak: "break-all" }}></p>
                       </div>
-                    ) : (<><p>Bạn chưa phản hồi về lớp học này</p>
+                    ) : (<><p>Bạn chưa đánh giá về lớp học này</p>
                       <button className="btn btn-primary mg-r-10"
                         data-toggle="modal"
                         data-target="#js-md-rate"
-                      >Leave Feedback</button></>))
+                      >Đánh Giá</button></>))
                 }
               </div>
             </div>

@@ -121,7 +121,7 @@ const LessonHistory = () => {
         </div>
       </form>
     </div>
-    <div className="table-responsive">
+    <div className="table-responsive shadow bg-white">
       <table className="table table-bordered">
         <thead className="thead-primary">
           <tr>

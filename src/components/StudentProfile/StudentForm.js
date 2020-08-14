@@ -37,9 +37,9 @@ const schema = Yup.object().shape({
   FullName: Yup.string()
     .required('Họ tên không được để trống'),
   Phone: Yup.number()
+    .required('Số điện thoại không được để trống')
     .typeError('Số điện thoại không hợp lệ')
-    .integer('Số điện thoại không hợp lệ')
-    .required('Số điện thoại không được để trống'),
+    .integer('Số điện thoại không hợp lệ'),
   Email: Yup.string()
     .required('Email không được để trống')
     .email('Email không hợp lệ'),
@@ -56,7 +56,7 @@ const schema = Yup.object().shape({
   Language: Yup.string()
     .matches(/[^0]+/g, 'Ngôn ngữ không được để trống'),
   TimeZoneID: Yup.string()
-    .matches(/[^0]+/g, 'Timezone không được để trống'),
+    .matches(/[^0]+/g, 'Múi giờ không được để trống'),
   SkypeID: Yup.string()
     .required('SkypeID không được để trống'),
 });
@@ -216,7 +216,7 @@ const StudentForm = ({ tabDisplay }) => {
             <div className="col-12">
               <div className="form-row align-items-center ">
                 <div className="form-group col-sm-3 col-label-fixed">
-                  <p className="mg-b-0 tx-medium ">Avatar: </p>
+                  <p className="mg-b-0 tx-medium ">Ảnh đại diện: </p>
                 </div>
                 <div className="form-group col-sm-9">
                   <div className="student-avatar">
@@ -270,7 +270,7 @@ const StudentForm = ({ tabDisplay }) => {
                   <Controller
                     as={
                       <Flatpickr
-                        placeholder="dd/mm/YYYY"
+                        placeholder="dd/mm/yyyy"
                         options={{
                           dateFormat: "d/m/Y",
                           static: true,
@@ -279,8 +279,7 @@ const StudentForm = ({ tabDisplay }) => {
                     }
                     control={control}
                     defaultValue={!!profile.BirthDay ? moment(profile.BirthDay).format("DD/MM/YYYY"):""}
-                    name="BirthDay"
-                    ref={register()} />
+                    name="BirthDay" />
                   {
                     errors.BirthDay && <span className="text-danger d-block mt-2">{errors.BirthDay.message}</span>
                   }
@@ -297,7 +296,7 @@ const StudentForm = ({ tabDisplay }) => {
                       ref={register}
                       defaultValue={profile.Language ? profile.Language : "0"}
                       className="form-control">
-                      <option value="0" >Choose Language</option>
+                      <option value="0" >Chọn Ngôn Ngữ</option>
                       <RenderListLanguage list={listLanguage} />
                     </select>
                   }
@@ -314,7 +313,7 @@ const StudentForm = ({ tabDisplay }) => {
                 </div>
                 <div className="form-group col-sm-9">
                   <input type="text" className="form-control"
-                    placeholder="Your name"
+                    placeholder="Họ và tên"
                     ref={register()}
                     defaultValue={profile.FullName}
                     name="FullName" />
@@ -366,7 +365,7 @@ const StudentForm = ({ tabDisplay }) => {
                       ref={register}
                       defaultValue={profile.TimeZoneID ? profile.TimeZoneID : "0"}
                       className="form-control">
-                      <option value="0">Choose Time Zone</option>
+                      <option value="0">Chọn Múi Giờ</option>
                       <RenderListTimeZone list={listTimeZone} />
                     </select>
                   }
@@ -409,7 +408,7 @@ const StudentForm = ({ tabDisplay }) => {
                           getOptionLabel={label => label}
                           getOptionValue={value => value}
                           className="basic-multi-select"
-                          placeholder="Select Target"
+                          placeholder="Chọn Mục Tiêu"
                           classNamePrefix="select"
                           onChange={val => setValue("SelectTarget", val)} />
                       }
@@ -431,7 +430,7 @@ const StudentForm = ({ tabDisplay }) => {
                   <p className="mg-b-0 tx-medium ">SkypeID:</p>
                 </div>
                 <div className="form-group col-sm-9">
-                  <input type="text" placeholder="Your SkypeID" className="form-control"
+                  <input type="text" placeholder="SkypeID" className="form-control"
                     name="SkypeID"
                     ref={register()}
                     defaultValue={profile.SkypeID} />
@@ -448,7 +447,7 @@ const StudentForm = ({ tabDisplay }) => {
                   <p className="mg-b-0 tx-medium ">Sở thích:</p>
                 </div>
                 <div className="form-group col-sm-9">
-                  <input type="text" placeholder="Your hobbit" className="form-control"
+                  <input type="text" placeholder="Sở thích" className="form-control"
                     name="PersonalPreference"
                     ref={register()}
                     defaultValue={profile.PersonalPreference} />
@@ -465,7 +464,7 @@ const StudentForm = ({ tabDisplay }) => {
                   <p className="mg-b-0 tx-medium ">Yêu cầu với giáo viên:</p>
                 </div>
                 <div className="form-group col-sm-9">
-                  <textarea id="" rows="3" className="form-control" placeholder="Your notes"
+                  <textarea id="" rows="3" className="form-control" placeholder="Yêu cầu với giáo viên"
                     name="RequestWithTeacher"
                     ref={register()}
                     defaultValue={profile.RequestWithTeacher}></textarea>

@@ -14,21 +14,21 @@ const StudentProfile = () => {
       <div className="teacher__detail">
         <div className="teacher-body mg-t-0-f">
           <div className="tab-navigation">
-            <ul className="list-tab" id="js-list-tab">
-              <li className="tab-item">
-                <a href={"#"} className={`${showTab === 1 ? 'active' : ''} tab-link`}
+            <ul className="list-tab align-items-stretch" id="js-list-tab">
+              <li className="tab-item h-auto">
+                <a href={"#"} className={`${showTab === 1 ? 'active' : ''} tab-link h-100`}
                   data-index={0}
                   onClick={(e) => { e.preventDefault(); setShowTab(1) }}>
-                  <i className="fas fa-user mg-r-5"></i>THÔNG TIN TÀI KHOẢN</a>
+                  <i className="fas fa-user mg-r-5"></i>THÔNG TIN CÁ NHÂN</a>
               </li>
-              <li className="tab-item">
-                <a href={"#"} className={`${showTab === 2 ? 'active' : ''} tab-link`}
+              <li className="tab-item h-auto">
+                <a href={"#"} className={`${showTab === 2 ? 'active' : ''} tab-link h-100`}
                   data-index={0}
                   onClick={(e) => { e.preventDefault(); setShowTab(2) }}>
                   <i className="fas fa-lock mg-r-5"></i>ĐỔI MẬT KHẨU</a>
               </li>
-              <li className="tab-item">
-                <a href={"#"} className={`${showTab === 3 ? 'active' : ''} tab-link`}
+              <li className="tab-item h-auto">
+                <a href={"#"} className={`${showTab === 3 ? 'active' : ''} tab-link h-100`}
                   data-index={0}
                   onClick={(e) => { e.preventDefault(); setShowTab(3) }}>
                   <i className="fas fa-credit-card mg-r-5"></i>LỊCH SỬ THANH TOÁN</a>

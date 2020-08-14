@@ -126,8 +126,7 @@ const BookingLessonModal = ({
                     <div className="media-body  mg-l-20 pos-relative pd-b-0-f">
                       <h5 className="mg-b-10 d-flex align-items-center">
                         <span className="badge badge-warning mg-r-5">Incoming</span>{' '}
-                        <span //href={`/ElearnStudent/lessonDetail?ID=${BookingID}`}
-                        className="no-hl course-name tx-bold">{bookState.LessionName}</span>
+                        <span className="no-hl course-name tx-bold">{bookState.LessionName}</span>
                       </h5>
                       <div className="course-information tx-14">
                         <span className="mg-r-15 tx-gray-600 tx-medium d-inline-block">
@@ -160,7 +159,7 @@ const BookingLessonModal = ({
                           <label className="tx-danger d-block">Vui lòng viết bằng Tiếng Anh (tối đa 200 ký tự)</label>
                           <div className="form-group mg-b-5-f">
                             <textarea name="message" rows="4" className="form-control"
-                              placeholder="Note for teachers"
+                              placeholder="Ghi chú cho giáo viên"
                               value={state}
                               onChange={(e) => setState(e.target.value)} ></textarea>
                           </div>

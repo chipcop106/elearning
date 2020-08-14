@@ -34,9 +34,9 @@ const LessonUpcomingCard = ({
     onHandleCancelBooking(BookingID, LessionName, date, start, end)
   }
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     feather.replace();
-  },[])
+  }, [])
 
   return (
     <li className="cr-item upcoming-lesson lesson-info" style={{ position: 'relvate' }}>
@@ -47,7 +47,7 @@ const LessonUpcomingCard = ({
             <img src={avatar === "default-avatar.png" ?
               `../assets/img/${avatar}` : avatar}
               className="teacher-image" alt=""
-              onError={(e)=>{e.target.onerror = null; e.target.src="../assets/img/default-avatar.png"}} />
+              onError={(e) => { e.target.onerror = null; e.target.src = "../assets/img/default-avatar.png" }} />
             <p className="course-teacher tx-14 tx-gray-800 tx-normal mg-b-0 tx-center mg-t-5 d-block">
               {TeacherName}</p>
           </a>
@@ -56,41 +56,40 @@ const LessonUpcomingCard = ({
           <div>
             <h5 className="mg-b-10 mg-t-10 mg-sm-t-0">
               <span className="badge badge-warning">Incoming</span>{' '}
-              <a href={`/ElearnStudent/lessonDetail?ID=${BookingID}`}
-                className="no-hl course-name tx-bold">{LessionName}</a>
+              <span className="no-hl course-name tx-bold">{LessionName}</span>
             </h5>
             <div className="course-information tx-14">
               <span className="mg-r-15 tx-gray-600 tx-medium d-inline-block">
                 <i className="feather-16 mg-r-5" data-feather="calendar"></i>
                 {date}</span>
               <span className="mg-r-15 tx-gray-600 tx-medium d-inline-block">
-                 <i className="feather-16 mg-r-5" data-feather="clock"></i>
+                <i className="feather-16 mg-r-5" data-feather="clock"></i>
                 {`Bắt đầu: ${start}`}</span>
               <span className="mg-r-15 tx-gray-600 tx-medium d-inline-block">
                 <i className="feather-16 mg-r-5" data-feather="clock"></i>
                 {`Kết thúc: ${end}`}</span>
             </div>
             {
-              SpecialRequest &&  <div className="course-note mg-t-15">
-              <h6 className="mg-b-3 tx-bold">Ghi chú cho giáo viên:</h6>
-              <p className="tx-14 mg-b-0" style={{wordBreak:"break-all"}}>{SpecialRequest}</p>
-            </div>
+              SpecialRequest && <div className="course-note mg-t-15">
+                <h6 className="mg-b-3 tx-bold">Ghi chú cho giáo viên:</h6>
+                <p className="tx-14 mg-b-0" style={{ wordBreak: "break-all" }}>{SpecialRequest}</p>
+              </div>
             }
             {
               !!DocumentName && <div className="course-docs mg-t-15">
-              <h6 className="mg-b-3 tx-bold">Tài liệu:</h6>
-              <div> <a href={LessionMaterial} target="_blank">{DocumentName}</a></div>
-            </div>
+                <h6 className="mg-b-3 tx-bold">Tài liệu:</h6>
+                <div> <a href={LessionMaterial} target="_blank">{DocumentName}</a></div>
+              </div>
             }
           </div>
           <div className="course-actions mg-t-15">
             <div className="action-left">
               <a href={`skype:${SkypeID}?chat`}
-                  className="btn btn-sm btn-info d-flex justify-content-center align-items-center tx-medium"
-                    rel="noopener">
+                className="btn btn-sm btn-info d-flex justify-content-center align-items-center tx-medium"
+                rel="noopener">
                 <div><i className="fab fa-skype mg-r-5"></i>VÀO HỌC</div>
               </a>
-              <a href={"#"} className="btn btn-sm bg-gray-300 tx-medium" data-toggle="modal" data-target="#js-md-required"
+              <a href={"#"} className="btn btn-sm btn-light tx-medium" data-toggle="modal" data-target="#js-md-required"
                 onClick={() => handleRequireLesson(
                   BookingID,
                   avatar,
@@ -108,7 +107,7 @@ const LessonUpcomingCard = ({
             </div>
             <div className="action-right">
               {
-                cancelable && <a href={"#"} className="btn btn-sm bg-gray-300 d-flex justify-content-center align-items-center tx-medium"
+                cancelable && <a href={"#"} className="btn btn-sm btn-outline-danger d-flex justify-content-center align-items-center tx-medium"
                   rel="noopener" data-toggle="tooltip"
                   title="You can only cancel this lesson before start for 30 minutes !!"
                   onClick={(e) => handleCancelBooking(e, BookingID, LessionName, date, start, end)}

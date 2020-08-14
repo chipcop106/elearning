@@ -12,7 +12,7 @@ const SideMenu = () => {
   return (
     <ul className="list-unstyled profile-info-list course mg-b-10">
       <li className={activePage.indexOf("/ElearnStudent/ProfileUser".toUpperCase()) !== -1 ? "active" : ""}>
-        <a href="/ElearnStudent/ProfileUser">Tài Khoản</a>
+        <a href="/ElearnStudent/ProfileUser">Thông Tin Cá Nhân</a>
       </li>
       <li className={activePage.indexOf("/ElearnStudent/DashBoard".toUpperCase()) !== -1 ? "active" : ""}>
         <a href="/ElearnStudent/DashBoard">Trang Chủ</a>
