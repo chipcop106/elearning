@@ -6527,7 +6527,7 @@ footer.footer {
 
 #js-book-calendar {
     .fc-timegrid-slot {
-        height: 3rem;
+        height: 2rem;
     }
 
     .fc-timegrid-slot-label-frame {
@@ -6536,7 +6536,7 @@ footer.footer {
 
     .fc-timegrid-slot-label-cushion {
         padding: 0 5px;
-        padding-left: 20px;
+        padding-left: 25px;
         color: #a0a0a0;
         font-weight: 200;
 
@@ -6561,7 +6561,7 @@ footer.footer {
         position: relative;
         height: 100%;
         border-color: #fff;
-        min-height: calc(3rem - 1px);
+        min-height: calc(2rem - 1px);
 
         &:hover {
             .fix-btn {
@@ -6572,6 +6572,7 @@ footer.footer {
         &.booked-slot {
             background-color: #58cd20;
             border-color: #fff;
+            cursor:pointer;
         }
 
         .fas {
@@ -6581,6 +6582,9 @@ footer.footer {
         &.empty-slot {
             background-color: transparent;
             border-color: transparent;
+            &:hover{
+                background-color: rgba($primary-color, 0.09);
+            }
         }
 
         &.fc-event-past {
@@ -6661,6 +6665,9 @@ footer.footer {
 
     .fc-timegrid-event .fc-event-main {
         height: 100%;
+        display: flex;
+        align-items: center;
+        width:100%;
     }
 
     .close-schedule {
@@ -6677,8 +6684,8 @@ footer.footer {
 
     .fix-btn {
         position: absolute;
-        bottom: 5px;
-        right: 5px;
+        bottom: 2px;
+        right: 2px;
         display: none;
         padding: 2px 4px;
         border-radius: 0.25rem;
@@ -7952,9 +7959,10 @@ blockquote.messageText {
         font-size: 20px;
 
         .label {
-            font-weight: 200;
+            font-weight: 400;
             text-align: left;
             padding-right: 15px;
+            color:$primary-color-dark;
         }
 
         .value {
@@ -9198,7 +9206,10 @@ input[type="month"].form-control {
     .avatar+.username {
         color: #fff;
     }
-
+    .dropdown-message .dropdown-link.new-indicator,
+    .dropdown-notification .dropdown-link.new-indicator {
+        line-height:1;
+    }
     @include media(580px) {
         .dropdown-notification {
             padding-right: 15px;
