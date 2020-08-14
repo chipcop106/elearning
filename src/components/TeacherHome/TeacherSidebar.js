@@ -184,7 +184,8 @@ const TeacherSidebar = () => {
                                 {/*begin::Symbol*/}
                                 <div className="symbol symbol-120 symbol-circle symbol-success overflow-hidden mg-b-15">
                                     <span className="symbol-label">
-                                        <img src="../assets/img/default-avatar.png" className="avatar-xxl align-self-end" alt="" />
+                                      {!state.isLoading ? <img src={`${state?.Avatar ?? "../assets/img/default-avatar.png"}`} className="avatar-xxl align-self-end object-fit rounded-5" alt="Avatar Teacher" /> : <Skeleton width={100} height={100}/>}
+                                        
                                     </span>
                                 </div>
                                 {/*end::Symbol*/}
@@ -220,8 +221,8 @@ const TeacherSidebar = () => {
                                     {/*end::Symbol*/}
                                     {/*begin::Text*/}
                                     <div className="d-flex flex-column flex-grow-1">
-                                        <span className="tx-dark text-hover-primary mb-1 font-size-lg tx-medium">Student Members</span>
-                                        <span className="text-muted tx-gray-400 tx-normal">Student booked</span>
+                                        <span className="tx-dark text-hover-primary mb-1 font-size-lg tx-medium">Students</span>
+                                        {/* <span className="text-muted tx-gray-400 tx-normal">Student booked</span> */}
                                     </div>
                                     {/*end::Text*/}
                                     {/*begin::label*/}
@@ -244,8 +245,8 @@ const TeacherSidebar = () => {
                                     {/*end::Symbol*/}
                                     {/*begin::Text*/}
                                     <div className="d-flex flex-column flex-grow-1">
-                                        <span className="tx-dark text-hover-primary mb-1 font-size-lg tx-medium">Hours Classes</span>
-                                        <span className="text-muted tx-gray-400 tx-normal">Finished classes</span>
+                                        <span className="tx-dark text-hover-primary mb-1 font-size-lg tx-medium">Finished classes</span>
+                                        {/* <span className="text-muted tx-gray-400 tx-normal">Finished classes</span> */}
                                     </div>
                                     {/*end::Text*/}
                                     {/*begin::label*/}
@@ -268,8 +269,8 @@ const TeacherSidebar = () => {
                                     {/*end::Symbol*/}
                                     {/*begin::Text*/}
                                     <div className="d-flex flex-column flex-grow-1">
-                                        <span className="tx-dark text-hover-primary mb-1 font-size-lg tx-medium">Experience</span>
-                                        <span className="text-muted tx-gray-400 tx-normal">Days Experience</span>
+                                        <span className="tx-dark text-hover-primary mb-1 font-size-lg tx-medium">Days experience</span>
+                                        {/* <span className="text-muted tx-gray-400 tx-normal">Days Experience</span> */}
                                     </div>
                                     {/*end::Text*/}
                                     {/*begin::label*/}
