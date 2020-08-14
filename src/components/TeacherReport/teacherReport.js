@@ -7,6 +7,10 @@ import Select from 'react-select';
 import {appSettings} from '~src/config'
 const timeOptions = [
   {
+    value:4,
+    label:'This month'
+  },
+  {
     value:1,
     label:'30 days ago'
   },
@@ -93,7 +97,7 @@ const TeacherReport = () => {
             <div className="table-card bg-3">
               <div className="card">
                 <div className="card-body">
-                  <p className="name bg-3">Parent feedback</p>
+                  <p className="name bg-3">Feedback</p>
                   <ul className="feather">
                     <li className="rp-info">
                       <span className="label">5 stars feedback rate </span>
