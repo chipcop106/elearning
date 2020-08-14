@@ -521,9 +521,7 @@ const bookingCalendar = () => {
                 studentName: eventData.bookInfo?.name ?? '',
                 courseName: eventData.bookInfo?.DocumentName ?? '',
                 lessonName: eventData.bookInfo?.LessonName ?? '',
-                teacherTime:moment(eventData?.bookInfo?.TeacherStart ?? new Date()).format(
-                    'DD/MM/YYYY hh:mm A'
-                ),
+                teacherTime:moment(eventData?.bookInfo?.TeacherStart ?? new Date()).format('DD/MM/YYYY hh:mm A'),
                 vnTime: moment(eventData.start).format('DD/MM/YYYY hh:mm A'),
             });
 
