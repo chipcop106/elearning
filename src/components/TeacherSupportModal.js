@@ -39,15 +39,13 @@ const editorOptions = {
         'paste',
         'table',
     ],
-    paste_data_images:false,
-    paste_as_text:true,
     // quickbars_insert_toolbar: 'quicktable image table',
     // quickbars_selection_toolbar: 'bold italic underline | formatselect | blockquote quicklink',
     // contextmenu: 'undo redo | inserttable | cell row column deletetable | help',
     toolbar:
         'undo redo | formatselect | bold italic backcolor | \
       alignleft aligncenter alignright alignjustify | \
-      bullist numlist  | removeformat | image link',
+      bullist numlist  | removeformat | media image link',
       placeholder: 'Your content...',
 
 }
@@ -64,7 +62,6 @@ const initialState = {
 const TeacherSupportModal = ({refreshList}) => {
     const [state, setState] = React.useState(initialState);
     const [editorContent, setEditorContent] = React.useState('');
-    const submitSuccess = () => toast.success(REQUEST_SUCCESS, toastInit);
     const submitAlert = () => toast.warn(FILL_ALL, toastInit);
 
   
@@ -84,10 +81,10 @@ const TeacherSupportModal = ({refreshList}) => {
         try {
             const res = await addSupportTicket({
                 SupportTitle: state?.title ?? '',
-                SupportContent: editorContent || ''
+                SupportContent: tinymce.html.Entities.encodeAllRaw(editorContent) || ''
             })
             if(res.Code === 1){
-                submitSuccess();
+                toast.success('New ticket was created.');
                 $('#md-teacher-support').fadeOut(500, function () {
                     $('#md-teacher-support').modal('hide');
                 });

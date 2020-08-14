@@ -73,7 +73,7 @@ const ScheduleLogTable = ({ showStudentModal }) => {
                                 <thead className="thead-primary">
                                     <tr>
                                         <th>Operation time</th>
-                                        <th>Schedule time (Local)</th>
+                                        <th>Schedule time (Your time)</th>
                                         <th>Schedule time (VN)</th>
                                         <th className="tx-center">Operator</th>
                                         {/* <th className="tx-center">Action</th> */}

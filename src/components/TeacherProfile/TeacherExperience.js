@@ -133,7 +133,7 @@ const TeacherExperience = (props) => {
                 OtherCertificate:JSON.stringify(!!state.otherCertificate && !!state.otherCertificate.length > 0 ? state.otherCertificate.map(ce => ce.ID) : [])
             }
             const res = await updateTeacherExperience(params);
-            res.Code === 1 && toast.success('Update experience success !!', {
+            res.Code === 1 && toast.success('Experience updated successfully !!', {
                 position: toast.POSITION.TOP_CENTER,
                 autoClose: 2000
             });

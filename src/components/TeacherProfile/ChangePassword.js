@@ -77,7 +77,7 @@ const ChangePassword = () => {
                                 <p className="mg-b-0">Old password:</p>
                             </div>
                             <div className="form-group col-sm-8 col-lg-6">
-                                <div className="input-float">
+                                <div className="input-wrapped">
                                     <input type="password" className="form-control" placeholder="Old password" name="oldPassword" ref={register} onChange={(e) => setOldPassword(e.target.value)} defaultValue={oldPassword} />
                                 </div>
                                 {!!errors && !!errors.oldPassword && (<span className="tx-danger mg-t-5 d-block">{errors.oldPassword?.message}</span>)}
@@ -88,7 +88,7 @@ const ChangePassword = () => {
                                 <p className="mg-b-0">New password:</p>
                             </div>
                             <div className="form-group col-sm-8 col-lg-6">
-                                <div className="input-float">
+                                <div className="input-wrapped">
                                     <input type="password" className="form-control" placeholder="New password" name="newPassword" ref={register} onChange={(e) => setNewPassword(e.target.value)} defaultValue={newPassword} />
                                 </div>
                                 {!!errors && !!errors.newPassword && (<span className="tx-danger mg-t-5 d-block">{errors.newPassword?.message}</span>)}
@@ -99,7 +99,7 @@ const ChangePassword = () => {
                                 <p className="mg-b-0">Renew password:</p>
                             </div>
                             <div className="form-group col-sm-8 col-lg-6">
-                                <div className="input-float">
+                                <div className="input-wrapped">
                                     <input type="password" className="form-control" placeholder="Renew password" name="reNewPassword" ref={register} onChange={(e) => setReNewPassword(e.target.value)} defaultValue={reNewPassword} />
                                 </div>
                                 {!!errors && !!errors.reNewPassword && (<span className="tx-danger mg-t-5 d-block">{errors.reNewPassword?.message}</span>)}

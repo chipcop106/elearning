@@ -4,19 +4,19 @@ import Skeleton from 'react-loading-skeleton';
 import { getUpcomingClass, addScheduleLog } from '~src/api/teacherAPI';
 import Pagination from "react-js-pagination";
 import {Popover, OverlayTrigger, Overlay} from 'react-bootstrap';
+import { Editor } from '@tinymce/tinymce-react';
+
 
 const UpcomingRow = ({ data, showStudentModal }) => {
     const { BookingID, ScheduleTimeVN, ScheduleTimeUTC, StudentName, StudentUID, DocumentName, LessionName, SkypeID, StatusString, Status, LessionMaterial, Gender, SpecialRequest } = data;
     const handleEnterClass = async (e) => {
         e.preventDefault();
         try {
-            const res = await addScheduleLog({ BookingID });
-            if (res.Code === 1) {
-                window.location.href = `skype:${SkypeID}?chat`;
-            }
+            const res = addScheduleLog({ BookingID });
         } catch (error) {
             console.log(error?.message ?? `Can't add schedule log !!`)
         }
+        window.location.href = `skype:${SkypeID}?chat`;
     }
 
     const popover = (
@@ -33,11 +33,11 @@ const UpcomingRow = ({ data, showStudentModal }) => {
         <tr>
             <td className="clr-time">
                 <div className="mg-b-5">
-                    <span className=" mg-r-5"><i className="fa fa-clock tx-primary"></i> VN:</span>
+                    <span className=" mg-r-5"><i className="fa fa-clock tx-primary"></i> VN time:</span>
                     <span className="tx-gray-500">{ScheduleTimeVN}</span>
                 </div>
                 <div className="mg-b-5">
-                    <span className=" mg-r-5"><i className="fa fa-clock tx-primary"></i> UTC:</span>
+                    <span className=" mg-r-5"><i className="fa fa-clock tx-primary"></i> Your time:</span>
                     <span className="tx-gray-500">{ScheduleTimeUTC}</span>
                 </div>
             </td>
@@ -76,7 +76,7 @@ const UpcomingRow = ({ data, showStudentModal }) => {
             </td>
             <td className="clr-actions">
                 <a href={LessionMaterial} className="btn btn-sm btn-warning rounded-5 mg-r-10" target="_blank" rel="noopener"><i className="fa fa-book-open clrm-icon" /> Material</a>
-                <a href={`skype:${SkypeID}?chat`} className=" btn btn-sm btn-warning rounded-5" onClick={handleEnterClass}><i className="fab fa-skype clrm-icon" /> Enter Class</a>
+                <a href={`skype:${SkypeID}?chat`} className=" btn btn-sm btn-warning rounded-5" onClick={handleEnterClass}><i className="fab fa-skype clrm-icon" /> Go to Classroom</a>
 
             </td>
         </tr>

@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useState } from 'react';
 import ReactDOM from 'react-dom';
 import SkeletonLessonDetail from "../common/Skeleton/SkeletonLessonDetail";
 import TinyEditor, { imageUploadHandle } from '~components/common/TinyEditor';
@@ -19,6 +19,7 @@ const editorOptions = {
     // toolbar: false,
     // menubar: false,
     inline: false,
+    encoding : "xml",
     plugins: [
         'autolink lists link image ',
         'media table paste help wordcount',
@@ -28,8 +29,6 @@ const editorOptions = {
         'autoresize',
         'table',
     ],
-    paste_data_images:false,
-    paste_as_text:true,
     // quickbars_insert_toolbar: 'quicktable image table',
     // quickbars_selection_toolbar: 'bold italic underline | formatselect | blockquote quicklink',
     // contextmenu: 'undo redo | inserttable | cell row column deletetable | help',
@@ -95,7 +94,7 @@ const reducer = (prevState, { type, payload }) => {
 const TeacherLessonDetail = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
     const selectRef = React.useRef(true);
-
+    const [submitLoading, setSubmitLoading] = useState(false);
     const updateState = (key, value) => {
         dispatch({ type: 'UPDATE_STATE', payload: { key, value } })
     }
@@ -131,14 +130,16 @@ const TeacherLessonDetail = () => {
             selectRef.current.focus();
             return;
         }
+        setSubmitLoading(true);
+       
         try {
             const res = await addEvaluation({
                 ElearnBookingID: parseInt(state?.lessonInfo.BookingID || 0),
-                Pronunciation: encodeURI(state?.pronounce ?? ''),
-                Vocabulary: encodeURI(state?.vocabulary ?? ''),
-                Grammar: encodeURI(state?.grammar ?? ''),
-                SentenceDevelopmentAndSpeak: encodeURI(state?.memorize ?? ''),
-                Note: encodeURI(state?.note ?? ''),
+                Pronunciation: tinymce.html.Entities.encodeAllRaw(state?.pronounce ?? ''),
+                Vocabulary: tinymce.html.Entities.encodeAllRaw(state?.vocabulary ?? ''),
+                Grammar: tinymce.html.Entities.encodeAllRaw(state?.grammar ?? ''),
+                SentenceDevelopmentAndSpeak: tinymce.html.Entities.encodeAllRaw(state?.memorize ?? ''),
+                Note: tinymce.html.Entities.encodeAllRaw(state?.note ?? ''),
                 FinishedType: parseInt(!!state.finishedType && !!state.finishedType ? state.finishedType.ID : 0)
             });
             if (res.Code === 1) {
@@ -149,7 +150,7 @@ const TeacherLessonDetail = () => {
         } catch (error) {
             console.log(error?.message ?? 'Lỗi gọi api addEvaluation, vui lòng xem lại tham số');
         }
-
+        setSubmitLoading(false);
     }
 
     React.useEffect(() => {
@@ -269,19 +270,13 @@ const TeacherLessonDetail = () => {
                                 </div>
                             </div>
                         </div>
-                        <hr className="mg-y-30" style={{ borderStyle: "dashed" }} />
-                        <div className="d-flex">
-                            <button className="btn btn-primary mg-r-15" onClick={_submitFeedback}><i className="fa fa-save mg-r-5"></i> Submit feedback</button>
-                            <button className="btn btn-icon btn-light mg-r-15" onClick={() => window.history.back()}><i className="fas fa-arrow-left mg-r-5"></i> Back</button>
-                        </div>
                     </div>
                 </div>
             </div>
             <div className="col-xl-8 col-lg-7">
                 <div className="card  mg-b-30">
                     <div className="card-header">
-                        <h5 className="mg-b-5">Vocabulary</h5>
-                        <p className="tx-gray-300 mg-b-0">Feedback vocabulary of student</p>
+                        <h5 className="mg-b-0">Vocabulary</h5>
                     </div>
                     <div className="card-body">
                         <div className="st-danhgianguphap ">
@@ -299,8 +294,7 @@ const TeacherLessonDetail = () => {
                 </div>
                 <div className="card  mg-b-30">
                     <div className="card-header">
-                        <h5 className="mg-b-5">Grammar</h5>
-                        <p className="tx-gray-300 mg-b-0">Feedback Grammar of student</p>
+                        <h5 className="mg-b-0">Grammar</h5>
                     </div>
                     <div className="card-body">
                         <div className="st-danhgianguphap ">
@@ -318,8 +312,7 @@ const TeacherLessonDetail = () => {
                 </div>
                 <div className="card  mg-b-30">
                     <div className="card-header">
-                        <h5 className="mg-b-5">Pronounce</h5>
-                        <p className="tx-gray-300 mg-b-0">Feedback Pronounce of student</p>
+                        <h5 className="mg-b-0">Pronounce</h5>
                     </div>
                     <div className="card-body">
                         <div className="st-danhgianguphap ">
@@ -337,8 +330,7 @@ const TeacherLessonDetail = () => {
                 </div>
                 <div className="card  mg-b-30">
                     <div className="card-header">
-                        <h5 className="mg-b-5">Sentence Development And Speak</h5>
-                        <p className="tx-gray-300 mg-b-0">Feedback sentence development and speak of student</p>
+                        <h5 className="mg-b-0">Sentence Development And Speak</h5>
                     </div>
                     <div className="card-body">
                         <div className="st-danhgianguphap ">
@@ -358,8 +350,7 @@ const TeacherLessonDetail = () => {
               
                 <div className="card">
                     <div className="card-header">
-                        <h5 className="mg-b-5">Note</h5>
-                        <p className="tx-gray-300 mg-b-0">Note for student</p>
+                        <h5 className="mg-b-0">Note</h5>
                     </div>
                     <div className="card-body">
                         <div>
@@ -376,6 +367,22 @@ const TeacherLessonDetail = () => {
 
                     </div>
                 </div>
+                <div className="d-flex mg-t-30">
+                        <button type="button" className="btn btn-primary d-inline-flex align-items-center mg-r-15" disabled={submitLoading} onClick={_submitFeedback}>
+                                {
+                                    submitLoading ? (
+                                        <div className="spinner-border wd-20 ht-20 mg-r-5" role="status">
+                                            <span className="sr-only">Submitting...</span>
+                                        </div>
+                                    )
+                                        : (<><i className="fa fa-save mg-r-5"></i></>)
+                                }
+                                <span>{submitLoading ? 'Submitting...' : 'Submit feedback'}</span>
+
+                            </button>
+                            {/* <button className="btn btn-primary mg-r-15" onClick={_submitFeedback}><i className="fa fa-save mg-r-5"></i> Submit feedback</button> */}
+                            <button className="btn btn-icon btn-light mg-r-15" onClick={() => window.history.back()}><i className="fas fa-arrow-left mg-r-5"></i> Back</button>
+                        </div>
             </div>
         </div>
         <ToastContainer

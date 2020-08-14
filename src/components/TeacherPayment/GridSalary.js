@@ -70,10 +70,10 @@ const monthOptions = [
 
 const typeOptions = [{
     value: 1,
-    label: 'The first 2 weeks'
+    label: '1st to 15th'
 }, {
     value: 2,
-    label: '2 weeks later'
+    label: '16th to end'
 }]
 
 const now = new Date();
@@ -103,7 +103,7 @@ const GridSalary = () => {
                 <div className="d-md-flex justify-content-between align-items-center">
                     <h3 className="mg-md-b-0 text-dark tx-bold mg-b-15">TOTAL PAYMENT</h3>
                     <div className="d-flex flex-sm-nowrap flex-wrap">
-                        <span className="pay-title-times mg-sm-r-10 tx-16 wd-sm-auto wd-100p mg-b-10 mg-sm-b-0 pd-sm-t-7 d-inline-block">{selectedSection == 1 ? '1st' : '2nd'} half of <span className="tx-primary tx-bold">{monthNames[month - 1]} {now.getFullYear()}</span></span>
+                        <span className="pay-title-times mg-sm-r-10 tx-26 wd-sm-auto wd-100p mg-b-10 mg-sm-b-0 d-inline-block"><span className="tx-primary tx-bold">{now.getFullYear()}</span></span>
                         <div className="d-flex">
                         <div className="mg-r-10 wd-200">
                             <Select
@@ -111,7 +111,9 @@ const GridSalary = () => {
                                 onChange={setSelectedSection}
                                 defaultValue={selectedSection}
                                 styles={appSettings.selectStyle}
-
+                                formatOptionLabel={({value, label}) => {
+                                    return value === 1 ? <span>1<sup>st</sup> to 15<sup>th</sup></span> : <span>16<sup>th</sup> to end</span>
+                                }}
                             />
                             {/* <select className="form-control" value={selectedSection} onChange={(event) => setSelectedSection(event.target.value)} >
                                 <option value="1">The first 2 weeks </option>
@@ -146,7 +148,7 @@ const GridSalary = () => {
                 <div className="table-row form-row">
 
                     <div className="col-lg-4 mg-b-15 mg-lg-b-0">
-                        <div className="card card-custom ht-100p">
+                        <div className="card ht-100p">
                             <div className="card-body">
                                 <div className="d-flex justify-content-between">
                                     <p className="pay-syn-title">Participation Incentives</p>
@@ -163,14 +165,14 @@ const GridSalary = () => {
                                     <p className="pay-syn-text">{!isLoading ? <NumberFormat value={`${data.FinishedClass}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center">
-                                    <p className="pay-syn-text">Course deduction</p>
-                                    <p className="pay-syn-text">{!isLoading ? <NumberFormat value={`${data.CourseDeduction}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
+                                    <p className="pay-syn-text mg-b-0">Course deduction</p>
+                                    <p className="pay-syn-text mg-b-0">{!isLoading ? <NumberFormat value={`${data.CourseDeduction}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="col-lg-4 mg-b-15 mg-lg-b-0">
-                        <div className="card card-custom ht-100p">
+                        <div className="card ht-100p">
                             <div className="card-body">
                                 <div className="d-flex justify-content-between">
                                     <p className="pay-syn-title">Other Incentives</p>
@@ -186,14 +188,14 @@ const GridSalary = () => {
                                     <p className="pay-syn-text">{!isLoading ? <NumberFormat value={`${data.NewStudentSignup}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center">
-                                    <p className="pay-syn-text">Rewards</p>
-                                    <p className="pay-syn-text">{!isLoading ? <NumberFormat value={`${data.Rewards}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
+                                    <p className="pay-syn-text mg-b-0">Rewards</p>
+                                    <p className="pay-syn-text mg-b-0">{!isLoading ? <NumberFormat value={`${data.Rewards}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="col-lg-4 mg-b-15 mg-lg-b-0">
-                        <div className="card card-custom ht-100p">
+                        <div className="card ht-100p">
                             <div className="card-body">
                                 <div className="d-flex justify-content-between">
                                     <p className="pay-syn-title">Adjustments</p>
@@ -209,9 +211,9 @@ const GridSalary = () => {
                                     <p className="pay-syn-text">{!isLoading ? <NumberFormat value={`${data.Additions}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center">
-                                    <p className="pay-syn-text">Deductions</p>
+                                    <p className="pay-syn-text mg-b-0">Deductions</p>
 
-                                    <p className="pay-syn-text">{!isLoading ? <NumberFormat value={`${data.Deductions}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
+                                    <p className="pay-syn-text mg-b-0">{!isLoading ? <NumberFormat value={`${data.Deductions}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
                                 </div>
                             </div>
                         </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 const CancelSlotModal = ({ data, handleCancelSlot }) => {
-  const { id, date, start, end, studentName, lessonName, courseName } = data;
+  const { id, date, teacherTime, vnTime, studentName, lessonName, courseName } = data;
   const [reason, setReason] = React.useState("")
   const _onSubmit = (e) => {
     e.preventDefault();
@@ -18,15 +18,9 @@ const CancelSlotModal = ({ data, handleCancelSlot }) => {
             <p>Course: <span className="tx-medium">{courseName}</span></p>
             <p>Lesson: <span className="tx-medium">{lessonName}</span></p>
             <p>Student name: <span className="tx-medium">{studentName}</span></p>
-            <p>Date: <span className="tx-medium" >{date}</span></p>
-            <div className="row">
-              <div className="col">
-                <p>Start: <span className="tx-medium" >{start}</span></p>
-              </div>
-              <div className="col">
-                <p>End: <span className="tx-medium" >{end}</span></p>
-              </div>
-            </div>
+            <p>Your time: <span className="tx-medium" >{teacherTime}</span></p>
+            <p>VN time: <span className="tx-medium" >{vnTime}</span></p>
+            
 
             <div className="form-group">
               <textarea

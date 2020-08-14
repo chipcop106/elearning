@@ -235,7 +235,7 @@ function TeacherInformation() {
                 Location: data?.location?.ID ?? 0,
                 State: data?.state?.ID ?? 0,
             });
-            res.Code === 1 && toast.success('Update introduce success !!', {
+            res.Code === 1 && toast.success('Information updated successfully !!', {
                 position: toast.POSITION.TOP_CENTER,
                 autoClose: 2000
             });
@@ -245,7 +245,7 @@ function TeacherInformation() {
                 Phone: data?.phoneNumber.toString() ?? '',
                 Avatar: data?.avatar ?? '', // str
             })
-            res.Code !== 1 && toast.error('Update introduce failed !!', {
+            res.Code !== 1 && toast.error('Update information failed !!', {
                 position: toast.POSITION.TOP_CENTER,
                 autoClose: 2000
             });
