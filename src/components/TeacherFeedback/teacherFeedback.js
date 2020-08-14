@@ -9,6 +9,8 @@ import {
 } from 'react-transition-group';
 import styles from './teacherFeedback.module.scss';
 import Skeleton from 'react-loading-skeleton';
+import Pagination from 'react-js-pagination';
+
 const feedbackDemo = [
     {
         id: randomId(),

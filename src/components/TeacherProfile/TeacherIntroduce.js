@@ -72,7 +72,7 @@ function TeacherIntroduce(props) {
                 Introduce: state.introduce,
                 LinkVideo: state.youtubeUrl
             });
-            res.Code === 1 && toast.success('Update introduce success !!', {
+            res.Code === 1 && toast.success('Introduce updated successfully  !!', {
                 position: toast.POSITION.TOP_CENTER,
                 autoClose: 2000
             });

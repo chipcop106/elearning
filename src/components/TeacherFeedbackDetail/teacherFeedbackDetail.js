@@ -6,7 +6,11 @@ import { appSettings } from '~src/config';
 import styles from './teacherFeedbackDetail.module.scss';
 import Select from 'react-select';
 
-
+function decodeHTML(encodeHTML){
+    const el = document.createElement('textarea');
+    el.innerHTML = encodeHTML;
+    return el.value;
+}
 
 const initialState = {
     isLoading: true,
@@ -198,25 +202,23 @@ const TeacherFeedbackDetail = () => {
             <div className="col-xl-8 col-lg-7">
                 <div className="card  mg-b-30">
                     <div className="card-header">
-                        <h5 className="mg-b-5">Vocabulary</h5>
-                        <p className="tx-gray-300 mg-b-0">Feedback vocabulary of student</p>
+                        <h5 className="mg-b-0">Vocabulary</h5>
                     </div>
                     <div className="card-body">
                         <div className="st-danhgianguphap ">
                             {
-                                !!state.lessonInfo && !!state.lessonInfo.vocabulary && <div className="" dangerouslySetInnerHTML={{ __html: state.lessonInfo.vocabulary }}></div>
+                                !!state.lessonInfo && !!state.lessonInfo.vocabulary && <div className="" dangerouslySetInnerHTML={{ __html: decodeHTML(!!state && !!state.lessonInfo && !!state.lessonInfo.vocabulary ? state.lessonInfo.vocabulary : '') }}></div>
                             }
                         </div>
                     </div>
                 </div>
                 <div className="card  mg-b-30">
                     <div className="card-header">
-                        <h5 className="mg-b-5">Grammar</h5>
-                        <p className="tx-gray-300 mg-b-0">Feedback Grammar of student</p>
+                        <h5 className="mg-b-0">Grammar</h5>
                     </div>
                     <div className="card-body">
                         <div className="st-danhgianguphap ">
-                            <div className="" dangerouslySetInnerHTML={{ __html: !!state && !!state.lessonInfo && !!state.lessonInfo.grammar ? state.lessonInfo.grammar :'' }}></div>
+                            <div className="" dangerouslySetInnerHTML={{ __html: decodeHTML(!!state && !!state.lessonInfo && !!state.lessonInfo.grammar ? state.lessonInfo.grammar :'') }}></div>
                           
 
                         </div>
@@ -224,33 +226,30 @@ const TeacherFeedbackDetail = () => {
                 </div>
                 <div className="card  mg-b-30">
                     <div className="card-header">
-                        <h5 className="mg-b-5">Pronounce</h5>
-                        <p className="tx-gray-300 mg-b-0">Feedback Pronounce of student</p>
+                        <h5 className="mg-b-0">Pronounce</h5>
                     </div>
                     <div className="card-body">
                         <div className="st-danhgianguphap ">
-                            <div className="" dangerouslySetInnerHTML={{ __html: !!state && !!state.lessonInfo && !!state.lessonInfo.pronounce ? state.lessonInfo.pronounce : '' }}></div>
+                            <div className="" dangerouslySetInnerHTML={{ __html: decodeHTML(!!state && !!state.lessonInfo && !!state.lessonInfo.pronounce ? state.lessonInfo.pronounce : '') }}></div>
                         </div>
                     </div>
                 </div>
                 <div className="card  mg-b-30">
                     <div className="card-header">
-                        <h5 className="mg-b-5">Sentence Development And Speak</h5>
-                        <p className="tx-gray-300 mg-b-0">Feedback sentence development and speak of student</p>
+                        <h5 className="mg-b-0">Sentence Development And Speak</h5>
                     </div>
                     <div className="card-body">
                         <div className="st-danhgianguphap ">
-                            <div className="" dangerouslySetInnerHTML={{ __html: !!state && !!state.lessonInfo && !!state.lessonInfo.memorize ? state.lessonInfo.memorize : '' }}></div>
+                            <div className="" dangerouslySetInnerHTML={{ __html: decodeHTML(!!state && !!state.lessonInfo && !!state.lessonInfo.memorize ? state.lessonInfo.memorize : '') }}></div>
                         </div>
                     </div>
                 </div>
                 <div className="card">
                     <div className="card-header">
-                        <h5 className="mg-b-5">Note</h5>
-                        <p className="tx-gray-300 mg-b-0">Note for student</p>
+                        <h5 className="mg-b-0">Note</h5>
                     </div>
                     <div className="card-body">
-                        <div className="" dangerouslySetInnerHTML={{ __html: !!state && !!state.lessonInfo && !!state.lessonInfo.note ? state.lessonInfo.note  : '' }}></div>
+                        <div className="" dangerouslySetInnerHTML={{ __html: decodeHTML(!!state && !!state.lessonInfo && !!state.lessonInfo.note ? state.lessonInfo.note  : '') }}></div>
                     </div>
                 </div>
             </div>

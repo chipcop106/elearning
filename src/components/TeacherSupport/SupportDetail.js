@@ -155,7 +155,7 @@ const SupportDetail = ({ onClickBack, detailId, afterCancelSuccess }) => {
                         </div>
                     </div>
                     {
-                        isLoading ? <div className="pd-y-30"><Skeleton count={5} /></div> : <div className="pd-y-30" dangerouslySetInnerHTML={{ __html: decodeURI(state?.SupportContent) ?? '' }}></div>
+                        isLoading ? <div className="pd-y-30"><Skeleton count={5} /></div> : <div className="pd-y-30" dangerouslySetInnerHTML={{ __html: tinymce.html.Entities.decode(state?.SupportContent) ?? '' }}></div>
                     }
                 </div>
                 {
@@ -177,7 +177,7 @@ const SupportDetail = ({ onClickBack, detailId, afterCancelSuccess }) => {
                                     </div>
                                 </div>
                                 {
-                                    isLoading ? <div className="pd-y-30"><Skeleton count={5} /></div> : <div className="pd-y-30" dangerouslySetInnerHTML={{ __html: state?.AdminReplyContent ?? '' }}></div>
+                                    isLoading ? <div className="pd-y-30"><Skeleton count={5} /></div> : <div className="pd-y-30" dangerouslySetInnerHTML={{ __html: tinymce.html.Entities.decode(state?.AdminReplyContent ?? '' )}}></div>
                                 }
                             </div>
                         </>

@@ -9,11 +9,11 @@ const MissingFeedbackRow = ({ data }) => {
         <tr>
             <td className="clr-time">
                 <div className="mg-b-5">
-                    <span className=" mg-r-5"><i className="fa fa-clock tx-primary"></i> VN:</span>
+                    <span className=" mg-r-5"><i className="fa fa-clock tx-primary"></i> VN time:</span>
                     <span className="tx-gray-500">{ScheduleTimeVN}</span>
                 </div>
                 <div className="mg-b-5">
-                    <span className=" mg-r-5"><i className="fa fa-clock tx-primary"></i> UTC:</span>
+                    <span className=" mg-r-5"><i className="fa fa-clock tx-primary"></i> Your time:</span>
                     <span className="tx-gray-500">{ScheduleTimeUTC}</span>
                 </div>
             </td>

@@ -28,6 +28,9 @@ const Schema = Yup.object().shape({
         .required('Card number is required'),
     bankName:  Yup.string()
     .required('Bank name is required'),
+    bankAddress:  Yup.string(),
+    bankSWIFTCode:  Yup.string(),
+    paypalAccount:  Yup.string(),
 });
 
 const PaymentInfo = () => {
@@ -46,7 +49,10 @@ const PaymentInfo = () => {
             const res = await updateBankInfo({
                 BankName:data?.bankName ?? '',
                 CardHolderName:data?.cardName ?? '',
-                CardNumber:parseInt(data?.cardNumber && isNaN(data.cardNumber.split('-').join('')) ? 0 : data.cardNumber.split('-').join('')) 
+                CardNumber:parseInt(data?.cardNumber && isNaN(data.cardNumber.split('-').join('')) ? 0 : data.cardNumber.split('-').join('')),
+                BankAddress:data?.bankAddress ?? '',
+                BankSWIFTCode:data?.bankSWIFTCode ?? '',
+                PaypalAccount:data?.paypalAccount ?? '',
             });
             res.Code === 1 && toast.success('Update payment success !!', {
                 position: toast.POSITION.TOP_CENTER,
@@ -68,6 +74,9 @@ const PaymentInfo = () => {
             if(res.Code === 1) {
                 setValue('bankName',res.Data?.BankName ?? '');
                 setValue('cardName',res.Data?.CardHolderName ?? '');
+                setValue('bankAddress',res.Data?.BankAddress ?? '');
+                setValue('bankSWIFTCode',res.Data?.BankSWIFTCode ?? '');
+                setValue('paypalAccount',res.Data?.PaypalAccount ?? '');
                 setValue('cardNumber',res.Data?.CardNumber && res.Data?.CardNumber.toString().length > 1 ? res.Data?.CardNumber : '____-____-____-____' ?? '____-____-____-____');
                 setBank(res.Data?.BankName ?? '');
                 setCardName(res.Data?.CardHolderName ?? '');
@@ -102,14 +111,14 @@ const PaymentInfo = () => {
                             {/* <span className="visual-bank">{bank || ''}</span> */}
                             <img src="../assets/img/visa-2.png" className="wd-100p" />
                         </div>
-            
+
                         
                         <div className="row ">
                             <div className="form-group col-sm-4 mg-sm-t-10 mg-b-0 mg-sm-b-30">
-                                <p className="mg-b-0">Bank name:</p>
+                                <p className="mg-b-0">Bank Name: <span class="tx-danger">(*)</span></p>
                             </div>
                             <div className="form-group col-sm-8 col-lg-6">
-                            <div className="input-float">
+                            <div className="input-wrapped">
                                 <input type="text"  className={`form-control ${!!errors && !!errors.bankName ? 'error-form' : ''} tx-uppercase`} placeholder="Bank name" name="bankName" ref={register} onChange={(e) => setBank(e.target.value.toUpperCase())}  />
                             </div>
                             {!!errors && !!errors.bankName && (<span className="tx-danger mg-t-5 d-block">{errors.bankName?.message}</span>)}
@@ -120,32 +129,66 @@ const PaymentInfo = () => {
 
                         <div className="row ">
                             <div className="form-group col-sm-4 mg-sm-t-10 mg-b-0 mg-sm-b-30" >
-                                <p className="mg-b-0">Card holder name:</p>
+                                <p className="mg-b-0">Bank Account Name: <span class="tx-danger">(*)</span></p>
                             </div>
                             <div className="form-group col-sm-8 col-lg-6">
-                                <div className="input-float">
-                                    <input type="text"  className={`form-control ${!!errors && !!errors.cardName ? 'error-form' : ''} tx-uppercase`} placeholder="Full name" name="cardName" ref={register} onChange={(e) => setCardName(e.target.value.toUpperCase())} />
+                                <div className="input-wrapped">
+                                    <input type="text"  className={`form-control ${!!errors && !!errors.cardName ? 'error-form' : ''} tx-uppercase`} placeholder="Bank account name" name="cardName" ref={register} onChange={(e) => setCardName(e.target.value.toUpperCase())} />
                                 </div>
                                 {!!errors && !!errors.cardName && (<span className="tx-danger mg-t-5 d-block">{errors.cardName?.message}</span>)}
                             </div>
                         </div>
                         <div className="row ">
                             <div className="form-group col-sm-4 mg-sm-t-10 mg-b-0 mg-sm-b-30">
-                                <p className="mg-b-0">Card number:</p>
+                                <p className="mg-b-0">Card number: <span class="tx-danger">(*)</span></p>
                             </div>
                             <div className="form-group col-sm-8 col-lg-6">
-                                <div className="input-float">
+                                <div className="input-wrapped">
                                 <input 
                                 type="text" 
                                 name="cardNumber" 
                                 ref={register} 
                                 className={`form-control ${!!errors && !!errors.cardNumber ? 'error-form' : ''}`}
                                 onChange={(e) => setCardNumber(e.target.value)}
+                                placeholder="Card number"
                                 />
-                      
-                                    
                                 </div>
                                 {!!errors && !!errors.cardNumber && (<span className="tx-danger mg-t-5 d-block">{errors.cardNumber?.message}</span>)}
+                            </div>
+                        </div>
+                        <div className="row ">
+                            <div className="form-group col-sm-4 mg-sm-t-10 mg-b-0 mg-sm-b-30" >
+                                <p className="mg-b-0">Bank Address:</p>
+                            </div>
+                            <div className="form-group col-sm-8 col-lg-6">
+                                <div className="input-wrapped">
+                                    <input type="text"  className={`form-control ${!!errors && !!errors.bankAddress ? 'error-form' : ''} tx-uppercase`} placeholder="Bank address" name="bankAddress" ref={register} />
+                                </div>
+                                {!!errors && !!errors.bankAddress && (<span className="tx-danger mg-t-5 d-block">{errors.bankAddress?.message}</span>)}
+                            </div>
+                        </div>
+
+                        <div className="row ">
+                            <div className="form-group col-sm-4 mg-sm-t-10 mg-b-0 mg-sm-b-30" >
+                                <p className="mg-b-0">Bank SWIFT code:</p>
+                            </div>
+                            <div className="form-group col-sm-8 col-lg-6">
+                                <div className="input-wrapped">
+                                    <input type="text"  className={`form-control ${!!errors && !!errors.bankSWIFTCode ? 'error-form' : ''} tx-uppercase`} placeholder="Bank SWIFT code" name="bankSWIFTCode" ref={register} />
+                                </div>
+                                {!!errors && !!errors.bankSWIFTCode && (<span className="tx-danger mg-t-5 d-block">{errors.bankSWIFTCode?.message}</span>)}
+                            </div>
+                        </div>
+
+                        <div className="row ">
+                            <div className="form-group col-sm-4 mg-sm-t-10 mg-b-0 mg-sm-b-30" >
+                                <p className="mg-b-0">PAYPAL account:</p>
+                            </div>
+                            <div className="form-group col-sm-8 col-lg-6">
+                                <div className="input-wrapped">
+                                    <input type="text"  className={`form-control ${!!errors && !!errors.paypalAccount ? 'error-form' : ''} tx-uppercase`} placeholder="Paypal account" name="paypalAccount" ref={register} />
+                                </div>
+                                {!!errors && !!errors.paypalAccount && (<span className="tx-danger mg-t-5 d-block">{errors.paypalAccount?.message}</span>)}
                             </div>
                         </div>
 
