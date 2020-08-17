@@ -78,8 +78,10 @@ export const getDifferentMinBetweenTime = (startDate, endDate) => {
 };
 
 export const checkCancelTime = (startTime) => {
+    console.log(startTime)
     const diff = getDifferentMinBetweenTime(new Date(startTime), new Date());
-    return Math.abs(diff) < 30 ? true : false
+    console.log(diff)
+    return diff < 30 ? true : false
 }
 
 export const getFormattedDate = (dateStr) => {

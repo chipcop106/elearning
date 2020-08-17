@@ -157,7 +157,7 @@ const TeacherFeedbackDetail = () => {
                                 </div>
                                 {/* <!--/thông tin buổi học--> */}
                             </div>
-                            <div className="col-sm-12">
+                            <div className="col-sm-12 mg-b-15">
                                 {/* <!--thang danh gia--> */}
                                 <div className="infomation__wrap">
                                     <h5 className="mg-b-15 mg-md-t-15 mg-t-15 mg-md-t-0-f">Student Information</h5>
@@ -187,12 +187,18 @@ const TeacherFeedbackDetail = () => {
                                             </span>
                                         </p>
                                     </div>
-                                    <div className="st-time">
+                                    {/* <div className="st-time">
                                         <p className="st-teacher-text d-flex justify-content-between mg-b-5">
                                             <span className=""><i className="fa fa-comment tx-primary st-icon wd-20 mg-r-5"></i>Evalution: </span>
-                                            <span className="">{!!state.lessonInfo && !!state.lessonInfo.StudentNode ? state.lessonInfo.StudentNode : ''}</span>
+                                            <span className="" style={{ wordBreak: "break-word" }}>{!!state.lessonInfo && !!state.lessonInfo.StudentNote ? state.lessonInfo.StudentNote : ''}</span>
                                         </p>
-                                    </div>
+                                    </div> */}
+                                </div>
+                            </div>
+                            <div className="col-sm-12">
+                                <div>
+                                    <h5 className="mg-b-15 mg-md-t-15 mg-t-15 mg-md-t-0-f">Student Feedback</h5>
+                                    <span style={{ wordBreak: "break-word" }}>{!!state.lessonInfo && !!state.lessonInfo.StudentNote ? state.lessonInfo.StudentNote : ''}</span>
                                 </div>
                             </div>
                         </div>
@@ -249,7 +255,7 @@ const TeacherFeedbackDetail = () => {
                         <h5 className="mg-b-0">Note</h5>
                     </div>
                     <div className="card-body">
-                        <div className="" dangerouslySetInnerHTML={{ __html: decodeHTML(!!state && !!state.lessonInfo && !!state.lessonInfo.note ? state.lessonInfo.note  : '') }}></div>
+                        <div className="" dangerouslySetInnerHTML={{ __html: decodeHTML(!!state && !!state.lessonInfo && !!state.lessonInfo.Note ? state.lessonInfo.Note  : '') }}></div>
                     </div>
                 </div>
             </div>

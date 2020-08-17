@@ -38,11 +38,11 @@ const RenderListNation = () => {
     </legend> */}
       <div className="custom-control custom-checkbox national-checkbox">
         <input type="checkbox" className="custom-control-input" id={`asia-Philipine`} />
-        <label className="custom-control-label" htmlFor={`asia-Philipine`}>Philipine</label>
+        <label className="custom-control-label" htmlFor={`asia-Philipine`} data-id="1" >Philipine</label>
       </div>
       <div className="custom-control custom-checkbox national-checkbox">
         <input type="checkbox" className="custom-control-input" id={`europe-England`} />
-        <label className="custom-control-label" htmlFor={`europe-England`}>Anh</label>
+        <label className="custom-control-label" htmlFor={`europe-England`} data-id="2" >Anh</label>
       </div>
     </fieldset>
   </>
@@ -54,11 +54,10 @@ const ListNation = ({ selectNation }) => {
     let array = [];
     $('#div-nationality .national-checkbox input').each(function () {
       if ($(this).is(':checked')) {
-        array.push($(this).next().text())
+        array.push($(this).next().data("id"))
       }
     })
     const value = array.join(",");
-    console.log(value)
     selectNation(value);
   }
 

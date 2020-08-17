@@ -514,14 +514,14 @@ const bookingCalendar = () => {
         $('body').on('click', '.cancel-schedule', function (e) {
             e.preventDefault();
             const eventData = JSON.parse(this.getAttribute('data-schedule'));
-            
+            console.log(eventData);
             setActiveModal({
                 ...activeModal,
                 ...eventData,
                 studentName: eventData.bookInfo?.name ?? '',
                 courseName: eventData.bookInfo?.DocumentName ?? '',
                 lessonName: eventData.bookInfo?.LessonName ?? '',
-                teacherTime:moment(eventData?.bookInfo?.TeacherStart ?? new Date()).format('DD/MM/YYYY hh:mm A'),
+                teacherTime:moment(eventData?.TeacherStart ?? new Date()).format('DD/MM/YYYY hh:mm A'),
                 vnTime: moment(eventData.start).format('DD/MM/YYYY hh:mm A'),
             });
 

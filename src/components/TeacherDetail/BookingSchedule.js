@@ -54,13 +54,11 @@ const BookingSchedule = ({
     const eventDidMount = (args) => {
       const { event } = args;
       let toggleStudent = document.getElementById('student-toggle-checkbox');
-      //console.log(toggleStudent);
-      if (!args.isPast) {
+      if (!args.isPast && (event._def.extendedProps.available || event._def.extendedProps.bookInfo)) {
         $(args.el).tooltip({
           html: true,
-          title: `<p class="mg-b-5">${moment(event.start).format("dddd, DD/MM/YYYY")}</p>
-            <p class="mg-b-5">Start: ${moment(event.start).format("hh:mm A")}</p>
-            <p class="mg-b-5">End: ${moment(event.end).format("hh:mm A")}</p>`,
+          title: `<p class="mg-b-0">Ngày học: ${moment(event.start).format("dddd, DD/MM/YYYY")}</p>
+            <p class="mg-b-0">Giờ học: ${moment(event.start).format("hh:mm A")} - ${moment(event.end).format("hh:mm A")}</p>`,
           animation: false,
           template: `<div class="tooltip" role="tooltip">
                 <div class="tooltip-arrow"></div><div class="tooltip-inner"></div>
@@ -161,7 +159,7 @@ const BookingSchedule = ({
         let templateEl = document.createElement("div");
         templateEl.setAttribute("class", "slot-label");
         const html = `${hotTime.includes(hour) ? `<i class="fa fa-fire tx-danger hot-icon"></i>` : ""}
-          ${arg.text.toUpperCase()}`;
+        ${moment(arg.date).format('hh:mm A')}`;
         templateEl.innerHTML = html;
         return { html };
       },

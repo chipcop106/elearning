@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styles from '~components/common/StudentComment/StudentCommentItem.module.scss';
+import { decodeHTML } from "~src/utils"
 
 const StudentCommentItem = ({
   ScheduleTimeVN,
@@ -52,7 +53,7 @@ const StudentCommentItem = ({
           </div>
         </div>
         <div className="feedback-comment">
-          <p style={{ wordBreak:"break-all" }}>{!!Note ? Note: !!Evaluation ? Evaluation : ""}</p>
+        <p dangerouslySetInnerHTML={{ __html: decodeHTML(!!Note ? Note: !!Evaluation ? Evaluation : "") }} style={{ wordBreak: "break-word" }}></p>
         </div>
         <div className="metas">
           {

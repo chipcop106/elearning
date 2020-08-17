@@ -19,7 +19,7 @@ const editorOptions = {
     // toolbar: false,
     // menubar: false,
     inline: false,
-    encoding : "xml",
+    encoding: "xml",
     plugins: [
         'autolink lists link image ',
         'media table paste help wordcount',
@@ -125,13 +125,13 @@ const TeacherLessonDetail = () => {
     }
 
     const _submitFeedback = async () => {
-        if(!state?.finishedType && !state.finishedType || state.finishedType === 0){
+        if (!state?.finishedType && !state.finishedType || state.finishedType === 0) {
             toast.warning('Please select Finished type !!');
             selectRef.current.focus();
             return;
         }
         setSubmitLoading(true);
-       
+
         try {
             const res = await addEvaluation({
                 ElearnBookingID: parseInt(state?.lessonInfo.BookingID || 0),
@@ -146,7 +146,7 @@ const TeacherLessonDetail = () => {
                 toast.success('Update feedback success, redirect after 2 second !!');
                 setTimeout(() => window.location.href = '/ElearnTeacher/FeedbackDetail?ID=' + state.lessonInfo.BookingID, 2000)
             }
-            res.Code !== 1 &&  toast.error('Update feedback failed !!');
+            res.Code !== 1 && toast.error('Update feedback failed !!');
         } catch (error) {
             console.log(error?.message ?? 'Lỗi gọi api addEvaluation, vui lòng xem lại tham số');
         }
@@ -231,7 +231,7 @@ const TeacherLessonDetail = () => {
                                 </div>
                                 {/* <!--/thông tin buổi học--> */}
                             </div>
-                            <div className="col-sm-12">
+                            <div className="col-sm-12 mg-b-15">
                                 {/* <!--thang danh gia--> */}
                                 <div className="infomation__wrap">
                                     <h5 className="mg-b-15 mg-md-t-15 mg-t-15 mg-md-t-0-f">Student Information</h5>
@@ -248,8 +248,8 @@ const TeacherLessonDetail = () => {
                                             <span className=""><i className="fa fa-thumbs-up tx-primary st-icon wd-20 mg-r-5"></i>Feedback: </span>
                                             <span className="tx-primary">
                                                 {
-                                                    (!!state.LessonInfo && !!state.lessonInfo.StudentRating ? state.lessonInfo.StudentRating : 0) === 0 ? (<span className="tx-black">No rating</span>) : (
-                                                        [...Array(5)].map((el, index) => (5 - index) <= state.LessonInfo.StudentRating
+                                                    (!!state.lessonInfo && !!state.lessonInfo.StudentRating ? state.lessonInfo.StudentRating : 0) === 0 ? (<span className="tx-black">No rating</span>) : (
+                                                        [...Array(5)].map((el, index) => (5 - index) <= state.lessonInfo.StudentRating
                                                             ? <i key={`${index}`} className="fas fa-star" />
                                                             : <i key={`${index}`} className="far fa-star" />))
                                                 }
@@ -261,12 +261,18 @@ const TeacherLessonDetail = () => {
                                             </span>
                                         </p>
                                     </div>
-                                    <div className="st-time">
+                                </div>
+                            </div>
+                            <div className="col-sm-12">
+                                <div>
+                                    <h5 className="mg-b-15 mg-md-t-15 mg-t-15 mg-md-t-0-f">Student Feedback</h5>
+                                    {/* <div className="st-time">
                                         <p className="st-teacher-text d-flex justify-content-between mg-b-5">
                                             <span className=""><i className="fa fa-comment tx-primary st-icon wd-20 mg-r-5"></i>Evalution: </span>
-                                            <span className="">{!!state.LessonInfo && !!state.LessonInfo.StudentNode ? state.LessonInfo.StudentNode : ''}</span>
+                                            <span className="">{!!state.LessonInfo && !!state.LessonInfo.StudentNote ? state.LessonInfo.StudentNote : ''}</span>
                                         </p>
-                                    </div>
+                                    </div> */}
+                                    <span style={{ wordBreak: "break-word" }}>{!!state.lessonInfo && !!state.lessonInfo.StudentNote ? state.lessonInfo.StudentNote : ''}</span>
                                 </div>
                             </div>
                         </div>
@@ -347,7 +353,7 @@ const TeacherLessonDetail = () => {
                         </div>
                     </div>
                 </div>
-              
+
                 <div className="card">
                     <div className="card-header">
                         <h5 className="mg-b-0">Note</h5>
@@ -368,21 +374,21 @@ const TeacherLessonDetail = () => {
                     </div>
                 </div>
                 <div className="d-flex mg-t-30">
-                        <button type="button" className="btn btn-primary d-inline-flex align-items-center mg-r-15" disabled={submitLoading} onClick={_submitFeedback}>
-                                {
-                                    submitLoading ? (
-                                        <div className="spinner-border wd-20 ht-20 mg-r-5" role="status">
-                                            <span className="sr-only">Submitting...</span>
-                                        </div>
-                                    )
-                                        : (<><i className="fa fa-save mg-r-5"></i></>)
-                                }
-                                <span>{submitLoading ? 'Submitting...' : 'Submit feedback'}</span>
+                    <button type="button" className="btn btn-primary d-inline-flex align-items-center mg-r-15" disabled={submitLoading} onClick={_submitFeedback}>
+                        {
+                            submitLoading ? (
+                                <div className="spinner-border wd-20 ht-20 mg-r-5" role="status">
+                                    <span className="sr-only">Submitting...</span>
+                                </div>
+                            )
+                                : (<><i className="fa fa-save mg-r-5"></i></>)
+                        }
+                        <span>{submitLoading ? 'Submitting...' : 'Submit feedback'}</span>
 
-                            </button>
-                            {/* <button className="btn btn-primary mg-r-15" onClick={_submitFeedback}><i className="fa fa-save mg-r-5"></i> Submit feedback</button> */}
-                            <button className="btn btn-icon btn-light mg-r-15" onClick={() => window.history.back()}><i className="fas fa-arrow-left mg-r-5"></i> Back</button>
-                        </div>
+                    </button>
+                    {/* <button className="btn btn-primary mg-r-15" onClick={_submitFeedback}><i className="fa fa-save mg-r-5"></i> Submit feedback</button> */}
+                    <button className="btn btn-icon btn-light mg-r-15" onClick={() => window.history.back()}><i className="fas fa-arrow-left mg-r-5"></i> Back</button>
+                </div>
             </div>
         </div>
         <ToastContainer

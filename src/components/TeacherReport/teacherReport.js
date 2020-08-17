@@ -105,7 +105,7 @@ const TeacherReport = () => {
                     </li>
                     <li className="rp-info">
                       <span className="label">Feedback submission rate </span>
-                      <span className="value">{isLoading ? <Skeleton width={25} /> : (!!state && state.FeedbackSubmissionRate ? state.FeedbackSubmissionRate : 0)}</span>
+                      <span className="value">{isLoading ? <Skeleton width={25} /> : (!!state && state.FeedbackSubmissionRate ? state.FeedbackSubmissionRate : 0)} %</span>
                     </li>
                   </ul>
                 </div>

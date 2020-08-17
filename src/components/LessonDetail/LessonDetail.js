@@ -12,13 +12,13 @@ import styles from '~components/LessonDetail/LessonDetail.module.scss';
 const renderRatingStars = (rate) => {
   return rate == 5 ?
     <span className="badge badge-light text-white bg-success mg-l-5">
-      <i className="fa fa-check-circle mg-r-3"></i>Very Good </span> :
+      <i className="fa fa-check-circle mg-r-3"></i>Excellent</span> :
     rate == 4 ?
       <span className="badge badge-light text-white bg-success mg-l-5">
         <i className="fa fa-check-circle mg-r-3"></i>Good</span> :
       rate == 3 ?
         <span className="badge badge-light text-white bg-info mg-l-5">
-          <i className="fa fa-check-circle mg-r-3"></i>OK</span> :
+          <i className="fa fa-check-circle mg-r-3"></i>Average</span> :
         rate == 2 ?
           <span className="badge badge-light text-white bg-warning mg-l-5">
             <i className="fa fa-check-circle mg-r-3"></i>Bad</span> :
@@ -182,7 +182,7 @@ const LessonDetail = () => {
                   {
                     state.Grammar ? (<div className="col-12">
                       <div className="st-item-danhgia">
-                        <p dangerouslySetInnerHTML={{ __html: decodeHTML(state.Grammar) }} style={{ wordBreak: "break-all" }}></p>
+                        <p dangerouslySetInnerHTML={{ __html: decodeHTML(state.Grammar) }} style={{ wordBreak: "break-word" }}></p>
                       </div></div>) : ""
                   }
                 </div>
@@ -197,7 +197,7 @@ const LessonDetail = () => {
                   {
                     state.Pronunciation ? (<div className="col-12">
                       <div className="st-item-danhgia">
-                        <p dangerouslySetInnerHTML={{ __html: decodeHTML(state.Pronunciation) }} style={{ wordBreak: "break-all" }}></p>
+                        <p dangerouslySetInnerHTML={{ __html: decodeHTML(state.Pronunciation) }} style={{ wordBreak: "break-word" }}></p>
                       </div></div>) : ""
                   }
                 </div>
@@ -212,7 +212,7 @@ const LessonDetail = () => {
                   {
                     state.Vocabulary ? (<div className="col-12">
                       <div className="st-item-danhgia">
-                        <p dangerouslySetInnerHTML={{ __html: decodeHTML(state.Vocabulary) }} style={{ wordBreak: "break-all" }}></p>
+                        <p dangerouslySetInnerHTML={{ __html: decodeHTML(state.Vocabulary) }} style={{ wordBreak: "break-word" }}></p>
                       </div></div>) : ""
                   }
                 </div>
@@ -226,7 +226,7 @@ const LessonDetail = () => {
                 {
                   state.SentenceDevelopmentAndSpeak ? (
                     <div className="st-item-danhgia">
-                      <p dangerouslySetInnerHTML={{ __html: decodeHTML(state.SentenceDevelopmentAndSpeak) }} style={{ wordBreak: "break-all" }}></p>
+                      <p dangerouslySetInnerHTML={{ __html: decodeHTML(state.SentenceDevelopmentAndSpeak) }} style={{ wordBreak: "break-word" }}></p>
                     </div>
                   ) : ""
                 }
@@ -240,7 +240,7 @@ const LessonDetail = () => {
                 {
                   state.Note ? (
                     <div className="st-item-danhgia">
-                      <p dangerouslySetInnerHTML={{ __html: decodeHTML(state.Note) }} style={{ wordBreak: "break-all" }}></p>
+                      <p dangerouslySetInnerHTML={{ __html: decodeHTML(state.Note) }} style={{ wordBreak: "break-word" }}></p>
                     </div>
                   ) : ""
                 }
@@ -255,7 +255,7 @@ const LessonDetail = () => {
                   Object.keys(state).length === 0 ? "" : (
                     state.StudentEvaluation ? (
                       <div className="st-item-danhgia">
-                        <p dangerouslySetInnerHTML={{ __html: decodeHTML(state.StudentEvaluation) }} style={{ wordBreak: "break-all" }}></p>
+                        <p dangerouslySetInnerHTML={{ __html: decodeHTML(state.StudentEvaluation) }} style={{ wordBreak: "break-word" }}></p>
                       </div>
                     ) : (<><p>Bạn chưa đánh giá về lớp học này</p>
                       <button className="btn btn-primary mg-r-10"

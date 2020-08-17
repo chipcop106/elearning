@@ -72,7 +72,7 @@ const LessonUpcomingCard = ({
             {
               SpecialRequest && <div className="course-note mg-t-15">
                 <h6 className="mg-b-3 tx-bold">Ghi chú cho giáo viên:</h6>
-                <p className="tx-14 mg-b-0" style={{ wordBreak: "break-all" }}>{SpecialRequest}</p>
+                <p className="tx-14 mg-b-0" style={{ wordBreak: "break-word" }}>{SpecialRequest}</p>
               </div>
             }
             {

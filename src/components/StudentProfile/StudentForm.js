@@ -509,7 +509,7 @@ const PasswordForm = () => {
   const _onSubmit = (e) => {
     e.preventDefault();
 
-    if (oldPassword === '' || newPassword === '') {
+    if (oldPassword === '' || newPassword === '' || confirmPassword === '') {
       setError(FILL_PASSWORD);
       return;
     }

@@ -9146,7 +9146,9 @@ input[type="month"].form-control {
 @include media(768px) {
     .responsive-table-vertical {
         display: block;
-
+        tr , tbody, th, td, thead {
+            display: block;
+        }
         tbody {
             padding: 5px 0;
 

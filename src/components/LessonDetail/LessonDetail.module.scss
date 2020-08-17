@@ -1,21 +1,30 @@
-@import '../../scss/variable.scss';
+@import "../../scss/variable.scss";
 
 .rating-stars {
     position: relative;
     display: inline-block;
     .empty-stars {
-    color: #e1e1e1;
-    white-space: nowrap;
+        color: #e1e1e1;
+        white-space: nowrap;
     }
     .filled-stars {
-    color: $primary-color;
-    position: absolute;
-    left: 0;
-    top: 0;
-    white-space: nowrap;
-    overflow: hidden;
+        color: $primary-color;
+        position: absolute;
+        left: 0;
+        top: 0;
+        white-space: nowrap;
+        overflow: hidden;
     }
     i {
-        color:inherit;
+        color: inherit;
+    }
+}
+
+.review__wrap {
+    img {
+        height: auto;
+    }
+    iframe {
+        max-width: 100%;
     }
 }

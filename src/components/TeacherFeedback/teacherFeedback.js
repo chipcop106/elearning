@@ -124,7 +124,7 @@ const FeedbackRow = ({ data: { id, stName, stAvatar, stFeedback, lessonTime, les
                     </div>
                 </div>
                 <div className="feedback-comment mg-b-15-f">
-                    {!!stFeedback && stFeedback !== '' ? <p>{stFeedback}</p> : <p className="tx-danger tx-medium">The student didn't leave any feedback for this class</p>}
+                    {!!stFeedback && stFeedback !== '' ? <p style={{ wordBreak: "break-word" }}>{stFeedback}</p> : <p className="tx-danger tx-medium">The student didn't leave any feedback for this class</p>}
 
                 </div>
                 <CSSTransition
@@ -237,7 +237,7 @@ const RenderSummary = ({ handFilterValue }) => {
     }, []);
 
     return (
-        <div className="filter-sidebar">
+        <div className="filter-sidebar flex-shrink-0">
         <div className="fb-summary-container">
             <p className="tx-16">Last 100 Student Feedback Average: <span className="tx-primary tx-20 tx-bold">{isLoading ? (<Skeleton width={15}/>) : (overview?.Avarage ?? '')}</span></p>
             <div className="fb-summary">

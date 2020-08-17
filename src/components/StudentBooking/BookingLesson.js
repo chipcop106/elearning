@@ -546,7 +546,7 @@ const BookingLesson = () => {
                       </div>
                     </li>):
                     (!!teachersList && <li className="w-100 d-block text-center">
-                      <span class="tx-danger tx-medium">Không tìm thấy giáo viên phù hợp</span>
+                      <span className="tx-danger tx-medium">Không tìm thấy giáo viên phù hợp</span>
                     </li>)
                 }
               </ul>
