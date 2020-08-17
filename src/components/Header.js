@@ -95,7 +95,7 @@ const Header = () => {
           </div>{/* navbar-right */}
         </div>
       </header>
-      {/* <div className="bottom-header">
+      <div className="bottom-header">
         <div className="container">
           <a id="js-burger-menu" className="burger-menu-bottom"><i data-feather="menu" /></a>
           <ul className="hd-menu-list" data-title="Mona Media">
@@ -110,7 +110,7 @@ const Header = () => {
           </ul>
           <div className="menu-overlay" />
         </div>
-      </div> */}
+      </div>
     </React.Fragment>
   )
 }

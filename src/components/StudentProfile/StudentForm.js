@@ -482,10 +482,10 @@ const StudentForm = ({ tabDisplay }) => {
                   <button type="submit"
                     disabled={loadingUpdateProfile ? true : ""}
                     className="btn btn-primary rounded"
-                    style={{ width: loadingUpdateProfile ? "138px" : "auto", color: "#fff" }}>
+                    style={{ width: loadingUpdateProfile ? "120px" : "auto", color: "#fff" }}>
                     {loadingUpdateProfile ?
                       <i className="fa fa-spinner fa-spin"></i> :
-                      "Save information"}
+                      "Lưu Thông Tin"}
                   </button>
                 </div>
               </div>
@@ -611,10 +611,10 @@ const PasswordForm = () => {
               <button type="submit"
                 disabled={loadingPassword ? true : ""}
                 className="btn btn-primary rounded"
-                style={{ width: loadingPassword ? "110px" : "auto", color: "#fff" }}>
+                style={{ width: loadingPassword ? "115px" : "auto", color: "#fff" }}>
                 {loadingPassword ?
                   <i className="fa fa-spinner fa-spin"></i> :
-                  "Save change"}
+                  "Đổi Mật Khẩu"}
               </button>
             </div>
           </div>
