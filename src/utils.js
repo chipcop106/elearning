@@ -109,3 +109,7 @@ export const decodeHTML = (str) => {
     el.innerHTML = str;
     return el.value;
 }
+
+export const convertDDMMYYYYtoMMDDYYYY = (str) => {
+    return `${str.split("/")[1]}/${str.split("/")[0]}/${str.split("/")[2]}`
+}

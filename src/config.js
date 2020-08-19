@@ -34,5 +34,5 @@ export const appSettings = {
             }
         },
     },
-    UID: 1071, //20 teacher || 1071 student
+    UID: 20, //20 teacher || 1071 student
 }

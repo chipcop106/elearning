@@ -6,8 +6,6 @@ import { getAllStudentReviewAPI } from "~src/api/studentAPI";
 import SkeletonFeedback from "~components/common/Skeleton/SkeletonFeedback";
 import Skeleton from "react-loading-skeleton";
 
-/* import { isTouchCapable } from 'react-select/src/utils'; */
-
 const StudentComment = ({ TeacherUID }) => {
   const [state, setState] = React.useState([]);
   const [page, setPage] = React.useState(1)

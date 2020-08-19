@@ -12,6 +12,7 @@ import ListNationModal from "~components/ListNationModal";
 import { toast } from 'react-toastify';
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
+import {appSettings} from '~src/config'
 
 import { nationMapToFlag } from "~src/utils"
 import { ToastContainer } from 'react-toastify'
@@ -388,6 +389,7 @@ const BookingLesson = () => {
                     value={state.selectedLevelPurpose}
                     getOptionLabel={label => label}
                     getOptionValue={value => value}
+                    styles={appSettings.selectStyle}
                     className="basic-multi-select"
                     placeholder="Chương trình học"
                     classNamePrefix="select"

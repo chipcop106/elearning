@@ -1,12 +1,31 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useReducer } from 'react'
 import { getListEventsOfWeek, setEventAvailable, setEventClose, addScheduleLog } from '~src/api/teacherAPI';
 import { cancelLesson } from '~src/api/optionAPI';
 import ActiveSlotModal from './ActiveSlotModal';
 import CloseSlotModal from './CloseSlotModal';
 import CancelSlotModal from './CancelSlotModal';
+import { appSettings } from '~src/config';
 import { toast } from 'react-toastify';
 import { Modal, Button } from 'react-bootstrap';
-import {getDifferentMinBetweenTime, checkCancelTime} from '~src/utils'
+import { getDifferentMinBetweenTime, checkCancelTime, convertDDMMYYYYtoMMDDYYYY } from '~src/utils'
+import Flatpickr from 'react-flatpickr';
+import {
+    CSSTransition,
+} from 'react-transition-group';
+import Select from 'react-select';
+
+const reducer = (prevState, { type, payload }) => {
+    switch (type) {
+        case "STATE_CHANGE": {
+            return {
+                ...prevState,
+                [payload.key]: payload.value
+            }
+        }
+        default: return prevState;
+            break;
+    }
+}
 
 let calendar;
 const pad = (n) => (n >= 10 ? n : "0" + n);
@@ -185,6 +204,56 @@ const bookingCalendar = () => {
         end: '',
         date: '',
     });
+
+    const [showQuickCalendar, setShowQuickCalendar] = useState(false);
+    const [quickCalendarState, dispatch] = useReducer(reducer, {
+        fromDate: '',
+        toDate: '',
+        fromTime: '06:00',
+        toTime: '23:00',
+    })
+    const [optionSlots, setOPtionSlot] = useState([]);
+    const [chooseSlots, setChooseSlot] = useState([]);
+
+    const updateQuickCalendarState = (key, value) => {
+        dispatch({
+            type: 'STATE_CHANGE',
+            payload: { key, value }
+        })
+
+        let from = quickCalendarState.fromDate;
+        let to = quickCalendarState.toDate;
+        let start = quickCalendarState.fromTime;
+        let end = quickCalendarState.toTime;
+
+        if (key == 'fromDate') from = value;
+        if (key == 'toDate') to = value;
+        if (key == 'fromTime') start = value;
+        if (key == 'toTime') end = value;
+
+        if (from !== '' && to !== '') {
+            let array = [];
+            let fromFormat = new Date(convertDDMMYYYYtoMMDDYYYY(from));
+            let toFormat = new Date(convertDDMMYYYYtoMMDDYYYY(to));
+
+            const startFormat = parseInt(start.split(':')[0]) * 60 + parseInt(start.split(':')[1]);
+            const endFormat = parseInt(end.split(':')[0]) * 60 + parseInt(end.split(':')[1]);
+
+            var loop = fromFormat;
+            while (loop <= toFormat) {
+                for (let i = startFormat % 30 == 0 ? startFormat : (Math.floor(startFormat / 30) + 1) * 30;
+                    i <= endFormat;
+                    i = i + 30) {
+                    i !== 23 * 60 &&
+                        array.push(`${moment(loop).format('DD/MM/YYYY')} - ${pad(Math.floor(i / 60))}:${pad(i % 60)} - ${pad(Math.floor((i + 25) / 60))}:${pad((i + 25) % 60)}`)
+                }
+                var newDate = loop.setDate(loop.getDate() + 1);
+                loop = new Date(newDate);
+            }
+            setOPtionSlot(array);
+        }
+    }
+
     // console.log(new Date().toLocateString());
 
 
@@ -691,6 +760,11 @@ const bookingCalendar = () => {
         setIsLoading(false);
     }
 
+    const onSubmit = (e) => {
+        e.preventDefault();
+        console.log(chooseSlots);
+    }
+
     useEffect(() => {
         // console.log(calendar);
         if (!!calendar) {
@@ -719,6 +793,132 @@ const bookingCalendar = () => {
                 </div>
                 }
                 <div className="time-zone"></div>
+
+
+
+                <button className="btn btn-primary mg-b-15 show-quick-calendar" onClick={() => setShowQuickCalendar(!showQuickCalendar)}>Open Quick Slots</button>
+                <CSSTransition
+                    timeout={300}
+                    in={showQuickCalendar}
+                    classNames="calendar"
+                    onEnter={() => setShowQuickCalendar(true)}
+                    onExited={() => setShowQuickCalendar(false)}>
+                    <>
+                        {
+                            showQuickCalendar && <div id="quick-calendar">
+                                <form action="" method="get" noValidate className="" onSubmit={onSubmit}>
+                                    <div className="row">
+                                        <div className="col-md-2 c-left">
+                                            <h5>Date</h5>
+                                        </div>
+                                        <div className="col-md-10 c-right">
+                                            <div className="form-row">
+                                                <div className="col-12 col-sm-6 col-lg-4 form-group mg-b-0">
+                                                    <Flatpickr
+                                                        placeholder="From date"
+                                                        options={{
+                                                            dateFormat: "d/m/Y",
+                                                            minDate: moment(new Date()).format('DD/MM/YYYY'),
+                                                            maxDate: quickCalendarState.toDate,
+                                                            static: true,
+                                                        }}
+                                                        className="form-control"
+                                                        onChange={(selectedDates, dateStr, instance) =>
+                                                            updateQuickCalendarState("fromDate", dateStr)} />
+                                                </div>
+                                                <div className="col-12 col-sm-6 col-lg-4 form-group mg-b-0">
+                                                    <Flatpickr
+                                                        placeholder="To date"
+                                                        options={{
+                                                            dateFormat: "d/m/Y",
+                                                            minDate: quickCalendarState.fromDate,
+                                                            static: true,
+                                                        }}
+                                                        className="form-control"
+                                                        onChange={(selectedDates, dateStr, instance) =>
+                                                            updateQuickCalendarState("toDate", dateStr)} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row pd-t-15">
+                                        <div className="col-md-2 c-left">
+                                            <h5>Time</h5>
+                                        </div>
+                                        <div className="col-md-10 c-right">
+                                            <div className="form-row">
+                                                <div className="col-12 col-sm-6 col-lg-4 form-group mg-b-0">
+                                                    <Flatpickr
+                                                        placeholder="Start time"
+                                                        value={quickCalendarState.fromTime}
+                                                        value="06:00"
+                                                        options={{
+                                                            dateFormat: "H:i",
+                                                            enableTime: true,
+                                                            noCalendar: true,
+                                                            time_24hr: true,
+                                                            disableMobile: "true",
+                                                            minTime: "06:00",
+                                                            maxTime: quickCalendarState.toTime,
+                                                            static: true,
+                                                        }}
+                                                        className="form-control"
+                                                        onChange={(selectedDates, dateStr, instance) =>
+                                                            updateQuickCalendarState("fromTime", dateStr)} />
+                                                </div>
+                                                <div className="col-12 col-sm-6 col-lg-4 form-group mg-b-0">
+                                                    <Flatpickr
+                                                        placeholder="End time"
+                                                        value={quickCalendarState.toTime}
+                                                        value="23:00"
+                                                        options={{
+                                                            dateFormat: "H:i",
+                                                            enableTime: true,
+                                                            noCalendar: true,
+                                                            time_24hr: true,
+                                                            disableMobile: "true",
+                                                            minTime: quickCalendarState.fromTime,
+                                                            maxTime: "23:00",
+                                                            static: true,
+                                                        }}
+                                                        className="form-control"
+                                                        onChange={(selectedDates, dateStr, instance) =>
+                                                            updateQuickCalendarState("toTime", dateStr)} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row pd-t-15">
+                                        <div className="col-md-2 c-left">
+                                            <h5>Slots</h5>
+                                        </div>
+                                        <div className="col-md-10 c-right">
+                                            <div className="form-row">
+                                                <div className="col-12 col-lg-8">
+                                                    <Select
+                                                        isMulti={true}
+                                                        isSearchable={false}
+                                                        menuPortalTarget={document.body}
+                                                        options={optionSlots}
+                                                        getOptionLabel={label => label}
+                                                        getOptionValue={value => value}
+                                                        styles={appSettings.selectStyle}
+                                                        className="basic-multi-select"
+                                                        placeholder="Select Slots"
+                                                        classNamePrefix="select"
+                                                        onChange={val => setChooseSlot(val)} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" className="btn btn-primary mg-y-15">Open Slots</button>
+                                </form>
+                            </div>
+                        }
+                    </>
+                </CSSTransition>
+
+
                 <div id="js-book-calendar" className="fc fc-unthemed fc-ltr" />
             </div>
             <div className="notice pd-20 bg-primary-light rounded-5 mg-t-30">
@@ -728,7 +928,6 @@ const bookingCalendar = () => {
                     <li>To open a slot, simply select the time Slot and click on it</li>
                     <li>To close a slot, simple select the Available Slot and click on it.</li>
                     <li>To cancel a Booked Class, select the Booked Slot and click "Cancel lesson"</li>
-                    <li>You can only CANCEL the lesson 30 minutes before the lesson starts.</li>
                 </ul>
             </div>
             <ActiveSlotModal

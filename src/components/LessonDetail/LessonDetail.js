@@ -46,7 +46,7 @@ const LessonDetail = () => {
       setState({
         ...state,
         StudentEvaluation: message,
-        StudentRating: rating,
+        StudentRate: rating,
       })
     }
   }

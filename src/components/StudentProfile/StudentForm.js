@@ -9,7 +9,8 @@ import { getTimeZoneAPI } from "~src/api/optionAPI";
 import { uploadImageToServer } from "~src/api/optionAPI";
 import { getListTargetAPI } from "~src/api/optionAPI";
 import { getListLanguageAPI } from "~src/api/optionAPI";
-
+import { appSettings } from '~src/config';
+ 
 import SkeletonStudentForm from "~components/common/Skeleton/SkeletonStudentForm";
 
 import { yupResolver } from '@hookform/resolvers';
@@ -407,6 +408,7 @@ const StudentForm = ({ tabDisplay }) => {
                           options={renderTarget(listTarget)}
                           getOptionLabel={label => label}
                           getOptionValue={value => value}
+                          styles={appSettings.selectStyle}
                           className="basic-multi-select"
                           placeholder="Chọn Mục Tiêu"
                           classNamePrefix="select"

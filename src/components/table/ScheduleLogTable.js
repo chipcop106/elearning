@@ -11,8 +11,8 @@ const OperationRow = ({data}) => {
         <tr>
             <td data-title="Operation time">{OparationTime}</td>
             
-            <td data-title="Time (Local)">{ScheduleTimeLocal}</td>
-            <td data-title="Time (VN)">{ScheduleTimeOfTeacher}</td>
+            <td data-title="Time (Local)">{ScheduleTimeOfTeacher}</td>
+            <td data-title="Time (VN)">{ScheduleTimeLocal}</td>
             {/* <td className="tx-center">
                 {Previous === 'Close' ? <span className="badge badge-danger">Closed</span> : <span className="badge badge-success">Open</span>}
                 <span className="badge badge-danger">Closed</span>

@@ -12,31 +12,40 @@ module.exports = {
     'app': ['./src/scss/custom.scss', './src/assets/js/custom.js'],
     'ProfileSidebar': componentEnrtryPrefix + '/ProfileSidebar.js',
     'Header': componentEnrtryPrefix + '/Header.js',
+    /* 'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js',
+    'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/StudentDashboard.js',
+    'lessonDetail': componentEnrtryPrefix + 'LessonDetail/LessonDetail.js', */
     'teacherBooking': componentEnrtryPrefix + 'TeacherBooking/teacherBooking.js',
-    'teacherHome': componentEnrtryPrefix + 'TeacherHome/teacherHome.js',
-    'teacherClassRooms': componentEnrtryPrefix + 'TeacherClassRooms/teacherClassRooms.js',
-    'teacherReport': componentEnrtryPrefix + 'TeacherReport/teacherReport.js',
-    'teacherFeedbackDetail': componentEnrtryPrefix + 'TeacherFeedbackDetail/teacherFeedbackDetail.js',
-    
-    'teacherLibrary': componentEnrtryPrefix + 'TeacherLibrary/teacherLibrary.js',
-    'teacherSupport': componentEnrtryPrefix + 'TeacherSupport/teacherSupport.js',
-    'teacherPayment': componentEnrtryPrefix + 'TeacherPayment/teacherPayment.js',
-    'teacherFeedback': componentEnrtryPrefix + 'TeacherFeedback/teacherFeedback.js',
     'teacherProfile': componentEnrtryPrefix + 'TeacherProfile/teacherProfile.js', 
-    'teacherLessonDetail': componentEnrtryPrefix + 'TeacherLessonDetail/teacherLessonDetail.js',
+    /* 'teacherDetail': componentEnrtryPrefix + 'TeacherDetail/TeacherDetail.js',
     'feedback': componentEnrtryPrefix + 'Feedback/Feedback.js',
     'studentMessage': componentEnrtryPrefix + 'StudentMessage/StudentMessage.js',
-    'faq': componentEnrtryPrefix + 'Faq/Faq.js', 
-    'blogDetail': componentEnrtryPrefix + 'BlogDetail/BlogDetail.js',
-    'notification': componentEnrtryPrefix + 'Notification/Notification.js',
-    'lessonDetail': componentEnrtryPrefix + 'LessonDetail/LessonDetail.js',
+    'faq': componentEnrtryPrefix + 'Faq/Faq.js',  */
+    /* 
+    'teacherPayment': componentEnrtryPrefix + 'TeacherPayment/teacherPayment.js',
+    'teacherFeedback': componentEnrtryPrefix + 'TeacherFeedback/teacherFeedback.js',
+    
+    'teacherLessonDetail': componentEnrtryPrefix + 'TeacherLessonDetail/teacherLessonDetail.js',
+    
+    'teacherHome': componentEnrtryPrefix + 'TeacherHome/teacherHome.js',
+    'teacherClassRooms': componentEnrtryPrefix + 'TeacherClassRooms/teacherClassRooms.js',
+    'teacherFeedbackDetail': componentEnrtryPrefix + 'TeacherFeedbackDetail/teacherFeedbackDetail.js',
+    'teacherReport': componentEnrtryPrefix + 'TeacherReport/teacherReport.js',
+
+    'teacherLibrary': componentEnrtryPrefix + 'TeacherLibrary/teacherLibrary.js',
+    'teacherSupport': componentEnrtryPrefix + 'TeacherSupport/teacherSupport.js',
+
+
     'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js',
     'bookingLesson': componentEnrtryPrefix + 'StudentBooking/BookingLesson.js',
+    'blogDetail': componentEnrtryPrefix + 'BlogDetail/BlogDetail.js',
+    'notification': componentEnrtryPrefix + 'Notification/Notification.js',
+    
     'lessonHistory': componentEnrtryPrefix + 'LessonHistory/LessonHistory.js',
     
-    'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js',
-    'teacherDetail': componentEnrtryPrefix + 'TeacherDetail/TeacherDetail.js',
-    'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/StudentDashboard.js',
+    
+    
+     */
   },
   output: {
     path: appPaths.dist,
