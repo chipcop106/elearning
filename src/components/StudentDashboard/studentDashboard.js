@@ -182,7 +182,10 @@ const Dashboard = () => {
     setLoadingCourseInfo(true);
     const res = await getCoursesInfoAPI();
     if (res.Code === 1) {
-      setCourseInfo(res.Data)
+      setCourseInfo({
+          ...res.Data,
+          Message: "",
+        })
     }
     else {
       setCourseInfo({
@@ -201,79 +204,79 @@ const Dashboard = () => {
     <div className="overall__summary pd-15">
       {
         !!courseInfo && !courseInfo.Message ? <>
-          <div className="overall__summary-info d-flex flex-wrap pd-b-15">
-            <div className="course-img">
-              <img src="https://preview.keenthemes.com/metronic/theme/html/demo7/dist/assets/media/project-logos/3.png" />
-            </div>
-            <div className="course-info pd-l-15">
-              <a href="#" className="tx-bold no-hl d-block mg-b-10" style={{ width: "fit-content" }}>
-                <span className="course-name">{courseInfo.CoursesName}</span>
-              </a>
-              <div className="course-progress d-flex flex-wrap">
-                <div className="start-date mg-r-30">
-                  <label className="label d-block tx-medium tx-gray">Ngày bắt đầu</label>
-                  <label className="date font-weight-bolder">
-                    {!!courseInfo.StartDate ?
-                      moment(courseInfo.StartDate).format("DD MMM, YYYY").toUpperCase() :
-                      "CHƯA BẮT ĐẦU"}
-                  </label>
-                </div>
-                <div className="due-date mg-r-30">
-                  <label className="label d-block tx-medium tx-gray">Ngày kết thúc</label>
-                  <label className="date font-weight-bolder">
-                    {!!courseInfo.EndDate ?
-                      moment(courseInfo.EndDate).format("DD MMM, YYYY").toUpperCase() :
-                      "CHƯA KẾT THÚC"}
-                  </label>
-                </div>
-                <div className="progress-wrap">
-                  <div className="progress-course-bar position-relative">
-                    <label className="label d-block tx-medium tx-gray">Tiến trình học</label>
-                    <div className="progress-bar-wrap">
-                      <div className="progress-bar-wrap-fill" style={{ width: `${parseInt(courseInfo.Process * 100)}%` }}></div>
+          {
+            courseInfo.Message !== undefined ? <div className="overall__summary-info d-flex flex-wrap pd-b-15">
+              <div className="course-img">
+                <img src="https://preview.keenthemes.com/metronic/theme/html/demo7/dist/assets/media/project-logos/3.png" />
+              </div>
+              <div className="course-info pd-l-15">
+                <a href="#" className="tx-bold no-hl d-block mg-b-10" style={{ width: "fit-content" }}>
+                  <span className="course-name">{courseInfo.CoursesName}</span>
+                </a>
+                <div className="course-progress d-flex flex-wrap">
+                  <div className="start-date mg-r-30">
+                    <label className="label d-block tx-medium tx-gray">Ngày bắt đầu</label>
+                    <label className="date font-weight-bolder">
+                      {!!courseInfo.StartDate ?
+                        moment(courseInfo.StartDate).format("DD MMM, YYYY").toUpperCase() :
+                        "CHƯA BẮT ĐẦU"}
+                    </label>
+                  </div>
+                  <div className="due-date mg-r-30">
+                    <label className="label d-block tx-medium tx-gray">Ngày kết thúc</label>
+                    <label className="date font-weight-bolder">
+                      {!!courseInfo.EndDate ?
+                        moment(courseInfo.EndDate).format("DD MMM, YYYY").toUpperCase() :
+                        "CHƯA KẾT THÚC"}
+                    </label>
+                  </div>
+                  <div className="progress-wrap">
+                    <div className="progress-course-bar position-relative">
+                      <label className="label d-block tx-medium tx-gray">Tiến trình học</label>
+                      <div className="progress-bar-wrap">
+                        <div className="progress-bar-wrap-fill" style={{ width: `${parseInt(courseInfo.Process * 100)}%` }}></div>
+                      </div>
+                      <span className="progress-number bold">{`${parseInt(courseInfo.Process * 100)}%`}</span>
                     </div>
-                    <span className="progress-number bold">{`${parseInt(courseInfo.Process * 100)}%`}</span>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div className="overall__summary-summary pd-t-15 d-flex flex-wrap justify-content-between">
-            <div className="left d-flex flex-wrap flex-grow-1">
-              <div className="summary-item student-summary-item">
-                <BookOpenIcon />
-                <div className="mg-l-10 title">
-                  <label className="d-block label">Số buổi học đã hoàn thành</label>
-                  <label className="d-block bold count">
-                    {!!state && !!state.StudyProcess && state.StudyProcess.CompleteLessions}</label>
+            </div> : <div className="overall__summary-summary pd-t-15 d-flex flex-wrap justify-content-between">
+                <div className="left d-flex flex-wrap flex-grow-1">
+                  <div className="summary-item student-summary-item">
+                    <BookOpenIcon />
+                    <div className="mg-l-10 title">
+                      <label className="d-block label">Số buổi học đã hoàn thành</label>
+                      <label className="d-block bold count">
+                        {!!state && !!state.StudyProcess && state.StudyProcess.CompleteLessions}</label>
+                    </div>
+                  </div>
+                  <div className="summary-item student-summary-item">
+                    <OpenBookIcon />
+                    <div className="mg-l-10 title">
+                      <label className="d-block label">Số buổi học đã hủy</label>
+                      <label className="d-block bold count">
+                        {!!state && !!state.StudyProcess && state.StudyProcess.CancelLessions}</label>
+                    </div>
+                  </div>
+                  <div className="summary-item student-summary-item">
+                    <CancelCircleIcon />
+                    <div className="mg-l-10 title">
+                      <label className="d-block label">Số buổi học vắng mặt</label>
+                      <label className="d-block bold count">
+                        {!!state && !!state.StudyProcess && state.StudyProcess.NumberOfAbsences}</label>
+                    </div>
+                  </div>
+                  <div className="summary-item student-summary-item">
+                    <TextDocumentIcon />
+                    <div className="mg-l-10 title">
+                      <label className="d-block label">Số buổi học còn lại</label>
+                      <label className="d-block bold count">
+                        {!!state && !!state.StudyProcess && state.StudyProcess.NumberOfLessionsLeft}</label>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="summary-item student-summary-item">
-                <OpenBookIcon />
-                <div className="mg-l-10 title">
-                  <label className="d-block label">Số buổi học đã hủy</label>
-                  <label className="d-block bold count">
-                    {!!state && !!state.StudyProcess && state.StudyProcess.CancelLessions}</label>
-                </div>
-              </div>
-              <div className="summary-item student-summary-item">
-                <CancelCircleIcon />
-                <div className="mg-l-10 title">
-                  <label className="d-block label">Số buổi học vắng mặt</label>
-                  <label className="d-block bold count">
-                    {!!state && !!state.StudyProcess && state.StudyProcess.NumberOfAbsences}</label>
-                </div>
-              </div>
-              <div className="summary-item student-summary-item">
-                <TextDocumentIcon />
-                <div className="mg-l-10 title">
-                  <label className="d-block label">Số buổi học còn lại</label>
-                  <label className="d-block bold count">
-                    {!!state && !!state.StudyProcess && state.StudyProcess.NumberOfLessionsLeft}</label>
-                </div>
-              </div>
-            </div>
-            {/*  <div className="right">
+                {/*  <div className="right">
                   <div className="summary-item">
                     <div>
                       <img src="https://images.unsplash.com/photo-1595534005229-688989c4bf82?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" />
@@ -285,7 +288,8 @@ const Dashboard = () => {
                     </div>
                   </div>
                 </div> */}
-          </div>
+              </div>
+          }
         </> : <span className="d-block tx-center tx-danger tx-medium">
             {courseInfo && courseInfo.Message}
           </span>
@@ -393,7 +397,7 @@ const Dashboard = () => {
       end={stateCancelLesson.end}
       callback={cbCancelBooking} />
 
-      <PopUpCancelLesson
+    <PopUpCancelLesson
       LessionName={stateCancelLesson.LessionName}
       date={stateCancelLesson.date}
       start={stateCancelLesson.start}

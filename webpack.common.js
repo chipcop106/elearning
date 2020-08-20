@@ -8,44 +8,35 @@ const appPaths = {
 module.exports = {
   entry: {
     "polyfill": "@babel/polyfill",
-    'Footer': componentEnrtryPrefix + '/Footer.js',
     'app': ['./src/scss/custom.scss', './src/assets/js/custom.js'],
-    'ProfileSidebar': componentEnrtryPrefix + '/ProfileSidebar.js',
     'Header': componentEnrtryPrefix + '/Header.js',
-    /* 'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js',
-    'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/StudentDashboard.js',
-    'lessonDetail': componentEnrtryPrefix + 'LessonDetail/LessonDetail.js', */
-    'teacherBooking': componentEnrtryPrefix + 'TeacherBooking/teacherBooking.js',
-    'teacherProfile': componentEnrtryPrefix + 'TeacherProfile/teacherProfile.js', 
-    /* 'teacherDetail': componentEnrtryPrefix + 'TeacherDetail/TeacherDetail.js',
-    'feedback': componentEnrtryPrefix + 'Feedback/Feedback.js',
-    'studentMessage': componentEnrtryPrefix + 'StudentMessage/StudentMessage.js',
-    'faq': componentEnrtryPrefix + 'Faq/Faq.js',  */
-    /* 
-    'teacherPayment': componentEnrtryPrefix + 'TeacherPayment/teacherPayment.js',
-    'teacherFeedback': componentEnrtryPrefix + 'TeacherFeedback/teacherFeedback.js',
-    
-    'teacherLessonDetail': componentEnrtryPrefix + 'TeacherLessonDetail/teacherLessonDetail.js',
+    'Footer': componentEnrtryPrefix + '/Footer.js',
+    'ProfileSidebar': componentEnrtryPrefix + '/ProfileSidebar.js',
     
     'teacherHome': componentEnrtryPrefix + 'TeacherHome/teacherHome.js',
-    'teacherClassRooms': componentEnrtryPrefix + 'TeacherClassRooms/teacherClassRooms.js',
-    'teacherFeedbackDetail': componentEnrtryPrefix + 'TeacherFeedbackDetail/teacherFeedbackDetail.js',
     'teacherReport': componentEnrtryPrefix + 'TeacherReport/teacherReport.js',
-
     'teacherLibrary': componentEnrtryPrefix + 'TeacherLibrary/teacherLibrary.js',
     'teacherSupport': componentEnrtryPrefix + 'TeacherSupport/teacherSupport.js',
+    'teacherProfile': componentEnrtryPrefix + 'TeacherProfile/teacherProfile.js',
+    'teacherBooking': componentEnrtryPrefix + 'TeacherBooking/teacherBooking.js',
+    'teacherPayment': componentEnrtryPrefix + 'TeacherPayment/teacherPayment.js',
+    'teacherFeedback': componentEnrtryPrefix + 'TeacherFeedback/teacherFeedback.js',
+    'teacherClassRooms': componentEnrtryPrefix + 'TeacherClassRooms/teacherClassRooms.js',
+    'teacherLessonDetail': componentEnrtryPrefix + 'TeacherLessonDetail/teacherLessonDetail.js',
+    'teacherFeedbackDetail': componentEnrtryPrefix + 'TeacherFeedbackDetail/teacherFeedbackDetail.js',
 
-
-    'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js',
-    'bookingLesson': componentEnrtryPrefix + 'StudentBooking/BookingLesson.js',
+    'faq': componentEnrtryPrefix + 'Faq/Faq.js',
+    'feedback': componentEnrtryPrefix + 'Feedback/Feedback.js',
     'blogDetail': componentEnrtryPrefix + 'BlogDetail/BlogDetail.js',
+    'bookedLesson': componentEnrtryPrefix + 'BookedLesson/BookedLesson.js',
+    'lessonDetail': componentEnrtryPrefix + 'LessonDetail/LessonDetail.js',
     'notification': componentEnrtryPrefix + 'Notification/Notification.js',
-    
+    'teacherDetail': componentEnrtryPrefix + 'TeacherDetail/TeacherDetail.js',
     'lessonHistory': componentEnrtryPrefix + 'LessonHistory/LessonHistory.js',
-    
-    
-    
-     */
+    'bookingLesson': componentEnrtryPrefix + 'StudentBooking/BookingLesson.js',
+    'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js',
+    'studentMessage': componentEnrtryPrefix + 'StudentMessage/StudentMessage.js',
+    'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/StudentDashboard.js',
   },
   output: {
     path: appPaths.dist,

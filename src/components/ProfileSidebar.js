@@ -47,11 +47,11 @@ const ProfileSidebar = () => {
             <li><i data-feather="mail" /><a href={`mailto:${state.Email}`}>{state.Email}</a></li>
           </ul>
         </div> */}
-        {/* <div className="col-sm-12 col-md-6 col-lg-12 mg-t-20 mg-sm-t-0 mg-lg-t-25">
-          <div className="d-flex mg-b-25">
-            <a className="btn btn-xs btn-primary flex-fill mg-r-2 bg-orange tx-white" href="/ElearnStudent/bookingLesson">Book a Lesson</a>
+        <div className="col-sm-12 col-md-6 col-lg-12 mg-t-20 mg-sm-t-0 mg-lg-t-25">
+          <div className="d-flex mg-b-15">
+            <a className="btn btn-primary flex-fill mg-r-2 bg-orange tx-white bold" href="/ElearnStudent/bookingLesson" style={{ letterSpacing: ".05rem" }}>ĐẶT LỊCH HỌC</a>
           </div>
-        </div> */}
+        </div>
       </div>
       <div className="user__navigation">
         <div className="w-100">

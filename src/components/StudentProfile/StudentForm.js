@@ -495,7 +495,10 @@ const StudentForm = ({ tabDisplay }) => {
           </div>
         </div>
       </form >
-    </>) : (!loadingProfile && <NOT_DATA_FOUND />))) : <PasswordForm />;
+    </>) : (!loadingProfile && <div className="text-center">
+    <span className="d-block text-center tx-danger tx-medium">Đã có lỗi xảy ra, xin vui lòng thử lại</span>
+    <img src="../assets/img/error.svg" alt="image" className="wd-200 mg-b-15" /></div>
+    ))) : <PasswordForm />;
 }
 
 const PasswordForm = () => {

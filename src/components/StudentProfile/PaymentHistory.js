@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Pagination from "react-js-pagination";
 import SkeletonLessonHistoryCard from "~components/common/Skeleton/SkeletonLessonHistoryCard";
-import { NOT_DATA_FOUND } from "~components/common/Constant/message"
 import { getPaymentHistoryAPI } from "~src/api/studentAPI";
 
 const PaymentHistory = () => {
@@ -30,6 +29,7 @@ const PaymentHistory = () => {
       setPageSize(res.PageSize);
       setTotalResult(res.TotalResult)
     }
+    else setState(null);
     setLoading(false);
   }
 
@@ -147,12 +147,18 @@ const PaymentHistory = () => {
                             item.Status === 2 ? "Đã kích hoạt" : "Hết hạn"
                         }
                       </span></td>
-                    </tr>) :
-                  <tr style={{ backgroundColor: "transparent" }}>
-                    <td colSpan="9">
-                      <span className="d-block text-center tx-danger tx-medium">Bạn chưa mua khóa học nào</span>
-                    </td>
-                  </tr>
+                    </tr>) : (!state ?
+                      <tr style={{ backgroundColor: "transparent" }}>
+                        <td colSpan="9">
+                          <span className="d-block tx-danger tx-medium">Đã có lỗi xảy ra, xin vui lòng thử lại</span>
+                          <img src="../assets/img/error.svg" alt="image" className="wd-200 mg-b-15" />
+                        </td>
+                      </tr> :
+                      <tr style={{ backgroundColor: "transparent" }}>
+                        <td colSpan="9">
+                          <span className="d-block tx-danger tx-medium">Bạn chưa mua khóa học nào</span>
+                        </td>
+                      </tr>)
             }
           </tbody>
         </table>

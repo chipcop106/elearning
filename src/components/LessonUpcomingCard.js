@@ -107,14 +107,15 @@ const LessonUpcomingCard = ({
             </div>
             <div className="action-right">
               {
-                cancelable && <a href={"#"} className="btn btn-sm btn-outline-danger d-flex justify-content-center align-items-center tx-medium"
+                cancelable ? <a href={"#"} className="btn btn-sm btn-outline-danger d-flex justify-content-center align-items-center tx-medium"
                   rel="noopener" data-toggle="tooltip"
-                  title="You can only cancel this lesson before start for 30 minutes !!"
+                  title="Bạn chỉ có thể hủy lớp 30 phút trước khi vào học !!"
                   onClick={(e) => handleCancelBooking(e, BookingID, LessionName, date, start, end)}
                   data-toggle="modal" data-target="#md-cancel-schedule"
                   data-placement="top">
                   <div><i className="fas fa-times-circle"></i> HỦY LỚP</div>
-                </a>
+                </a> : <button disabled className="btn btn-block btn-disabled btn-sm" data-toggle="tooltip" title="Bạn không thể hủy lớp 30 phút trước khi vào học !!" data-placement="top">
+                    <i className="fas fa-times-circle"></i> HỦY LỚP</button>
               }
             </div>
           </div>

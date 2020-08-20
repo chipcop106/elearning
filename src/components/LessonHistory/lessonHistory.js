@@ -171,7 +171,8 @@ const LessonHistory = () => {
                     </td>
                   </tr> : (!loading && <tr style={{ backgroundColor: "transparent" }}>
                   <td colSpan="6" className="tx-center">
-                  <FETCH_ERRORS/>
+                  <span className="d-block text-center tx-danger tx-medium">Đã có lỗi xảy ra, xin vui lòng thử lại</span>
+                    <img src="../assets/img/error.svg" alt="image" className="wd-200 mg-b-15" />
                   </td></tr>)
           }
         </tbody>

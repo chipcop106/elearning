@@ -75,8 +75,7 @@ const BookingLesson = () => {
   const [pageSize, setPageSize] = React.useState(0);
   const [totalResult, setTotalResult] = React.useState(0);
 
-  const TimeAlertToast = () => toast.warn("You cannot choose this time", toastInit);
-  const TimeAlert2Toast = () => toast.warn("You cannot choose time in past", toastInit);
+  const errorToast = () => toast.error("Đã có lỗi xảy ra, xin vui lòng thử lại", toastInit);
 
   const getAPI = async (params) => {
     setLoading(true);
@@ -86,6 +85,7 @@ const BookingLesson = () => {
       setPageSize(res.PageSize);
       setTotalResult(res.TotalResult)
     }
+    else errorToast();
     setLoading(false);
   }
 

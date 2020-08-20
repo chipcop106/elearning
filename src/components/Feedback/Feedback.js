@@ -94,7 +94,10 @@ const Feedback = () => {
         {
           overview && Object.keys(overview).length > 0 ? <>
             <p className="tx-16">Trung bình 100 phản hồi gần nhất của học viên: <span className="tx-warning tx-20 tx-bold">{overview.Avarage}</span></p></> :
-            (!loading && <NOT_DATA_FOUND />)
+            (!loading && <div className="tx-center">
+              <span className="d-block text-center tx-danger tx-medium">Không có dữ liệu</span>
+              <img src="../assets/img/error.svg" alt="image" className="wd-200 mg-b-15" />
+          </div>)
         }
       </div>
       </>
@@ -117,7 +120,9 @@ const Feedback = () => {
                   DocumentName={item.DocumentName} />) : 
                   <div className="card card-custom shadow">
                   <div className="card-body tx-center">
-              <span className="d-block tx-center tx-danger tx-medium">Bạn không có phản hồi {rate}<i className="fa fa-star"></i> nào</span>
+              <span className="d-block tx-center tx-danger tx-medium">Bạn không có phản hồi {
+                rate !== 0 && <>{rate}<i className="fa fa-star"></i></>
+              } nào</span>
                 <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" /></div></div>
             }
           </div>

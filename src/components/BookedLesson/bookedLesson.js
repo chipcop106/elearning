@@ -238,7 +238,13 @@ const BookedLesson = () => {
           reason={stateCancelLesson.reason} />
 
         <ToastContainer />
-      </> : (!loading && <FETCH_ERRORS />)
+      </> : (!loading &&
+        <div className="card card-custom shadow">
+          <div className="card-body tx-center">
+            <span className="d-block text-center tx-danger tx-medium">Đã có lỗi xảy ra, xin vui lòng thử lại</span>
+            <img src="../assets/img/error.svg" alt="image" className="wd-200 mg-b-15" />
+          </div>
+        </div>)
     }
   </>
 }

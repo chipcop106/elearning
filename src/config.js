@@ -18,13 +18,18 @@ export const appSettings = {
         multiValue: (oldStyle, state) => {
             return {
                 ...oldStyle,
-                backgroundColor: 'rgba(253,126,20,.38)',
+                //backgroundColor: 'rgba(253,126,20,.38)',
+                backgroundColor: '#ff750138',
+                color: '#fd7e14',
+                fontWeight: '500',
+                border: '1px solid #fd7914',
             }
         },
         multiValueLabel: (oldStyle, state) => {
             return {
                 ...oldStyle,
-                color:'#021737'
+                //color:'#021737'
+                color: '#fd7e14',
             }
         },
         option: (oldStyle, state) => {
