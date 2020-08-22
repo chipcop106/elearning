@@ -1,8 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
 
 const TeacherInformation = ({ IntroduceContent, Experience, Certificate }) => {
-  return <React.Fragment>
+  return <>
       <div className="content-block mg-b-15-f">
         <h5 className="main-title">Giới thiệu</h5>
         <div className="introduce-content">{IntroduceContent}</div>
@@ -57,7 +57,7 @@ const TeacherInformation = ({ IntroduceContent, Experience, Certificate }) => {
           </div>
         </div>
       </div>
-    </React.Fragment>
+    </>
 }
 
 export default TeacherInformation;

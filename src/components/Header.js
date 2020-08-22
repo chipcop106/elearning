@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 const Header = () => {
   return (
-    <React.Fragment>
+    <>
       <header className="navbar navbar-header navbar-header-fixed">
         <div className="container">
           <div className="navbar-brand">
@@ -111,7 +111,7 @@ const Header = () => {
           <div className="menu-overlay" />
         </div>
       </div>
-    </React.Fragment>
+    </>
   )
 }
 

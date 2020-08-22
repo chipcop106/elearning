@@ -1,9 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { cancelLessonAPI } from '../api/studentAPI';
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
+import { cancelLessonAPI } from '../api/studentAPI'
 
 const CancelBookingLessonModal = ({ BookingID, LessionName, date, start, end, style, callback }) => {
-  const [reason, setReason] = React.useState("")
+  const [reason, setReason] = useState("")
 
   const getAPI = async (params) => {
     /* start: -1 */
@@ -29,7 +29,7 @@ const CancelBookingLessonModal = ({ BookingID, LessionName, date, start, end, st
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     setReason("")
   }, [BookingID]);
 
@@ -49,8 +49,8 @@ const CancelBookingLessonModal = ({ BookingID, LessionName, date, start, end, st
           <p>Giờ học: <span id="js-start-time" className="tx-medium">{`${start || ''} - ${end || ''}`}</span></p>
           <div className="metronic-form">
             <div className="form-group">
-              <textarea style={{ height: '100px' }}
-                className="form-control"
+              <textarea
+                className="form-control ht-100"
                 placeholder="Lý do hủy"
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}></textarea>

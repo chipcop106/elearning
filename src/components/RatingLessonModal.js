@@ -1,10 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { toast } from 'react-toastify';
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
+import { toast } from 'react-toastify'
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
-import { ratingLessonAPI } from '~src/api/studentAPI';
-import { FETCH_ERROR, RATING_SUCCESS, FILL_RATING, FILL_FEEDBACK } from '~components/common/Constant/toast';
+import { ratingLessonAPI } from '~src/api/studentAPI'
+import { FETCH_ERROR, RATING_SUCCESS, FILL_RATING, FILL_FEEDBACK } from '~components/common/Constant/toast'
 
 const initialState = {
   rating: 0,
@@ -12,7 +12,7 @@ const initialState = {
 }
 const RatingLessonModal = ({ BookingID, TeacherUID, TeacherName, callback }) => {
 
-  const [state, setState] = React.useState(initialState)
+  const [state, setState] = useState(initialState)
   const ratingLesson = () => toast.success(RATING_SUCCESS, toastInit);
   const ratingLessonError = () => toast.error(FETCH_ERROR, toastInit);
   const ratingLessonAlert1 = () => toast.warn(FILL_RATING, toastInit);
@@ -62,7 +62,7 @@ const RatingLessonModal = ({ BookingID, TeacherUID, TeacherName, callback }) => 
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     $('.rating input').prop('checked', false);
     setState({ rating: 0, message: "" })
   }, [BookingID]);

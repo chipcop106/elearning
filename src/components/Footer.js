@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 const Footer = () => {
 
     return (
-        <React.Fragment>
+        <>
 
   <a href={"#"} id="scroll-to-top"><i className="material-icons">keyboard_arrow_up</i></a>
   <footer className="footer">
@@ -21,7 +21,7 @@ const Footer = () => {
       </nav>
     </div>
     </footer>
-         </React.Fragment>
+         </>
     )
 }
 

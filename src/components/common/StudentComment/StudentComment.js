@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import ReactDOM from 'react-dom';
 import StudentCommentItem from "./StudentCommentItem"
 import Pagination from "react-js-pagination";
@@ -7,18 +7,20 @@ import SkeletonFeedback from "~components/common/Skeleton/SkeletonFeedback";
 import Skeleton from "react-loading-skeleton";
 
 const StudentComment = ({ TeacherUID }) => {
-  const [state, setState] = React.useState([]);
-  const [page, setPage] = React.useState(1)
-  const [pageSize, setPageSize] = React.useState(0);
-  const [totalResult, setTotalResult] = React.useState(0);
-  const [loading, setLoading] = React.useState(true);
+  const [state, setState] = useState([]);
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(0);
+  const [totalResult, setTotalResult] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const handlePageChange = (pageNumber) => {
-    setPage(pageNumber);
-    getCommentAPI({
-      TeacherUID,
-      Page: pageNumber,
-    })
+    if (page !== pageNumber) {
+      setPage(pageNumber);
+      getCommentAPI({
+        TeacherUID,
+        Page: pageNumber,
+      })
+    }
   }
 
   const getCommentAPI = async (params) => {
@@ -32,50 +34,50 @@ const StudentComment = ({ TeacherUID }) => {
     setLoading(false);
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     getCommentAPI({
       TeacherUID,
       Page: page,
     })
   }, [])
   return loading ? <>
-  <Skeleton className="mb-2" height={20} width={200} />
-    <SkeletonFeedback/>
-    </> : <>
-    <div className="tc-comment-wrap bd-t-0-f mg-t-0-f pd-t-0-f">
-      <h6 className="mg-b-15">
-        {
-          totalResult == 0 ? "Giáo viên hiện chưa có phản hồi" :
-          `${totalResult} học viên đã để lại phản hồi:`
-        }
+    <Skeleton className="mb-2" height={20} width={200} />
+    <SkeletonFeedback />
+  </> : <>
+      <div className="tc-comment-wrap bd-t-0-f mg-t-0-f pd-t-0-f">
+        <h6 className="mg-b-15">
+          {
+            totalResult == 0 ? "Giáo viên hiện chưa có phản hồi" :
+              `${totalResult} học viên đã để lại phản hồi:`
+          }
         </h6>
-      <div className="comment__wrapper">
+        <div className="comment__wrapper">
+          {
+            !!state && state.length > 0 && state.map((item, index) =>
+              <StudentCommentItem
+                key={index}
+                StudentUID={item.StudentUID}
+                CreatedDate={item.CreatedDate}
+                StudentName={item.StudentName}
+                StudentIMG={item.StudentIMG}
+                Evaluation={item.Evaluation}
+                Rate={item.Rate}
+                Lession={item.Lession} />)
+          }
+        </div>
         {
-          !!state && state.length > 0 && state.map((item, index) =>
-            <StudentCommentItem
-              key={index}
-              StudentUID={item.StudentUID}
-              CreatedDate={item.CreatedDate}
-              StudentName={item.StudentName}
-              StudentIMG={item.StudentIMG}
-              Evaluation={item.Evaluation}
-              Rate={item.Rate}
-              Lession={item.Lession} />)
+          pageSize < totalResult &&
+          <Pagination
+            innerClass="pagination justify-content-end mt-3"
+            activePage={page}
+            itemsCountPerPage={pageSize}
+            totalItemsCount={totalResult}
+            pageRangeDisplayed={3}
+            itemClass="page-item"
+            linkClass="page-link"
+            onChange={handlePageChange.bind(this)} />
         }
       </div>
-      {
-        pageSize < totalResult &&
-        <Pagination
-          innerClass="pagination justify-content-end mt-3"
-          activePage={page}
-          itemsCountPerPage={pageSize}
-          totalItemsCount={totalResult}
-          pageRangeDisplayed={3}
-          itemClass="page-item"
-          linkClass="page-link"
-          onChange={handlePageChange.bind(this)} />
-      }
-    </div>
     </>
 }
 export default StudentComment;

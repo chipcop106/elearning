@@ -1,14 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import StudentForm from './StudentForm';
-import PurchasedCourseList from './PurchasedCourseList';
-import PaymentHistory from './PaymentHistory';
-import { ToastContainer } from 'react-toastify';
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
+import StudentForm from './StudentForm'
+import PurchasedCourseList from './PurchasedCourseList'
+import PaymentHistory from './PaymentHistory'
+import { ToastContainer } from 'react-toastify'
 
-import styles from '~components/StudentProfile/StudentProfile.module.scss';
+import styles from '~components/StudentProfile/StudentProfile.module.scss'
 
 const StudentProfile = () => {
-  const [showTab, setShowTab] = React.useState(1);
+  const [showTab, setShowTab] = useState(1);
   return <>
     <div className="teacher__detail__wrap card-box">
       <div className="teacher__detail">

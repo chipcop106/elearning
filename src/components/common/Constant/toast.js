@@ -1,4 +1,4 @@
-export const FETCH_ERROR = "Some errors happened, please retry!";
+export const FETCH_ERROR = "Đã có lỗi xảy ra, xin vui lòng thử lại!";
 export const BOOKING_SUCCESS = "Đăng ký lớp học thành công!";
 export const CANCEL_BOOKING_SUCCESS = "Hủy lớp học thành công!";
 export const CHANGE_PASSWORD_SUCCESS = "Đổi mật khẩu thành công!";

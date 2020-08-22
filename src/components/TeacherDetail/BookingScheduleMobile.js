@@ -1,11 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { toast } from 'react-toastify';
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
+import { toast } from 'react-toastify'
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
-import { BOOKING_SUCCESS } from '~components/common/Constant/toast';
-import Flatpickr from 'react-flatpickr';
-import { GetScheduleTeacherAPI } from "~src/api/studentAPI";
+import { BOOKING_SUCCESS } from '~components/common/Constant/toast'
+import Flatpickr from 'react-flatpickr'
+import { GetScheduleTeacherAPI } from "~src/api/studentAPI"
 
 const initialState = {
   date: moment(new Date()).format('DD/MM/YYYY'),
@@ -14,10 +14,10 @@ const initialState = {
 }
 
 const BookingScheduleMobile = ({ TeacherUID, onBookingId, handleBookLesson }) => {
-  const [state, setState] = React.useState(initialState)
-  const [loading, setLoading] = React.useState(false)
-  const [schedule, setSchedule] = React.useState([])
-  const [learnTime, setLearnTime] = React.useState([]);
+  const [state, setState] = useState(initialState)
+  const [loading, setLoading] = useState(false)
+  const [schedule, setSchedule] = useState([])
+  const [learnTime, setLearnTime] = useState([])
 
   const bookingToastSuccess = () => toast.success(BOOKING_SUCCESS, toastInit);
   const TimeAlertToast = () => toast.warn("Hãy chọn múi giờ từ 6:00 đến 23:00", toastInit);
@@ -118,7 +118,7 @@ const BookingScheduleMobile = ({ TeacherUID, onBookingId, handleBookLesson }) =>
     setLoading(false);
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (onBookingId !== null)
       getAPI({
         TeacherUID,

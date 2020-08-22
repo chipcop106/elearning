@@ -22,7 +22,7 @@ const SkeletonBlogCard = () => {
                     <Skeleton width={`70%`} height={30} />
                 </div>
                 <div className="w-100 mb-2">
-                    <Skeleton circle={true} height={50} width={50} style={{marginRight:"20px"}}/>
+                    <Skeleton className="mg-r-20" circle={true} height={50} width={50}/>
                     <Skeleton width={200} height={50} />
                 </div>
                 <div className="w-100 mb-2">

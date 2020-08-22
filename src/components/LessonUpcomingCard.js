@@ -1,7 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
 
-import styles from "~components/LessonUpcomingCard.module.scss";
+import styles from "~components/LessonUpcomingCard.module.scss"
 
 const LessonUpcomingCard = ({
   BookingID,
@@ -34,19 +34,19 @@ const LessonUpcomingCard = ({
     onHandleCancelBooking(BookingID, LessionName, date, start, end)
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     feather.replace();
   }, [])
 
   return (
-    <li className="cr-item upcoming-lesson lesson-info" style={{ position: 'relvate' }}>
+    <li className="cr-item upcoming-lesson lesson-info position-relative">
       <div className={`${lock.id === BookingID && lock.lock ? '' : 'd-none'}`} style={{ zIndex: "99", position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}></div>
       <div className="media">
         <div className="teacher-information">
           <a className="teacher-avatar" href={`/ElearnStudent/teacherDetail?ID=${TeacherUID}`}>
             <img src={avatar === "default-avatar.png" ?
               `../assets/img/${avatar}` : avatar}
-              className="teacher-image" alt=""
+              className="teacher-image" alt="Avatar"
               onError={(e) => { e.target.onerror = null; e.target.src = "../assets/img/default-avatar.png" }} />
             <p className="course-teacher tx-14 tx-gray-800 tx-normal mg-b-0 tx-center mg-t-5 d-block">
               {TeacherName}</p>
@@ -72,7 +72,7 @@ const LessonUpcomingCard = ({
             {
               SpecialRequest && <div className="course-note mg-t-15">
                 <h6 className="mg-b-3 tx-bold">Ghi chú cho giáo viên:</h6>
-                <p className="tx-14 mg-b-0" style={{ wordBreak: "break-word" }}>{SpecialRequest}</p>
+                <p className="tx-14 mg-b-0 word-break">{SpecialRequest}</p>
               </div>
             }
             {

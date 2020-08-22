@@ -14,7 +14,7 @@ const SkeletonProfileSidebar = () => {
         <div className="w-100 mg-b-15">
           <Skeleton circle={true} width={100} height={100} />
         </div>
-        <div className="w-100" style={{marginBottom: "40px"}}>
+        <div className="w-100 mg-b-40">
           <Skeleton width={`80%`} height={30} />
         </div>
         <div className="w-100 mb-2 pd-l-10 text-left">

@@ -272,7 +272,7 @@ const TeacherLessonDetail = () => {
                                             <span className="">{!!state.LessonInfo && !!state.LessonInfo.StudentNote ? state.LessonInfo.StudentNote : ''}</span>
                                         </p>
                                     </div> */}
-                                    <span style={{ wordBreak: "break-word" }}>{!!state.lessonInfo && !!state.lessonInfo.StudentNote ? state.lessonInfo.StudentNote : ''}</span>
+                                    <span className="word-break">{!!state.lessonInfo && !!state.lessonInfo.StudentNote ? state.lessonInfo.StudentNote : ''}</span>
                                 </div>
                             </div>
                         </div>

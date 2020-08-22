@@ -2563,8 +2563,7 @@ a.no-hl {
             &.active {
                 a {
                     color: #fff;
-                    padding: 15px 0 15px 20px;
-                    text-transform: uppercase;
+                    padding: 10px 0 10px 20px;
                     letter-spacing: .05rem;
                     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
                     background-color: $primary-color;
@@ -2824,6 +2823,10 @@ a.no-hl {
             }
         }
     }
+}
+
+.word-break {
+    word-break: break-word; 
 }
 
 /* End Student CSS */
@@ -8135,7 +8138,7 @@ blockquote.messageText {
 
             &:before,
             &:after {
-                opacity: 1;
+                opacity: 1!important;
             }
         }
     }
@@ -9260,7 +9263,7 @@ input[type="month"].form-control {
 
 .custom-header-student+.content {
     min-height: calc(100vh - 106px);
-    margin-top: 60px;
+   /*  margin-top: 60px; */
 }
 
 .navbar-header a {

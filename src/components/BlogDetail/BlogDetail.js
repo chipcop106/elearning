@@ -1,28 +1,28 @@
-import React from 'react'
+import React, { useState, useEffect, useReducer } from 'react'
 import ReactDOM from 'react-dom'
-import SkeletonBlogCard from "~components/common/Skeleton/SkeletonBlogCard"
-import { getNotificationDetailAPI } from "~src/api/studentAPI"
-import { getFormattedDate } from "~src/utils"
-import { NOT_DATA_FOUND } from "~components/common/Constant/message"
+import SkeletonBlogCard from '~components/common/Skeleton/SkeletonBlogCard'
+import { getNotificationDetailAPI } from '~src/api/studentAPI'
+import { getFormattedDate } from '~src/utils'
 
-import styles from "~components/BlogDetail/BlogDetail.module.scss"
+import styles from '~components/BlogDetail/BlogDetail.module.scss'
+
 const BlogDetail = () => {
-  const [state, setState] = React.useState(null)
-  const [loading, setLoading] = React.useState(false);
+  const [state, setState] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const getAPI = async (params) => {
-    setLoading(true);
-    const res = await getNotificationDetailAPI(params);
+    setLoading(true)
+    const res = await getNotificationDetailAPI(params)
     if (res.Code === 1) {
       setState(res.Data)
     }
-    setLoading(false);
+    setLoading(false)
   }
 
-  React.useEffect(() => {
-    let search = window.location.search;
-    let params = new URLSearchParams(search);
-    let ID = params.get('ID');
+  useEffect(() => {
+    let search = window.location.search
+    let params = new URLSearchParams(search)
+    let ID = params.get('ID')
     getAPI({
       NotificationID: ID,
     });

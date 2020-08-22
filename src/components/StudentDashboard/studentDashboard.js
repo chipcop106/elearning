@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
 
 import styled from 'styled-components'
 
@@ -15,19 +15,19 @@ import RatingLessonModal from "~components/RatingLessonModal"
 import RequireLessonModal from "~components/RequireLessonModal"
 import CancelBookingLessonModal from "~components/CancelBookingLessonModal"
 import PopUpCancelLesson from "~components/PopUpCancelLesson"
-import SkeletonLessonCard from '~components/common/Skeleton/SkeletonLessonCard';
-import { NOT_DATA_FOUND } from '~components/common/Constant/message';
+import SkeletonLessonCard from '~components/common/Skeleton/SkeletonLessonCard'
+import { NOT_DATA_FOUND } from '~components/common/Constant/message'
 
 import { convertDateFromTo, checkCancelTime } from "~src/utils.js"
-import { getLessons, getCoursesInfoAPI } from "~src/api/studentAPI";
-import { ToastContainer } from 'react-toastify';
+import { getLessons, getCoursesInfoAPI } from "~src/api/studentAPI"
+import { ToastContainer } from 'react-toastify'
 
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
-import { CANCEL_BOOKING_SUCCESS, FETCH_ERROR } from '~components/common/Constant/toast';
+import { CANCEL_BOOKING_SUCCESS, FETCH_ERROR } from '~components/common/Constant/toast'
 
-import styles from "~components/StudentDashboard/StudentDashboard.module.scss";
+import styles from "~components/StudentDashboard/StudentDashboard.module.scss"
 
 
 const styledIcon = `
@@ -68,20 +68,19 @@ const initialRequireLesson = {
   SkypeID: "",
 }
 const Dashboard = () => {
-  const [state, setState] = React.useState({});
-  const [lock, setLock] = React.useState({
+  const [state, setState] = useState({});
+  const [lock, setLock] = useState({
     id: "",
     lock: false,
   })
-  const [stateCancelLesson, setStateCancelLesson] = React.useState(initialCancelLesson);
-  const [stateRatingLesson, setStateRatingLesson] = React.useState(initialRatingLesson);
-  const [stateRequireLesson, setStateRequireLesson] = React.useState(initialRequireLesson);
-  const [loading, setLoading] = React.useState(false)
+  const [stateCancelLesson, setStateCancelLesson] = useState(initialCancelLesson);
+  const [stateRatingLesson, setStateRatingLesson] = useState(initialRatingLesson);
+  const [stateRequireLesson, setStateRequireLesson] = useState(initialRequireLesson);
+  const [loading, setLoading] = useState(false)
 
-  const [courseInfo, setCourseInfo] = React.useState(null);
-  const [loadingCourseInfo, setLoadingCourseInfo] = React.useState(false)
+  const [courseInfo, setCourseInfo] = useState(null);
+  const [loadingCourseInfo, setLoadingCourseInfo] = useState(false)
 
-  const cancelToastSuccess = (text) => toast(text, toastInit);
   const cancelToastFail = () => toast.error(FETCH_ERROR, toastInit);
 
   const handleRatingLesson = (BookingID, TeacherUID, TeacherName) => {
@@ -195,7 +194,7 @@ const Dashboard = () => {
     setLoadingCourseInfo(false);
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     getAPI();
     _getCoursesInfoAPI();
   }, []);

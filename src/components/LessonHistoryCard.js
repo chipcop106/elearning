@@ -1,7 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
 
-import styles from '~components/LessonHistoryCard.module.scss';
+import styles from '~components/LessonHistoryCard.module.scss'
 
 const LessonHistoryCard = ({
   onHandleRatingLesson,
@@ -21,7 +21,7 @@ const LessonHistoryCard = ({
     onHandleRatingLesson(BookingID, TeacherUID, TeacherName)
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     feather.replace();
   }, [])
 
@@ -32,7 +32,7 @@ const LessonHistoryCard = ({
           <a className="teacher-avatar" href={`/ElearnStudent/teacherDetail?ID=${TeacherUID}`}>
             <img src={avatar === "default-avatar.png" ?
               `../assets/img/${avatar}` : avatar}
-              className="teacher-image" alt=""
+              className="teacher-image" alt="Avatar"
               onError={(e)=>{e.target.onerror = null; e.target.src="../assets/img/default-avatar.png"}} />
             <p className="course-teacher tx-14 tx-gray-800 tx-normal mg-b-0 tx-center mg-t-5 d-block">
               {TeacherName}

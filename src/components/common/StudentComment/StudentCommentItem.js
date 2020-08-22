@@ -53,7 +53,7 @@ const StudentCommentItem = ({
           </div>
         </div>
         <div className="feedback-comment">
-        <p dangerouslySetInnerHTML={{ __html: decodeHTML(!!Note ? Note: !!Evaluation ? Evaluation : "") }} style={{ wordBreak: "break-word" }}></p>
+        <p className="word-break" dangerouslySetInnerHTML={{ __html: decodeHTML(!!Note ? Note: !!Evaluation ? Evaluation : "") }}></p>
         </div>
         <div className="metas">
           {

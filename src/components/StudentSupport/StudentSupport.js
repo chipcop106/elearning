@@ -1,11 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Skeleton from 'react-loading-skeleton';
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
+import Skeleton from 'react-loading-skeleton'
 import TeacherSupportModal from "~components/TeacherSupportModal"
-import { ToastContainer } from 'react-toastify';
-import SkeletonLessonHistoryCard from "~components/common/Skeleton/SkeletonLessonHistoryCard";
+import { ToastContainer } from 'react-toastify'
+import SkeletonLessonHistoryCard from "~components/common/Skeleton/SkeletonLessonHistoryCard"
 
-import styles from '~components/StudentSupport/StudentSupport.module.scss';
+import styles from '~components/StudentSupport/StudentSupport.module.scss'
 
 const initialState = [{
     id: 11,
@@ -75,11 +75,11 @@ const initialState = [{
   }]
 
 const StudentSupport = () => {
-  const [state, setState] = React.useState([]);
-  const [filter, setFilter] = React.useState(0);
-  const [showDetail, setShowDetail] = React.useState(false);
-  const [selectedDetail, setSelectedDetail] = React.useState(null);
-  const [loading, setLoading] = React.useState(false);
+  const [state, setState] = useState([]);
+  const [filter, setFilter] = useState(0);
+  const [showDetail, setShowDetail] = useState(false);
+  const [selectedDetail, setSelectedDetail] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   let filteredState = [...state];
   if (filter !== 0) {
@@ -121,7 +121,7 @@ const StudentSupport = () => {
     checkDetailUrl(initialState);
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     getAPI();
   }, [])
 
@@ -208,7 +208,7 @@ const StudentSupport = () => {
 
 
 const DetailBox = ({ state, _onClickBack }) => {
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
 
   return <>
     <div className="">
@@ -221,7 +221,7 @@ const DetailBox = ({ state, _onClickBack }) => {
         <span className="avatar avatar-md">
           {
             loading ? (<Skeleton circle={true} width={48} height={48} />)
-              : <img src={state?.avatar ?? '../assets/img/default-avatar.png'} className="rounded-circle"
+              : <img src={state?.avatar ?? '../assets/img/default-avatar.png'} className="rounded-circle" alt="Avatar"
               onError={(e)=>{e.target.onerror = null; e.target.src="../assets/img/default-avatar.png"}} />
           }
         </span>

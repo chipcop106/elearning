@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import ReactDOM from 'react-dom';
 import { cancelLesson } from '../api/optionAPI';
 import { toast } from 'react-toastify';
@@ -6,7 +6,7 @@ import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
 
 const CancelBookingTeacher = ({BookingID, LessionName, date, start, end, style, callback}) => {
-  const [reason, setReason] = React.useState("")
+  const [reason, setReason] = useState("")
   const cancelToastSuccess = () => toast.success("Cancel lesson successful!", toastInit);
 
   const cancelToastFail = () => toast.error("Cancel lesson fail, some errors happened!", toastInit);
@@ -43,7 +43,7 @@ const CancelBookingTeacher = ({BookingID, LessionName, date, start, end, style, 
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     setReason("")
   }, [BookingID]);
 

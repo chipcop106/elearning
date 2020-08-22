@@ -1,16 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Pagination from "react-js-pagination";
-import SkeletonLessonHistoryCard from "~components/common/Skeleton/SkeletonLessonHistoryCard";
-import { getPaymentHistoryAPI } from "~src/api/studentAPI";
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
+import Pagination from "react-js-pagination"
+import SkeletonLessonHistoryCard from "~components/common/Skeleton/SkeletonLessonHistoryCard"
+import { getPaymentHistoryAPI } from "~src/api/studentAPI"
 
 const PaymentHistory = () => {
-  const [state, setState] = React.useState([]);
-  const [loading, setLoading] = React.useState(false);
+  const [state, setState] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const [page, setPage] = React.useState(1);
-  const [pageSize, setPageSize] = React.useState(0);
-  const [totalResult, setTotalResult] = React.useState(0);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(0);
+  const [totalResult, setTotalResult] = useState(0);
 
   const handlePageChange = (pageNumber) => {
     if (page !== pageNumber) {
@@ -33,7 +33,7 @@ const PaymentHistory = () => {
     setLoading(false);
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     getAPI({
       Page: 1,
     });
@@ -88,7 +88,7 @@ const PaymentHistory = () => {
      </div>
    </div>
  </div>
- <ul style={{ margin: 0 }}>
+ <ul className="mg-0">
    <li>Long term plans will be expired on next payment
    date.</li>
    <li>For recurring plans, you can book a class after the
@@ -148,13 +148,13 @@ const PaymentHistory = () => {
                         }
                       </span></td>
                     </tr>) : (!state ?
-                      <tr style={{ backgroundColor: "transparent" }}>
+                      <tr className="bg-transparent">
                         <td colSpan="9">
                           <span className="d-block tx-danger tx-medium">Đã có lỗi xảy ra, xin vui lòng thử lại</span>
                           <img src="../assets/img/error.svg" alt="image" className="wd-200 mg-b-15" />
                         </td>
                       </tr> :
-                      <tr style={{ backgroundColor: "transparent" }}>
+                      <tr className="bg-transparent">
                         <td colSpan="9">
                           <span className="d-block tx-danger tx-medium">Bạn chưa mua khóa học nào</span>
                         </td>

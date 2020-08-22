@@ -1,12 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import SkeletonLessonDetail from "~components/common/Skeleton/SkeletonLessonDetail";
-import RatingLessonModal from "~components/RatingLessonModal";
-import { getEvaluation } from "~src/api/studentAPI";
-import { ToastContainer } from 'react-toastify';
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
+import SkeletonLessonDetail from "~components/common/Skeleton/SkeletonLessonDetail"
+import RatingLessonModal from "~components/RatingLessonModal"
+import { getEvaluation } from "~src/api/studentAPI"
+import { ToastContainer } from 'react-toastify'
 import { decodeHTML } from "~src/utils"
 
-import styles from '~components/LessonDetail/LessonDetail.module.scss';
+import styles from '~components/LessonDetail/LessonDetail.module.scss'
 
 
 const renderRatingStars = (rate) => {
@@ -29,8 +29,8 @@ const renderRatingStars = (rate) => {
 }
 
 const LessonDetail = () => {
-  const [state, setState] = React.useState({})
-  const [loading, setLoading] = React.useState(false)
+  const [state, setState] = useState({})
+  const [loading, setLoading] = useState(false)
 
   const getAPI = async (params) => {
     setLoading(true);
@@ -51,7 +51,7 @@ const LessonDetail = () => {
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     let search = window.location.search;
     let params = new URLSearchParams(search);
     let ID = params.get('ID');
@@ -182,7 +182,7 @@ const LessonDetail = () => {
                   {
                     state.Grammar ? (<div className="col-12">
                       <div className="st-item-danhgia">
-                        <p dangerouslySetInnerHTML={{ __html: decodeHTML(state.Grammar) }} style={{ wordBreak: "break-word" }}></p>
+                        <p className="word-break" dangerouslySetInnerHTML={{ __html: decodeHTML(state.Grammar) }}></p>
                       </div></div>) : ""
                   }
                 </div>
@@ -197,7 +197,7 @@ const LessonDetail = () => {
                   {
                     state.Pronunciation ? (<div className="col-12">
                       <div className="st-item-danhgia">
-                        <p dangerouslySetInnerHTML={{ __html: decodeHTML(state.Pronunciation) }} style={{ wordBreak: "break-word" }}></p>
+                        <p className="word-break" dangerouslySetInnerHTML={{ __html: decodeHTML(state.Pronunciation) }}></p>
                       </div></div>) : ""
                   }
                 </div>
@@ -212,7 +212,7 @@ const LessonDetail = () => {
                   {
                     state.Vocabulary ? (<div className="col-12">
                       <div className="st-item-danhgia">
-                        <p dangerouslySetInnerHTML={{ __html: decodeHTML(state.Vocabulary) }} style={{ wordBreak: "break-word" }}></p>
+                        <p className="word-break" dangerouslySetInnerHTML={{ __html: decodeHTML(state.Vocabulary) }}></p>
                       </div></div>) : ""
                   }
                 </div>
@@ -226,7 +226,7 @@ const LessonDetail = () => {
                 {
                   state.SentenceDevelopmentAndSpeak ? (
                     <div className="st-item-danhgia">
-                      <p dangerouslySetInnerHTML={{ __html: decodeHTML(state.SentenceDevelopmentAndSpeak) }} style={{ wordBreak: "break-word" }}></p>
+                      <p className="word-break" dangerouslySetInnerHTML={{ __html: decodeHTML(state.SentenceDevelopmentAndSpeak) }}></p>
                     </div>
                   ) : ""
                 }
@@ -240,7 +240,7 @@ const LessonDetail = () => {
                 {
                   state.Note ? (
                     <div className="st-item-danhgia">
-                      <p dangerouslySetInnerHTML={{ __html: decodeHTML(state.Note) }} style={{ wordBreak: "break-word" }}></p>
+                      <p className="word-break" dangerouslySetInnerHTML={{ __html: decodeHTML(state.Note) }}></p>
                     </div>
                   ) : ""
                 }
@@ -255,7 +255,7 @@ const LessonDetail = () => {
                   Object.keys(state).length === 0 ? "" : (
                     state.StudentEvaluation ? (
                       <div className="st-item-danhgia">
-                        <p dangerouslySetInnerHTML={{ __html: decodeHTML(state.StudentEvaluation) }} style={{ wordBreak: "break-word" }}></p>
+                        <p className="word-break" dangerouslySetInnerHTML={{ __html: decodeHTML(state.StudentEvaluation) }}></p>
                       </div>
                     ) : (<><p>Bạn chưa đánh giá về lớp học này</p>
                       <button className="btn btn-primary mg-r-10"

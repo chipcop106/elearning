@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
 import StudentComment from "../common/StudentComment/StudentComment"
 import BookingSchedule from "./BookingSchedule"
 import BookingScheduleMobile from "./BookingScheduleMobile"
@@ -14,9 +14,9 @@ import { nationMapToFlag, randomId } from '~src/utils'
 import { getTeacherInfo } from "~src/api/studentAPI"
 
 import { ToastContainer } from 'react-toastify'
-import styles from '~components/TeacherDetail/TeacherDetail.module.scss';
+import styles from '~components/TeacherDetail/TeacherDetail.module.scss'
 
-const width = window?.innerWidth;
+const width = window?.innerWidth
 
 const initialCancelLesson = {
   BookingID: "",
@@ -48,13 +48,13 @@ const initialOnCancelState = {
 }
 
 const TeacherDetail = () => {
-  const [state, setState] = React.useState(null)
-  const [stateCancelLesson, setStateCancelLesson] = React.useState(initialCancelLesson);
-  const [stateBookLesson, setStateBookLesson] = React.useState(initialBookLesson);
-  const [onBookState, setOnBookState] = React.useState(initialOnBookState)
-  const [onCancelState, setOnCancelState] = React.useState(initialOnCancelState)
-  const [loading, setLoading] = React.useState(false);
-  const [showTab, setShowTab] = React.useState(1);
+  const [state, setState] = useState(null)
+  const [stateCancelLesson, setStateCancelLesson] = useState(initialCancelLesson);
+  const [stateBookLesson, setStateBookLesson] = useState(initialBookLesson);
+  const [onBookState, setOnBookState] = useState(initialOnBookState)
+  const [onCancelState, setOnCancelState] = useState(initialOnCancelState)
+  const [loading, setLoading] = useState(false);
+  const [showTab, setShowTab] = useState(1);
 
   const getAPI = async (params) => {
     setLoading(true);
@@ -114,7 +114,7 @@ const TeacherDetail = () => {
     })
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     let search = window.location.search;
     let params = new URLSearchParams(search);
     let ID = params.get('ID');

@@ -1,10 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { getScheduleByTeacherUID } from "~src/api/studentAPI";
-import { toast } from 'react-toastify';
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
+import { getScheduleByTeacherUID } from "~src/api/studentAPI"
+import { toast } from 'react-toastify'
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
-import { FETCH_ERROR, CANCEL_BOOKING_SUCCESS, BOOKING_SUCCESS } from '~components/common/Constant/toast';
+import { FETCH_ERROR, CANCEL_BOOKING_SUCCESS, BOOKING_SUCCESS } from '~components/common/Constant/toast'
 
 let calendar;
 Date.prototype.addHours = function (h) {
@@ -32,9 +32,9 @@ const BookingSchedule = ({
   onCancelId
 }) => {
 
-  const [eventSource, setEventSource] = React.useState([])
-  const [loading, setLoading] = React.useState(false)
-  const [activeDate, setActiveDate] = React.useState(mondayOfWeek)
+  const [eventSource, setEventSource] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [activeDate, setActiveDate] = useState(mondayOfWeek)
 
   const cancelToastSuccess = () => toast.success(CANCEL_BOOKING_SUCCESS, toastInit);
   const cancelToastFail = () => toast.error(FETCH_ERROR, toastInit);
@@ -308,7 +308,7 @@ const BookingSchedule = ({
     setLoading(false);
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!!calendar) {
       let eventsInstance = calendar.getEventSources();
       eventsInstance[0] && eventsInstance[0].remove();
@@ -316,14 +316,14 @@ const BookingSchedule = ({
     }
   }, [eventSource])
 
-  React.useEffect(() => {
+  useEffect(() => {
     getAPI({
       TeacherUID,
       Date: moment(activeDate).format("DD/MM/YYYY"),
     });
   }, [activeDate]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (onCancelId !== null) {
       onCancelId === "fail" ? cancelToastFail() :
         getAPI({
@@ -333,7 +333,7 @@ const BookingSchedule = ({
     }
   }, [onCancelId]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (onBookingId !== null)
       getAPI({
         TeacherUID,
@@ -341,7 +341,7 @@ const BookingSchedule = ({
       }, !!onBookingId ? bookingToastSuccess : null);
   }, [onBookingId]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     TeacherUID && calendarInit();
   }, [])
 

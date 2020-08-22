@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import ReactDOM from 'react-dom';
 import SkeletonFaq from "~components/common/Skeleton/SkeletonFaq";
 import { getFaqAPI } from "~src/api/studentAPI";
 
 const Faq = () => {
-  const [state, setState] = React.useState([]);
-  const [loading, setLoading] = React.useState(false);
+  const [state, setState] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const getAPI = async () => {
     setLoading(true);
@@ -16,7 +16,7 @@ const Faq = () => {
     setLoading(false);
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     getAPI();
   }, []);
 

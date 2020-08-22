@@ -1,24 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Select from 'react-select';
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
+import Select from 'react-select'
 import ListSchedule from "./ListSchedule"
-import { getListTeacher } from "~src/api/studentAPI";
-import { getLevelPurposeOptions } from "~src/api/optionAPI";
-import Pagination from "react-js-pagination";
+import { getListTeacher } from "~src/api/studentAPI"
+import { getLevelPurposeOptions } from "~src/api/optionAPI"
+import Pagination from "react-js-pagination"
 
-import BookingLessonModal from "../BookingLessonModal";
-import ListNationModal from "~components/ListNationModal";
+import BookingLessonModal from "../BookingLessonModal"
+import ListNationModal from "~components/ListNationModal"
 
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
 import {appSettings} from '~src/config'
 
 import { nationMapToFlag } from "~src/utils"
 import { ToastContainer } from 'react-toastify'
-import Flatpickr from 'react-flatpickr';
+import Flatpickr from 'react-flatpickr'
 
-import styles from '~components/StudentBooking/BookingLesson.module.scss';
+import styles from '~components/StudentBooking/BookingLesson.module.scss'
 
 const initialState = {
   nation: [],
@@ -64,16 +64,16 @@ const reducer = (prevState, { type, payload }) => {
 }
 
 const BookingLesson = () => {
-  const [state, dispatch] = React.useReducer(reducer, initialState);
-  const [teachersList, setTeacherList] = React.useState(null)
-  const [loading, setLoading] = React.useState(false)
-  const [onBookState, setOnBookState] = React.useState(initialOnBookState)
-  const [stateBookLesson, setStateBookLesson] = React.useState(initialBookLesson);
-  const [learnTime, setLearnTime] = React.useState([]);
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const [teachersList, setTeacherList] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [onBookState, setOnBookState] = useState(initialOnBookState)
+  const [stateBookLesson, setStateBookLesson] = useState(initialBookLesson);
+  const [learnTime, setLearnTime] = useState([]);
 
-  const [page, setPage] = React.useState(1);
-  const [pageSize, setPageSize] = React.useState(0);
-  const [totalResult, setTotalResult] = React.useState(0);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(0);
+  const [totalResult, setTotalResult] = useState(0);
 
   const errorToast = () => toast.error("Đã có lỗi xảy ra, xin vui lòng thử lại", toastInit);
 
@@ -322,7 +322,7 @@ const BookingLesson = () => {
     chooseToday();
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     initCalendar();
     fetchListLevelPurpose();
     
@@ -500,7 +500,7 @@ const BookingLesson = () => {
                       <div className="totor-detail">
                         <a href={`/ElearnStudent/teacherDetail?ID=${item.TeacherUID}`} className="tutor-wrap no-hl">
                           <span className="tutor-avatar">
-                            <img src={item.TeacherIMG ? item.TeacherIMG : "../assets/img/default-avatar.png"} alt=""
+                            <img src={item.TeacherIMG ? item.TeacherIMG : "../assets/img/default-avatar.png"} alt="Avatar"
                             onError={(e)=>{e.target.onerror = null; e.target.src="../assets/img/default-avatar.png"}} />
                           </span>
                           <div className="tutor-infomation pd-5">

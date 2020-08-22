@@ -1,16 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import NotificationItem from './NotificationItem';
-import SkeletonNotification from "~components/common/Skeleton/SkeletonNotification";
-import Pagination from "react-js-pagination";
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
+import NotificationItem from './NotificationItem'
+import SkeletonNotification from "~components/common/Skeleton/SkeletonNotification"
+import Pagination from "react-js-pagination"
 import { getAllNotification } from "~src/api/studentAPI"
 
 const Notification = () => {
-  const [page, setPage] = React.useState(1);
-  const [pageSize, setPageSize] = React.useState(0);
-  const [totalResult, setTotalResult] = React.useState(0);
-  const [state, setState] = React.useState([])
-  const [loading, setLoading] = React.useState(false)
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(0);
+  const [totalResult, setTotalResult] = useState(0);
+  const [state, setState] = useState([])
+  const [loading, setLoading] = useState(false)
 
   const handlePageChange = (pageNumber) => {
     if (page !== pageNumber) {
@@ -32,7 +32,7 @@ const Notification = () => {
     setLoading(false);
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     getAPI({
       page,
     });

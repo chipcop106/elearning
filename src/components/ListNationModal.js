@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
 
 const initialState = {
   Asia: ["Philipine"],
@@ -49,7 +49,7 @@ const RenderListNation = () => {
 }
 
 const ListNation = ({ selectNation }) => {
-  const [state, setState] = React.useState(initialState)
+  const [state, setState] = useState(initialState)
   const handleChangeNation = (e) => {
     let array = [];
     $('#div-nationality .national-checkbox input').each(function () {
@@ -69,7 +69,7 @@ const ListNation = ({ selectNation }) => {
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     $('#div-nationality input').on('change', handleChangeNation.bind(this))
 
     $('.legend-checkbox').click(function () {

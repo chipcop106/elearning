@@ -124,7 +124,7 @@ const FeedbackRow = ({ data: { id, stName, stAvatar, stFeedback, lessonTime, les
                     </div>
                 </div>
                 <div className="feedback-comment mg-b-15-f">
-                    {!!stFeedback && stFeedback !== '' ? <p style={{ wordBreak: "break-word" }}>{stFeedback}</p> : <p className="tx-danger tx-medium">The student didn't leave any feedback for this class</p>}
+                    {!!stFeedback && stFeedback !== '' ? <p className="word-break">{stFeedback}</p> : <p className="tx-danger tx-medium">The student didn't leave any feedback for this class</p>}
 
                 </div>
                 <CSSTransition

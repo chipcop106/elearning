@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect, useReducer } from 'react'
 import ReactDOM from 'react-dom'
 
 import RequireLessonModal from '~components/RequireLessonModal'
@@ -12,10 +12,10 @@ import { convertDateFromTo, checkCancelTime } from "~src/utils.js"
 import Pagination from "react-js-pagination";
 import { ToastContainer } from 'react-toastify'
 import { FETCH_ERRORS } from "~components/common/Constant/message"
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
-import { CANCEL_BOOKING_SUCCESS, FETCH_ERROR } from '~components/common/Constant/toast';
+import { FETCH_ERROR } from '~components/common/Constant/toast'
 
 import styles from '~components/BookedLesson/bookedLesson.module.scss'
 
@@ -43,21 +43,20 @@ const initialRequireLesson = {
 }
 
 const BookedLesson = () => {
-  const [state, setState] = React.useState(null);
-  const [page, setPage] = React.useState(1)
-  const [pageSize, setPageSize] = React.useState(0);
-  const [totalResult, setTotalResult] = React.useState(0);
-  const cancelToastSuccess = () => toast.success(CANCEL_BOOKING_SUCCESS, toastInit);
+  const [state, setState] = useState(null);
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(0);
+  const [totalResult, setTotalResult] = useState(0);
   const cancelToastFail = () => toast.error(FETCH_ERROR, toastInit);
 
-  const [lock, setLock] = React.useState({
+  const [lock, setLock] = useState({
     id: "",
     lock: false,
   })
-  const [stateCancelLesson, setStateCancelLesson] = React.useState(initialCancelLesson);
-  const [stateRequireLesson, setStateRequireLesson] = React.useState(initialRequireLesson);
+  const [stateCancelLesson, setStateCancelLesson] = useState(initialCancelLesson);
+  const [stateRequireLesson, setStateRequireLesson] = useState(initialRequireLesson);
 
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = useState(true);
 
   const handlePageChange = (pageNumber) => {
     if (page !== pageNumber) {
@@ -149,7 +148,7 @@ const BookedLesson = () => {
     setLoading(false);
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     getAPI({
       Page: 1,
     })

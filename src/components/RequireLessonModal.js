@@ -1,12 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { toast } from 'react-toastify';
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
+import { toast } from 'react-toastify'
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
-import { requestLessonAPI } from '~src/api/studentAPI';
-import { FETCH_ERROR, REQUEST_SUCCESS, FILL_NOTES, MAX_200 } from '~components/common/Constant/toast';
+import { requestLessonAPI } from '~src/api/studentAPI'
+import { FETCH_ERROR, REQUEST_SUCCESS, FILL_NOTES, MAX_200 } from '~components/common/Constant/toast'
 
-import styles from "~components/RequireLessonModal.module.scss";
+import styles from "~components/RequireLessonModal.module.scss"
 
 const RequireLessonModal = ({
   BookingID,
@@ -23,7 +23,7 @@ const RequireLessonModal = ({
   SkypeID,
   callback,
 }) => {
-  const [state, setState] = React.useState(SpecialRequest == null ? "" : SpecialRequest)
+  const [state, setState] = useState(SpecialRequest == null ? "" : SpecialRequest)
   const requireLesson = () => toast.success(REQUEST_SUCCESS, toastInit);
   const requireLessonFail = () => toast.error(FETCH_ERROR, toastInit);
   const requireLessonAlert1 = () => toast.warn(FILL_NOTES, toastInit);
@@ -61,11 +61,11 @@ const RequireLessonModal = ({
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     setState(SpecialRequest)
   }, [BookingID]);
 
-  React.useEffect(()=>{
+  useEffect(()=>{
     feather.replace();
   },[])
 
@@ -81,7 +81,7 @@ const RequireLessonModal = ({
                     <a className="teacher-avatar" href={`/ElearnStudent/teacherDetail?ID=${TeacherUID}`}>
                       <img src={avatar === "default-avatar.png" ?
                         `../assets/img/${avatar}` : avatar}
-                        className="teacher-image" alt=""
+                        className="teacher-image" alt="Avatar"
                         onError={(e)=>{e.target.onerror = null; e.target.src="../assets/img/default-avatar.png"}} />
                       <p className="course-teacher tx-14 tx-gray-800 tx-normal mg-b-0 tx-center mg-t-5 d-block">
                         {TeacherName}</p>
@@ -106,7 +106,7 @@ const RequireLessonModal = ({
                     {
                       SpecialRequest && <div className="course-note mg-t-15">
                         <h6 className="mg-b-3">Ghi chú:</h6>
-                        <p className="tx-14 mg-b-0" style={{wordBreak:"break-word"}}> {SpecialRequest} </p>
+                        <p className="tx-14 mg-b-0 word-break"> {SpecialRequest} </p>
                       </div>
                     }
                     {

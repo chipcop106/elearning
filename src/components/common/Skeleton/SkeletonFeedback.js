@@ -15,14 +15,14 @@ const widthScreen = window.innerWidth
 const SkeletonFeedback = () => {
   return (
     <section>
-      <ul className="list" style={{ paddingLeft: '0' }}>
+      <ul className="list pd-l-0-f">
         <li className="card" style={styleWrapper}>
           <div className="text-center" style={{ width: widthScreen > 600 ? '100px': '60px' }}>
             <Skeleton circle={true}
             height={widthScreen > 600 ? 100: 60}
             width={widthScreen > 600 ? 100: 60}/>
           </div>
-          <div style={{ width: `calc(100% - ${widthScreen > 600 ?100:60}px)`, paddingLeft: '15px' }}>
+          <div className="pd-l-15" style={{ width: `calc(100% - ${widthScreen > 600 ?100:60}px)` }}>
             <Skeleton className="mb-2" height={20} width={50} /><br />
             <Skeleton className="mb-2" height={70} width={`100%`} /><br />
             <Skeleton className="mb-2" height={20} width={`90%`} /><br />

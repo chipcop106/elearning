@@ -1,10 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
 import { randomId } from "~src/utils"
-import Skeleton from "react-loading-skeleton";
-import Pagination from "react-js-pagination";
+import Skeleton from "react-loading-skeleton"
+import Pagination from "react-js-pagination"
 
-import styles from '~components/StudentMessage/StudentMessage.module.scss';
+import styles from '~components/StudentMessage/StudentMessage.module.scss'
 
 let initialState = [{
   id: randomId(),
@@ -36,11 +36,11 @@ let initialState = [{
   content: "Lorem isum favor Lorem isum favor Lorem isum favor Lorem isum favor",
 }]
 const StudentMessage = () => {
-  const [state, setState] = React.useState(null);
-  const [loading, setLoading] = React.useState(false);
-  const [page, setPage] = React.useState(1);
-  const [pageSize, setPageSize] = React.useState(0);
-  const [totalResult, setTotalResult] = React.useState(0);
+  const [state, setState] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(0);
+  const [totalResult, setTotalResult] = useState(0);
 
   const handlePageChange = (pageNumber) => {
     if (page !== pageNumber) {
@@ -56,7 +56,7 @@ const StudentMessage = () => {
     setTotalResult(initialState.length);
     setLoading(false);
   }
-  React.useEffect(() => {
+  useEffect(() => {
     getAPI();
   }, [])
   return <>
@@ -103,12 +103,12 @@ const StudentMessage = () => {
             </> :
               !!state && state.length > 0 ? state.map(item =>
                 <div className="notification-item d-flex" key={item.id}>
-                  <div className="avatar avatar-md avatar-online flex-shrink-0"><img src="../assets/img/teacher.jpg" className="rounded-circle" alt="" /></div>
+                  <div className="avatar avatar-md avatar-online flex-shrink-0"><img src="../assets/img/teacher.jpg" className="rounded-circle" alt="Avatar" /></div>
                   <div className="mg-l-10">
                     <span className="notification-time tx-gray-500 font-italic" style={{ fontSize: '12px' }}>
                       {moment(item.time).startOf("minute").fromNow()}
                     </span>
-                    <p className="notification-content mg-0 position-relative" style={{ wordBreak: "break-word" }}>{item.content}</p>
+                    <p className="notification-content mg-0 position-relative word-break">{item.content}</p>
                   </div>
                 </div>) : <div className="text-center">
                   <span className="d-block tx-danger tx-medium">Bạn không có thông báo nào</span>

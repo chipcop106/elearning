@@ -1,10 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { GetScheduleTeacherAPI } from "~src/api/studentAPI";
-import { toast } from 'react-toastify';
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
+import { GetScheduleTeacherAPI } from "~src/api/studentAPI"
+import { toast } from 'react-toastify'
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
-import { BOOKING_SUCCESS } from '~components/common/Constant/toast';
+import { BOOKING_SUCCESS } from '~components/common/Constant/toast'
 
 const ListSchedule = ({
   learnTime,
@@ -20,8 +20,8 @@ const ListSchedule = ({
   onBookStudyTimeID,
   onBookDate,
 }) => {
-  const [scheduleList, setSchedule] = React.useState([])
-  const [loading, setLoading] = React.useState(false)
+  const [scheduleList, setSchedule] = useState([])
+  const [loading, setLoading] = useState(false)
   const bookingToast = () => toast.success(BOOKING_SUCCESS, toastInit);
 
 
@@ -37,7 +37,7 @@ const ListSchedule = ({
     }
     setLoading(false);
   }
-  React.useEffect(() => {
+  useEffect(() => {
     getAPI({
       TeacherUID,
       Date: date,
@@ -46,7 +46,7 @@ const ListSchedule = ({
     })
   }, [])
 
-  React.useEffect(() => {
+  useEffect(() => {
     let newSchedule = [...scheduleList]
 
     let index = newSchedule.findIndex(i =>

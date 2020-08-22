@@ -1,13 +1,12 @@
-import React from 'react'
+import React, { useState, useEffect, useReducer } from 'react'
 import ReactDOM from 'react-dom'
 import LessonItem from './LessonItem'
-import Pagination from "react-js-pagination";
-import { getLessonHistory } from "~src/api/studentAPI";
+import Pagination from "react-js-pagination"
+import { getLessonHistory } from "~src/api/studentAPI"
 import { convertDateFromTo } from "~src/utils.js"
-import SkeletonLessonHistoryCard from "~components/common/Skeleton/SkeletonLessonHistoryCard";
-import Flatpickr from 'react-flatpickr';
+import SkeletonLessonHistoryCard from "~components/common/Skeleton/SkeletonLessonHistoryCard"
+import Flatpickr from 'react-flatpickr'
 import styles from "~components/LessonHistory/lessonHistory.module.scss"
-import { FETCH_ERRORS } from "~components/common/Constant/message"
 
 let start = "";
 let end = "";
@@ -31,14 +30,14 @@ const reducer = (prevState, { type, payload }) => {
 }
 
 const LessonHistory = () => {
-  const [searchInput, dispatch] = React.useReducer(reducer, initialState);
-  const [data, setData] = React.useState({});
+  const [searchInput, dispatch] = useReducer(reducer, initialState);
+  const [data, setData] = useState({});
 
-  const [page, setPage] = React.useState(1);
-  const [pageSize, setPageSize] = React.useState(0);
-  const [totalResult, setTotalResult] = React.useState(0);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(0);
+  const [totalResult, setTotalResult] = useState(0);
 
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = useState(true);
 
   const getAPI = async (params) => {
     setLoading(true);
@@ -77,7 +76,7 @@ const LessonHistory = () => {
     end = searchInput.toDate;
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     getAPI({
       FromDate: searchInput.fromDate,
       ToDate: searchInput.toDate,
@@ -153,7 +152,7 @@ const LessonHistory = () => {
                   Status={item.Status}
                   StatusString={item.StatusString} />) :
                   data.length == 0 ?
-                  <tr style={{ backgroundColor: "transparent" }}>
+                  <tr className="bg-transparent">
                     <td colSpan="6" className="tx-center">
                       <span className="tx-danger tx-medium">
                         {
@@ -169,7 +168,7 @@ const LessonHistory = () => {
                       <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 d-block mx-auto"/>
                       <a href="/ElearnStudent/bookingLesson" className="btn btn-primary">Đặt lịch học</a>
                     </td>
-                  </tr> : (!loading && <tr style={{ backgroundColor: "transparent" }}>
+                  </tr> : (!loading && <tr className="bg-transparent">
                   <td colSpan="6" className="tx-center">
                   <span className="d-block text-center tx-danger tx-medium">Đã có lỗi xảy ra, xin vui lòng thử lại</span>
                     <img src="../assets/img/error.svg" alt="image" className="wd-200 mg-b-15" />

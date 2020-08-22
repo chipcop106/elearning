@@ -1,9 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import PurchasedCourseCard from "./PurchasedCourseCard";
-import SkeletonLessonCard from "~components/common/Skeleton/SkeletonLessonCard";
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
+import PurchasedCourseCard from "./PurchasedCourseCard"
+import SkeletonLessonCard from "~components/common/Skeleton/SkeletonLessonCard"
 import { randomId } from "~src/utils.js"
-import Pagination from "react-js-pagination";
+import Pagination from "react-js-pagination"
 
 const initialState = [{
   CoursesID:randomId(),
@@ -33,16 +33,16 @@ const initialState = [{
   CourseMaterial: "ITLEST 8.0 EASY",
 }]
 const PurchasedCourseList = () => {
-  const [page, setPage] = React.useState(1)
-  const [state, setState] = React.useState(initialState);
+  const [page, setPage] = useState(1)
+  const [state, setState] = useState(initialState);
 
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handlePageChange = (pageNumber) =>  {
     setPage(pageNumber);
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     setLoading(true);
     const timer = setTimeout(() => {
       setLoading(false);

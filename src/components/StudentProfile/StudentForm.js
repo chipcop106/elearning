@@ -1,25 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { useForm, Controller } from "react-hook-form";
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
+import { useForm, Controller } from "react-hook-form"
 
-import { getProfile } from "~src/api/studentAPI";
-import { updateProfileAPI } from "~src/api/studentAPI";
-import { updatePassAPI } from "~src/api/optionAPI";
-import { getTimeZoneAPI } from "~src/api/optionAPI";
-import { uploadImageToServer } from "~src/api/optionAPI";
-import { getListTargetAPI } from "~src/api/optionAPI";
-import { getListLanguageAPI } from "~src/api/optionAPI";
-import { appSettings } from '~src/config';
+import { getProfile } from "~src/api/studentAPI"
+import { updateProfileAPI } from "~src/api/studentAPI"
+import { updatePassAPI } from "~src/api/optionAPI"
+import { getTimeZoneAPI } from "~src/api/optionAPI"
+import { uploadImageToServer } from "~src/api/optionAPI"
+import { getListTargetAPI } from "~src/api/optionAPI"
+import { getListLanguageAPI } from "~src/api/optionAPI"
+import { appSettings } from '~src/config'
  
-import SkeletonStudentForm from "~components/common/Skeleton/SkeletonStudentForm";
+import SkeletonStudentForm from "~components/common/Skeleton/SkeletonStudentForm"
 
-import { yupResolver } from '@hookform/resolvers';
-import * as Yup from "yup";
+import { yupResolver } from '@hookform/resolvers'
+import * as Yup from "yup"
 
-import Flatpickr from 'react-flatpickr';
-import Select from 'react-select';
+import Flatpickr from 'react-flatpickr'
+import Select from 'react-select'
 
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
 
@@ -32,7 +32,6 @@ import {
   CONFIRM_PASSWORD,
   UPDATE_PROFILE_SUCCESS,
 } from "~components/common/Constant/toast"
-import { NOT_DATA_FOUND } from '~components/common/Constant/message';
 
 const schema = Yup.object().shape({
   FullName: Yup.string()
@@ -99,15 +98,15 @@ const convertTargetStringToNum = (listString, map) => {
 }
 
 const StudentForm = ({ tabDisplay }) => {
-  const [profile, setProfile] = React.useState({});
-  const [loadingProfile, setLoadingProfile] = React.useState(true);
-  const [loadingUpdateProfile, setLoadingUpdateProfile] = React.useState(false);
-  const [listLanguage, setListLanguage] = React.useState([]);
-  const [listTimeZone, setListTimeZone] = React.useState([]);
-  const [listTarget, setListTarget] = React.useState([]);
-  const [selectedTarget, setSelectedTarget] = React.useState([]);
-  const [avatar, setAvatar] = React.useState("");
-  const [loadingAvatar, setLoadingAvatar] = React.useState(false);
+  const [profile, setProfile] = useState({});
+  const [loadingProfile, setLoadingProfile] = useState(true);
+  const [loadingUpdateProfile, setLoadingUpdateProfile] = useState(false);
+  const [listLanguage, setListLanguage] = useState([]);
+  const [listTimeZone, setListTimeZone] = useState([]);
+  const [listTarget, setListTarget] = useState([]);
+  const [selectedTarget, setSelectedTarget] = useState([]);
+  const [avatar, setAvatar] = useState("");
+  const [loadingAvatar, setLoadingAvatar] = useState(false);
 
   const updateProfileToastSuccess = () => toast.success(UPDATE_PROFILE_SUCCESS, toastInit);
   const updateProfileToastFail = () => toast.error(FETCH_ERROR, toastInit);
@@ -203,7 +202,7 @@ const StudentForm = ({ tabDisplay }) => {
       setLoadingAvatar(false);
     }
   }
-  React.useEffect(() => {
+  useEffect(() => {
     getAPI();
     getTimeZone();
     getLanguage();
@@ -230,7 +229,7 @@ const StudentForm = ({ tabDisplay }) => {
                           type="file" accept="image/*"
                           className="upload-box hidden d-none upload-file"
                           onChange={handleUploadImage} />
-                        <img id="avatar"
+                        <img id="avatar" alt="Avatar"
                           src={profile.Avatar ? profile.Avatar : "../assets/img/default-avatar.png"}
                           onError={(e) => { e.target.onerror = null; e.target.src = "../assets/img/default-avatar.png" }} />
                       </label>
@@ -502,14 +501,15 @@ const StudentForm = ({ tabDisplay }) => {
 }
 
 const PasswordForm = () => {
-  const [oldPassword, setOldPassword] = React.useState('');
-  const [newPassword, setNewPassword] = React.useState('');
-  const [confirmPassword, setConfirmPassword] = React.useState('');
-  const [displayPassword, setDisplayPassword] = React.useState(false);
-  const [error, setError] = React.useState(null);
-  const [loadingPassword, setLoadingPassword] = React.useState(false);
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [displayPassword, setDisplayPassword] = useState(false);
+  const [error, setError] = useState(null);
+  const [loadingPassword, setLoadingPassword] = useState(false);
 
   const updatePassToastSuccess = () => toast.success(CHANGE_PASSWORD_SUCCESS, toastInit);
+  const updatePassToastFail = () => toast.error(FETCH_ERROR, toastInit);
 
   const _onSubmit = (e) => {
     e.preventDefault();
@@ -548,6 +548,7 @@ const PasswordForm = () => {
       setNewPassword('');
       setConfirmPassword('');
     }
+    else updatePassToastFail();
   }
 
   return <form className="metronic-form change-password-form" onSubmit={_onSubmit}>

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect, useReducer } from 'react'
 let page;
 
 const SideMenu = () => {
-  const [activePage, setActivePage] = React.useState('');
-  React.useEffect(() => {
+  const [activePage, setActivePage] = useState('');
+  useEffect(() => {
     let pathUrl = window.location.pathname;
     setActivePage(pathUrl.toUpperCase());
     console.log(pathUrl);

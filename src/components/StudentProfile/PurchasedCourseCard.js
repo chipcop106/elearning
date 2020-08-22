@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
 
 const PurchasedCourseCard = ({
   CoursesID,
@@ -19,7 +19,7 @@ const PurchasedCourseCard = ({
       <div className="media">
         <div className="teacher-information">
           <a className="teacher-avatar" href="#">
-            <img src={`../assets/img/${avatar}`} className="teacher-image" alt="" />
+            <img src={`../assets/img/${avatar}`} className="teacher-image" alt="Avatar" />
           </a>
         </div>
         <div className="media-body  mg-l-20 pos-relative">

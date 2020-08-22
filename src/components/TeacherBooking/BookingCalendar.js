@@ -796,7 +796,7 @@ const bookingCalendar = () => {
 
 
 
-                <button className="btn btn-primary mg-b-15 show-quick-calendar" onClick={() => setShowQuickCalendar(!showQuickCalendar)}>Open Quick Slots</button>
+               {/*  <button className="btn btn-primary mg-b-15 show-quick-calendar" onClick={() => setShowQuickCalendar(!showQuickCalendar)}>Open Quick Slots</button>
                 <CSSTransition
                     timeout={300}
                     in={showQuickCalendar}
@@ -918,7 +918,7 @@ const bookingCalendar = () => {
                     </>
                 </CSSTransition>
 
-
+ */}
                 <div id="js-book-calendar" className="fc fc-unthemed fc-ltr" />
             </div>
             <div className="notice pd-20 bg-primary-light rounded-5 mg-t-30">

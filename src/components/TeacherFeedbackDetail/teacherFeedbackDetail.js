@@ -190,7 +190,7 @@ const TeacherFeedbackDetail = () => {
                                     {/* <div className="st-time">
                                         <p className="st-teacher-text d-flex justify-content-between mg-b-5">
                                             <span className=""><i className="fa fa-comment tx-primary st-icon wd-20 mg-r-5"></i>Evalution: </span>
-                                            <span className="" style={{ wordBreak: "break-word" }}>{!!state.lessonInfo && !!state.lessonInfo.StudentNote ? state.lessonInfo.StudentNote : ''}</span>
+                                            <span className="word-break">{!!state.lessonInfo && !!state.lessonInfo.StudentNote ? state.lessonInfo.StudentNote : ''}</span>
                                         </p>
                                     </div> */}
                                 </div>
@@ -198,7 +198,7 @@ const TeacherFeedbackDetail = () => {
                             <div className="col-sm-12">
                                 <div>
                                     <h5 className="mg-b-15 mg-md-t-15 mg-t-15 mg-md-t-0-f">Student Feedback</h5>
-                                    <span style={{ wordBreak: "break-word" }}>{!!state.lessonInfo && !!state.lessonInfo.StudentNote ? state.lessonInfo.StudentNote : ''}</span>
+                                    <span className="word-break">{!!state.lessonInfo && !!state.lessonInfo.StudentNote ? state.lessonInfo.StudentNote : ''}</span>
                                 </div>
                             </div>
                         </div>

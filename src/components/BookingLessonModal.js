@@ -1,12 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { toast } from 'react-toastify';
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
+import { toast } from 'react-toastify'
 import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
-import { bookingLessonAPI, getLessonBookAPI } from "~src/api/studentAPI";
-import { FETCH_ERROR, MAX_200 } from '~components/common/Constant/toast';
+import { bookingLessonAPI, getLessonBookAPI } from "~src/api/studentAPI"
+import { FETCH_ERROR, MAX_200 } from '~components/common/Constant/toast'
 
-import styles from '~components/BookingLessonModal.module.scss';
+import styles from '~components/BookingLessonModal.module.scss'
 
 const BookingLessonModal = ({
   style,
@@ -26,8 +26,8 @@ const BookingLessonModal = ({
   onBook,
 }) => {
 
-  const [state, setState] = React.useState("");
-  const [bookState, setBookState] = React.useState(null);
+  const [state, setState] = useState("");
+  const [bookState, setBookState] = useState(null);
   const bookingToastFail = () => toast.error(FETCH_ERROR, toastInit);
   const bookingToastFail2 = (text) => toast.error(text, toastInit);
   const requireLessonAlert = () => toast.warn(MAX_200, toastInit);
@@ -74,13 +74,13 @@ const BookingLessonModal = ({
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     getLessonToBookingAPI()
     setState("")
     feather.replace();
   }, [TeacherUID, StudyTimeID, date])
 
-  React.useEffect(() => {
+  useEffect(() => {
     getLessonToBookingAPI();
   }, [])
 

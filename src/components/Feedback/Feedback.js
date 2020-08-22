@@ -1,26 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import StudentCommentItem from "~components/common/StudentComment/StudentCommentItem";
-import SkeletonFeedback from "~components/common/Skeleton/SkeletonFeedback";
-import Pagination from "react-js-pagination";
+import React, { useState, useEffect, useReducer } from 'react'
+import ReactDOM from 'react-dom'
+import StudentCommentItem from "~components/common/StudentComment/StudentCommentItem"
+import SkeletonFeedback from "~components/common/Skeleton/SkeletonFeedback"
+import Pagination from "react-js-pagination"
 
-import { getFeedbackOverviewAPI } from "~src/api/studentAPI";
-import { getListEvaluationAPI } from "~src/api/studentAPI";
-import { NOT_DATA_FOUND } from "~components/common/Constant/message"
+import { getFeedbackOverviewAPI } from "~src/api/studentAPI"
+import { getListEvaluationAPI } from "~src/api/studentAPI"
 
 import styles from "~components/Feedback/Feedback.module.scss"
 
 
 const Feedback = () => {
-  const [overview, setOverview] = React.useState({});
-  const [loading, setLoading] = React.useState(false);
-  const [loadingListEvaluation, setLoadingListEvaluation] = React.useState(false);
-  const [page, setPage] = React.useState(1)
-  const [pageSize, setPageSize] = React.useState(0);
-  const [totalResult, setTotalResult] = React.useState(0);
+  const [overview, setOverview] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [loadingListEvaluation, setLoadingListEvaluation] = useState(false);
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(0);
+  const [totalResult, setTotalResult] = useState(0);
 
-  const [feedback, setFeedback] = React.useState([]);
-  const [rate, setRate] = React.useState(0);
+  const [feedback, setFeedback] = useState([]);
+  const [rate, setRate] = useState(0);
 
   const handlePageChange = (pageNumber) => {
     if(page !== pageNumber) {
@@ -63,7 +62,7 @@ const Feedback = () => {
     })
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     getOverViewAPI();
     _GetListEvaluationAPI({
       Rate: 0,
