@@ -2489,19 +2489,19 @@ a.no-hl {
     .form-control,
     .select__control,
     .form-control.flatpickr-input {
-        background-color: lighten($primary-color, 44%);
+        background-color: rgba($primary-color, 0.025);
         border: none;
         transition: .3s;
         border-radius: 0.25rem;
 
         &:focus {
-            background-color: lighten($primary-color, 43%);
+            background-color: rgba($primary-color, 0.05);
             box-shadow: none;
         }
     }
 
     .select__control--is-focused {
-        background-color: lighten($primary-color, 43%);
+        background-color: rgba($primary-color, 0.05);
         box-shadow: none;
     }
 
