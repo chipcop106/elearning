@@ -7,7 +7,7 @@ const Header = () => {
       <header className="navbar navbar-header navbar-header-fixed">
         <div className="container">
           <div className="navbar-brand">
-            <a className="df-logo"><img src="../assets/img/preview.png" alt="logo" /></a>
+            <a className="df-logo"><img src="../assets/img/logo-hori-black.png" alt="logo" /></a>
           </div>{/* navbar-brand */}
           <div id="navbarMenu" className="navbar-menu-wrapper">
             <div className="navbar-menu-header">

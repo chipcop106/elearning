@@ -21,7 +21,7 @@ const SideMenu = () => {
         <a href="/ElearnStudent/LessonHistory">Lộ Trình Đã Học</a>
       </li>
       <li className={activePage.indexOf("/ElearnStudent/FeedBack".toUpperCase()) !== -1 ? "active" : ""}>
-        <a href="/ElearnStudent/FeedBack">Đánh Giá</a>
+        <a href="/ElearnStudent/FeedBack">Nhận Xét Của Giáo Viên</a>
       </li>
       <li className={activePage.indexOf("/ElearnStudent/ProfileUser".toUpperCase()) !== -1 ? "active" : ""}>
         <a href="/ElearnStudent/ProfileUser">Thông Tin Cá Nhân</a>

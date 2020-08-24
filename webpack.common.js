@@ -13,7 +13,8 @@ module.exports = {
     'Footer': componentEnrtryPrefix + '/Footer.js',
     'ProfileSidebar': componentEnrtryPrefix + '/ProfileSidebar.js',
     'teacherBooking': componentEnrtryPrefix + 'TeacherBooking/teacherBooking.js',
-    'teacherHome': componentEnrtryPrefix + 'TeacherHome/teacherHome.js',
+    'bookingLesson': componentEnrtryPrefix + 'StudentBooking/BookingLesson.js',
+    /* 'teacherHome': componentEnrtryPrefix + 'TeacherHome/teacherHome.js',
     'teacherReport': componentEnrtryPrefix + 'TeacherReport/teacherReport.js',
     'teacherLibrary': componentEnrtryPrefix + 'TeacherLibrary/teacherLibrary.js',
     'teacherSupport': componentEnrtryPrefix + 'TeacherSupport/teacherSupport.js',
@@ -32,11 +33,11 @@ module.exports = {
     'notification': componentEnrtryPrefix + 'Notification/Notification.js',
     'teacherDetail': componentEnrtryPrefix + 'TeacherDetail/TeacherDetail.js',
     'lessonHistory': componentEnrtryPrefix + 'LessonHistory/LessonHistory.js',
-    'bookingLesson': componentEnrtryPrefix + 'StudentBooking/BookingLesson.js',
+    
     
     'studentMessage': componentEnrtryPrefix + 'StudentMessage/StudentMessage.js',
     'studentDashboard': componentEnrtryPrefix + 'StudentDashboard/StudentDashboard.js',
-    'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js',
+    'studentProfile': componentEnrtryPrefix + 'StudentProfile/StudentProfile.js', */
   },
   output: {
     path: appPaths.dist,
