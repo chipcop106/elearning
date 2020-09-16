@@ -21,6 +21,11 @@
 
 .card-library > a{
     position:relative;
+    height: 150px;
+}
+.card-library > a img{
+    height: 100%;
+    object-fit: cover;
 }
 
 .card-library > a:before{
@@ -70,5 +75,3 @@
 .card-library:hover h5 a{
     color:#f77d14;
 }
-
-

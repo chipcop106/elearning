@@ -174,7 +174,7 @@ const TeacherSidebar = () => {
             </div> */}
             <div className="card card-custom gutter-b wd-100p">
                 {/*begin::Body*/}
-                <div className="card-body">
+                <div className="card-body card-body-thin">
                     {/*begin::Wrapper*/}
                     <div className="d-flex justify-content-between flex-column h-100">
                         {/*begin::Container*/}
@@ -194,8 +194,8 @@ const TeacherSidebar = () => {
                                 {/*end::Username*/}
                                 {/*begin::Info*/}
                                 <div className="d-flex justify-content-between align-items-center mg-b-5">
-                                    <span className="tx-medium">Phone:</span>
-                                    <a href="tel:0987654321" className="tx-gray-400">{!isLoading ? state.Phone || '' : <Skeleton width={50} />}</a>
+                                    <span className="tx-medium">Skype ID:</span>
+                                    <span className="tx-gray-400">{!isLoading ? state.SkypeID || '' : <Skeleton width={50} />}</span>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center mg-b-15">
                                     <span className="tx-medium">Email:</span>

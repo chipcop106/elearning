@@ -81,12 +81,12 @@ const StudentInformationModal = React.forwardRef(({ studentId }, ref) => {
                                             {/* <span className="valign-middle mg-r-5 tx-primary"><i className="fa fa-mars" /></span> */}
                                             {!isLoading ? (
                                                 <>
-                                                {state.stSex === 1 && <span className="valign-middle mg-r-5 tx-primary"><i className="fa fa-venus" /></span>}
-                                                {state.stSex === 2 && <span className="valign-middle mg-r-5 tx-primary"><i className="fa fa-mars" /></span>}
+                                                {state.stSex === 1 && <span className="valign-middle mg-r-5 tx-primary"><i className="fa fa-mars" /></span>}
+                                                {state.stSex === 2 && <span className="valign-middle mg-r-5 tx-primary"><i className="fa fa-venus" /></span>}
                                                 {state.stSex === 3 && <span className="valign-middle mg-r-5 tx-primary"><i className="fa fa-genderless" /></span>}
                                                 <span>
-                                                {state.stSex === 1 && 'Female'}
-                                                {state.stSex === 2 && 'Male'}
+                                                {state.stSex === 1 && 'Male'}
+                                                {state.stSex === 2 && 'Female'}
                                                 {state.stSex === 3 && 'Genderless'}
                                                 </span>
                                             </>

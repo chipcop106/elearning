@@ -99,9 +99,9 @@ const GridSalary = () => {
 
     return (
         <>
-            <div className="pay-title mg-t-30">
+            <div className="pay-title">
                 <div className="d-md-flex justify-content-between align-items-center">
-                    <h3 className="mg-md-b-0 text-dark tx-bold mg-b-15">TOTAL PAYMENT</h3>
+                    <h3 className="mg-md-b-0 text-dark tx-bold mg-b-15">MONTHLY PAYMENT</h3>
                     <div className="d-flex flex-sm-nowrap flex-wrap">
                         <span className="pay-title-times mg-sm-r-10 tx-26 wd-sm-auto wd-100p mg-b-10 mg-sm-b-0 d-inline-block"><span className="tx-primary tx-bold">{now.getFullYear()}</span></span>
                         <div className="d-flex">
@@ -147,7 +147,7 @@ const GridSalary = () => {
 
                 <div className="table-row form-row">
 
-                    <div className="col-lg-4 mg-b-15 mg-lg-b-0">
+                   {/*  <div className="col-lg-4 mg-b-15 mg-lg-b-0">
                         <div className="card ht-100p">
                             <div className="card-body">
                                 <div className="d-flex justify-content-between">
@@ -218,10 +218,92 @@ const GridSalary = () => {
                             </div>
                         </div>
                     </div>
+                 */}
+
+
+<div className="col-lg-3 mg-b-15 mg-lg-b-0">
+                        <div className="card ht-100p">
+                            <div className="card-body">
+                                <div className="d-flex justify-content-between">
+                                    <p className="pay-syn-title">Classes</p>
+                                    <p className="pay-syn-money">{!isLoading ? <NumberFormat value={`${parseFloat(data.FinishedClass)}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={20} />}</p>
+                                </div>
+                                <div className="d-flex justify-content-between align-items-center">
+                                    <p className="pay-syn-text">Finished classes</p>
+                                    <p className="pay-syn-text">{!isLoading ? <NumberFormat value={`${data.FinishedClass}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-lg-3 mg-b-15 mg-lg-b-0">
+                        <div className="card ht-100p">
+                            <div className="card-body">
+                                <div className="d-flex justify-content-between">
+                                    <p className="pay-syn-title">Participation Incentives</p>
+
+                                    <p className="pay-syn-money">{!isLoading ? <NumberFormat value={`${parseFloat(data.ParticipationIncentives) - parseFloat(data.CourseDeduction)}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={20} />}</p>
+                                </div>
+                                <div className="d-flex justify-content-between align-items-center">
+                                    <p className="pay-syn-text">Participation</p>
+
+                                    <p className="pay-syn-text">{!isLoading ? <NumberFormat value={`${data.ParticipationIncentives}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
+                                </div>
+                                <div className="d-flex justify-content-between align-items-center">
+                                    <p className="pay-syn-text">Course Deduction</p>
+                                    <p className="pay-syn-text">{!isLoading ? <NumberFormat value={`${data.CourseDeduction}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-lg-3 mg-b-15 mg-lg-b-0">
+                        <div className="card ht-100p">
+                            <div className="card-body">
+                                <div className="d-flex justify-content-between">
+                                    <p className="pay-syn-title">Bonus &amp; Rewards</p>
+
+                                    <p className="pay-syn-money">{!isLoading ? <NumberFormat value={`${parseFloat(data.TeacherRefferalFee) + parseFloat(data.NewStudentSignup) + parseFloat(data.Rewards)}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={20} />}</p>
+                                </div>
+                                <div className="d-flex justify-content-between align-items-center">
+                                    <p className="pay-syn-text">Teacher Referral</p>
+
+                                    <p className="pay-syn-text">{!isLoading ? <NumberFormat value={`${data.TeacherRefferalFee}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
+                                </div>
+                                <div className="d-flex justify-content-between align-items-center">
+                                    <p className="pay-syn-text">New Student Signup</p>
+                                    <p className="pay-syn-text">{!isLoading ? <NumberFormat value={`${data.NewStudentSignup}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
+                                </div>
+                                <div className="d-flex justify-content-between align-items-center">
+                                    <p className="pay-syn-text mg-b-0">Other rewards</p>
+                                    <p className="pay-syn-text mg-b-0">{!isLoading ? <NumberFormat value={`${data.Rewards}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-lg-3 mg-b-15 mg-lg-b-0">
+                        <div className="card ht-100p">
+                            <div className="card-body">
+                                <div className="d-flex justify-content-between">
+                                    <p className="pay-syn-title">Adjustments</p>
+
+                                    <p className="pay-syn-money">{!isLoading ? <NumberFormat value={`${parseFloat(data.Additions) - parseFloat(data.Deductions)}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={20} />}</p>
+                                </div>
+                                <div className="d-flex justify-content-between align-items-center">
+                                    <p className="pay-syn-text">Addition</p>
+
+                                    <p className="pay-syn-text">{!isLoading ? <NumberFormat value={`${data.Additions}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
+                                </div>
+                                <div className="d-flex justify-content-between align-items-center">
+                                    <p className="pay-syn-text">Deduction</p>
+                                    <p className="pay-syn-text">{!isLoading ? <NumberFormat value={`${data.Deductions}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={15} />}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
-            <h3 className="tx-right mg-t-15 tx-normal">Total salary: <span className="tx-primary tx-medium">{!isLoading ? <NumberFormat value={`${data.NetIncome}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={25} />}</span></h3>
+            <h3 className="tx-right mg-t-15 tx-normal">Net salary: <span className="tx-primary tx-medium">{!isLoading ? <NumberFormat value={`${data.NetIncome}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={25} />}</span></h3>
             {/*/Bang luong tong hop*/}
         </>
     )

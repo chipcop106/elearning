@@ -21,7 +21,7 @@ import Select from 'react-select'
 
 import { toast } from 'react-toastify'
 import 'react-toastify/scss/main.scss'
-import { toastInit } from "~src/utils"
+import { toastInit, convertDDMMYYYYtoMMDDYYYY } from "~src/utils"
 
 import {
   FETCH_ERROR,
@@ -104,7 +104,7 @@ const StudentForm = ({ tabDisplay }) => {
   const [listLanguage, setListLanguage] = useState([]);
   const [listTimeZone, setListTimeZone] = useState([]);
   const [listTarget, setListTarget] = useState([]);
-  const [selectedTarget, setSelectedTarget] = useState([]);
+  const [selectedTarget, setSelectedTarget] = useState(null);
   const [avatar, setAvatar] = useState("");
   const [loadingAvatar, setLoadingAvatar] = useState(false);
 
@@ -119,10 +119,16 @@ const StudentForm = ({ tabDisplay }) => {
     const array = data.SelectTarget.split(",");
     let z = convertTargetStringToNum(array, listTarget);
 
+    console.log(data.BirthDay)
+    console.log(moment(data.BirthDay).format("DD/MM/YYYY"))
+
+    console.log(typeof data.BirthDay)
+
     const newProfile = {
       ...data,
       Avatar: avatar,
-      BirthDay: moment(data.BirthDay).format("DD/MM/YYYY"),
+      BirthDay: data.BirthDay.length > 20 ? moment(data.BirthDay).format("DD/MM/YYYY") : 
+      moment(convertDDMMYYYYtoMMDDYYYY(data.BirthDay)).format("DD/MM/YYYY"),
       Target: z.join(","),
     }
     onUpdateProfileAPI(newProfile)
@@ -348,9 +354,9 @@ const StudentForm = ({ tabDisplay }) => {
                     name="Gender"
                     ref={register}
                     defaultValue={profile.Gender} >
-                    <option value="1">Male</option>
-                    <option value="2">Female</option>
-                    <option value="3">Other</option>
+                    <option value="1">Nam</option>
+                    <option value="2">Nữ</option>
+                    <option value="3">Khác</option>
                   </select>
                 </div>
               </div>
@@ -399,7 +405,7 @@ const StudentForm = ({ tabDisplay }) => {
                 </div>
                 <div className="form-group col-sm-9 select-checkbox">
                   {
-                    Array.isArray(selectedTarget) && selectedTarget.length > 0 &&
+                    Array.isArray(selectedTarget) &&
                     <><Controller
                       as={
                         <Select

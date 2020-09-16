@@ -347,11 +347,11 @@ const BookingLesson = () => {
       <div className={`${loading ? '' : 'd-none'} overlay`}>
         <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
       </div>
+      <div className="media-body-wrap pd-15 shadow">
       <div className="d-xl-flex align-items-center justify-content-between ">
         <h4 className="mg-b-15 d-block gradient-heading"><i className="fas fa-calendar-alt"></i>ĐĂNG KÝ HỌC</h4>
       </div>
-      <div className="media-body-wrap pd-15 shadow">
-      <p className="mg-b-0 mg-t-15">Chọn ngày:</p>
+      <p className="mg-b-0">Vui lòng chọn ngày:</p>
       <div className="calendar__picker swiper-container">
         <div className="calendar-slider swiper-wrapper">
         </div>

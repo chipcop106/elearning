@@ -92,12 +92,6 @@ const LessonDetail = () => {
                     </div>
                     <div className="st-time">
                       <p className="st-teacher-text">
-                        <i className="fa fa-book-reader st-icon wd-20 mg-r-5"></i>
-                        <span>Học viên:</span> <span className="st-tengv">{state.StudentName}</span>
-                      </p>
-                    </div>
-                    <div className="st-time">
-                      <p className="st-teacher-text">
                         <i className="fa fa-book-open st-icon wd-20 mg-r-5"></i>
                         <span>Tài liệu: <a href={state.MaterialLink} target="_blank">{state.Material}</a> </span>
                       </p>
@@ -249,7 +243,7 @@ const LessonDetail = () => {
                       <!--Đánh giá học viên--> */}
               <div className="st-danhgianguphap">
                 <div className="st-title-danhgia mg-b-15">
-                  <h5 className="sub-title">Học viên đánh giá</h5>
+                  <h5 className="sub-title">Học viên nhận xét về buổi học</h5>
                 </div>
                 {
                   Object.keys(state).length === 0 ? "" : (

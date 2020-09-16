@@ -1,7 +1,11 @@
 @import 'variable';
 @import 'dashforge';
 @import '../../node_modules/react-toastify/scss/main.scss';
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
 // @import 'sidemenu';
+body {
+    font-family: 'Open Sans', sans-serif;
+}
 .table-ranking-teacher {
     table.table.ranking {
         border-collapse: collapse;
@@ -2485,23 +2489,22 @@ a.no-hl {
 }
 
 .metronic-form {
-
     .form-control,
     .select__control,
     .form-control.flatpickr-input {
-        background-color: lighten($primary-color, 44%);
+        background-color: rgba($primary-color, 0.025);
         border: none;
         transition: .3s;
         border-radius: 0.25rem;
 
         &:focus {
-            background-color: lighten($primary-color, 43%);
+            background-color: rgba($primary-color, 0.05);
             box-shadow: none;
         }
     }
 
     .select__control--is-focused {
-        background-color: lighten($primary-color, 43%);
+        background-color: rgba($primary-color, 0.05);
         box-shadow: none;
     }
 
@@ -2558,27 +2561,26 @@ a.no-hl {
                 text-align: left;
                 color: #606060;
                 font-weight: 500;
-                transition: .2s;
+                transition: .3s;
             }
-            &.active {
+            &.active, &:hover {
                 a {
-                    color: #fff;
-                    padding: 10px 0 10px 20px;
-                    letter-spacing: .05rem;
-                    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-                    background-color: $primary-color;
+                    //color: #fff;
+                    //padding: 10px 0 10px 20px;
+                    //letter-spacing: .05rem;
+                    //box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+                    //background-color: $primary-color;
+                    color: $primary-color;
                 }
-                &:after {
+               /*  &:after {
                     display: none;
-                }
+                } */
             }
-            &:not(.active):hover {
+            /* &:not(.active):hover {
                 a {
                     color: $primary-color;
-                    padding-left: 25px;
                 }
-            }
-
+            } */
             &:not(:last-child) {
                 position: relative;
                 &:after {
@@ -2607,7 +2609,7 @@ a.no-hl {
 .toggle-sidebar {
     cursor: pointer;
     font-size: 24px;
-    color: lighten($primary-color, 10%);
+    color: rgba($primary-color, 10%);
 }
 
 .label-tag {
@@ -2667,7 +2669,6 @@ a.no-hl {
         &.active {
             left: 0;
             overflow: auto;
-
             .profile-sidebar .profile-info-list li {
                 margin-bottom: 0;
             }
@@ -6077,7 +6078,7 @@ body.drop-answer {
                 // }
                 &.active,
                 &:hover {
-                    background: lighten($primary-color, 42%);
+                    background: rgba($primary-color, 0.3); //background: lighten($primary-color, 42%);
                     color: $primary-color;
                     // &:after {
                     //     width: 100%;
@@ -6123,12 +6124,11 @@ body.drop-answer {
 }
 
 .navbar-header {
-    background-color: $primary-color;
+    background-color:#fff;
     border-bottom: 0;
-
     >.container {
         padding: 0 15px;
-
+        border-bottom: 1px solid rgba(72, 94, 144, 0.16);
         @include media(992px) {
             padding: 0;
         }
@@ -6255,8 +6255,12 @@ footer.footer {
     font-size: 18px;
 
     i {
-        color: $primary-color;
+       /*  color: $primary-color; */
+        color: $rating-star-color;
         margin: 0 2px;
+    }
+    .filled-stars i {
+        color: $rating-star-color;
     }
 }
 
@@ -6619,7 +6623,7 @@ footer.footer {
                 left: 35%;
                 top: 50%;
                 z-index: -1;
-                color: lighten($primary-color, 20%);
+                color: rgba($primary-color, 20%);
                 font-size: 16px;
                 transform: translate(-50%, -50%);
             }
@@ -6630,7 +6634,7 @@ footer.footer {
                 left: 60%;
                 top: 50%;
                 z-index: -1;
-                color: lighten($primary-color, 20%);
+                color: rgba($primary-color, 20%);
                 font-size: 16px;
                 transform: translate(-50%, -50%);
             }
@@ -6907,7 +6911,7 @@ footer.footer {
 
 
     .top-step-item .item-count {
-        background-color: lighten($second-color, 30%);
+        background-color: rgba($second-color, 30%);
         border-radius: 50%;
         color: $second-color;
         display: inline-block;
@@ -7105,7 +7109,7 @@ footer.footer {
 
 .day-block {
     background: #fff;
-    padding: 15px;
+    padding: 15px 10px;
     text-align: center;
     border-radius: 8px;
 
@@ -7116,8 +7120,8 @@ footer.footer {
 
     .day-number {
         pointer-events: none;
-        font-size: 3rem;
-        margin: 10px 0;
+        font-size: 2.4rem;
+        margin: 5px 0;
         line-height: 1;
     }
 
@@ -7144,7 +7148,7 @@ footer.footer {
 }
 
 .navigation_slider>button {
-    background: linear-gradient(112.96562deg, $second-color 4.92708%, lighten($second-color, 10%) 97.84375%);
+    background: linear-gradient(112.96562deg, $second-color 4.92708%, rgba($second-color, 10%) 97.84375%);
     border: 0;
     color: #fff;
     border-radius: 50%;
@@ -7324,7 +7328,7 @@ input.time-only[readonly] {
         }
 
         &.available {
-            background-color: lighten(green, 20%);
+            background-color: rgba(#3be13b, 70%); //lighten (green, 20%);
             color: #fff;
         }
     }
@@ -7355,31 +7359,27 @@ input.time-only[readonly] {
         padding: 0;
         max-height: 200px;
         overflow-y: scroll;
-
         li {
             display: flex;
             align-items: center;
             vertical-align: middle;
             justify-content: space-between;
-
             span.status {
                 display: inline-block;
-
                 button {
                     color: white;
                     background-color: #43adff;
                     border: none;
+                    outline: none;
                     width: 100%;
                     border-radius: 3px;
                 }
             }
-
             &+li {
                 border-top: 1px solid #e1e1e1;
             }
         }
     }
-
     &::after {
         display: none;
         clear: both;
@@ -7455,7 +7455,7 @@ input.time-only[readonly] {
     .tab-link {
         text-transform: uppercase;
         letter-spacing: 1px;
-        color: #ccc;
+        color: #999;
         padding: 10px 15px;
         display: block;
         position: relative;
@@ -7809,7 +7809,7 @@ blockquote.messageText {
             color: #fff;
             font-size: 1.15rem;
             display: block;
-            background: linear-gradient(112.96562deg, $second-color 4.92708%, lighten($second-color, 10%) 97.84375%);
+            background: linear-gradient(112.96562deg, $second-color 4.92708%, rgba($second-color, 10%) 97.84375%);
             width: 35px;
             height: 35px;
             text-align: center;
@@ -7927,7 +7927,7 @@ blockquote.messageText {
         line-height: 1.5;
         font-weight: 700;
         text-transform: uppercase;
-        background: lighten($primary-color, 10%);
+        background: rgba($primary-color, 10%);
         background: linear-gradient(135deg, $primary-color, $second-color);
 
         color: #fff;
@@ -7988,7 +7988,7 @@ blockquote.messageText {
     padding-bottom: 50px;
 
     [class^="col-"] {
-        margin-top: 105px;
+        margin-top: 80px;
     }
 }
 
@@ -8832,7 +8832,7 @@ blockquote.messageText {
     width: 13px;
     height: 13px;
     border-radius: 50%;
-    background: lighten($primary-color, 42%);
+    background: rgba($primary-color, 0.42);
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
 
@@ -9102,7 +9102,7 @@ input[type="month"].form-control {
                 }
             }
 
-            @include scrollbars(3px, lighten($primary-color, 20%), lighten($primary-color, 42%));
+            @include scrollbars(3px, rgba($primary-color, 20%), rgba($primary-color, 42%));
         }
 
     }
@@ -9269,3 +9269,9 @@ input[type="month"].form-control {
 .navbar-header a {
     cursor: pointer;
 }
+
+.navbar-brand a {
+    height: 45px;
+}
+
+.form-control::placeholder{color:#7987a1!important;}

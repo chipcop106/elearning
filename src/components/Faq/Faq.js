@@ -21,11 +21,8 @@ const Faq = () => {
   }, []);
 
   return <>
-    <div className="faq-image tx-center">
-      <img src="../assets/img/faq.svg" alt="faq" className="wd-300" />
-    </div>
     <div className="faq-container">
-      <div className="d-xl-flex align-items-center justify-content-between mg-b-15 mg-t-30">
+      <div className="d-xl-flex align-items-center justify-content-between mg-b-15">
         <h4 className="mg-b-0 gradient-heading"><i className="fas fa-comment-alt"></i>CÁC CÂU HỎI THƯỜNG GẶP</h4>
       </div>
       {
