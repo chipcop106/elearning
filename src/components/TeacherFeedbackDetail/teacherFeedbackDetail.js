@@ -111,7 +111,6 @@ const TeacherFeedbackDetail = () => {
     }, []);
 
     return (<>
-        <h3 className="text-dark font-weight-bold mg-b-30">Lesson Detail</h3>
         <div className="row">
             <div className="col-xl-4 col-lg-5 mg-b-30">
                 <div className="card card-custom lesson-sidebar">
@@ -172,7 +171,7 @@ const TeacherFeedbackDetail = () => {
                                         <p className="st-teacher-text d-flex justify-content-between">
 
                                             <span className=""><i className="fa fa-thumbs-up tx-primary st-icon wd-20 mg-r-5"></i>Feedback: </span>
-                                            <span className="tx-primary">
+                                            <span className="tx-warning">
                                                 {
                                                     (!!state.lessonInfo && !!state.lessonInfo.StudentRating ? state.lessonInfo.StudentRating : 0) === 0 ? (<span className="tx-black">No rating</span>) : (
                                                         [...Array(5)].map((el, index) => (5 - index) <= state.lessonInfo.StudentRating
@@ -224,9 +223,7 @@ const TeacherFeedbackDetail = () => {
                     </div>
                     <div className="card-body">
                         <div className="st-danhgianguphap ">
-                            <div className="" dangerouslySetInnerHTML={{ __html: decodeHTML(!!state && !!state.lessonInfo && !!state.lessonInfo.grammar ? state.lessonInfo.grammar :'') }}></div>
-                          
-
+                            <div className="" dangerouslySetInnerHTML={{ __html: decodeHTML(!!state && !!state.lessonInfo && !!state.lessonInfo.grammar ? state.lessonInfo.grammar :'') }}></div>                          
                         </div>
                     </div>
                 </div>

@@ -27,11 +27,12 @@ import 'react-toastify/scss/main.scss'
 import { toastInit } from "~src/utils"
 import { CANCEL_BOOKING_SUCCESS, FETCH_ERROR } from '~components/common/Constant/toast'
 
+import { appSettings } from '~src/config'
 import styles from "~components/StudentDashboard/StudentDashboard.module.scss"
 
 
 const styledIcon = `
-  color: #fd7e14;
+  color: ${appSettings.colors.primary};
   width: 30px;
   height: 30px;
 `
@@ -182,9 +183,9 @@ const Dashboard = () => {
     const res = await getCoursesInfoAPI();
     if (res.Code === 1) {
       setCourseInfo({
-          ...res.Data,
-          Message: "",
-        })
+        ...res.Data,
+        Message: "",
+      })
     }
     else {
       setCourseInfo({
@@ -195,6 +196,9 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
     getAPI();
     _getCoursesInfoAPI();
   }, []);
@@ -204,43 +208,48 @@ const Dashboard = () => {
       {
         !!courseInfo && !courseInfo.Message ? <>
           {
-            courseInfo.Message !== undefined ? <div className="overall__summary-info d-flex flex-wrap pd-b-15">
-              <div className="course-img">
-                <img src="https://preview.keenthemes.com/metronic/theme/html/demo7/dist/assets/media/project-logos/3.png" />
-              </div>
-              <div className="course-info pd-l-15">
+            courseInfo.Message !== undefined ? <><div className="overall__summary-info d-flex flex-wrap pd-b-10">
+              <div className="course-info">
                 <a href="#" className="tx-bold no-hl d-block mg-b-10" style={{ width: "fit-content" }}>
                   <span className="course-name">{courseInfo.CoursesName}</span>
                 </a>
-                <div className="course-progress d-flex flex-wrap">
-                  <div className="start-date mg-r-30">
-                    <label className="label d-block tx-medium tx-gray">Ngày bắt đầu</label>
-                    <label className="date font-weight-bolder">
-                      {!!courseInfo.StartDate ?
-                        moment(courseInfo.StartDate).format("DD MMM, YYYY").toUpperCase() :
-                        "CHƯA BẮT ĐẦU"}
-                    </label>
-                  </div>
-                  <div className="due-date mg-r-30">
-                    <label className="label d-block tx-medium tx-gray">Ngày kết thúc</label>
-                    <label className="date font-weight-bolder">
-                      {!!courseInfo.EndDate ?
-                        moment(courseInfo.EndDate).format("DD MMM, YYYY").toUpperCase() :
-                        "CHƯA KẾT THÚC"}
-                    </label>
-                  </div>
+                <div className="course-progress">
                   <div className="progress-wrap">
                     <div className="progress-course-bar position-relative">
-                      <label className="label d-block tx-medium tx-gray">Tiến trình học</label>
-                      <div className="progress-bar-wrap">
-                        <div className="progress-bar-wrap-fill" style={{ width: `${parseInt(courseInfo.Process * 100)}%` }}></div>
+                      <div className="date d-flex flex-wrap justify-content-between">
+                        <div className="start-date">
+                          <label>Ngày bắt đầu</label>
+                          <span>{!!courseInfo.StartDate ? moment(courseInfo.StartDate).format("DD/MM/YYYY") : "Chưa bắt đầu"}</span>
+                        </div>
+                        <div className="end-date">
+                          <label>Ngày kết thúc</label>
+                          <span>{!!courseInfo.EndDate ? moment(courseInfo.EndDate).format("DD/MM/YYYY") : "Chưa kết thúc"}</span>
+                        </div>
                       </div>
-                      <span className="progress-number bold">{`${parseInt(courseInfo.Process * 100)}%`}</span>
+                      {
+                        <div className="progress-bar-wrap">
+                          <div className="progress-bar-wrap-fill"
+                            data-toggle="tooltip" data-placement="top" title={`${parseInt(courseInfo.Process * 100)}%`}
+                            style={{ width: `${parseInt(courseInfo.Process * 100)}%` }}>
+                          </div>
+                        </div>
+                      }
+
+                      <div className="level d-flex flex-wrap justify-content-between mg-t-15">
+                        <div className="start-level">
+                          <label>Trình độ hiện tại</label>
+                          <span>{!!courseInfo.LevelEnglishPresent ? courseInfo.LevelEnglishPresent : ""}</span>
+                        </div>
+                        <div className="end-level">
+                          <label>Trình độ mục tiêu</label>
+                          <span>{!!courseInfo.LevelEnglishDesire ? courseInfo.LevelEnglishDesire : ""}</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div> : <div className="overall__summary-summary pd-t-15 d-flex flex-wrap justify-content-between">
+            </div> <div className="overall__summary-summary pd-t-15 d-flex flex-wrap justify-content-between">
                 <div className="left d-flex flex-wrap flex-grow-1">
                   <div className="summary-item student-summary-item">
                     <BookOpenIcon />
@@ -287,7 +296,7 @@ const Dashboard = () => {
                     </div>
                   </div>
                 </div> */}
-              </div>
+              </div></> : ""
           }
         </> : <span className="d-block tx-center tx-danger tx-medium">
             {courseInfo && courseInfo.Message}

@@ -24,6 +24,18 @@ const statusOptions = [
     {
         value:2,
         label:'Finished'
+    },
+    {
+        value:3,
+        label:'Teacher no show'
+    },
+    {
+        value:4,
+        label:'Student no show'
+    },
+    {
+        value:5,
+        label:'IT problem'
     }
 ]
 
@@ -40,7 +52,8 @@ const AllClassRow = ({ data, showStudentModal }) => {
         LessionName = '',
         SkypeID,
         StudentUID,
-        DocumentName=''
+        DocumentName='',
+        GenderID,
     } = data;
 
     const handleEnterClass = async (e) => {
@@ -69,7 +82,7 @@ const AllClassRow = ({ data, showStudentModal }) => {
                 </div>
             </td>
             <td className="clr-student">
-                <a href={`#`} onClick={(e) => { e.preventDefault(); showStudentModal(StudentUID) }} className="clrm-studentname">{StudentName}<i className="fa fa-mars mg-l-10 clrm-icon-male" /></a>
+                <a href={`#`} onClick={(e) => { e.preventDefault(); showStudentModal(StudentUID) }} className="clrm-studentname">{StudentName}<i className={`fa fa-${GenderID === 1 ? 'mars' : GenderID === 2 ? 'venus' : 'genderless'} mg-l-10 clrm-icon-male`} /></a>
             </td>
             <td className="clr-time">
                 <div className="mg-b-5">
@@ -82,7 +95,9 @@ const AllClassRow = ({ data, showStudentModal }) => {
                 </div>
             </td>
             <td className="clr-status">
-                <span className={`badge badge-${Status === 1 ? 'primary tx-white' : 'success'} pd-5`}>{Status === 1 ? 'BOOKED' : 'FINISHED'}</span>
+                <span className={`badge badge-${Status === 1 ? 'primary tx-white' : Status === 2 ? 'success' : 'danger'} pd-5`}>
+                {Status === 1 ? 'BOOKED' : Status === 2 ? 'FINISHED' : Status === 3 ? 'TEACHER OFF' : Status === 4 ? 'STUDENT OFF' : 'IT PROBLEM' }
+                </span>
                 {/* {Status === 1 && <span className="badge badge-warning pd-5">BOOKED</span>}
                 {Status === 2 && <span className="badge badge-success pd-5">FINISHED</span>} */}
             </td>

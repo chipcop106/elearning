@@ -123,7 +123,7 @@ const TeacherSupportModal = ({refreshList}) => {
         <div className="modal-dialog modal-dialog-centered modal-primary" role="document">
             <div className="modal-content">
                 <div className="modal-header bg-primary">
-                    <h5 className="modal-title tx-white"><i className="fas fa-send-o"></i> Create ticket</h5>
+                    <h5 className="modal-title tx-white"><i className="fas fa-send-o"></i> Create a new ticket</h5>
                     <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                         <span className="tx-white" aria-hidden="true">&times;</span>
                     </button>

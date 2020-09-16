@@ -15,7 +15,7 @@ const RequireLessonModal = ({
   TeacherName,
   LessionMaterial,
   LessionName,
-  SpecialRequest = "",
+  SpecialRequest = null,
   date,
   start,
   end,
@@ -43,6 +43,10 @@ const RequireLessonModal = ({
   }
 
   const onSubmitRequire = () => {
+    if(state == null) {
+      requireLessonAlert1();
+      return;
+    }
     if (state.length <= 0 ) {
       requireLessonAlert1();
     }
@@ -138,7 +142,7 @@ const RequireLessonModal = ({
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-light" data-dismiss="modal">Đóng</button>
-              <button type="button" className="btn btn-primary" onClick={onSubmitRequire}>Gửi yêu cầu</button>
+              <button type="button" className="btn btn-primary" onClick={onSubmitRequire}>Sửa yêu cầu</button>
             </div>
           </form>
         </div>

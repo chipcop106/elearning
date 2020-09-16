@@ -7,7 +7,10 @@ import { toastInit } from "~src/utils"
 
 const CancelBookingTeacher = ({BookingID, LessionName, date, start, end, style, callback}) => {
   const [reason, setReason] = useState("")
-  const cancelToastSuccess = () => toast.success("Cancel lesson successful!", toastInit);
+  const cancelToastSuccess = () => toast.success('You have canceled a lesson successfully', {
+    position: toast.POSITION.TOP_CENTER,
+    autoClose: 2000
+});
 
   const cancelToastFail = () => toast.error("Cancel lesson fail, some errors happened!", toastInit);
 
@@ -23,7 +26,10 @@ const CancelBookingTeacher = ({BookingID, LessionName, date, start, end, style, 
       callback && callback(params.BookingID, status)
     }
     else {
-      toast.error(lessons?.Message ?? "Cancel lesson fail, some errors happened!", toastInit);
+      toast.error(lessons?.Message ?? "Cancel lesson fail, some errors happened!", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000
+    });
     }
   }
 

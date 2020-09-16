@@ -45,11 +45,39 @@
     box-shadow:0px 0px 30px 0px rgba(82, 63, 105, 0.25);
     transform:translateY(-10px);
 }
+.price-table-wrapper .table-card::before {
+    transform: skewY(-7deg);
+}
+.price-table-wrapper .table-card::after {
+    transform: skewY(7deg);
+}
 
-.table-card:hover:before {
+.price-table-wrapper .table-card:hover:before {
     transform: skewY(-15deg);
 }
-.table-card:hover:after {
+.price-table-wrapper .table-card:hover:after {
     transform: skewY(15deg);
 }
 
+.price-table-wrapper .table-card {
+    padding: 20px;
+    padding-top: 80px;
+}
+.price-table-wrapper .table-card:before {
+    height: 40%;
+}
+.price-table-wrapper .table-card:after {
+    height: 40%;
+}
+
+.price-table-wrapper .table-card .name {
+    font-size: 1rem;
+    width: 140px;
+    height: 140px;
+    top: -70px;
+}
+
+.price-table-wrapper .table-card .feather {
+    margin-top: 0;
+    margin-bottom: 0;
+}

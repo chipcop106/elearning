@@ -192,7 +192,7 @@ const initEvents = [
 
 
 
-const bookingCalendar = () => {
+const BookingCalendar = (/* { eventSource, setEventSource } */) => {
     const [eventSource, setEventSource] = useState(initEvents);
     const [activeDate, setActiveDate] = useState(new Date());
     const [isLoading, setIsLoading] = useState(true);
@@ -282,8 +282,6 @@ const bookingCalendar = () => {
         } catch (error) {
             console.log('Goi API khong thanh cong');
         }
-
-        // console.log(calendar.getEventSources());
     }
 
     const triggerNextCalendar = () => {
@@ -302,7 +300,7 @@ const bookingCalendar = () => {
     }
  
     let $toggleCheckbox;
-    const initCalendar = () => {
+   const initCalendar = () => {
         //const createEventSlots
 
         const calendarEl = document.getElementById("js-book-calendar");
@@ -394,7 +392,7 @@ const bookingCalendar = () => {
                     const dateHD = new Date(date);
                     let bookedSlot = 0;
                     let totalSlot = 0;
-                    events.map(event => {
+                   events.map(event => {
                         const eventDate = new Date(event.extendedProps.Start.split('T')[0]);
                         if (eventDate.getTime() === dateHD.getTime()) {
                             (event.extendedProps.available === true || event.extendedProps.bookStatus === true) && totalSlot++;
@@ -409,6 +407,7 @@ const bookingCalendar = () => {
         };
 
         const eventClick = (args) => {
+            console.log("event Source calendar", calendar.getEventSources()[0].internalEventSource.meta)
             const element = args.el;
             const { start, end, id } = args.event;
             if (!!$toggleCheckbox && $toggleCheckbox.prop('checked') === true && ![...element.classList].includes("booked-slot")) {
@@ -427,9 +426,9 @@ const bookingCalendar = () => {
             if(diff < 60 ){
                 setShowErrorBook(true);
                 return;
-            } 
+            }
 
-            setActiveModal({
+           /*  setActiveModal({
                 ...activeModal,
                 ...args.event.extendedProps,
                 date: moment(start).format("DD/MM/YYYY"),
@@ -437,6 +436,14 @@ const bookingCalendar = () => {
                 end: moment(end).format("HH:mm A")
             });
             $("#md-active-slot").appendTo('body').modal("show");
+            */
+            _openSlot({
+                ...activeModal,
+                ...args.event.extendedProps,
+                date: moment(start).format("DD/MM/YYYY"),
+                start: moment(start).format("HH:mm A"),
+                end: moment(end).format("HH:mm A")
+            }, calendar.getEventSources()[0].internalEventSource.meta)
         };
 
 
@@ -527,6 +534,12 @@ const bookingCalendar = () => {
                     available,
                     isEmptySlot,
                 } = event.extendedProps;
+                let name = "";
+                if(!!bookInfo) {
+                    let arrayName = bookInfo.name.split(" ");
+                    name = arrayName[arrayName.length - 1];
+                }
+                console.log()
                 const data = {
                     ...event.extendedProps,
                     id: event.id,
@@ -544,13 +557,13 @@ const bookingCalendar = () => {
                             ? `
                                 <span class="label-book booked"><i class="fas ${
                             isPast ? "fa-check" : "fa-user-graduate"
-                            }"></i> ${isPast ? "FINISHED" : "BOOKED"}</span>
+                            }"></i> ${isPast ? "FINISHED" : "BOOKED"} ${name}</span>
                                 `
                             : `<span class="label-book"><i class="fas fa-copyright"></i>AVAILABLE</span>`
                         }
                         ${
                         available
-                            ? `<a href="javascript:;" class="fix-btn close-schedule" data-schedule='${JSON.stringify(data)}'>Close</a>`
+                            ? `<a href="javascript:;" class="fix-btn close-schedule" data-schedule='${JSON.stringify(data)}' data-events='${calendar.getEventSources()[0].internalEventSource.meta}'>Close</a>`
                             : ""
                         }
                         </div>
@@ -601,16 +614,24 @@ const bookingCalendar = () => {
         $('body').on('click', '.close-schedule', function (e) {
             e.preventDefault();
             const eventData = JSON.parse(this.getAttribute('data-schedule'));
-
-            setActiveModal({
+            const eventsArray = calendar.getEventSources()[0].internalEventSource.meta
+            console.log(eventData)
+           /*  setActiveModal({
                 ...activeModal,
                 ...eventData,
                 date: moment(eventData.start).format('dddd, DD/MM/YYYY'),
                 start: moment(eventData.start).format('hh:mm A'),
                 end: moment(eventData.end).format('hh:mm A')
             });
-            $closeModal.appendTo('body').modal('show');
+            $closeModal.appendTo('body').modal('show'); */
             // alert("Close slot available ID : " + eventData);
+            _closeSlot({
+                ...activeModal,
+                ...eventData,
+                date: moment(eventData.start).format('dddd, DD/MM/YYYY'),
+                start: moment(eventData.start).format('hh:mm A'),
+                end: moment(eventData.end).format('hh:mm A')
+            }, eventsArray)
         });
 
         $('body').on('click', '.join-class-skype', async function (e) {
@@ -641,19 +662,22 @@ const bookingCalendar = () => {
 
     }
 
-    const setAvailableEvent = (newProps) => {
-        const newSources = [...eventSource].map(event => (event.StudyTimeID === newProps.StudyTimeID) && (event.Start === newProps.Start) ? {
+    const setAvailableEvent = (newProps, eventsArray) => {
+        console.log(newProps)
+        console.log(eventSource);
+        const newSources = [...eventsArray].map(event => (event.StudyTimeID === newProps.StudyTimeID) && (event.Start === newProps.Start) ? {
             ...event,
             available: true,
             bookStatus: false,
             isEmptySlot: false,
             OpenDayID: newProps.OpenDayID
         } : event)
+        //console.log(newSources)
         setEventSource(newSources);
     }
 
-    const closeAvailableEvent = (newProps) => {
-        const newSources = [...eventSource].map(event => (event.StudyTimeID === newProps.StudyTimeID) && (event.Start === newProps.Start) ? {
+    const closeAvailableEvent = (newProps, eventsArray) => {
+        const newSources = [...eventsArray].map(event => (event.StudyTimeID === newProps.StudyTimeID) && (event.Start === newProps.Start) ? {
             ...event,
             available: false,
             bookStatus: false,
@@ -674,7 +698,7 @@ const bookingCalendar = () => {
         setEventSource(newSources);
     }
 
-    const _openSlot = async (data) => {
+    const _openSlot = async (data , eventsArray) => {
         setIsLoading(true);
         $('#md-active-slot').modal('hide');
         try {
@@ -683,14 +707,15 @@ const bookingCalendar = () => {
                 StudyTimeID: data.StudyTimeID,
             });
             if (res.Code === 1) {
+                console.log(res.Data.OpenDayID);
                 setAvailableEvent({
                     ...data,
                     OpenDayID: res?.Data?.OpenDayID ?? 0
-                });
-                toast.success('Open slot success', {
+                }, eventsArray);
+               /*  toast.success('Open slot success', {
                     position: toast.POSITION.TOP_CENTER,
                     autoClose: 2000
-                });
+                }); */
             } else {
                 toast.error('Open slot failed', {
                     position: toast.POSITION.TOP_CENTER,
@@ -705,7 +730,7 @@ const bookingCalendar = () => {
         setIsLoading(false);
     }
 
-    const _closeSlot = async (data) => {
+    const _closeSlot = async (data, eventsArray) => {
         setIsLoading(true);
         console.log(data);
         $('#md-close-slot').modal('hide');
@@ -714,11 +739,11 @@ const bookingCalendar = () => {
                 OpenDayID: data.OpenDayID
             });
             if (res.Code === 1) {
-                closeAvailableEvent(data);
-                toast.success('Close slot success', {
+                closeAvailableEvent(data, eventsArray);
+               /*  toast.success('Close slot success', {
                     position: toast.POSITION.TOP_CENTER,
                     autoClose: 2000
-                });
+                }); */
             } else {
                 toast.error('Close slot failed', {
                     position: toast.POSITION.TOP_CENTER,
@@ -743,7 +768,7 @@ const bookingCalendar = () => {
             });
             if (res.Code === 1) {
                 cancelBookedEvent(data);
-                toast.success('Cancel booking success', {
+                toast.success('You have canceled a lesson successfully', {
                     position: toast.POSITION.TOP_CENTER,
                     autoClose: 2000
                 });
@@ -766,7 +791,7 @@ const bookingCalendar = () => {
     }
 
     useEffect(() => {
-        // console.log(calendar);
+        console.log("effect", eventSource);
         if (!!calendar) {
             console.log('Event source updated', eventSource);
             // calendar.addEventSource(eventSource);
@@ -784,6 +809,7 @@ const bookingCalendar = () => {
     useEffect(() => {
         initCalendar();
     }, []);
+
 
     return (
         <>
@@ -924,10 +950,10 @@ const bookingCalendar = () => {
             <div className="notice pd-20 bg-primary-light rounded-5 mg-t-30">
                 <h5 className="mg-b-15 tx-primary"><i className="fas fa-file"></i> Notes:</h5>
                 <ul className="mg-b-0">
-                    <li>Each class is 25 minutes</li>
-                    <li>To open a slot, simply select the time Slot and click on it</li>
-                    <li>To close a slot, simple select the Available Slot and click on it.</li>
-                    <li>To cancel a Booked Class, select the Booked Slot and click "Cancel lesson"</li>
+                    <li>Each Class is 25 minutes.</li>
+                    <li>To open a slot, simply select the time Slot and click on it.</li>
+                    <li>To close a Slot, simple select the time Slot and click on it.</li>
+                    <li>To cancel a Booked Class, select the Booked Slot and click "Cancel the Class".</li>
                 </ul>
             </div>
             <ActiveSlotModal
@@ -967,4 +993,49 @@ const bookingCalendar = () => {
     )
 }
 
-export default bookingCalendar;
+
+
+
+/* 
+
+
+const BookingCalendarWrap = () => {
+    const [eventSource, setEventSource] = useState(initEvents);
+    const [activeDate, setActiveDate] = useState(new Date());
+    const [isLoading, setIsLoading] = useState(true);
+
+    const getEventSource = async (date = formatDateString(activeDate)) => {
+        setIsLoading(true);
+        try {
+            const res = await getListEventsOfWeek({ Date: date }); // @string date dd/mm/yyyy
+            if (res.Code === 1 && res.Data.length > 0) {
+                const newEvents = res.Data.map((event) => {
+                    return {
+                        ...event,
+                        id: event.BookingID,
+                        title: event.title || '',
+                        start: moment(event.Start, 'YYYY-MM-DDTHH:mm').toDate(),
+                        end: moment(event.End, 'YYYY-MM-DDTHH:mm').toDate(),
+                        eventType: event.eventType,
+                        bookStatus: event.bookStatus,
+                        bookInfo: event.bookInfo,
+                        available: event.available,
+                        isEmptySlot: event.isEmptySlot
+                    }
+                });
+                setEventSource(newEvents);
+            }
+            setIsLoading(false);
+        } catch (error) {
+            console.log('Goi API khong thanh cong');
+        }
+    }
+    useEffect(()=>{
+        getEventSource();
+    },[])
+
+    return <BookingCalendar eventSource={eventSource} setEventSource={setEventSource}/>
+} */
+
+
+export default BookingCalendar;

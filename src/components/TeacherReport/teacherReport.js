@@ -42,7 +42,7 @@ const TeacherReport = () => {
   }, [select]);
   return (
     <div>
-      <div className="d-md-flex align-items-center justify-content-between mg-b-30 pos-relative" style={{zIndex:11}}>
+      <div className="d-md-flex align-items-center justify-content-between pos-relative" style={{zIndex:11}}>
         <h3 className="mg-b-0 text-dark tx-bold">MONTHLY STATISTIC</h3>
         <div className="select-wrap mg-t-15 mg-md-t-0 wd-md-150" >
           <Select
@@ -54,7 +54,8 @@ const TeacherReport = () => {
         </div>
       </div>
       <div className="report__container pos-relative z-index-10">
-        <div className="row price-table-wrapper">
+        <div className="mx-auto" style={{maxWidth:"1200px"}}>
+        <div className="row price-table-wrapper pd-b-15-f">
           <div className="col-12 col-xs-6 col-md-6 col-lg-4 col-xl-4">
             <div className="table-card bg-1">
               <div className="card">
@@ -113,6 +114,7 @@ const TeacherReport = () => {
             </div>
           </div>
         </div>
+        </div>
         <div className="card-custom card">
           <div className="card-body">
         
@@ -151,7 +153,7 @@ const TeacherReport = () => {
             </tbody>
             <tbody>
               <tr>
-                <td rowSpan={2} className="valign-middle tx-center"><h5 className="tx-primary">PARENT FEEDBACK</h5></td>
+                <td rowSpan={2} className="valign-middle tx-center"><h5 className="tx-primary">STUDENT FEEDBACK</h5></td>
                 <td>
                   <h5>5 Stars Student Feedback Rate</h5>
                   <p className="tx-gray-500 mg-b-0">The percentage of 5 stars feedback from students given within the selected period</p>

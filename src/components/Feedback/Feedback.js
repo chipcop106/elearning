@@ -77,7 +77,7 @@ const Feedback = () => {
       <h4 className="mg-b-0 gradient-heading"><i className="fas fa-comment-dots"></i>PHẢN HỒI</h4>
       {
         overview && Object.keys(overview).length > 0 && <div className="form-group d-inline-block mg-b-0-f mg-t-15 mg-sm-t-0-f">
-        <select className="form-control" style={{fontFamily:"FontAwesome",color:'#fd7e14'}}
+        <select className="form-control main-color bg-white" style={{ fontFamily:"FontAwesome" }}
           onChange={fetchListEvaluation}>
               <option value="0">Tất cả ({overview.AllEvaluation})</option>
               <option value="5">&#xf005; &#xf005; &#xf005; &#xf005; &#xf005; ({overview.EvaluationRate5})</option>

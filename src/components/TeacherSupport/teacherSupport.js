@@ -63,12 +63,12 @@ const TeacherSupport = () => {
 		params.has('id') && showDetailBox(params.get('id'));
 	}
 
-	const getSupportList = async () => {
+	const getSupportList = async (page = 1) => {
 		setIsLoading(true);
 		try {
 			const res = await getListSupport({
 				Status: parseInt(filter),
-				Page: parseInt(pageNumber)
+				Page: parseInt(page)
 			});
 			if (res.Code === 1) {
 				setState(res.Data);
@@ -97,11 +97,20 @@ const TeacherSupport = () => {
 	}
 
 	const afterCancelSuccess = (ID) =>{
-		console.log(ID);
-		setFilterState([...state.map(item => item.ID === ID ? {
+		let newState = [...state];
+		/* setFilterState([...state.map(item => item.ID === ID ? {
 			...item,
 			STATUS: 4
-		} : item )]);
+		} : item )]); */
+
+		var index = state.findIndex(i => i.ID === ID);
+		if(index !== -1) {
+			newState[index].STATUS = 4;
+		}
+		setFilterState({
+			...newState,
+		})
+		console.log(newState);
 		hideDetailBox();
 	}
 
@@ -110,8 +119,13 @@ const TeacherSupport = () => {
 	// },[state, filter])
 
 	React.useEffect(() => {
-		getSupportList();
-	}, [pageNumber, filter]);
+		getSupportList(1);
+	}, [filter]);
+
+	React.useEffect(() => {
+		getSupportList(pageNumber);
+	}, [pageNumber]);
+
 
 	React.useEffect(() => {
 		getOverView();
@@ -120,45 +134,41 @@ const TeacherSupport = () => {
 
 	return (
 		<div className="sup">
-			<div className="d-md-flex justify-content-between align-items-center mg-b-30">
-				<h3 className="tx-bold tx-dark mg-md-b-0">Support Center</h3>
-				<button type="button" className="btn btn-primary"
-					data-toggle="modal"
-					data-target="#md-teacher-support"
-					id="contactsub"><i className="fa fa-plus mg-r-10"></i>Ticket</button>
-			</div>
-
-			<div className="row">
-				<div className="col-md-4">
-					<div className="card card-custom">
+			<div className="d-flex flex-wrap flex-xl-nowrap row--lg">
+				<div className="wd-100p mg-xl-b-0 mg-b-30 wd-xl-300 pd-xl-x-15 d-sm-flex d-xl-block flex-shrink-0">
+					<div className="card card-custom w-100">
 						<div className="sub-menu card-body">
 							<p className={`${filter === 0 && 'active'} d-flex align-items-center justify-content-between`}>
-								<a className="link" onClick={() => _handlefilter(0)}>Tất Cả</a>
+								<a className="link" onClick={() => _handlefilter(0)}>Total Tickets</a>
 								<span className="badge-number">{overView?.All ?? 0}</span>
 							</p>
 
 							<p className={`${filter === 1 && 'active'} d-flex align-items-center justify-content-between`}>
-								<a className="link" onClick={() => _handlefilter(1)}>Mới tạo</a>
+								<a className="link" onClick={() => _handlefilter(1)}>Newly created</a>
 								<span className="badge-number">{overView?.News ?? 0}</span>
 							</p>
 							<p className={`${filter === 2 && 'active'} d-flex align-items-center justify-content-between`}>
-								<a className="link" onClick={() => _handlefilter(2)}>Đang xử lý</a>
+								<a className="link" onClick={() => _handlefilter(2)}>Processing</a>
 								<span className="badge-number">{overView?.Processing ?? 0}</span>
 							</p>
 							<p className={`${filter === 3 && 'active'} d-flex align-items-center justify-content-between`}>
-								<a className="link" onClick={() => _handlefilter(3)}>Đã xử lý</a>
+								<a className="link" onClick={() => _handlefilter(3)}>Ticket Closed</a>
 								<span className="badge-number">{overView?.Answered ?? 0}</span>
 							</p>
 							<p className={`${filter === 4 && 'active'} d-flex align-items-center justify-content-between`}>
-								<a className="link" onClick={() => _handlefilter(4)}>Đã hủy</a>
+								<a className="link" onClick={() => _handlefilter(4)}>Ticket Canceled</a>
 								<span className="badge-number">{overView?.Cancelled ?? 0}</span>
 							</p>
+							<button type="button" className="btn btn-primary btn-block mg-t-10"
+							data-toggle="modal"
+							data-target="#md-teacher-support"
+							id="contactsub"><i className="fa fa-plus mg-r-10"></i>New Ticket</button>
 						</div>
 					</div>
 				</div>
-				<div className="col-md-8">
+				<div className="flex-grow-1 pd-xl-x-15 wd-100p">
 					<div className="card card-custom">
-						<div className="card-body">
+						<div className="card-body pd-15-f">
 							{showDetail ? <SupportDetail
 								onClickBack={hideDetailBox}
 								detailId={detailId}
@@ -169,9 +179,9 @@ const TeacherSupport = () => {
 											<table className="table table-borderless table-hover">
 												<thead className="thead-primary">
 													<tr>
-														<th>Tiêu đề</th>
-														<th>Ngày gửi</th>
-														<th>Trạng thái</th>
+														<th>Ticket title</th>
+														<th>Sending date</th>
+														<th className="tx-center">Status</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -182,15 +192,15 @@ const TeacherSupport = () => {
 																<td>
 																	<span className="sup-item-table-gio">{moment(item.CreatedDate).format("DD/MM/YYYY")}</span> <br />
 																</td>
-																<td>
+																<td className="text-center">
 																	<span className={`badge badge-${
-																		item.STATUS === 1 ? 'info' :
-																			item.STATUS === 2 ? "warning" :
-																				item.STATUS === 3 ? "success" : "danger"} pd-5 tx-12 wd-75`}>
+																		item.STATUS === 1 ? 'info wd-100' :
+																			item.STATUS === 2 ? "warning wd-75" :
+																				item.STATUS === 3 ? "success wd-75" : "danger wd-75"} pd-5 tx-12 `}>
 																		{
-																			item.STATUS === 1 ? "Mới tạo" :
-																				item.STATUS === 2 ? "Đang xử lý" :
-																					item.STATUS === 3 ? "Đã xử lý" : "Đã hủy"
+																			item.STATUS === 1 ? "Newly created" :
+																				item.STATUS === 2 ? "Processing" :
+																					item.STATUS === 3 ? "Closed" : "Cancelled"
 																		}
 																	</span>
 																</td>

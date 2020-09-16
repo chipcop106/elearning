@@ -354,9 +354,9 @@ const StudentForm = ({ tabDisplay }) => {
                     name="Gender"
                     ref={register}
                     defaultValue={profile.Gender} >
-                    <option value="1">Male</option>
-                    <option value="2">Female</option>
-                    <option value="3">Other</option>
+                    <option value="1">Nam</option>
+                    <option value="2">Nữ</option>
+                    <option value="3">Khác</option>
                   </select>
                 </div>
               </div>

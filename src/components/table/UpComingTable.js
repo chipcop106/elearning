@@ -8,7 +8,7 @@ import { Editor } from '@tinymce/tinymce-react';
 
 
 const UpcomingRow = ({ data, showStudentModal }) => {
-    const { BookingID, ScheduleTimeVN, ScheduleTimeUTC, StudentName, StudentUID, DocumentName, LessionName, SkypeID, StatusString, Status, LessionMaterial, Gender, SpecialRequest } = data;
+    const { BookingID, ScheduleTimeVN, ScheduleTimeUTC, StudentName, StudentUID, DocumentName, LessionName, SkypeID, StatusString, Status, LessionMaterial, GenderID, SpecialRequest } = data;
     const handleEnterClass = async (e) => {
         e.preventDefault();
         try {
@@ -52,7 +52,7 @@ const UpcomingRow = ({ data, showStudentModal }) => {
                 </div>
             </td>
             <td className="clr-student">
-                <a href={`#`} onClick={(e) => { e.preventDefault(); showStudentModal(StudentUID) }} className="clrm-studentname">{StudentName}<i className={`fa fa-${Gender === 0 ? 'venus' : Gender === 1 ? 'mars' : 'genderless'} mg-l-10 clrm-icon-male`} /></a>
+                <a href={`#`} onClick={(e) => { e.preventDefault(); showStudentModal(StudentUID) }} className="clrm-studentname">{StudentName}<i className={`fa fa-${GenderID === 1 ? 'mars' : GenderID === 2 ? 'venus' : 'genderless'} mg-l-10 clrm-icon-male`} /></a>
             </td>
             <td className="tx-center">
                 {SpecialRequest && SpecialRequest !== '' && 

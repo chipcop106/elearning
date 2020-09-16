@@ -23,11 +23,11 @@ const itemShowOptions = [
     },
     {
         value: 5,
-        label: 'Last 5 lessons'
+        label: '5 lessons'
     },
     {
         value: 10,
-        label: 'Last 10 lessons'
+        label: '10 lessons'
     }
 ]
 
@@ -92,10 +92,9 @@ const TeacherHome = () => {
 
     return (
         <>
-            <h3 className="text-dark font-weight-bold mg-b-30">My Dashboard</h3>
             <div className="">
                 <div className="d-flex flex-wrap flex-xl-nowrap row--lg">
-                    <div className="wd-100p mg-xl-b-0 mg-b-30 wd-xl-350 pd-xl-x-15 d-sm-flex d-xl-block flex-shrink-0">
+                    <div className="wd-100p mg-xl-b-0 mg-b-30 wd-xl-325-f pd-xl-x-15 d-sm-flex d-xl-block flex-shrink-0">
                         <TeacherSidebar />
                     </div>
                     <div className="flex-grow-1 pd-xl-x-15 wd-100p">
@@ -148,7 +147,7 @@ const TeacherHome = () => {
                                     <SituationBlock isLoading={isLoading} link={dashboardInfo?.BookedSlotURl} linkTitle="Manage slot" title="Slots Booked" value={dashboardInfo?.BookedSlot} unit="slots" imageUrl={'../assets/img/slot-booked.png'} />
                                 </div>
                                 <div className="col-12 col-md-4  mg-b-15">
-                                    <SituationBlock isLoading={isLoading} link={dashboardInfo?.FeedbackURL} linkTitle="View feedback" title="Missing Feedbacks" value={dashboardInfo?.Feedback} unit="Feedback" imageUrl={'../assets/img/missing-feedback.png'} />
+                                    <SituationBlock isLoading={isLoading} link={dashboardInfo?.FeedbackURL} linkTitle="Submit Feedback" title="Missing Feedbacks" value={dashboardInfo?.Feedback} unit="Feedback" imageUrl={'../assets/img/missing-feedback.png'} />
                                 </div>
                             </div>
                         </div>
@@ -160,7 +159,7 @@ const TeacherHome = () => {
                                         <div className="align-items-center d-flex justify-content-between pd-b-15">
                                             <div className="d-flex align-items-center">
                                                 <div className="">
-                                                    <h5 className="mg-b-0">Upcoming lesson</h5>
+                                                    <h5 className="mg-b-0">Upcoming lessons</h5>
                                                 </div>
                                             </div>
                                             <div className="wd-150">

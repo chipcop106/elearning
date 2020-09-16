@@ -17,10 +17,9 @@ const PopUpCancelLesson = ({ LessionName, date, start, end, reason }) => {
           <p>Ngày học: <span className="tx-medium">{date || ''}</span></p>
           <p>Giờ học: <span className="tx-medium">{`${start || ''} - ${end || ''}`}</span></p>
           <p>Lý do hủy: <span className="tx-medium">{reason || ''}</span></p>
-
         </div>
         <div className="modal-footer">
-          <button type="button" className="btn btn-light" data-dismiss="modal">OK</button>
+          <button type="button" className="btn btn-dark" data-dismiss="modal">Đóng</button>
         </div>
       </div>
     </div>
