@@ -253,7 +253,7 @@ const RenderSummary = ({ handFilterValue }) => {
                     <div className="fb-radio">
                         <label>
                             <input type="radio" name="fbType" group="feedback" value="5" onChange={_onChangeFilter} />
-                            <span>5 <i className="fa fa-star tx-warning"></i> Excellent <span className="number">{isLoading ? (<Skeleton width={15}/>) : (overview?.EvaluationRate5 ?? '')}</span></span>
+                            <span><i className="fa fa-star tx-warning"></i><i className="fa fa-star tx-warning"></i><i className="fa fa-star tx-warning"></i><i className="fa fa-star tx-warning"></i><i className="fa fa-star tx-warning"></i> Excellent <span className="number">{isLoading ? (<Skeleton width={15}/>) : (overview?.EvaluationRate5 ?? '')}</span></span>
                         </label>
                     </div>
                 </div>
@@ -261,7 +261,7 @@ const RenderSummary = ({ handFilterValue }) => {
                     <div className="fb-radio">
                         <label>
                             <input type="radio" name="fbType" group="feedback" value="4" onChange={_onChangeFilter} />
-                            <span>4 <i className="fa fa-star tx-warning"></i> Good<span className="number">{isLoading ? (<Skeleton width={15}/>) : (overview?.EvaluationRate4 ?? '')}</span></span>
+                            <span><i className="fa fa-star tx-warning"></i><i className="fa fa-star tx-warning"></i><i className="fa fa-star tx-warning"></i><i className="fa fa-star tx-warning"></i> Good<span className="number">{isLoading ? (<Skeleton width={15}/>) : (overview?.EvaluationRate4 ?? '')}</span></span>
                         </label>
                     </div>
                 </div>
@@ -269,7 +269,7 @@ const RenderSummary = ({ handFilterValue }) => {
                     <div className="fb-radio">
                         <label>
                             <input type="radio" name="fbType" group="feedback" value="3" onChange={_onChangeFilter} />
-                            <span>3 <i className="fa fa-star tx-warning"></i> Average<span className="number">{isLoading ? (<Skeleton width={15}/>) : (overview?.EvaluationRate3 ?? '')}</span></span>
+                            <span><i className="fa fa-star tx-warning"></i><i className="fa fa-star tx-warning"></i><i className="fa fa-star tx-warning"></i> Average<span className="number">{isLoading ? (<Skeleton width={15}/>) : (overview?.EvaluationRate3 ?? '')}</span></span>
                         </label>
                     </div>
                 </div>
@@ -277,7 +277,7 @@ const RenderSummary = ({ handFilterValue }) => {
                     <div className="fb-radio">
                         <label>
                             <input type="radio" name="fbType" group="feedback" value="2" onChange={_onChangeFilter} />
-                            <span>2 <i className="fa fa-star tx-warning"></i> Bad<span className="number">{isLoading ? (<Skeleton width={15}/>) : (overview?.EvaluationRate2 ?? '')}</span></span>
+                            <span><i className="fa fa-star tx-warning"></i><i className="fa fa-star tx-warning"></i> Bad<span className="number">{isLoading ? (<Skeleton width={15}/>) : (overview?.EvaluationRate2 ?? '')}</span></span>
                         </label>
                     </div>
                 </div>
@@ -285,7 +285,7 @@ const RenderSummary = ({ handFilterValue }) => {
                     <div className="fb-radio">
                         <label>
                             <input type="radio" name="fbType" group="feedback" value="1" onChange={_onChangeFilter} />
-                            <span>1 <i className="fa fa-star tx-warning"></i> Very bad<span className="number">{isLoading ? (<Skeleton width={15}/>) : (overview?.EvaluationRate1 ?? '')}</span></span>
+                            <span><i className="fa fa-star tx-warning"></i> Very bad<span className="number">{isLoading ? (<Skeleton width={15}/>) : (overview?.EvaluationRate1 ?? '')}</span></span>
                         </label>
                     </div>
                 </div>
@@ -307,12 +307,12 @@ const TeacherFeedback = () => {
         dispatch({ type: 'UPDATE_COMMENT', payload: { feedbackId, commentId, commentContent } })
     }
 
-    const fetchFeedback = async () => {
+    const fetchFeedback = async ( page = 1 ) => {
         setIsLoading(true);
         try {
             const res = await getFeedback({
                 Rate:filterValue !== '' ? parseInt(filterValue) : 0,
-                Page:pageNumber
+                Page:page
             });
             if(res.Code === 1){
                 res.Data.length > 0 ? setFeedbacks(res.Data.map(fb => {
@@ -345,14 +345,18 @@ const TeacherFeedback = () => {
 
     React.useEffect(() => {
         fetchFeedback();
-    }, [filterValue, pageNumber])
+    }, [filterValue])
+
+    React.useEffect(() => {
+        fetchFeedback(pageNumber);
+    }, [pageNumber])
 
     return (
         <>
-            <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
+            {/* <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
                 <h3 className="text-dark font-weight-bold mg-b-0">Student Feedback</h3>
-            </div>
-            <div className="mg-t-30 feedback-container">
+            </div> */}
+            <div className="feedback-container">
                 <RenderSummary
                     handFilterValue={setFilterValue}
                 />

@@ -11,19 +11,22 @@
 
 .overall__summary-info {
   position: relative;
-  &::after {
-    content: "";
-    position: absolute;
-    height: 1px;
-    background-color: #b5b5c3;
-    top: 100%;
-    left: 0;
-    width: 100%;
-  }
+  //&::after {
+  //  content: "";
+  //  position: absolute;
+  //  height: 1px;
+  //  background-color: #b5b5c3;
+  //  top: 100%;
+  //  left: 0;
+  //  width: 100%;
+  //}
   
   .course-img {
     width: 80px;
     height: 80px;
+    @include media(500px) {
+      margin: 0 auto;
+    }
     img {
       width: 100%;
       height: 100%;
@@ -31,7 +34,11 @@
     }
   }
   .course-info {
-    width: calc(100% - 80px);
+    width: 100%;
+    @include media(500px) {
+      margin-top: 10px;
+      padding-left: 0 !important;
+    }
     .course-name {
       font-size: 18px;
       white-space: unset;
@@ -46,41 +53,64 @@
       }
     }
     .course-progress {
-      label{
+  /*     label{
         margin-bottom:5px;
         font-weight:normal;
       }
       .label-tag{
         font-weight:500;
-      }
+      } */
       .progress-wrap {
         @include media(500px) {
           width: 100%;
         }
       }
       .progress-course-bar {
-        width: 300px;
-        max-width: calc(100% - 35px);
+        width: 100%;
+        .date, .level {
+          .start-date, .end-date, .start-level, .end-level {
+            span {
+              font-size: 12px;
+            }
+          }
+          .end-date {
+            text-align: right;
+          }
+        }
         .progress-bar-wrap {
           position: relative;
           width: 100%;
-          height: 5px;
-          border-radius: 5px;
-          background: #f1ebe5;
+          height: 20px;
+          border-radius: 16px;
+          overflow: hidden;
+          background: #e6e6e6;
+          margin: 0.5rem 0 0;
           .progress-bar-wrap-fill {
             position: absolute;
             height: 100%;
-            border-radius: 5px;
+            border-top-right-radius: 16px;
+            border-bottom-right-radius: 16px;
             top: 0;
             left: 0;
-            background-color: $primary-color;
+            width: 1%;
+            background-image: linear-gradient(to right,  $primary-color ,lighten( $primary-color, 20%));
+            //&::after {
+            //  position: absolute;
+            //  content: "";
+            //  top: 50%;
+            //  transform: translateY(-50%);
+            //  right: -10px;
+            //  width: 20px;
+            //  height: 20px;
+            //  background-image: linear-gradient(to right,  $primary-color ,lighten( $primary-color, 30%));
+            //  border-radius: 50%;
+            //}
           }
         }
-       
       }
-      & > * {
+     /*  & > * {
         margin-bottom: 10px;
-      }
+      } */
       .progress-number {
         position: absolute;
         top: 17px;
@@ -88,7 +118,9 @@
       }
     }
     .date {
-      font-size: 15px;
+      font-size: 12px;
+      color: #707070;
+      font-weight: 200;
     }
     .label {
       color: #969696;
@@ -114,7 +146,7 @@
     }
   }
   .summary-item {
-    padding: 10px;
+    padding: 0 10px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -142,14 +174,15 @@
       width: calc(100% - 40px);
     }
     @media screen and (max-width: 768px) {
-      flex: auto;
+      flex-basis: 50%;
+      margin-bottom: 0.75rem;
     }
   }
 }
 
 .student-summary-item {
   .label {
-    color: #707070;
-    font-weight: 400;
+    color: #000;
+    font-weight: 200;
   }
 }

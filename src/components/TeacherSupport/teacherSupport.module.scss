@@ -20,6 +20,10 @@
     .card-custom{
         .sub-menu p {
             padding:5px 0;
+            &:last-of-type {
+                border-bottom: 1px dashed #e1e1e1;
+                padding-bottom: 15px !important;
+            }
             a.link{
                 font-weight:normal;
                 cursor: pointer;

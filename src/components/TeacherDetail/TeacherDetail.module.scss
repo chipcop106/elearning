@@ -226,3 +226,21 @@
     }
   }
 }
+.comment__wrapper {
+  .fb-item {
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #e1e1e1;
+    box-shadow: none;
+    margin-bottom: 0;
+    .fb-avatar {
+      .avatar {
+        width: 80px;
+        height: 80px;
+      }
+    }
+    .fb-info {
+      margin-left: 15px;
+    }
+  }
+}

@@ -22,7 +22,7 @@ const TeacherProfile = () => {
     return (
         <>
             <ProfileProvider>
-            <h3 className="mg-b-30">Profile</h3>
+           {/*  <h3 className="mg-b-30">Profile</h3> */}
             <div className="d-flex flex-wrap flex-lg-nowrap">
                 <div className="wd-lg-350 wd-100p flex-shrink-0 mg-b-30 mg-lg-b-0 mg-lg-r-30">
                     <Sidebar setActive={handleActivePage} activePage={activePage}/>

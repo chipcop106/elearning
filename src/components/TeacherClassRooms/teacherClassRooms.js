@@ -29,13 +29,10 @@ const TeacherClassRooms = () => {
 
     return (
         <>
-            <div className="d-xl-flex align-items-center justify-content-between mg-b-30">
-                <h3 className="text-dark font-weight-bold mg-b-0">Classrooms</h3>
-            </div>
             <div className="teacher__detail__wrap ">
                 <div className="teacher__detail ">
                     <div className="teacher-body mg-t-0-f card card-custom">
-                        <div className="tab-navigation teacher-custom card-body">
+                        <div className="tab-navigation teacher-custom card-body pd-y-15-f">
                             <ul className="list-tab" id="js-list-tab">
                                 <li className={`tab-item`} onClick={() => setActiveTab('upcoming')}>
                                     <a className={`tab-link ${activeTab === 'upcoming' ? 'active' : ''}`}><i className="far fa-calendar-alt"></i> Upcoming classes</a>

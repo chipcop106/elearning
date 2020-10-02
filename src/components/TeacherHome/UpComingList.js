@@ -122,10 +122,10 @@ const UpComingList = ({itemShow}) => {
                         <table className="table table-custom table-borderless responsive-table">
                             <thead>
                                 <tr className="tx-gray-600 tx-normal">
+                                    <th>Time</th>
+                                    <th>Lesson</th>
                                     <th className="tx-center"></th>
                                     <th>Student</th>
-                                    <th>Lesson</th>
-                                    <th>Time</th>
                                     <th className="tx-right">Action</th>
                                 </tr>
                             </thead>
@@ -153,21 +153,16 @@ const UpComingList = ({itemShow}) => {
                                 ) : !!state && state.length > 0 ? (
                                     [...state].map((ls, index) => index < itemShow.value  && (
                                         <tr key={`${index}`}>
-                                            <td className="valign-middle tx-center">
-                                                <span className="avatar avatar-md d-inline-block ">
-                                                    <img src="../assets/img/teacher.jpg" alt="avatar" className="rounded-circle" />
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <a
-                                                    href={`#`}
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        showStudentModal(ls.StudentUID)
-                                                    }} className="mg-b-0 d-inline-block tx-black"
-                                                >
-                                                    {ls.StudentName}
-                                                </a>
+                                             <td>
+                                                <div className="mg-b-0">
+                                                    <span className=" mg-r-5"><i className="fa fa-clock tx-primary"></i> VN time:</span>
+                                                    <span className="tx-gray-500">{ls.ScheduleTimeVN}</span>
+                                                </div>
+                                                <div className="mg-b-0">
+                                                    <span className=" mg-r-5"><i className="fa fa-clock tx-primary"></i> Your time:</span>
+                                                    <span className="tx-gray-500">{ls.ScheduleTimeUTC}</span>
+                                                </div>
+
                                             </td>
                                             <td>
                                                 <div className="mg-b-0">
@@ -179,21 +174,26 @@ const UpComingList = ({itemShow}) => {
                                                     <span className="tx-gray-500">{ls.LessionName}</span>
                                                 </div>
                                             </td>
-                                            <td>
-                                                <div className="mg-b-0">
-                                                    <span className=" mg-r-5"><i className="fa fa-clock tx-primary"></i> VN time:</span>
-                                                    <span className="tx-gray-500">{ls.ScheduleTimeVN}</span>
-                                                </div>
-                                                <div className="mg-b-0">
-                                                    <span className=" mg-r-5"><i className="fa fa-clock tx-primary"></i> Your time:</span>
-                                                    <span className="tx-gray-500">{ls.ScheduleTimeUTC}</span>
-                                                </div>
-
+                                            <td className="valign-middle tx-center">
+                                                <span className="avatar avatar-md d-inline-block ">
+                                                    <img src="../assets/img/teacher.jpg" alt="avatar" className="rounded-circle" />
+                                                </span>
+                                            </td>
+                                            <td className="lg-valign-middle">
+                                                <a
+                                                    href={`#`}
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        showStudentModal(ls.StudentUID)
+                                                    }} className="mg-b-0 d-inline-block tx-black"
+                                                >
+                                                    {ls.StudentName}
+                                                </a>
                                             </td>
                                             <td className="tx-nowrap tx-right">
                                                 <a onClick={(e) => {e.preventDefault(); handleEnterClass(ls)}} href={`skype:${ls.SkypeID}?chat`} className="btn btn-info btn-sm mg-r-10 " target="_blank" rel="noopener"><i className="fab fa-skype"></i> <span className="d-none d-xl-inline mg-l-5">Join class</span></a>
                                                 {
-                                                    checkCancelTime(cvDate(ls.ScheduleTimeVN).dateObject) ? (<a href={`#`} onClick={(e) => {
+                                                    checkCancelTime(cvDate(ls.ScheduleTimeUTC).dateObject) ? (<a href={`#`} onClick={(e) => {
                                                         e.preventDefault();
                                                         handleCancelLesson(ls);
                                                     }} className="btn btn-danger btn-sm"><i data-feather="x"></i> <span className="d-none d-xl-inline mg-l-5">Cancel</span></a>) : (
@@ -209,7 +209,7 @@ const UpComingList = ({itemShow}) => {
                                                 <td colSpan={5}>
                                                     <div className="empty-error tx-center mg-y-30 bg-white mg-x-auto">
                                                         <img src="../assets/img/no-booking.svg" alt="image" className="wd-200 mg-b-15" />
-                                                        <p className=" tx-danger tx-medium">You don't have any book lesson with student</p>
+                                                        <p className=" tx-danger tx-medium">You don't have any booked lessons with students</p>
                                                     </div>
                                                 </td>
                                             </tr>
