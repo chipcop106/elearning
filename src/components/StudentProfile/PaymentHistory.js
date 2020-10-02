@@ -1,46 +1,46 @@
-import React, { useState, useEffect, useReducer } from 'react'
-import ReactDOM from 'react-dom'
-import Pagination from "react-js-pagination"
-import SkeletonLessonHistoryCard from "~components/common/Skeleton/SkeletonLessonHistoryCard"
-import { getPaymentHistoryAPI } from "~src/api/studentAPI"
+import React, { useState, useEffect, useReducer } from 'react';
+import ReactDOM from 'react-dom';
+import Pagination from 'react-js-pagination';
+import SkeletonLessonHistoryCard from '~components/common/Skeleton/SkeletonLessonHistoryCard';
+import { getPaymentHistoryAPI } from '~src/api/studentAPI';
 
 const PaymentHistory = () => {
-  const [state, setState] = useState([]);
-  const [loading, setLoading] = useState(false);
+	const [state, setState] = useState([]);
+	const [loading, setLoading] = useState(false);
 
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(0);
-  const [totalResult, setTotalResult] = useState(0);
+	const [page, setPage] = useState(1);
+	const [pageSize, setPageSize] = useState(0);
+	const [totalResult, setTotalResult] = useState(0);
 
-  const handlePageChange = (pageNumber) => {
-    if (page !== pageNumber) {
-      setPage(pageNumber);
-      getAPI({
-        Page: pageNumber,
-      })
-    }
-  }
+	const handlePageChange = pageNumber => {
+		if (page !== pageNumber) {
+			setPage(pageNumber);
+			getAPI({
+				Page: pageNumber,
+			});
+		}
+	};
 
-  const getAPI = async (params) => {
-    setLoading(true);
-    const res = await getPaymentHistoryAPI(params);
-    if (res.Code === 1 && res.Data.length > 0) {
-      setState(res.Data);
-      setPageSize(res.PageSize);
-      setTotalResult(res.TotalResult)
-    }
-    else setState(null);
-    setLoading(false);
-  }
+	const getAPI = async params => {
+		setLoading(true);
+		const res = await getPaymentHistoryAPI(params);
+		if (res.Code === 1 && res.Data.length > 0) {
+			setState(res.Data);
+			setPageSize(res.PageSize);
+			setTotalResult(res.TotalResult);
+		} else setState(null);
+		setLoading(false);
+	};
 
-  useEffect(() => {
-    getAPI({
-      Page: 1,
-    });
-  }, [])
+	useEffect(() => {
+		getAPI({
+			Page: 1,
+		});
+	}, []);
 
-  return <>
-    {/*
+	return (
+		<>
+			{/*
  <div className="subcription-title">
  <div className="d-flex flex-wrap align-items-center justify-content-between mg-b-15">
    <div className="payment wd-sm-50p wd-100p">
@@ -105,77 +105,111 @@ const PaymentHistory = () => {
  <div className="tx-center mg-y-15">
    <a href={"#"} className="btn btn-primary rounded-pill"><i className="fas fa-edit mg-r-5" /> Credit card</a>
  </div>
-</div>*/
-    }
-    <div className="table-tiket">
-      <div className="table-responsive">
-        <table className="table table-bordered tx-center tx-nowrap">
-          <thead className="thead-primary">
-            <tr>
-              <th className="mw-200">Khóa học</th>
-              <th>Số Buổi Học</th>
-              <th>Số Tiền</th>
-              <th>Ngày thanh toán</th>
-              <th>Kỳ Hạn</th>
-              <th>Trạng Thái</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              loading ? <SkeletonLessonHistoryCard column={6} /> :
-                !!state && Array.isArray(state) && state.length > 0 ?
-                  state.map((item, index) =>
-                    <tr key={index}>
-                      <td className="tx-left mw-200">
-                        <span className="d-block bold" style={{ whiteSpace: "normal" }}>{item.PlanName}</span>
-                        <span className="d-block">
-                          {`Bắt đầu: ${item.StartDate && item.StartDate.split(" ")[0]}`}
-                        </span>
-                        <span className="d-block">
-                          {`Kết thúc: ${item.EndDate && item.EndDate.split(" ")[0]}`}
-                        </span>
-                      </td>
-                      <td>{item.TotalLesson}</td>
-                      <td>{item.Amount}</td>
-                      <td>{item.PaymentDate && moment(item.PaymentDate).format("DD/MM/YYYY")}</td>
-                      <td>{item.ExpirationDate}</td>
-                      <td><span className={`badge badge-${
-                        item.Status === 1 ? 'warning' :
-                          item.Status === 2 ? "success" : "danger"} pd-5 tx-12 wd-75`}>
-                        {
-                          item.Status === 1 ? "Chưa kích hoạt" :
-                            item.Status === 2 ? "Đã kích hoạt" : "Hết hạn"
-                        }
-                      </span></td>
-                    </tr>) : (!state ?
-                      <tr className="bg-transparent">
-                        <td colSpan="9">
-                          <span className="d-block tx-danger tx-medium">Đã có lỗi xảy ra, xin vui lòng thử lại</span>
-                          <img src="../assets/img/error.svg" alt="image" className="wd-200 mg-b-15" />
-                        </td>
-                      </tr> :
-                      <tr className="bg-transparent">
-                        <td colSpan="9">
-                          <span className="d-block tx-danger tx-medium">Bạn chưa mua khóa học nào</span>
-                        </td>
-                      </tr>)
-            }
-          </tbody>
-        </table>
-      </div>
-      {
-        pageSize < totalResult && <Pagination
-          innerClass="pagination justify-content-center mt-3"
-          activePage={page}
-          itemsCountPerPage={pageSize}
-          totalItemsCount={totalResult}
-          pageRangeDisplayed={3}
-          itemClass="page-item"
-          linkClass="page-link"
-          onChange={handlePageChange.bind(this)} />
-      }
-    </div>
-  </>
-}
+</div>*/}
+			<div className="table-tiket">
+				<div className="table-responsive">
+					<table className="table tx-center tx-nowrap">
+						<thead className="thead-primary">
+							<tr>
+								<th className="mw-200">Khóa học</th>
+								<th>Số Buổi Học</th>
+								<th>Số Tiền</th>
+								<th>Ngày thanh toán</th>
+								<th>Kỳ Hạn</th>
+								<th>Trạng Thái</th>
+							</tr>
+						</thead>
+						<tbody>
+							{loading ? (
+								<SkeletonLessonHistoryCard column={6} />
+							) : !!state && Array.isArray(state) && state.length > 0 ? (
+								state.map((item, index) => (
+									<tr key={index}>
+										<td className="tx-left mw-200">
+											<span
+												className="d-block tx-medium tx-primary"
+												style={{ whiteSpace: 'normal' }}
+											>
+												{item.PlanName}
+											</span>
+											<span className="d-block tx-normal">
+												{`Bắt đầu:`}
+												<span className="tx-medium mg-l-5">{`${item.StartDate &&
+													item.StartDate.split(' ')[0]}`}</span>
+											</span>
+
+											<span className="d-block tx-normal">
+												{`Kết thúc:`}
+												<span className="tx-medium mg-l-5">{`${item.EndDate &&
+													item.EndDate.split(' ')[0]}`}</span>
+											</span>
+										</td>
+										<td>{item.TotalLesson}</td>
+										<td>{item.Amount}</td>
+										<td>
+											{item.PaymentDate &&
+												moment(item.PaymentDate).format('DD/MM/YYYY')}
+										</td>
+										<td>{item.ExpirationDate}</td>
+										<td>
+											<span
+												className={`badge badge-${
+													item.Status === 1
+														? 'warning'
+														: item.Status === 2
+														? 'success'
+														: 'danger'
+												} pd-5 tx-12 wd-100`}
+											>
+												{item.Status === 1
+													? 'Chưa kích hoạt'
+													: item.Status === 2
+													? 'Đã kích hoạt'
+													: 'Hết hạn'}
+											</span>
+										</td>
+									</tr>
+								))
+							) : !state ? (
+								<tr className="bg-transparent">
+									<td colSpan="9">
+										<span className="d-block tx-danger tx-medium">
+											Đã có lỗi xảy ra, xin vui lòng thử lại
+										</span>
+										<img
+											src="../assets/img/error.svg"
+											alt="image"
+											className="wd-200 mg-b-15"
+										/>
+									</td>
+								</tr>
+							) : (
+								<tr className="bg-transparent">
+									<td colSpan="9">
+										<span className="d-block tx-danger tx-medium">
+											Bạn chưa mua khóa học nào
+										</span>
+									</td>
+								</tr>
+							)}
+						</tbody>
+					</table>
+				</div>
+				{pageSize < totalResult && (
+					<Pagination
+						innerClass="pagination justify-content-center mt-3"
+						activePage={page}
+						itemsCountPerPage={pageSize}
+						totalItemsCount={totalResult}
+						pageRangeDisplayed={3}
+						itemClass="page-item"
+						linkClass="page-link"
+						onChange={handlePageChange.bind(this)}
+					/>
+				)}
+			</div>
+		</>
+	);
+};
 
 export default PaymentHistory;

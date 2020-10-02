@@ -11,7 +11,6 @@ import { ToastContainer } from 'react-toastify';
 import { appSettings } from '~src/config';
 import Select from 'react-select';
 const DateTimeFormat = new Intl.DateTimeFormat('vi-VN', {
-    dateStyle: 'short',
     month: "2-digit",
     day: "2-digit",
 });
