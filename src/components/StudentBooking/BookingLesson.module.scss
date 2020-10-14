@@ -141,3 +141,17 @@ body {
 		object-fit: cover;
 	}
 }
+
+
+.ul-schedule {
+       height: auto;
+   }
+   
+   .ul-schedule li.available {
+   background-color: #83e9aa;
+   }
+   
+   .ul-schedule li span.status button {
+   width: 100px;
+   background-color: #46b0fc;
+   }

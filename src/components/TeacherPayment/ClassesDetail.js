@@ -142,7 +142,7 @@ const ClassesDetail = () => {
 								<div className="d-flex align-items-center  flex-grow-1">
 									<h5 className="tx-dark mg-lg-b-0 mg-b-0">Classes</h5>
 									<div className="v-divider"></div>
-									<p className="mg-b-0 tx-20 tx-bold tx-primary">450$</p>
+									<p className="mg-b-0 tx-20 tx-bold tx-primary"></p>
 								</div>
 
 								<span className="tx-black btn-collapse">

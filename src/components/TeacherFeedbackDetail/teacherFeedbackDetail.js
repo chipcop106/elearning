@@ -291,7 +291,7 @@ const TeacherFeedbackDetail = () => {
 				<div className="col-xl-8 col-lg-7">
 					<div className="row">
 						<div className="col-12">
-							<div className="card mg-b-30">
+							<div className="card mg-b-15">
 								<div className="card-header">
 									<h5 className="mg-b-0">General Feedback to Student</h5>
 								</div>
@@ -325,7 +325,7 @@ const TeacherFeedbackDetail = () => {
 											</div> */}
 
 											<StatelessTextarea
-												rows={5}
+												rows={3}
 												className="form-control"
 												placeholder="General feedback......"
 												defaultValue={state?.note ?? ''}
@@ -372,7 +372,7 @@ const TeacherFeedbackDetail = () => {
 							</div>
 						</div>{' '}
 						<div className="col-12">
-							<div className="card  mg-b-30">
+							<div className="card  mg-b-15">
 								<div className="card-header">
 									<h5 className="mg-b-0">Grammar</h5>
 								</div>
@@ -381,7 +381,7 @@ const TeacherFeedbackDetail = () => {
 										{state.editMode ? (
 											<>
 												<StatelessTextarea
-													rows={5}
+													rows={3}
 													className="form-control"
 													placeholder="Grammar feedback......"
 													defaultValue={state?.grammar ?? ''}
@@ -402,7 +402,7 @@ const TeacherFeedbackDetail = () => {
 							</div>
 						</div>
 						<div className="col-12">
-							<div className="card  mg-b-30">
+							<div className="card  mg-b-15">
 								<div className="card-header">
 									<h5 className="mg-b-0">Vocabulary</h5>
 								</div>
@@ -411,7 +411,7 @@ const TeacherFeedbackDetail = () => {
 										{state.editMode ? (
 											<>
 												<StatelessTextarea
-													rows={5}
+													rows={3}
 													className="form-control"
 													placeholder="Vocabulary feedback......"
 													defaultValue={state?.vocabulary ?? ''}
@@ -437,7 +437,7 @@ const TeacherFeedbackDetail = () => {
 							</div>
 						</div>
 						<div className="col-12">
-							<div className="card  mg-b-30">
+							<div className="card  mg-b-15">
 								<div className="card-header">
 									<h5 className="mg-b-0">Pronounce</h5>
 								</div>
@@ -446,7 +446,7 @@ const TeacherFeedbackDetail = () => {
 										{state.editMode ? (
 											<>
 												<StatelessTextarea
-													rows={5}
+													rows={3}
 													className="form-control"
 													placeholder="Pronounce feedback......"
 													defaultValue={state?.pronounce ?? ''}
@@ -468,7 +468,7 @@ const TeacherFeedbackDetail = () => {
 							</div>
 						</div>
 						<div className="col-12">
-							<div className="card  mg-b-30">
+							<div className="card  mg-b-15">
 								<div className="card-header">
 									<h5 className="mg-b-0">Sentence Development And Speak</h5>
 								</div>
@@ -477,7 +477,7 @@ const TeacherFeedbackDetail = () => {
 										{state.editMode ? (
 											<>
 												<StatelessTextarea
-													rows={5}
+													rows={3}
 													className="form-control"
 													placeholder="Memorize feedback......"
 													defaultValue={state?.memorize ?? ''}

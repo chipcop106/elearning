@@ -146,7 +146,8 @@ const TeacherReport = () => {
 														state.FiveStartFeedbackRate
 													) : (
 														0
-													)}
+													)}{' '}
+													%
 												</span>
 											</li>
 											<li className="rp-info">

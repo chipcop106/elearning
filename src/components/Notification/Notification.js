@@ -40,7 +40,7 @@ const Notification = () => {
 
   return <>
     <div className="d-xl-flex align-items-center justify-content-between mg-b-15">
-      <h4 className="mg-b-0 gradient-heading"><i className="fas fa-bell" /> NOTIFICATION</h4>
+      <h4 className="mg-b-0 gradient-heading"><i className="fas fa-bell" /> Thông báo</h4>
     </div>
     <div className="blog__wrapper">
       <div className="row row-sm mg-b-25 blog-list">

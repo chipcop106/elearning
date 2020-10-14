@@ -148,7 +148,7 @@ const ParticipationDetail = () => {
 										Participation Incentives
 									</h5>
 									<div className="v-divider"></div>
-									<p className="mg-b-0 tx-20 tx-bold tx-primary">450$</p>
+									<p className="mg-b-0 tx-20 tx-bold tx-primary"></p>
 								</div>
 
 								<span className="tx-black btn-collapse">
@@ -158,23 +158,7 @@ const ParticipationDetail = () => {
 						</Accordion.Toggle>
 						<Accordion.Collapse eventKey="0">
 							<Card.Body>
-								<div className="">
-									<table className="table tx-center table-small">
-										<thead className="thead-light">
-											<tr>
-												<th>Unit Price ($)</th>
-												<th>Quantity</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr className="bd-b">
-												<td>$1.00</td>
-												<td>115</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-								<div className="mg-t-30">
+									<div className="mg-t-30">
 									<table className="table responsive-table-vertical table-schedule-log table-hover table-small">
 										<thead className="thead-primary">
 											<tr className="gv-bg-table">

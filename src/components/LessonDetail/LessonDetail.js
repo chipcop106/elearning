@@ -191,6 +191,25 @@ const LessonDetail = () => {
 						</div>
 						<div className="review__wrap mg-t-15 sec">
 							<h5 className="main-title">Nhận xét</h5>
+							  {/*  <!--Đánh giá giáo viên--> */}
+							<div className="st-danhgianguphap mg-b-30">
+								<div className="st-title-danhgia mg-b-15">
+									<h5 className="pd-b-10 bd-b">Nhận xét chung của giáo viên</h5>
+								</div>
+								{state.Note ? (
+									<div className="st-item-danhgia tx-gray-500">
+										<p
+											className="word-break"
+											dangerouslySetInnerHTML={{
+												__html: decodeHTML(state.Note),
+											}}
+										></p>
+									</div>
+								) : (
+									''
+								)}
+							</div>
+							{/* <!--/Đánh giá giáo viên-->*/}
 							{/* <!--/Đánh giá ngữ pháp-->*/}
 							<div className="st-danhgianguphap mg-b-30">
 								<div className="st-title-danhgia mg-b-15">
@@ -279,26 +298,7 @@ const LessonDetail = () => {
 								)}
 							</div>
 							{/* <!--/Từ cần ghi nhớ-->
-                      <!--Đánh giá giáo viên--> */}
-							<div className="st-danhgianguphap mg-b-30">
-								<div className="st-title-danhgia mg-b-15">
-									<h5 className="pd-b-10 bd-b">Nhận xét chung</h5>
-								</div>
-								{state.Note ? (
-									<div className="st-item-danhgia tx-gray-500">
-										<p
-											className="word-break"
-											dangerouslySetInnerHTML={{
-												__html: decodeHTML(state.Note),
-											}}
-										></p>
-									</div>
-								) : (
-									''
-								)}
-							</div>
-							{/* <!--/Đánh giá giáo viên-->
-                      <!--Đánh giá học viên--> */}
+                   			<!--Đánh giá học viên--> */}
 							<div className="st-danhgianguphap mg-b-30">
 								<div className="st-title-danhgia mg-b-15">
 									<h5 className="pd-b-10 bd-b">

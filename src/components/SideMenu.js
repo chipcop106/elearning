@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react'
-let page
 
 const SideMenu = () => {
 	const [activePage, setActivePage] = useState('')
 	useEffect(() => {
 		let pathUrl = window.location.pathname
 		setActivePage(pathUrl.toUpperCase())
-		console.log(pathUrl)
 	}, [])
 
 	return (
 		<ul className="list-unstyled profile-info-list course mg-b-0">
 			<li
 				className={
-					activePage.indexOf('/ElearnStudent/DashBoard'.toUpperCase()) !== -1
+					activePage.indexOf('/DashBoard'.toUpperCase()) !== -1
 						? 'active'
 						: ''
 				}
@@ -24,7 +22,7 @@ const SideMenu = () => {
 			</li>
 			<li
 				className={
-					activePage.indexOf('/ElearnStudent/ProfileUser'.toUpperCase()) !== -1
+					activePage.indexOf('/ProfileUser'.toUpperCase()) !== -1
 						? 'active'
 						: ''
 				}
@@ -35,7 +33,7 @@ const SideMenu = () => {
 			</li>
 			<li
 				className={
-					activePage.indexOf('/ElearnStudent/BookedLesson'.toUpperCase()) !== -1
+					activePage.indexOf('/BookedLesson'.toUpperCase()) !== -1
 						? 'active'
 						: ''
 				}
@@ -46,7 +44,7 @@ const SideMenu = () => {
 			</li>
 			<li
 				className={
-					activePage.indexOf('/ElearnStudent/LessonHistory'.toUpperCase()) !==
+					activePage.indexOf('/LessonHistory'.toUpperCase()) !==
 					-1
 						? 'active'
 						: ''
@@ -58,7 +56,7 @@ const SideMenu = () => {
 			</li>
 			<li
 				className={
-					activePage.indexOf('/ElearnStudent/FeedBack'.toUpperCase()) !== -1
+					activePage.indexOf('/FeedBack'.toUpperCase()) !== -1
 						? 'active'
 						: ''
 				}
@@ -69,7 +67,7 @@ const SideMenu = () => {
 			</li>
 			<li
 				className={
-					activePage.indexOf('/ElearnStudent/Announcements'.toUpperCase()) !==
+					activePage.indexOf('/Announcements'.toUpperCase()) !==
 					-1
 						? 'active'
 						: ''
@@ -81,7 +79,7 @@ const SideMenu = () => {
 			</li>
 			<li
 				className={
-					activePage.indexOf('/ElearnStudent/FAQ'.toUpperCase()) !== -1
+					activePage.indexOf('/FAQ'.toUpperCase()) !== -1
 						? 'active'
 						: ''
 				}

@@ -86,7 +86,7 @@ const GridSalary = () => {
     const loadPaymentData = async () => {
         setIsLoading(true);
         const res = await getPaymentInfo({
-            Date: selectedSection === 1 ? moment(new Date(`${month.value + 1}/01/${now.getFullYear()}`), 'MM/DD/YYYY').format('DD/MM/YYYY')
+            Date: selectedSection.value === 1 ? moment(new Date(`${month.value + 1}/01/${now.getFullYear()}`), 'MM/DD/YYYY').format('DD/MM/YYYY')
                 : moment(new Date(`${month.value + 1}/16/${now.getFullYear()}`), 'MM/DD/YYYY').format('DD/MM/YYYY')
         });
         if (res.Code == 1) setData(res.Data);
@@ -285,7 +285,7 @@ const GridSalary = () => {
                                 <div className="d-flex justify-content-between">
                                     <p className="pay-syn-title">Adjustments</p>
 
-                                    <p className="pay-syn-money">{!isLoading ? <NumberFormat value={`${parseFloat(data.Additions) - parseFloat(data.Deductions)}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={20} />}</p>
+                                    <p className="pay-syn-money">{!isLoading ? <NumberFormat value={`${parseFloat(data.Additions) + parseFloat(data.Deductions)}`} displayType={'text'} thousandSeparator={true} suffix={'$'} /> : <Skeleton count={1} width={40} height={20} />}</p>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center">
                                     <p className="pay-syn-text">Addition</p>

@@ -6,7 +6,7 @@ import {
 	updateEvaluation,
 } from '~src/api/teacherAPI';
 import { getFinishedOptions } from '~src/api/optionAPI';
-import { randomId } from '~src/utils';
+import { randomId, encodeHTML  } from '~src/utils';
 import { appSettings } from '~src/config';
 import styles from './teacherLessonDetail.module.scss';
 import Select from 'react-select';
@@ -382,7 +382,7 @@ const TeacherLessonDetail = () => {
 					</div>
 				</div>
 				<div className="col-xl-8 col-lg-7">
-					<div className="card mg-b-30">
+					<div className="card mg-b-10">
 						<div className="card-header">
 							<h5 className="mg-b-0">General Feedback to Student</h5>
 						</div>
@@ -459,6 +459,7 @@ const TeacherLessonDetail = () => {
 										<span>Rating:</span>
 									</div>
 									<TextareaAutosize
+										rows={3}
 										placeholder="General feedback..."
 										value={state.note}
 										onChange={e => updateState('note', e.target.value)}
@@ -468,7 +469,7 @@ const TeacherLessonDetail = () => {
 						</div>
 					</div>
 					<div className="row">
-						<div className="col-12 col-sm-6 mg-b-30">
+						<div className="col-12 col-sm-6 mg-b-10">
 							<div className="card">
 								<div className="card-header">
 									<h5 className="mg-b-0">Grammar</h5>
@@ -483,6 +484,7 @@ const TeacherLessonDetail = () => {
                       onChangeEvent={(content, editor) => updateState('grammar', content)}
                     /> */}
 											<TextareaAutosize
+											rows={3}
 												placeholder="Grammar feedback..."
 												value={state.grammar}
 												onChange={e => updateState('grammar', e.target.value)}
@@ -492,7 +494,7 @@ const TeacherLessonDetail = () => {
 								</div>
 							</div>
 						</div>
-						<div className="col-12 col-sm-6 mg-b-30">
+						<div className="col-12 col-sm-6 mg-b-10">
 							<div className="card">
 								<div className="card-header">
 									<h5 className="mg-b-0">Vocabulary</h5>
@@ -507,6 +509,7 @@ const TeacherLessonDetail = () => {
                       onChangeEvent={(content, editor) => updateState('vocabulary', content)}
                     /> */}
 											<TextareaAutosize
+											rows={3}
 												placeholder="Vocabulary feedback..."
 												value={state.vocabulary}
 												onChange={e =>
@@ -520,7 +523,7 @@ const TeacherLessonDetail = () => {
 						</div>
 					</div>
 					<div className="row">
-						<div className="col-12 col-sm-6 mg-b-30">
+						<div className="col-12 col-sm-6 mg-b-10">
 							<div className="card">
 								<div className="card-header">
 									<h5 className="mg-b-0">Sentence development and speaking</h5>
@@ -535,6 +538,7 @@ const TeacherLessonDetail = () => {
                       onChangeEvent={(content, editor) => updateState('memorize', content)}
                     /> */}
 											<TextareaAutosize
+											rows={3}
 												placeholder="Sentence feedback..."
 												value={state.memorize}
 												onChange={e => updateState('memorize', e.target.value)}
@@ -544,7 +548,7 @@ const TeacherLessonDetail = () => {
 								</div>
 							</div>
 						</div>
-						<div className="col-12 col-sm-6 mg-b-30">
+						<div className="col-12 col-sm-6 mg-b-10">
 							<div className="card h-100">
 								<div className="card-header">
 									<h5 className="mg-b-0">Pronunciation</h5>
@@ -559,6 +563,7 @@ const TeacherLessonDetail = () => {
                       onChangeEvent={(content, editor) => updateState('pronounce', content)}
                       /> */}
 											<TextareaAutosize
+											rows={3}
 												placeholder="Pronounce feedback..."
 												value={state.pronounce}
 												onChange={e => updateState('pronounce', e.target.value)}

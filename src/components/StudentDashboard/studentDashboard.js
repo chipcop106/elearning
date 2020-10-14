@@ -350,6 +350,19 @@ const Dashboard = () => {
 											</div>
 										</div>
 										<div className="summary-item student-summary-item">
+											<TextDocumentIcon />
+											<div className="mg-l-10 title">
+												<label className="d-block label">
+													Số buổi học đã đặt
+												</label>
+												<label className="d-block bold count">
+													{!!state &&
+														!!state.StudyProcess &&
+														state.StudyProcess.NumberOfLessionsLeft}
+												</label>
+											</div>
+										</div>
+										<div className="summary-item student-summary-item">
 											<OpenBookIcon />
 											<div className="mg-l-10 title">
 												<label className="d-block label">
@@ -384,7 +397,10 @@ const Dashboard = () => {
 												<label className="d-block bold count">
 													{!!state &&
 														!!state.StudyProcess &&
-														state.StudyProcess.NumberOfLessionsLeft}
+														state.StudyProcess.TotalLesson -
+															state.StudyProcess.CompleteLessions -
+															state.StudyProcess.CancelLessions -
+															state.StudyProcess.NumberOfLessionsLeft}
 												</label>
 											</div>
 										</div>
@@ -408,9 +424,15 @@ const Dashboard = () => {
 						)}
 					</>
 				) : (
-					<span className="d-block tx-center tx-danger tx-medium">
-						{courseInfo && courseInfo.Message}
-					</span>
+					<div className="tx-center pd-y-30">
+						<img
+							src={`../../assets/img/course.svg`}
+							className={`wd-200 round-circle mg-b-15`}
+						/>
+						<span className="d-block tx-center tx-danger tx-medium">
+							{courseInfo && courseInfo.Message}
+						</span>
+					</div>
 				)}
 			</div>
 			{!state ? (
@@ -493,9 +515,8 @@ const Dashboard = () => {
 							<ul className="list-wrap">
 								{loading ? (
 									<SkeletonLessonCard />
-								) : (
-									!!state.LessionHistory &&
-									state.LessionHistory.length > 0 &&
+								) : !!state.LessionHistory &&
+								  state.LessionHistory.length > 0 ? (
 									state.LessionHistory.map(item => (
 										<LessonHistoryCard
 											key={item.BookingID}
@@ -512,6 +533,17 @@ const Dashboard = () => {
 											onHandleRatingLesson={handleRatingLesson}
 										/>
 									))
+								) : (
+									<div className="empty-error tx-center mg-y-15 cr-item bg-white rounded-5 pd-15 shadow">
+										<img
+											src="../assets/img/no-booking.svg"
+											alt="image"
+											className="wd-200 mg-b-15"
+										/>
+										<p className=" tx-danger tx-medium">
+											Chưa có buổi học nào hoàn thành
+										</p>
+									</div>
 								)}
 							</ul>
 						</div>

@@ -16,10 +16,9 @@ import { appSettings } from '~src/config';
 
 import { nationMapToFlag } from '~src/utils';
 import { ToastContainer } from 'react-toastify';
-import Flatpickr from 'react-flatpickr';
 import DatePicker from 'react-datepicker';
 import styles from '~components/StudentBooking/BookingLesson.module.scss';
-
+import dayjs from 'dayjs';
 const genderArr = [
 	{
 		label: 'Tất cả giới tính',
@@ -40,16 +39,21 @@ const nationArr = [
 		value: '0',
 	},
 	{
-		label: 'Giáo viên Philippines',
+		label: 'Giáo viên Việt Nam',
 		value: '1',
 	},
 	{
-		label: 'Giáo viên Việt Nam',
+		label: 'Giáo viên Philippines',
 		value: '2',
 	},
+	
 	{
 		label: 'Giáo viên bản ngữ',
 		value: '3',
+	},
+	{
+		label: 'Giáo viên Châu Âu',
+		value: '4',
 	},
 ];
 
@@ -58,9 +62,9 @@ const initialState = {
 	gender: genderArr[0],
 	levelPurpose: [],
 	selectedLevelPurpose: [],
-	date: moment(new Date()).format('DD/MM/YYYY'),
-	startTime: new Date('01/01/2020 06:00'),
-	endTime: new Date('01/01/2020 23:00'),
+	date: new Date(),
+	startTime: dayjs(new Date()).hour(6).minute(0).toDate(),
+	endTime: dayjs(new Date()).hour(23).minute(0).toDate(),
 	searchText: '',
 	nation: nationArr[0],
 };
@@ -139,6 +143,10 @@ const BookingLesson = () => {
 		}
 	};
 
+	const updateDateSelected = (date) => {
+		dispatch({type: 'STATE_CHANGE', payload: {key: 'date', value: date}})
+	}
+
 	const onHandleBooking = (
 		StudyTimeID,
 		LessionName,
@@ -181,23 +189,28 @@ const BookingLesson = () => {
 	};
 
 	const handleChangeDate = e => {
-		let key = 'date';
-		let value = $('#date-selected')
-			.val()
-			.split(', ')[1];
+				try {
+			let key = 'date';
+			//let value = $('#date-selected').val().split(', ')[1];
 
-		if (moment(new Date()).format('DD/MM/YYYY') == value) {
-			dispatch({
-				type: 'STATE_CHANGE',
-				payload: { key: 'startTime', value: `${new Date().getHours() + 1}:00` },
-			});
-			dispatch({
-				type: 'STATE_CHANGE',
-				payload: { key: 'endTime', value: '23:00' },
-			});
+			// if (dayjs(new Date()).format('DD/MM/YYYY') === value) {
+			// 	dispatch({
+			// 		type: 'STATE_CHANGE',
+			// 		payload: {
+			// 			key: 'startTime',
+			// 			value: `${new Date().getHours() + 1}:00`,
+			// 		},
+			// 	});
+			// 	dispatch({
+			// 		type: 'STATE_CHANGE',
+			// 		payload: { key: 'endTime', value: '23:00' },
+			// 	});
+			// }
+
+			//dispatch({ type: 'STATE_CHANGE', payload: { key, value } });
+		} catch (err) {
+			console.log(err);
 		}
-
-		dispatch({ type: 'STATE_CHANGE', payload: { key, value } });
 	};
 
 	const onSelectNation = value => {
@@ -245,7 +258,7 @@ const BookingLesson = () => {
 			Nation: state?.nation?.value ?? '0',
 			LevelPurpose: z.join(','),
 			Gender: state?.gender?.value ?? '0',
-			Date: state.date,
+			Date: state.date ? dayjs(state.date).format('DD/MM/YYYY') : '',
 			Start: `${pad(state.startTime.getHours())}:00`,
 			End: `${pad(state.endTime.getHours())}:00`,
 			Search: state.searchText,
@@ -375,6 +388,7 @@ const BookingLesson = () => {
 			slideEls[0].classList.add('selected');
 			calendarSwiper.slideTo(0, 500, false);
 			const date = slideEls[0].dataset.date;
+			
 			dateDisplay.value = moment(new Date(date)).format('dddd, DD/MM/YYYY');
 		};
 		todayBtn.addEventListener('click', chooseToday);
@@ -384,13 +398,16 @@ const BookingLesson = () => {
 			if (selected) {
 				const date = selected.dataset.date;
 				dateDisplay.value = moment(new Date(date)).format('dddd, DD/MM/YYYY');
+				updateDateSelected(new Date(date));
 			}
+			
 		}
 
 		calendarSwiper.on('click', setDateDisplay);
 		calendarSwiper.on('slideChange', setDateDisplay);
 		chooseToday();
 	};
+
 
 	useEffect(() => {
 		initCalendar();
@@ -404,12 +421,12 @@ const BookingLesson = () => {
       }
     }); */
 
-		$('.nationality').click(function() {
+		/* $('.nationality').click(function() {
 			$('#div-nationality').modal();
 		});
 
 		$(document).on('click', '.day-block', handleChangeDate.bind(this));
-		$('#js-select-today').on('click', handleChangeDate.bind(this));
+		$('#js-select-today').on('click', handleChangeDate.bind(this));*/
 	}, []);
 
 	return (
@@ -513,7 +530,7 @@ const BookingLesson = () => {
 							</div>
 						</div>
 					</div>
-					<div className="filter-group pd-t-20">
+					<div className="filter-group pd-t-20 pos-relative z-index-10" >
 						<div className="filter-row row from-to-group">
 							<div className="left col-md-2">
 								<h5>THỜI GIAN</h5>
@@ -545,7 +562,7 @@ const BookingLesson = () => {
 											timeCaption="Thời gian từ"
 											timeFormat="HH:mm"
 											dateFormat="HH:mm"
-											minTime={new Date().setHours(5)}
+											minTime={dayjs().isSame(dayjs(state.date), 'date') ? new Date().setHours(new Date().getHours() + 1) : new Date().setHours(5)}
 											maxTime={new Date().setHours(22)}
 											className="form-control"
 										/>
@@ -567,6 +584,7 @@ const BookingLesson = () => {
 											timeFormat="HH:mm"
 											dateFormat="HH:mm"
 											minTime={new Date().setHours(5)}
+											
 											maxTime={new Date().setHours(22)}
 											className="form-control"
 										/>
@@ -681,6 +699,7 @@ const BookingLesson = () => {
 																	></span>{' '}
 																	{item.TeacherName}
 																</h6>
+																<p>{dayjs(state.date).format('ddd, DD/MM/YYYY')}</p>
 															</div>
 														</a>
 														<div className="tutor-schedule d-block custom-student">
@@ -694,12 +713,12 @@ const BookingLesson = () => {
 																	TeacherIMG={item.TeacherIMG}
 																	TeacherName={item.TeacherName}
 																	Rate={item.Rate}
-																	date={state.date}
+																	date={dayjs(state.date).format('DD/MM/YYYY')}
 																	Start={state.startTime}
 																	End={state.endTime}
 																	handleBooking={onHandleBooking}
 																/>
-															</ul>
+															</ul>	
 														</div>
 													</div>
 												</li>

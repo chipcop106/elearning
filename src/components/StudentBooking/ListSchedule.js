@@ -41,10 +41,8 @@ const ListSchedule = ({
     getAPI({
       TeacherUID,
       Date: date,
-      Start,
-      End,
     })
-  }, [])
+  }, [date])
 
   useEffect(() => {
     let newSchedule = [...scheduleList]

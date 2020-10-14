@@ -1,5 +1,5 @@
 export const appSettings = {
-	baseURL: 'https://e-learn.monamedia.net/Api',
+	baseURL: 'https://app.e-learn.com.vn/Api',
 	key: 'VnVOQG0zODlNb25hRGV2',
 	colors: {
 		second: '#fd5e8e',
@@ -46,5 +46,5 @@ export const appSettings = {
 			};
 		},
 	},
-	UID: 20, //20 teacher || 1071 student
+	UID: 1071, //20 teacher || 1071 student
 };

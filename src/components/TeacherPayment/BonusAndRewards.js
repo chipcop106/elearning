@@ -173,11 +173,12 @@ const BonusAndRewards = () => {
 										<thead className="thead-primary">
 											<tr className="gv-bg-table">
 												<th className="tx-center">No.</th>
-												<th className="tx-left">Schedule Time</th>
-												<th className="tx-center">Lession Name</th>
-												<th className="tx-center">Student Name</th>
-												<th className="tx-center">Finish Type</th>
-												<th className="tx-center">Amount ($)</th>
+												<th className="tx-left">Student Referral</th>
+												<th className="tx-center">Teacher Referral</th>
+												<th className="tx-center">Other Bonus</th>
+												<th className="tx-center">Reason for Other Bonus</th>
+												<th className="tx-center">Deductions</th>
+												<th className="tx-center">Reason for Deduction</th>
 											</tr>
 										</thead>
 										<tbody>
