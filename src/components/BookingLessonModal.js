@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer, forwardRef } from 'react';
 import ReactDOM from 'react-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/scss/main.scss';
@@ -8,23 +8,26 @@ import { FETCH_ERROR, MAX_200 } from '~components/common/Constant/toast';
 
 import styles from '~components/BookingLessonModal.module.scss';
 
-const BookingLessonModal = ({
-	style,
-	StudyTimeID,
-	LessionName = '',
-	LessionMaterial = '',
-	TeacherUID,
-	TeacherIMG = 'default-avatar.png',
-	TeacherName,
-	Rate,
-	date,
-	start,
-	end,
-	note = '',
-	DocumentName = '',
-	BookingID,
-	onBook,
-}) => {
+const BookingLessonModal = (
+	{
+		style,
+		StudyTimeID,
+		LessionName = '',
+		LessionMaterial = '',
+		TeacherUID,
+		TeacherIMG = 'default-avatar.png',
+		TeacherName,
+		Rate,
+		date,
+		start,
+		end,
+		note = '',
+		DocumentName = '',
+		BookingID,
+		onBook,
+	},
+	ref,
+) => {
 	const [state, setState] = useState('');
 	const [bookState, setBookState] = useState(null);
 	const bookingToastFail = () => toast.error(FETCH_ERROR, toastInit);
@@ -40,7 +43,7 @@ const BookingLessonModal = ({
 	};
 
 	const getLessonToBookingAPI = async () => {
-		const res = await getLessonBookAPI();
+		const res = await getLessonBookAPI({ StudyTimeID });
 		if (res.Code === 1) {
 			setBookState({
 				...res.Data,
@@ -131,6 +134,7 @@ const BookingLessonModal = ({
 				tabIndex="-1"
 				role="dialog"
 				id="md-book-schedule"
+				ref={ref}
 			>
 				<div
 					className="modal-dialog modal-dialog-centered modal-lg"
@@ -307,4 +311,4 @@ const BookingLessonModal = ({
 	);
 };
 
-export default BookingLessonModal;
+export default forwardRef(BookingLessonModal);

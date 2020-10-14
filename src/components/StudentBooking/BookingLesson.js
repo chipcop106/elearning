@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import Select from 'react-select';
 import ListSchedule from './ListSchedule';
@@ -46,7 +46,7 @@ const nationArr = [
 		label: 'Giáo viên Philippines',
 		value: '2',
 	},
-	
+
 	{
 		label: 'Giáo viên bản ngữ',
 		value: '3',
@@ -63,8 +63,14 @@ const initialState = {
 	levelPurpose: [],
 	selectedLevelPurpose: [],
 	date: new Date(),
-	startTime: dayjs(new Date()).hour(6).minute(0).toDate(),
-	endTime: dayjs(new Date()).hour(23).minute(0).toDate(),
+	startTime: dayjs(new Date())
+		.hour(6)
+		.minute(0)
+		.toDate(),
+	endTime: dayjs(new Date())
+		.hour(23)
+		.minute(0)
+		.toDate(),
 	searchText: '',
 	nation: nationArr[0],
 };
@@ -116,6 +122,7 @@ const BookingLesson = () => {
 	const [pageSize, setPageSize] = useState(0);
 	const [totalResult, setTotalResult] = useState(0);
 
+	let modalRef = useRef(true);
 	const errorToast = () =>
 		toast.error('Đã có lỗi xảy ra, xin vui lòng thử lại', toastInit);
 
@@ -143,9 +150,9 @@ const BookingLesson = () => {
 		}
 	};
 
-	const updateDateSelected = (date) => {
-		dispatch({type: 'STATE_CHANGE', payload: {key: 'date', value: date}})
-	}
+	const updateDateSelected = date => {
+		dispatch({ type: 'STATE_CHANGE', payload: { key: 'date', value: date } });
+	};
 
 	const onHandleBooking = (
 		StudyTimeID,
@@ -189,7 +196,7 @@ const BookingLesson = () => {
 	};
 
 	const handleChangeDate = e => {
-				try {
+		try {
 			let key = 'date';
 			//let value = $('#date-selected').val().split(', ')[1];
 
@@ -388,7 +395,7 @@ const BookingLesson = () => {
 			slideEls[0].classList.add('selected');
 			calendarSwiper.slideTo(0, 500, false);
 			const date = slideEls[0].dataset.date;
-			
+
 			dateDisplay.value = moment(new Date(date)).format('dddd, DD/MM/YYYY');
 		};
 		todayBtn.addEventListener('click', chooseToday);
@@ -400,7 +407,6 @@ const BookingLesson = () => {
 				dateDisplay.value = moment(new Date(date)).format('dddd, DD/MM/YYYY');
 				updateDateSelected(new Date(date));
 			}
-			
 		}
 
 		calendarSwiper.on('click', setDateDisplay);
@@ -408,11 +414,12 @@ const BookingLesson = () => {
 		chooseToday();
 	};
 
-
 	useEffect(() => {
 		initCalendar();
 		fetchListLevelPurpose();
-
+		return () => {
+			modalRef.current && (modalRef.current = false);
+		};
 		/*    $('#display-schedule').on('change', function () {
       if ($('#display-schedule').prop('checked') === true) {
         $('.tutor-schedule').slideDown();
@@ -530,7 +537,7 @@ const BookingLesson = () => {
 							</div>
 						</div>
 					</div>
-					<div className="filter-group pd-t-20 pos-relative z-index-10" >
+					<div className="filter-group pd-t-20 pos-relative z-index-10">
 						<div className="filter-row row from-to-group">
 							<div className="left col-md-2">
 								<h5>THỜI GIAN</h5>
@@ -562,7 +569,11 @@ const BookingLesson = () => {
 											timeCaption="Thời gian từ"
 											timeFormat="HH:mm"
 											dateFormat="HH:mm"
-											minTime={dayjs().isSame(dayjs(state.date), 'date') ? new Date().setHours(new Date().getHours() + 1) : new Date().setHours(5)}
+											minTime={
+												dayjs().isSame(dayjs(state.date), 'date')
+													? new Date().setHours(new Date().getHours() + 1)
+													: new Date().setHours(5)
+											}
 											maxTime={new Date().setHours(22)}
 											className="form-control"
 										/>
@@ -584,7 +595,6 @@ const BookingLesson = () => {
 											timeFormat="HH:mm"
 											dateFormat="HH:mm"
 											minTime={new Date().setHours(5)}
-											
 											maxTime={new Date().setHours(22)}
 											className="form-control"
 										/>
@@ -699,7 +709,9 @@ const BookingLesson = () => {
 																	></span>{' '}
 																	{item.TeacherName}
 																</h6>
-																<p>{dayjs(state.date).format('ddd, DD/MM/YYYY')}</p>
+																<p>
+																	{dayjs(state.date).format('dddd, DD/MM/YYYY')}
+																</p>
 															</div>
 														</a>
 														<div className="tutor-schedule d-block custom-student">
@@ -717,8 +729,9 @@ const BookingLesson = () => {
 																	Start={state.startTime}
 																	End={state.endTime}
 																	handleBooking={onHandleBooking}
+																	modalRef={modalRef}
 																/>
-															</ul>	
+															</ul>
 														</div>
 													</div>
 												</li>
@@ -760,6 +773,7 @@ const BookingLesson = () => {
 						end={stateBookLesson.end}
 						BookingID={stateBookLesson.BookingID}
 						onBook={onBook}
+						ref={modalRef}
 					/>
 
 					<ListNationModal selectNation={onSelectNation} />

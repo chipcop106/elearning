@@ -157,8 +157,6 @@ export const GetScheduleTeacherAPI = async params => {
 				UID: appSettings.UID,
 				TeacherUID: params.TeacherUID,
 				Date: params.Date,
-				Start: params.Start,
-				End: params.End,
 			},
 		});
 		result = res.data;
@@ -248,12 +246,13 @@ export const bookingLessonAPI = async params => {
 	return result;
 };
 
-export const getLessonBookAPI = async () => {
+export const getLessonBookAPI = async params => {
 	let result;
 	try {
 		let res = await instance.get(path + '/GetLessonBook', {
 			params: {
 				UID: appSettings.UID,
+				...params,
 			},
 		});
 		result = res.data;
